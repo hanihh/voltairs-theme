@@ -1,0 +1,683 @@
+{% doc %}
+  @prompt
+    
+    Build a two-column section for Shopify that includes an image grid and persuasive text with CTA and testimonial.
+    
+    🔲 Layout Overview
+    Left Side: Image Grid
+    
+    6 square/rectangular images in a 2-column Pinterest-style layout
+    
+    Varying heights (staggered, natural flow)
+    
+    Rounded corners, subtle drop shadows
+    
+    Right Side: Text Content with Icon Bullets + CTA + Review
+    
+    Mobile layout: Image gird above, text content content below
+    
+    mobile max  wideth is 100% of screen not more. 
+    
+    ✍️ Text Content:
+    Headline:
+    
+    Gift The Hobby Everyone Is Talking About
+    (bold, black, large font)
+    
+    Subtext (description):
+    
+    Engraving isn’t just a hobby, it’s a way to relax, express creativity, and make something meaningful!
+    
+    Benefits (with yellow checkmark icons):
+    
+    Easy to Set Up, Easy to Start
+    
+    Make Every Project Personal
+    
+    A Fun and Relaxing Activity for All Ages
+    
+    Improves Concentration and Neural Connection
+    
+    ✅ Each bullet should include a yellow check icon for consistency.
+    
+    🔘 CTA Button:
+    Text: GET YOURS NOW →
+    Style: Orange background, white bold text, slightly rounded, full-width or fixed-width (responsive)
+    
+    💬 Testimonial Box:
+    Light beige background with soft border
+    
+    Quote:
+    
+    “As a mom, I’m always looking for ways to unwind. I tried crochet and painting, but nothing clicked. Then I found the Customizer. It’s so easy to use during my me-time…”
+    
+    Profile image left-aligned
+    
+    Name: Anne S.
+    
+    Label: Verified Customer (in light blue)
+    
+    Star rating: ⭐⭐⭐⭐⭐
+    
+    ⚙️ Functional Features:
+    Fully responsive (image stack on mobile, text below)
+    
+    Editable content via Shopify Theme Editor (or JSON metafield blocks)
+    
+    Option to swap any image or testimonial
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .two-column-section-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .image-grid-{{ ai_gen_id }} {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    gap: 15px;
+  }
+
+  .grid-image-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .grid-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .grid-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .grid-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .image-1-{{ ai_gen_id }} {
+    grid-row: span 2;
+  }
+
+  .image-2-{{ ai_gen_id }} {
+    grid-row: span 1;
+  }
+
+  .image-3-{{ ai_gen_id }} {
+    grid-row: span 1;
+  }
+
+  .image-4-{{ ai_gen_id }} {
+    grid-row: span 2;
+  }
+
+  .image-5-{{ ai_gen_id }} {
+    grid-row: span 1;
+  }
+
+  .image-6-{{ ai_gen_id }} {
+    grid-row: span 1;
+  }
+
+  .content-column-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px;
+  }
+
+  .headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 10px;
+    color: {{ block.settings.heading_color }};
+  }
+
+  .subtext-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .benefits-list-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px;
+  }
+
+  .benefit-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    gap: 12px;
+  }
+
+  .check-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border-radius: 50%;
+    background-color: {{ block.settings.icon_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+  }
+
+  .benefit-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.4;
+    color: {{ block.settings.text_color }};
+  }
+
+  .cta-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    text-align: center;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-bottom: 30px;
+    width: fit-content;
+  }
+
+  .cta-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .testimonial-box-{{ ai_gen_id }} {
+    background-color: {{ block.settings.testimonial_bg_color }};
+    border-radius: {{ block.settings.testimonial_border_radius }}px;
+    padding: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .testimonial-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .testimonial-quote-{{ ai_gen_id }} {
+    font-size: {{ block.settings.testimonial_text_size }}px;
+    line-height: 1.5;
+    font-style: italic;
+    color: {{ block.settings.testimonial_text_color }};
+    margin: 0;
+  }
+
+  .testimonial-author-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .author-image-{{ ai_gen_id }} {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .author-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .author-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    border-radius: 50%;
+  }
+
+  .author-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .author-info-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .author-name-{{ ai_gen_id }} {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+    color: {{ block.settings.testimonial_text_color }};
+  }
+
+  .author-label-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.verified_label_color }};
+    margin: 0;
+  }
+
+  .star-rating-{{ ai_gen_id }} {
+    color: {{ block.settings.star_color }};
+    font-size: 16px;
+    margin-top: 5px;
+  }
+
+  @media screen and (max-width: 990px) {
+    .two-column-section-{{ ai_gen_id }} {
+      flex-direction: column;
+      padding: 40px 20px;
+    }
+
+    .image-grid-{{ ai_gen_id }} {
+      margin-bottom: 40px;
+    }
+
+    .grid-image-{{ ai_gen_id }} {
+      height: auto;
+    }
+
+    .image-1-{{ ai_gen_id }}, .image-2-{{ ai_gen_id }}, .image-3-{{ ai_gen_id }}, 
+    .image-4-{{ ai_gen_id }}, .image-5-{{ ai_gen_id }}, .image-6-{{ ai_gen_id }} {
+      grid-row: auto;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .two-column-section-{{ ai_gen_id }} {
+      padding: 30px 15px;
+      max-width: 100%;
+    }
+
+    .image-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    }
+
+    .headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .cta-button-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<div class="two-column-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="image-grid-{{ ai_gen_id }}">
+    {% for i in (1..6) %}
+      {% assign image_key = 'image_' | append: i %}
+      <div class="grid-image-{{ ai_gen_id }} image-{{ i }}-{{ ai_gen_id }}">
+        {% if block.settings[image_key] %}
+          <img 
+            src="{{ block.settings[image_key] | image_url: width: 600 }}" 
+            alt="{{ block.settings[image_key].alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings[image_key].width }}"
+            height="{{ block.settings[image_key].height }}"
+          >
+        {% else %}
+          <div class="grid-image-placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="content-column-{{ ai_gen_id }}">
+    <h2 class="headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h2>
+    <p class="subtext-{{ ai_gen_id }}">{{ block.settings.subtext }}</p>
+    
+    <ul class="benefits-list-{{ ai_gen_id }}">
+      {% for i in (1..4) %}
+        {% assign benefit_key = 'benefit_' | append: i %}
+        {% if block.settings[benefit_key] != blank %}
+          <li class="benefit-item-{{ ai_gen_id }}">
+            <div class="check-icon-{{ ai_gen_id }}">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 3L4.5 8.5L2 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="benefit-text-{{ ai_gen_id }}">{{ block.settings[benefit_key] }}</span>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul><a href="{{ block.settings.button_link }}" class="cta-button-{{ ai_gen_id }}">
+      {{ block.settings.button_text }}
+    </a>
+    
+    <div class="testimonial-box-{{ ai_gen_id }}">
+      <div class="testimonial-content-{{ ai_gen_id }}">
+        <p class="testimonial-quote-{{ ai_gen_id }}">{{ block.settings.testimonial_quote }}</p>
+        
+        <div class="testimonial-author-{{ ai_gen_id }}">
+          <div class="author-image-{{ ai_gen_id }}">
+            {% if block.settings.author_image %}
+              <img 
+                src="{{ block.settings.author_image | image_url: width: 100 }}" 
+                alt="{{ block.settings.author_name }}"
+                loading="lazy"
+                width="50"
+                height="50"
+              >
+            {% else %}
+              <div class="author-image-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+          
+          <div class="author-info-{{ ai_gen_id }}">
+            <p class="author-name-{{ ai_gen_id }}">{{ block.settings.author_name }}</p>
+            <p class="author-label-{{ ai_gen_id }}">{{ block.settings.author_label }}</p>
+            <div class="star-rating-{{ ai_gen_id }}">★★★★★</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image Grid with Text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {"value": "1", "label": "1"},
+        {"value": "2", "label": "2"}
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Gift The Hobby Everyone Is Talking About"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Engraving isn't just a hobby, it's a way to relax, express creativity, and make something meaningful!"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1",
+      "label": "Benefit 1",
+      "default": "Easy to Set Up, Easy to Start"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2",
+      "label": "Benefit 2",
+      "default": "Make Every Project Personal"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3",
+      "label": "Benefit 3",
+      "default": "A Fun and Relaxing Activity for All Ages"
+    },
+    {
+      "type": "text",
+      "id": "benefit_4",
+      "label": "Benefit 4",
+      "default": "Improves Concentration and Neural Connection"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "GET YOURS NOW →"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Testimonial"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_quote",
+      "label": "Testimonial quote",
+      "default": "\"As a mom, I'm always looking for ways to unwind. I tried crochet and painting, but nothing clicked. Then I found the Customizer. It's so easy to use during my me-time…\""
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "Author name",
+      "default": "Anne S."
+    },
+    {
+      "type": "text",
+      "id": "author_label",
+      "label": "Author label",
+      "default": "Verified Customer"
+    },
+    {
+      "type": "image_picker",
+      "id": "author_image",
+      "label": "Author image"
+    },
+    {
+      "type": "range",
+      "id": "testimonial_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Testimonial box border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_6",
+      "label": "Image 6"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Check icon background color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#FF7A00"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover color",
+      "default": "#E56C00"
+    },
+    {
+      "type": "color",
+      "id": "testimonial_bg_color",
+      "label": "Testimonial background color",
+      "default": "#FFF8E7"
+    },
+    {
+      "type": "color",
+      "id": "testimonial_text_color",
+      "label": "Testimonial text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "verified_label_color",
+      "label": "Verified label color",
+      "default": "#4A90E2"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star rating color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "testimonial_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Testimonial text size",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Grid with Text"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,445 @@
+{% doc %}
+  @prompt
+    make this as section 
+    <div class="happy-customersV2">
+     <div class="avatarsV2">
+     <img src="https://img.freepik.com/free-photo/stylish-african-american-woman-smilin
+    g_23-2148770405.jpg" alt="Customer 1" class="avatarV2" />
+     <img src="https://thumbs.dreamstime.com/b/beautiful-african-american-woman-relaxin
+    g-outside-happy-middle-aged-smiling-46298787.jpg" alt="Customer 2" class="avatarV2" />
+     <img src="https://media.istockphoto.com/id/1320651997/photo/young-woman-close-up-i
+    solated-studio-portrait.jpg?s=612x612&w=0&k=20&c=lV6pxz-DknISGT2jjiSvUmSaw0hpMDf-dBpT8HTSA
+    UI=" alt="Customer 3" class="avatarV2" />
+     </div>
+     <span class="textV2">
+    <span style = "font-weight: 900;">Michelle</span>
+     <span class="verifiedV2">
+     <img
+     src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Ba
+    dge.svg/800px-Twitter_Verified_Badge.svg.png"
+     alt="verified badge"
+     class="verifiedV2">
+     </span>
+     <span>and <strong>122,758</strong> people Loved our product</span>
+    </span>
+    </div>
+    <style>
+     .happy-customersV2 {
+     display: flex;
+     align-items: center;
+     background-color: #ffffff;
+     border-radius: 8px;
+     padding: 5px 15px;
+     font-family: Roboto, sans-serif !important;
+     font-size: 12px;
+     color: #000;
+     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+     }
+     .avatarsV2 {
+     display: flex;
+     margin-right: 10px;
+     }
+     .avatarV2 {
+     width: 22px;
+     height: 22px;
+     border-radius: 50%;
+     border: 2px solid white;
+     margin-left: -7px;
+     object-fit: cover;
+     }
+    .textV2 {
+     font-weight: normal;
+     font-size: 12px;
+     color: #000;
+     line-height: 0px;
+     display: flex;
+    align-items: center;
+     gap: 3px;
+    }
+     .textV2 strong {
+     font-weight: 800;
+     font-family: Roboto, sans-serif;
+     }
+     .verifiedV2 {
+     vertical-align: middle;
+     height: 13px;
+     width: 13px;
+     }
+    </style>
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-happy-customers-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, {{ block.settings.shadow_opacity | divided_by: 100.0 }});
+    margin: {{ block.settings.margin_top }}px auto {{ block.settings.margin_bottom }}px;
+    max-width: fit-content;
+  }
+
+  .ai-avatars-{{ ai_gen_id }} {
+    display: flex;
+    margin-right: {{ block.settings.avatar_spacing }}px;
+  }
+
+  .ai-avatar-{{ ai_gen_id }} {
+    width: {{ block.settings.avatar_size }}px;
+    height: {{ block.settings.avatar_size }}px;
+    border-radius: 50%;
+    border: {{ block.settings.avatar_border_width }}px solid {{ block.settings.avatar_border_color }};
+    margin-left: -{{ block.settings.avatar_overlap }}px;
+    object-fit: cover;
+  }
+
+  .ai-avatar-{{ ai_gen_id }}:first-child {
+    margin-left: 0;
+  }
+
+  .ai-text-{{ ai_gen_id }} {
+    font-weight: normal;
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.text_gap }}px;
+  }
+
+  .ai-text-{{ ai_gen_id }} strong {
+    font-weight: {{ block.settings.bold_text_weight }};
+  }
+
+  .ai-verified-{{ ai_gen_id }} {
+    vertical-align: middle;
+    height: {{ block.settings.verified_badge_size }}px;
+    width: {{ block.settings.verified_badge_size }}px;
+    flex-shrink: 0;
+  }
+
+  .ai-customer-name-{{ ai_gen_id }} {
+    font-weight: {{ block.settings.name_font_weight }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-happy-customers-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+      padding: {{ block.settings.padding_vertical | times: 0.8 }}px {{ block.settings.padding_horizontal | times: 0.8 }}px;
+    }
+
+    .ai-avatar-{{ ai_gen_id }} {
+      width: {{ block.settings.avatar_size | times: 0.9 }}px;
+      height: {{ block.settings.avatar_size | times: 0.9 }}px;
+    }
+
+    .ai-verified-{{ ai_gen_id }} {
+      height: {{ block.settings.verified_badge_size | times: 0.9 }}px;
+      width: {{ block.settings.verified_badge_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}<div class="ai-happy-customers-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-avatars-{{ ai_gen_id }}">
+    {% if block.settings.avatar_1 %}
+      <img src="{{ block.settings.avatar_1 | image_url: width: 100 }}" alt="Customer 1" class="ai-avatar-{{ ai_gen_id }}" loading="lazy">
+    {% endif %}
+    {% if block.settings.avatar_2 %}
+      <img src="{{ block.settings.avatar_2 | image_url: width: 100 }}" alt="Customer 2" class="ai-avatar-{{ ai_gen_id }}" loading="lazy">
+    {% endif %}
+    {% if block.settings.avatar_3 %}
+      <img src="{{ block.settings.avatar_3 | image_url: width: 100 }}" alt="Customer 3" class="ai-avatar-{{ ai_gen_id }}" loading="lazy">
+    {% endif %}
+  </div>
+  
+  <span class="ai-text-{{ ai_gen_id }}">
+    {% if block.settings.customer_name != blank %}
+      <span class="ai-customer-name-{{ ai_gen_id }}">{{ block.settings.customer_name }}</span>
+    {% endif %}
+    
+    {% if block.settings.show_verified_badge %}
+      <span class="ai-verified-{{ ai_gen_id }}">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="{{ block.settings.verified_badge_color }}" class="ai-verified-{{ ai_gen_id }}">
+          <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+        </svg>
+      </span>
+    {% endif %}
+    
+    {% if block.settings.testimonial_text != blank %}
+      <span>{{ block.settings.testimonial_text }}</span>
+    {% endif %}
+  </span>
+</div>
+
+{% schema %}
+{
+  "name": "Happy Customers",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Customer Avatars"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_1",
+      "label": "Customer avatar 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_2",
+      "label": "Customer avatar 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_3",
+      "label": "Customer avatar 3"
+    },
+    {
+      "type": "range",
+      "id": "avatar_size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Avatar size",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "avatar_overlap",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "unit": "px",
+      "label": "Avatar overlap",
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "avatar_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Avatar border width",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "avatar_border_color",
+      "label": "Avatar border color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "customer_name",
+      "label": "Customer name",
+      "default": "Michelle"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_badge",
+      "label": "Show verified badge",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "verified_badge_color",
+      "label": "Verified badge color",
+      "default": "#1DA1F2"
+    },
+    {
+      "type": "range",
+      "id": "verified_badge_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Verified badge size",
+      "default": 13
+    },
+    {
+      "type": "richtext",
+      "id": "testimonial_text",
+      "label": "Testimonial text",
+      "default": "<p>and <strong>122,758</strong> people Loved our product</p>"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "name_font_weight",
+      "label": "Customer name font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+      ],
+      "default": "900"
+    },
+    {
+      "type": "select",
+      "id": "bold_text_weight",
+      "label": "Bold text font weight",
+      "options": [
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+      ],
+      "default": "800"
+    },
+    {
+      "type": "range",
+      "id": "text_gap",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Text spacing",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "avatar_spacing",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Space after avatars",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "shadow_opacity",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": "Shadow opacity",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Happy Customers"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

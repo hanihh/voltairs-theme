@@ -1,0 +1,795 @@
+{% doc %}
+  @prompt
+    Here’s your edited text version:
+    
+    ---
+    
+    Create a **responsive 4-column layout** that displays **compact product cards** in **2 rows and 2 columns** on mobile (non-swipable, full width).
+    Each card should be **in one row**, with a **portrait image**, **green header bar**, and **customizable text**.
+    
+    **Card design details:**
+    
+    * Green header bar containing the **original price (smaller, crossed out)** and **FREE** in bold white font.
+    * Centered **portrait product image**.
+    * **Product name** below the image.
+    * **White background**, slight border, **rounded corners**, and optional compact spacing (controlled by gap or padding variables).
+    * **Responsive behavior:**
+    
+      * Desktop: 4 columns per row (adjustable to 3 or 2).
+      * Mobile: 2 columns, 2 rows.
+    * **No headline**, **no “was” text**, and **all text is fully customizable**.
+    * Cards automatically adjust when you **add or remove items**.
+    
+    **Example items:**
+    
+    * Body Buffer – $25 → FREE
+    * Scalp Scrubber – $25 → FREE
+    * Anti-Chafe Cream – $28 → FREE
+    * Anti Aging Ebook – $9 → FREE, i want to edit the colums on mobile as well ... , i want 3 and 4 colums as well on mobile not just 2, i want to control the font site of price and free text ,  and please make controalble  padding on text sides for title , free and price, add option to make it clickable card and each card has a pop up text filed attached to it , if left empty it will stay regular card , but if i added text , you have to make it clickable to a pop up that shows the text i added in the field, nice! add another field "link only" that is shown as a clickable link in the pop up .. so i needs 2 fields 1 is button text , 2 is link and make it colored as the rest of the website links, i want to turn off/on each card .. maybe i need now only 3 cards and later on 2 and then 4 ...
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    gap: {{ block.settings.card_gap }}px;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+      gap: {{ block.settings.card_gap_mobile }}px;
+    }
+  }
+
+  .ai-product-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .ai-product-card-{{ ai_gen_id }}.clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .ai-product-card-{{ ai_gen_id }}.clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-product-card-header-{{ ai_gen_id }} {
+    background-color: {{ block.settings.header_background }};
+    padding: {{ block.settings.header_padding_vertical }}px {{ block.settings.header_padding_horizontal }}px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-product-card-original-price-{{ ai_gen_id }} {
+    color: {{ block.settings.header_text_color }};
+    font-size: {{ block.settings.original_price_size }}px;
+    text-decoration: line-through;
+    font-weight: 400;
+  }
+
+  .ai-product-card-free-text-{{ ai_gen_id }} {
+    color: {{ block.settings.header_text_color }};
+    font-size: {{ block.settings.free_text_size }}px;
+    font-weight: 700;
+  }
+
+  .ai-product-card-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+  }
+
+  .ai-product-card-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-product-card-image-wrapper-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-product-card-title-{{ ai_gen_id }} {
+    padding: {{ block.settings.title_padding_vertical }}px {{ block.settings.title_padding_horizontal }}px;
+    text-align: center;
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: {{ block.settings.title_weight }};
+    margin: 0;
+  }
+
+  .ai-popup-overlay-{{ ai_gen_id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+
+  .ai-popup-overlay-{{ ai_gen_id }}.active {
+    display: flex;
+  }
+
+  .ai-popup-content-{{ ai_gen_id }} {
+    background-color: {{ block.settings.popup_background }};
+    border-radius: {{ block.settings.popup_border_radius }}px;
+    padding: {{ block.settings.popup_padding }}px;
+    max-width: {{ block.settings.popup_max_width }}px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .ai-popup-close-{{ ai_gen_id }} {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: {{ block.settings.popup_text_color }};
+    line-height: 1;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .ai-popup-close-{{ ai_gen_id }}:hover {
+    opacity: 1;
+  }
+
+  .ai-popup-text-{{ ai_gen_id }} {
+    color: {{ block.settings.popup_text_color }};
+    font-size: {{ block.settings.popup_text_size }}px;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    padding-right: 40px;
+  }
+
+  .ai-popup-link-{{ ai_gen_id }} {
+    display: inline-block;
+    color: rgb(var(--color-foreground));
+    text-decoration: underline;
+    font-size: {{ block.settings.popup_text_size }}px;
+    transition: opacity 0.2s ease;
+  }
+
+  .ai-popup-link-{{ ai_gen_id }}:hover {
+    opacity: 0.7;
+  }
+{% endstyle %}
+
+<product-cards-grid-{{ ai_gen_id }} class="ai-product-grid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% for i in (1..4) %}
+    {% liquid
+      assign enabled_key = 'card_' | append: i | append: '_enabled'
+      assign product_key = 'product_' | append: i
+      assign product_name_key = 'product_name_' | append: i
+      assign original_price_key = 'original_price_' | append: i
+      assign free_text_key = 'free_text_' | append: i
+      assign popup_text_key = 'popup_text_' | append: i
+      assign popup_link_text_key = 'popup_link_text_' | append: i
+      assign popup_link_url_key = 'popup_link_url_' | append: i
+
+      assign card_enabled = block.settings[enabled_key]
+      assign product = block.settings[product_key]
+      assign product_name = block.settings[product_name_key]
+      assign original_price = block.settings[original_price_key]
+      assign free_text = block.settings[free_text_key]
+      assign popup_text = block.settings[popup_text_key]
+      assign popup_link_text = block.settings[popup_link_text_key]
+      assign popup_link_url = block.settings[popup_link_url_key]
+    %}
+
+    {% if card_enabled %}
+      <div 
+        class="ai-product-card-{{ ai_gen_id }} {% if popup_text != blank %}clickable{% endif %}"
+        data-popup-id="popup-{{ ai_gen_id }}-{{ i }}"
+      >
+        <div class="ai-product-card-header-{{ ai_gen_id }}">
+          {% if original_price != blank %}
+            <span class="ai-product-card-original-price-{{ ai_gen_id }}">{{ original_price }}</span>
+          {% endif %}
+          {% if free_text != blank %}
+            <span class="ai-product-card-free-text-{{ ai_gen_id }}">{{ free_text }}</span>
+          {% endif %}
+        </div>
+
+        <div class="ai-product-card-image-wrapper-{{ ai_gen_id }}">
+          {% if product != blank and product.featured_image %}
+            <img
+              src="{{ product.featured_image | image_url: width: 400 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              class="ai-product-card-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="400"
+              height="400"
+            >
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag }}
+          {% endif %}
+        </div>
+
+        <h3 class="ai-product-card-title-{{ ai_gen_id }}">
+          {% if product_name != blank %}
+            {{ product_name }}
+          {% elsif product != blank %}
+            {{ product.title }}
+          {% else %}
+            Product Name
+          {% endif %}
+        </h3>
+      </div>
+
+      {% if popup_text != blank %}
+        <div class="ai-popup-overlay-{{ ai_gen_id }}" id="popup-{{ ai_gen_id }}-{{ i }}">
+          <div class="ai-popup-content-{{ ai_gen_id }}">
+            <button class="ai-popup-close-{{ ai_gen_id }}" aria-label="Close popup">&times;</button>
+            <div class="ai-popup-text-{{ ai_gen_id }}">{{ popup_text }}</div>
+            {% if popup_link_text != blank and popup_link_url != blank %}
+              <a href="{{ popup_link_url }}" class="ai-popup-link-{{ ai_gen_id }}">{{ popup_link_text }}</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</product-cards-grid-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductCardsGrid{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.cards = this.querySelectorAll('.ai-product-card-{{ ai_gen_id }}.clickable');
+        this.popups = document.querySelectorAll('.ai-popup-overlay-{{ ai_gen_id }}');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.cards.forEach((card) => {
+          const popupId = card.getAttribute('data-popup-id');
+          const popup = document.getElementById(popupId);
+          
+          if (popup) {
+            card.addEventListener('click', () => {
+              popup.classList.add('active');
+              document.body.style.overflow = 'hidden';
+            });
+
+            const closeButton = popup.querySelector('.ai-popup-close-{{ ai_gen_id }}');
+            
+            closeButton.addEventListener('click', (e) => {
+              e.stopPropagation();
+              popup.classList.remove('active');
+              document.body.style.overflow = '';
+            });
+
+            popup.addEventListener('click', (e) => {
+              if (e.target === popup) {
+                popup.classList.remove('active');
+                document.body.style.overflow = '';
+              }
+            });
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            this.popups.forEach((popup) => {
+              if (popup.classList.contains('active')) {
+                popup.classList.remove('active');
+                document.body.style.overflow = '';
+              }
+            });
+          }
+        });
+      }
+    }
+
+    customElements.define('product-cards-grid-{{ ai_gen_id }}', ProductCardsGrid{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product cards grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between cards (desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_gap_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between cards (mobile)",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Header bar"
+    },
+    {
+      "type": "color",
+      "id": "header_background",
+      "label": "Background",
+      "default": "#27b046"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "header_padding_vertical",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "header_padding_horizontal",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "original_price_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Original price size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "free_text_size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Free text size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Aspect ratio",
+      "options": [
+        { "value": "3/4", "label": "Portrait (3:4)" },
+        { "value": "2/3", "label": "Portrait (2:3)" },
+        { "value": "1/1", "label": "Square" }
+      ],
+      "default": "3/4"
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "title_padding_vertical",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "title_padding_horizontal",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Popup style"
+    },
+    {
+      "type": "color",
+      "id": "popup_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "popup_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "popup_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "popup_max_width",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Max width",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "popup_padding",
+      "min": 20,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "popup_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Product 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_1_enabled",
+      "label": "Enable card 1",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "product_name_1",
+      "label": "Product name",
+      "default": "Body Buffer"
+    },
+    {
+      "type": "text",
+      "id": "original_price_1",
+      "label": "Original price",
+      "default": "$25"
+    },
+    {
+      "type": "text",
+      "id": "free_text_1",
+      "label": "Free text",
+      "default": "FREE"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_text_1",
+      "label": "Popup text"
+    },
+    {
+      "type": "text",
+      "id": "popup_link_text_1",
+      "label": "Popup link text"
+    },
+    {
+      "type": "url",
+      "id": "popup_link_url_1",
+      "label": "Popup link URL"
+    },
+    {
+      "type": "header",
+      "content": "Product 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_2_enabled",
+      "label": "Enable card 2",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "product_name_2",
+      "label": "Product name",
+      "default": "Scalp Scrubber"
+    },
+    {
+      "type": "text",
+      "id": "original_price_2",
+      "label": "Original price",
+      "default": "$25"
+    },
+    {
+      "type": "text",
+      "id": "free_text_2",
+      "label": "Free text",
+      "default": "FREE"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_text_2",
+      "label": "Popup text"
+    },
+    {
+      "type": "text",
+      "id": "popup_link_text_2",
+      "label": "Popup link text"
+    },
+    {
+      "type": "url",
+      "id": "popup_link_url_2",
+      "label": "Popup link URL"
+    },
+    {
+      "type": "header",
+      "content": "Product 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_3_enabled",
+      "label": "Enable card 3",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "product_name_3",
+      "label": "Product name",
+      "default": "Anti-Chafe Cream"
+    },
+    {
+      "type": "text",
+      "id": "original_price_3",
+      "label": "Original price",
+      "default": "$28"
+    },
+    {
+      "type": "text",
+      "id": "free_text_3",
+      "label": "Free text",
+      "default": "FREE"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_text_3",
+      "label": "Popup text"
+    },
+    {
+      "type": "text",
+      "id": "popup_link_text_3",
+      "label": "Popup link text"
+    },
+    {
+      "type": "url",
+      "id": "popup_link_url_3",
+      "label": "Popup link URL"
+    },
+    {
+      "type": "header",
+      "content": "Product 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_4_enabled",
+      "label": "Enable card 4",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product_4",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "product_name_4",
+      "label": "Product name",
+      "default": "Anti Aging Ebook"
+    },
+    {
+      "type": "text",
+      "id": "original_price_4",
+      "label": "Original price",
+      "default": "$9"
+    },
+    {
+      "type": "text",
+      "id": "free_text_4",
+      "label": "Free text",
+      "default": "FREE"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_text_4",
+      "label": "Popup text"
+    },
+    {
+      "type": "text",
+      "id": "popup_link_text_4",
+      "label": "Popup link text"
+    },
+    {
+      "type": "url",
+      "id": "popup_link_url_4",
+      "label": "Popup link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product cards grid"
+    }
+  ]
+}
+{% endschema %}

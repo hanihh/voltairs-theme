@@ -1,0 +1,424 @@
+{% doc %}
+  @prompt
+    "Create a responsive 3-column layout that shows product cards similar to this design:
+    
+    Each card should have a green header bar with:
+    
+    the original price crossed out ($25, $28, etc.)
+    
+    the word FREE in bold white font.
+    
+    Product image centered.
+    
+    Product name below the image.
+    
+    White background with slight border and rounded corners.
+    
+    Should be mobile-responsive, stack into single-column on small screens.
+    
+    Here's a sample of the items:
+    
+    Body Buffer – was $25, now FREE.
+    
+    Scalp Scrubber – was $25, now FREE.
+    
+    Anti-Chafe Cream – was $28, now FREE.
+    
+    Make the design flexible so I can add/remove more items easily.", make the card all in 1 row , image are portrait , and remove headline and remove the word "was", make it smaller , all in 1 row full width not swipable, make it 4 instead of 3, make them 2 rows 2 colums, on mobile 2 columns 2 rows
+    
+    i want to custimize all words
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .free-products-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .free-product-card-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    border: 1px solid {{ block.settings.card_border_color }};
+    background-color: {{ block.settings.card_background_color }};
+    height: 100%;
+  }
+
+  .free-product-header-{{ ai_gen_id }} {
+    background-color: {{ block.settings.header_background_color }};
+    padding: 8px 12px;
+    text-align: center;
+  }
+
+  .free-product-price-{{ ai_gen_id }} {
+    display: inline-block;
+    color: {{ block.settings.original_price_color }};
+    text-decoration: line-through;
+    font-size: {{ block.settings.price_font_size }}px;
+    margin-right: 8px;
+  }
+
+  .free-product-free-text-{{ ai_gen_id }} {
+    display: inline-block;
+    color: {{ block.settings.free_text_color }};
+    font-weight: bold;
+    font-size: {{ block.settings.free_text_font_size }}px;
+  }
+
+  .free-product-image-container-{{ ai_gen_id }} {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .free-product-image-{{ ai_gen_id }} {
+    max-width: 100%;
+    max-height: {{ block.settings.image_height }}px;
+    object-fit: contain;
+  }
+
+  .free-product-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.image_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .free-product-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-height: {{ block.settings.image_height }}px;
+  }
+
+  .free-product-title-{{ ai_gen_id }} {
+    padding: 10px 15px 15px;
+    text-align: center;
+    font-size: {{ block.settings.title_font_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .free-products-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+      gap: 15px;
+    }
+
+    .free-product-price-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_font_size | minus: 2 }}px;
+    }
+
+    .free-product-free-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.free_text_font_size | minus: 2 }}px;
+    }
+
+    .free-product-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | minus: 2 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="free-products-grid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% for i in (1..4) %}
+    {% assign product_enabled_key = 'product_' | append: i | append: '_enabled' %}
+    {% assign product_image_key = 'product_' | append: i | append: '_image' %}
+    {% assign product_title_key = 'product_' | append: i | append: '_title' %}
+    {% assign product_price_key = 'product_' | append: i | append: '_price' %}
+    {% assign product_free_text_key = 'product_' | append: i | append: '_free_text' %}
+    
+    {% if block.settings[product_enabled_key] %}
+      <div class="free-product-card-{{ ai_gen_id }}">
+        <div class="free-product-header-{{ ai_gen_id }}">
+          <span class="free-product-price-{{ ai_gen_id }}">{{ block.settings[product_price_key] }}</span>
+          <span class="free-product-free-text-{{ ai_gen_id }}">{{ block.settings[product_free_text_key] }}</span>
+        </div>
+        <div class="free-product-image-container-{{ ai_gen_id }}">
+          {% if block.settings[product_image_key] != blank %}
+            <img 
+              src="{{ block.settings[product_image_key] | image_url: width: 400 }}"
+              alt="{{ block.settings[product_title_key] }}"
+              loading="lazy"
+              class="free-product-image-{{ ai_gen_id }}"
+              width="{{ block.settings[product_image_key].width }}"
+              height="{{ block.settings[product_image_key].height }}"
+            >
+          {% else %}
+            <div class="free-product-image-placeholder-{{ ai_gen_id }}">
+              {{ 'product-apparel-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+        <h3 class="free-product-title-{{ ai_gen_id }}">{{ block.settings[product_title_key] }}</h3>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Free Products Grid",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 100,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#E6E6E6"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "Header background color",
+      "default": "#4CAF50"
+    },
+    {
+      "type": "color",
+      "id": "original_price_color",
+      "label": "Original price color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "free_text_color",
+      "label": "Free text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "price_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Price font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "free_text_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Free text font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Product 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_1_enabled",
+      "label": "Enable product 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "product_1_image",
+      "label": "Product 1 image"
+    },
+    {
+      "type": "text",
+      "id": "product_1_title",
+      "label": "Product 1 title",
+      "default": "Body Buffer"
+    },
+    {
+      "type": "text",
+      "id": "product_1_price",
+      "label": "Product 1 price",
+      "default": "$25"
+    },
+    {
+      "type": "text",
+      "id": "product_1_free_text",
+      "label": "Product 1 free text",
+      "default": "FREE"
+    },
+    {
+      "type": "header",
+      "content": "Product 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_2_enabled",
+      "label": "Enable product 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "product_2_image",
+      "label": "Product 2 image"
+    },
+    {
+      "type": "text",
+      "id": "product_2_title",
+      "label": "Product 2 title",
+      "default": "Scalp Scrubber"
+    },
+    {
+      "type": "text",
+      "id": "product_2_price",
+      "label": "Product 2 price",
+      "default": "$25"
+    },
+    {
+      "type": "text",
+      "id": "product_2_free_text",
+      "label": "Product 2 free text",
+      "default": "FREE"
+    },
+    {
+      "type": "header",
+      "content": "Product 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_3_enabled",
+      "label": "Enable product 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "product_3_image",
+      "label": "Product 3 image"
+    },
+    {
+      "type": "text",
+      "id": "product_3_title",
+      "label": "Product 3 title",
+      "default": "Anti-Chafe Cream"
+    },
+    {
+      "type": "text",
+      "id": "product_3_price",
+      "label": "Product 3 price",
+      "default": "$28"
+    },
+    {
+      "type": "text",
+      "id": "product_3_free_text",
+      "label": "Product 3 free text",
+      "default": "FREE"
+    },
+    {
+      "type": "header",
+      "content": "Product 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_4_enabled",
+      "label": "Enable product 4",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "product_4_image",
+      "label": "Product 4 image"
+    },
+    {
+      "type": "text",
+      "id": "product_4_title",
+      "label": "Product 4 title",
+      "default": "Lotion Bar"
+    },
+    {
+      "type": "text",
+      "id": "product_4_price",
+      "label": "Product 4 price",
+      "default": "$22"
+    },
+    {
+      "type": "text",
+      "id": "product_4_free_text",
+      "label": "Product 4 free text",
+      "default": "FREE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Free Products Grid"
+    }
+  ]
+}
+{% endschema %}

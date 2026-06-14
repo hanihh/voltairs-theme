@@ -1,0 +1,246 @@
+{% doc %}
+  @prompt
+    turn this code into editable element
+    
+    "<!-- START: 3-Column Offers Section -->
+    <div class="three-columns">
+      <div class="column">
+        <!-- Column 1 Content -->
+        Free Shipping
+      </div>
+    
+      <div class="divider">|</div>
+    
+      <div class="column">
+        <!-- Column 2 Content -->
+       <b> BACK IN STOCK 📦 </b>
+      </div>
+    
+      <div class="divider">|</div>
+    
+      <div class="column">
+        <!-- Column 3 Content -->
+        Free Returns
+      </div>
+    </div>
+    <!-- END: 3-Column Offers Section -->
+    
+    <style>
+      .three-columns {
+        width: 100%;               /* Full width */
+        background-color: #fafafa; /* Changeable background color */
+        color: #333;               /* Changeable text color */
+        font-size: 14px;           /* Smaller text size */
+        text-align: center;        /* Center the text */
+        padding: 10px;             /* Optional padding */
+        display: flex;             /* Use flexbox for single row layout */
+        justify-content: center;   /* Center content horizontally */
+        align-items: center;       /* Center content vertically */
+        box-sizing: border-box;
+      }
+    
+      /* Columns and the divider share inline-block so they flow horizontally */
+      .column,
+      .divider {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 10px;            /* Adjust margin for spacing */
+      }
+    
+      /* Make the divider black */
+      .divider {
+        color: #000; /* Divider color changed to black */
+      }
+    
+      /* Adjust layout for smaller screens */
+      @media (max-width: 600px) {
+        .three-columns {
+          font-size: 12px;
+          flex-wrap: wrap;             /* Allow wrapping on small screens */
+          justify-content: space-around; /* Distribute space evenly */
+        }
+    
+        .column,
+        .divider {
+          margin: 5px 0; /* Adjust margin for wrapped content */
+        }
+        /* Notice we've removed 'display: none;' so the divider stays visible */
+      }
+    </style>"
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-three-columns-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    text-align: center;
+    padding: {{ block.settings.padding }}px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .ai-column-{{ ai_gen_id }},
+  .ai-divider-{{ ai_gen_id }} {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 {{ block.settings.column_spacing }}px;
+  }
+
+  .ai-divider-{{ ai_gen_id }} {
+    color: {{ block.settings.divider_color }};
+  }
+
+  @media (max-width: 600px) {
+    .ai-three-columns-{{ ai_gen_id }} {
+      font-size: {{ block.settings.mobile_font_size }}px;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .ai-column-{{ ai_gen_id }},
+    .ai-divider-{{ ai_gen_id }} {
+      margin: 5px 0;
+    }
+    
+    {% if block.settings.hide_dividers_on_mobile %}
+      .ai-divider-{{ ai_gen_id }} {
+        display: none;
+      }
+    {% endif %}
+  }
+{% endstyle %}
+
+<div class="ai-three-columns-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-column-{{ ai_gen_id }}">
+    {{ block.settings.column_1_content }}
+  </div>
+
+  <div class="ai-divider-{{ ai_gen_id }}">{{ block.settings.divider_text }}</div>
+
+  <div class="ai-column-{{ ai_gen_id }}">
+    {{ block.settings.column_2_content }}
+  </div>
+
+  <div class="ai-divider-{{ ai_gen_id }}">{{ block.settings.divider_text }}</div>
+
+  <div class="ai-column-{{ ai_gen_id }}">
+    {{ block.settings.column_3_content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Offers Banner",
+  "tag": null,
+  "class": "offers-banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "column_1_content",
+      "label": "Column 1 content",
+      "default": "<p>Free Shipping</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "column_2_content",
+      "label": "Column 2 content",
+      "default": "<p><strong>BACK IN STOCK 📦</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "column_3_content",
+      "label": "Column 3 content",
+      "default": "<p>Free Returns</p>"
+    },
+    {
+      "type": "text",
+      "id": "divider_text",
+      "label": "Divider text",
+      "default": "|"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile font size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "column_spacing",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Column spacing",
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_dividers_on_mobile",
+      "label": "Hide dividers on mobile",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Offers Banner"
+    }
+  ]
+}
+{% endschema %}

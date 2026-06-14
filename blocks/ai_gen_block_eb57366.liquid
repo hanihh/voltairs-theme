@@ -1,0 +1,206 @@
+{% doc %}
+  @prompt
+    i need 1 line with Star counter 5 out of 5 and text beside it and i need abilty to align left right and middle
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-star-rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: {{ block.settings.alignment }};
+    gap: {{ block.settings.spacing }}px;
+    margin: {{ block.settings.margin }}px 0;
+  }
+
+  .ai-star-rating__stars-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+  }
+
+  .ai-star-rating__star-{{ ai_gen_id }} {
+    width: {{ block.settings.star_size }}px;
+    height: {{ block.settings.star_size }}px;
+    margin-right: 2px;
+    color: {{ block.settings.star_color }};
+  }
+
+  .ai-star-rating__text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    font-weight: {{ block.settings.text_weight }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-star-rating-{{ ai_gen_id }} {
+      justify-content: {{ block.settings.alignment_mobile }};
+    }
+  }
+{% endstyle %}
+
+<div class="ai-star-rating-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-star-rating__stars-{{ ai_gen_id }}">
+    {% for i in (1..5) %}
+      <svg class="ai-star-rating__star-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/>
+      </svg>
+    {% endfor %}
+  </div>
+  <div class="ai-star-rating__text-{{ ai_gen_id }}">
+    {{ block.settings.rating_text }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Star Rating",
+  "tag": null,
+  "class": "star-rating-block",
+  "settings": [
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "5.0 out of 5 stars"
+    },
+    {
+      "type": "header",
+      "content": "Alignment"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Desktop alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "select",
+      "id": "alignment_mobile",
+      "label": "Mobile alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "header",
+      "content": "Star styling"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Star size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "header",
+      "content": "Text styling"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between stars and text",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical margin",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Star Rating"
+    }
+  ]
+}
+{% endschema %}

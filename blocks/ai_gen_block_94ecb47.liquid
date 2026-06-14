@@ -1,0 +1,1565 @@
+{% doc %}
+  @prompt
+    Banner:
+    Design a clean, informative ingredients banner section for a men's skincare or body care brand. The layout should include:
+    
+    ✅ Title Area:
+    
+    Small green subtitle: “The Australian Way”
+    
+    Main bold headline: “Natural Ingredients that are proven to work”
+    
+    Centered alignment
+    
+    ✅ Grid of 6 Ingredients (2 Rows x 3 Columns or Responsive Stack on Mobile):
+    For each ingredient card:
+    
+    Circular image icon at the top (natural-looking photo)
+    
+    Bold title underneath (e.g., “Shea Butter”)
+    
+    One-line description in smaller text (e.g., “Soothes irritated skin and creates a moisture locking barrier…”)
+    
+    All cards should have subtle drop shadows and clean spacing
+    
+    ✅ Ingredients to include:
+    
+    Shea Butter – Soothes irritated skin and creates a moisture-locking barrier that blocks bacteria.
+    
+    Aloe Vera – Calms inflammation and supports skin healing, helping keep pores clean.
+    
+    Activated Charcoal – Draws out dirt, sweat, and toxins that feed odor-causing bacteria.
+    
+    Coconut Oil – Kills odor-causing bacteria on the skin with its antimicrobial properties.
+    
+    Bergamot Fruit Oil – Provides a fresh citrus scent while naturally neutralizing bacteria.
+    
+    Cedarwood Oil – Adds a clean, masculine aroma and balances oil production.
+    
+    ✅ Design Style:
+    
+    White background
+    
+    Rounded image icons
+    
+    Font: modern and clean (like Poppins or Helvetica)
+    
+    Balanced whitespace, light drop shadows
+    
+    Responsive layout (mobile friendly), give me the option to add up to 22 ingredients and pop up option for learn more for each ingedients, and give me abilty to show or hide each element, pop up botton is not working, and make the learn more as text with link with arrow sign/icon not as button with BG, i need to be able to change image style from circle to landscape to auto to portrait and make it fit full width  ... etc, give me abitly to change shadow or remove it , and add boarder and control it color size and rounded, i need to be able to change shadow color
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+.ingredients-banner-{{ ai_gen_id }} {
+  padding: 60px 20px;
+  background-color: {{ block.settings.background_color }};
+}
+
+.ingredients-banner__header-{{ ai_gen_id }} {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 50px;
+}
+
+.ingredients-banner__subtitle-{{ ai_gen_id }} {
+  font-size: 14px;
+  color: {{ block.settings.subtitle_color }};
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: {% if block.settings.show_subtitle %}block{% else %}none{% endif %};
+}
+
+.ingredients-banner__title-{{ ai_gen_id }} {
+  font-size: {{ block.settings.heading_size }}px;
+  color: {{ block.settings.heading_color }};
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.2;
+  display: {% if block.settings.show_heading %}block{% else %}none{% endif %};
+}
+
+.ingredients-grid-{{ ai_gen_id }} {
+  display: grid;
+  grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ingredient-card-{{ ai_gen_id }} {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 25px 20px;
+  background-color: {{ block.settings.card_background_color }};
+  border-radius: {{ block.settings.card_border_radius }}px;
+  box-shadow: {% if block.settings.show_card_shadow %}0 {{ block.settings.shadow_vertical_offset }}px {{ block.settings.shadow_blur }}px {{ block.settings.shadow_color }}{% else %}none{% endif %};
+  transition: transform 0.3s ease;
+  position: relative;
+  border: {% if block.settings.show_card_border %}{{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }}{% else %}none{% endif %};
+}
+
+.ingredient-image-wrapper-{{ ai_gen_id }} {
+  width: 100%;
+  margin-bottom: 15px;
+  box-shadow: {% if block.settings.show_image_shadow %}0 {{ block.settings.image_shadow_vertical_offset }}px {{ block.settings.image_shadow_blur }}px {{ block.settings.image_shadow_color }}{% else %}none{% endif %};
+  overflow: hidden;
+  position: relative;
+  border: {% if block.settings.show_image_border %}{{ block.settings.image_border_width }}px solid {{ block.settings.image_border_color }}{% else %}none{% endif %};
+}
+
+.ingredient-image-wrapper-{{ ai_gen_id }}.circle {
+  width: {{ block.settings.image_size }}px;
+  height: {{ block.settings.image_size }}px;
+  border-radius: 50%;
+}
+
+.ingredient-image-wrapper-{{ ai_gen_id }}.landscape {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  border-radius: {{ block.settings.image_border_radius }}px;
+}
+
+.ingredient-image-wrapper-{{ ai_gen_id }}.portrait {
+  width: 100%;
+  height: 0;
+  padding-bottom: 133.33%; /* 3:4 aspect ratio */
+  border-radius: {{ block.settings.image_border_radius }}px;
+}
+
+.ingredient-image-wrapper-{{ ai_gen_id }}.auto {
+  width: 100%;
+  height: auto;
+  border-radius: {{ block.settings.image_border_radius }}px;
+}
+
+.ingredient-image-{{ ai_gen_id }} {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ingredient-image-wrapper-{{ ai_gen_id }}.landscape .ingredient-image-{{ ai_gen_id }},
+.ingredient-image-wrapper-{{ ai_gen_id }}.portrait .ingredient-image-{{ ai_gen_id }} {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ingredient-image-placeholder-{{ ai_gen_id }} {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+}
+
+.ingredient-image-wrapper-{{ ai_gen_id }}.circle .ingredient-image-placeholder-{{ ai_gen_id }} {
+  border-radius: 50%;
+}
+
+.ingredient-image-placeholder-{{ ai_gen_id }} svg {
+  width: 60%;
+  height: 60%;
+}
+
+.ingredient-title-{{ ai_gen_id }} {
+  font-size: 18px;
+  font-weight: 600;
+  color: {{ block.settings.ingredient_title_color }};
+  margin: 0 0 8px;
+}
+
+.ingredient-description-{{ ai_gen_id }} {
+  font-size: 14px;
+  line-height: 1.5;
+  color: {{ block.settings.ingredient_text_color }};
+  margin: 0;
+}
+
+.ingredient-learn-more-{{ ai_gen_id }} {
+  margin-top: 10px;
+  font-size: 14px;
+  color: {{ block.settings.learn_more_color }};
+  text-decoration: none;
+  cursor: pointer;
+  display: {% if block.settings.show_learn_more %}inline-flex{% else %}none{% endif %};
+  align-items: center;
+  gap: 5px;
+}
+
+.ingredient-learn-more-{{ ai_gen_id }}:hover {
+  text-decoration: underline;
+}
+
+.ingredient-learn-more-icon-{{ ai_gen_id }} {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.ingredient-learn-more-{{ ai_gen_id }}:hover .ingredient-learn-more-icon-{{ ai_gen_id }} {
+  transform: translateX(3px);
+}
+
+.ingredient-popup-{{ ai_gen_id }} {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.ingredient-popup-{{ ai_gen_id }}.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ingredient-popup-content-{{ ai_gen_id }} {
+  background-color: {{ block.settings.popup_background_color }};
+  border-radius: {{ block.settings.popup_border_radius }}px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: {% if block.settings.show_popup_shadow %}0 {{ block.settings.popup_shadow_vertical_offset }}px {{ block.settings.popup_shadow_blur }}px {{ block.settings.popup_shadow_color }}{% else %}none{% endif %};
+  border: {% if block.settings.show_popup_border %}{{ block.settings.popup_border_width }}px solid {{ block.settings.popup_border_color }}{% else %}none{% endif %};
+}
+
+.ingredient-popup-close-{{ ai_gen_id }} {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: {{ block.settings.ingredient_title_color }};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+}
+
+.ingredient-popup-image-{{ ai_gen_id }} {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  overflow: hidden;
+  border: {% if block.settings.show_image_border %}{{ block.settings.image_border_width }}px solid {{ block.settings.image_border_color }}{% else %}none{% endif %};
+}
+
+.ingredient-popup-image-{{ ai_gen_id }}.circle {
+  border-radius: 50%;
+}
+
+.ingredient-popup-image-{{ ai_gen_id }}.landscape,
+.ingredient-popup-image-{{ ai_gen_id }}.portrait,
+.ingredient-popup-image-{{ ai_gen_id }}.auto {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: {{ block.settings.image_border_radius }}px;
+}
+
+.ingredient-popup-image-{{ ai_gen_id }} img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ingredient-popup-title-{{ ai_gen_id }} {
+  font-size: 22px;
+  font-weight: 600;
+  color: {{ block.settings.ingredient_title_color }};
+  margin: 0 0 15px;
+  text-align: center;
+}
+
+.ingredient-popup-description-{{ ai_gen_id }} {
+  font-size: 16px;
+  line-height: 1.6;
+  color: {{ block.settings.ingredient_text_color }};
+}
+
+@media screen and (max-width: 990px) {
+  .ingredients-grid-{{ ai_gen_id }} {
+    grid-template-columns: repeat({{ block.settings.columns_tablet }}, 1fr);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .ingredients-grid-{{ ai_gen_id }} {
+    grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    gap: 20px;
+  }
+  
+  .ingredients-banner__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+  }
+  
+  .ingredient-card-{{ ai_gen_id }} {
+    padding: 20px 15px;
+  }
+  
+  .ingredient-popup-content-{{ ai_gen_id }} {
+    padding: 20px;
+  }
+}
+{% endstyle %}
+
+<ingredients-block-{{ ai_gen_id }} class="ingredients-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ingredients-banner__header-{{ ai_gen_id }}">
+    <div class="ingredients-banner__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</div>
+    <h2 class="ingredients-banner__title-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+  </div>
+  
+  <div class="ingredients-grid-{{ ai_gen_id }}">
+    {% for i in (1..22) %}
+      {% liquid
+        assign ingredient_enabled_key = 'ingredient_' | append: i | append: '_enabled'
+        assign ingredient_image_key = 'ingredient_' | append: i | append: '_image'
+        assign ingredient_title_key = 'ingredient_' | append: i | append: '_title'
+        assign ingredient_description_key = 'ingredient_' | append: i | append: '_description'
+        assign ingredient_full_description_key = 'ingredient_' | append: i | append: '_full_description'
+        
+        assign ingredient_enabled = block.settings[ingredient_enabled_key]
+        assign ingredient_image = block.settings[ingredient_image_key]
+        assign ingredient_title = block.settings[ingredient_title_key]
+        assign ingredient_description = block.settings[ingredient_description_key]
+        assign ingredient_full_description = block.settings[ingredient_full_description_key]
+      %}
+      
+      {% if ingredient_enabled and ingredient_title != blank %}
+        <div class="ingredient-card-{{ ai_gen_id }}" data-ingredient-id="{{ i }}">
+          <div class="ingredient-image-wrapper-{{ ai_gen_id }} {{ block.settings.image_style }}">
+            {% if ingredient_image != blank %}
+              <img 
+                src="{{ ingredient_image | image_url: width: 400 }}"
+                alt="{{ ingredient_title }}"
+                loading="lazy"
+                width="400"
+                height="400"
+                class="ingredient-image-{{ ai_gen_id }}"
+              >
+            {% else %}
+              <div class="ingredient-image-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+          <h3 class="ingredient-title-{{ ai_gen_id }}">{{ ingredient_title }}</h3>
+          <p class="ingredient-description-{{ ai_gen_id }}">{{ ingredient_description }}</p>
+          <a href="#" class="ingredient-learn-more-{{ ai_gen_id }}" data-ingredient-id="{{ i }}">
+            {{ block.settings.learn_more_text }}
+            <svg class="ingredient-learn-more-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  
+  <div class="ingredient-popup-{{ ai_gen_id }}">
+    <div class="ingredient-popup-content-{{ ai_gen_id }}">
+      <button type="button" class="ingredient-popup-close-{{ ai_gen_id }}" aria-label="Close popup">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="ingredient-popup-image-{{ ai_gen_id }} {{ block.settings.image_style }}">
+        <img src="" alt="" class="popup-image">
+      </div>
+      <h3 class="ingredient-popup-title-{{ ai_gen_id }}"></h3>
+      <div class="ingredient-popup-description-{{ ai_gen_id }}"></div>
+    </div>
+  </div>
+</ingredients-block-{{ ai_gen_id }}>
+
+<script>
+  class IngredientsBlock extends HTMLElement {
+    constructor() {
+      super();
+      this.ingredientCards = this.querySelectorAll('.ingredient-card-{{ ai_gen_id }}');
+      this.popup = this.querySelector('.ingredient-popup-{{ ai_gen_id }}');
+      this.popupContent = this.querySelector('.ingredient-popup-content-{{ ai_gen_id }}');
+      this.popupClose = this.querySelector('.ingredient-popup-close-{{ ai_gen_id }}');
+      this.popupImage = this.querySelector('.ingredient-popup-image-{{ ai_gen_id }} img');
+      this.popupTitle = this.querySelector('.ingredient-popup-title-{{ ai_gen_id }}');
+      this.popupDescription = this.querySelector('.ingredient-popup-description-{{ ai_gen_id }}');
+      this.popupImageContainer = this.querySelector('.ingredient-popup-image-{{ ai_gen_id }}');
+      
+      this.ingredientData = [
+        {% for i in (1..22) %}
+          {% liquid
+            assign ingredient_enabled_key = 'ingredient_' | append: i | append: '_enabled'
+            assign ingredient_image_key = 'ingredient_' | append: i | append: '_image'
+            assign ingredient_title_key = 'ingredient_' | append: i | append: '_title'
+            assign ingredient_description_key = 'ingredient_' | append: i | append: '_description'
+            assign ingredient_full_description_key = 'ingredient_' | append: i | append: '_full_description'
+            
+            assign ingredient_enabled = block.settings[ingredient_enabled_key]
+            assign ingredient_image = block.settings[ingredient_image_key]
+            assign ingredient_title = block.settings[ingredient_title_key]
+            assign ingredient_full_description = block.settings[ingredient_full_description_key]
+          %}
+          
+          {% if ingredient_enabled and ingredient_title != blank %}
+            {
+              id: {{ i }},
+              title: {{ ingredient_title | json }},
+              image: {% if ingredient_image != blank %}{{ ingredient_image | image_url: width: 400 | json }}{% else %}null{% endif %},
+              fullDescription: {{ ingredient_full_description | json }}
+            },
+          {% endif %}
+        {% endfor %}
+      ];
+      
+      this.init();
+    }
+    
+    init() {
+      this.setupEventListeners();
+    }
+    
+    setupEventListeners() {
+      // Learn more links
+      this.querySelectorAll('.ingredient-learn-more-{{ ai_gen_id }}').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const ingredientId = link.getAttribute('data-ingredient-id');
+          this.openPopup(ingredientId);
+        });
+      });
+      
+      // Close popup
+      this.popupClose.addEventListener('click', () => {
+        this.closePopup();
+      });
+      
+      // Close popup when clicking outside
+      this.popup.addEventListener('click', (e) => {
+        if (e.target === this.popup) {
+          this.closePopup();
+        }
+      });
+      
+      // Close on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.popup.classList.contains('active')) {
+          this.closePopup();
+        }
+      });
+    }
+    
+    openPopup(ingredientId) {
+      const ingredient = this.ingredientData.find(item => item.id == ingredientId);
+      
+      if (ingredient) {
+        // Set popup content
+        this.popupTitle.textContent = ingredient.title;
+        
+        if (ingredient.image) {
+          this.popupImage.src = ingredient.image;
+          this.popupImage.alt = ingredient.title;
+          this.popupImageContainer.style.display = 'block';
+        } else {
+          this.popupImageContainer.style.display = 'none';
+        }
+        
+        this.popupDescription.innerHTML = ingredient.fullDescription;
+        
+        // Show popup
+        this.popup.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    
+    closePopup() {
+      this.popup.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  customElements.define('ingredients-block-{{ ai_gen_id }}', IngredientsBlock);
+</script>
+
+{% schema %}
+{
+  "name": "Ingredients Banner",
+  "tag": null,
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "label": "Show subtitle",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "The Australian Way"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Natural Ingredients that are proven to work"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 36
+    },
+    {
+      "type": "checkbox",
+      "id": "show_learn_more",
+      "label": "Show 'Learn More' links",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "learn_more_text",
+      "label": "Learn more text",
+      "default": "Learn more"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        {"value": "2", "label": "2"},
+        {"value": "3", "label": "3"},
+        {"value": "4", "label": "4"}
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "columns_tablet",
+      "label": "Columns on tablet",
+      "options": [
+        {"value": "1", "label": "1"},
+        {"value": "2", "label": "2"}
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {"value": "1", "label": "1"},
+        {"value": "2", "label": "2"}
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Card Styling"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_shadow",
+      "label": "Show card shadow",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Card shadow color",
+      "default": "rgba(0,0,0,0.1)"
+    },
+    {
+      "type": "range",
+      "id": "shadow_vertical_offset",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Shadow vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow blur",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_border",
+      "label": "Show card border",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Card border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Image Styling"
+    },
+    {
+      "type": "select",
+      "id": "image_style",
+      "label": "Image style",
+      "options": [
+        {"value": "circle", "label": "Circle"},
+        {"value": "landscape", "label": "Landscape"},
+        {"value": "portrait", "label": "Portrait"},
+        {"value": "auto", "label": "Auto"}
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "min": 60,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Image size (for circle style)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius (for non-circle styles)",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image_shadow",
+      "label": "Show image shadow",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "image_shadow_color",
+      "label": "Image shadow color",
+      "default": "rgba(0,0,0,0.1)"
+    },
+    {
+      "type": "range",
+      "id": "image_shadow_vertical_offset",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Image shadow vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "image_shadow_blur",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Image shadow blur",
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image_border",
+      "label": "Show image border",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_border_width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Image border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "image_border_color",
+      "label": "Image border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Popup Styling"
+    },
+    {
+      "type": "color",
+      "id": "popup_background_color",
+      "label": "Popup background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "popup_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Popup border radius",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popup_shadow",
+      "label": "Show popup shadow",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "popup_shadow_color",
+      "label": "Popup shadow color",
+      "default": "rgba(0,0,0,0.2)"
+    },
+    {
+      "type": "range",
+      "id": "popup_shadow_vertical_offset",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Popup shadow vertical offset",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "popup_shadow_blur",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Popup shadow blur",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popup_border",
+      "label": "Show popup border",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "popup_border_width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Popup border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "popup_border_color",
+      "label": "Popup border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#82a31a"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "ingredient_title_color",
+      "label": "Ingredient title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "ingredient_text_color",
+      "label": "Ingredient description color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_color",
+      "label": "Learn more link color",
+      "default": "#82a31a"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_1_enabled",
+      "label": "Show ingredient",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_1_title",
+      "label": "Title",
+      "default": "Shea Butter"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_1_description",
+      "label": "Short description",
+      "default": "Soothes irritated skin and creates a moisture-locking barrier that blocks bacteria."
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_1_full_description",
+      "label": "Full description (for popup)",
+      "default": "<p>Shea Butter is a natural fat extracted from the nut of the African shea tree. It soothes irritated skin and creates a moisture-locking barrier that blocks bacteria. Rich in vitamins A, E, and F, it offers anti-inflammatory and healing properties that help maintain skin health.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_2_enabled",
+      "label": "Show ingredient",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_2_title",
+      "label": "Title",
+      "default": "Aloe Vera"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_2_description",
+      "label": "Short description",
+      "default": "Calms inflammation and supports skin healing, helping keep pores clean."
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_2_full_description",
+      "label": "Full description (for popup)",
+      "default": "<p>Aloe Vera is a succulent plant species with gel-filled leaves that have been used for centuries for their healing properties. It calms inflammation and supports skin healing, helping keep pores clean. The gel contains vitamins, minerals, amino acids, and antioxidants that promote healthy skin.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_3_enabled",
+      "label": "Show ingredient",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_3_title",
+      "label": "Title",
+      "default": "Activated Charcoal"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_3_description",
+      "label": "Short description",
+      "default": "Draws out dirt, sweat, and toxins that feed odor-causing bacteria."
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_3_full_description",
+      "label": "Full description (for popup)",
+      "default": "<p>Activated Charcoal is a fine black powder made from carbon-rich materials like wood, coconut shells, or peat that has been processed to have small, low-volume pores. It draws out dirt, sweat, and toxins that feed odor-causing bacteria, making it an excellent detoxifying agent for skin care products.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_4_enabled",
+      "label": "Show ingredient",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_4_title",
+      "label": "Title",
+      "default": "Coconut Oil"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_4_description",
+      "label": "Short description",
+      "default": "Kills odor-causing bacteria on the skin with its antimicrobial properties."
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_4_full_description",
+      "label": "Full description (for popup)",
+      "default": "<p>Coconut Oil is extracted from the meat of mature coconuts and is rich in medium-chain fatty acids. It kills odor-causing bacteria on the skin with its antimicrobial properties. The oil is also deeply moisturizing and helps strengthen the skin's natural barrier function.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_5_enabled",
+      "label": "Show ingredient",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_5_title",
+      "label": "Title",
+      "default": "Bergamot Fruit Oil"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_5_description",
+      "label": "Short description",
+      "default": "Provides a fresh citrus scent while naturally neutralizing bacteria."
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_5_full_description",
+      "label": "Full description (for popup)",
+      "default": "<p>Bergamot Fruit Oil is cold-pressed from the rinds of bergamot oranges. It provides a fresh citrus scent while naturally neutralizing bacteria. The oil contains natural antiseptic properties and helps balance skin oils while providing a refreshing, uplifting aroma.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_6_enabled",
+      "label": "Show ingredient",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_6_title",
+      "label": "Title",
+      "default": "Cedarwood Oil"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_6_description",
+      "label": "Short description",
+      "default": "Adds a clean, masculine aroma and balances oil production."
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_6_full_description",
+      "label": "Full description (for popup)",
+      "default": "<p>Cedarwood Oil is derived from the wood of cedar trees. It adds a clean, masculine aroma and balances oil production. The oil has natural astringent properties that help tighten pores and reduce excess oil, making it particularly beneficial for men's skin care products.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 7"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_7_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_7_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_7_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_7_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_7_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 8"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_8_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_8_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_8_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_8_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_8_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 9"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_9_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_9_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_9_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_9_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_9_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 10"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_10_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_10_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_10_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_10_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_10_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 11"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_11_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_11_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_11_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_11_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_11_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 12"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_12_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_12_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_12_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_12_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_12_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 13"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_13_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_13_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_13_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_13_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_13_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 14"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_14_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_14_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_14_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_14_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_14_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 15"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_15_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_15_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_15_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_15_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_15_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 16"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_16_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_16_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_16_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_16_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_16_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 17"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_17_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_17_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_17_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_17_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_17_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 18"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_18_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_18_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_18_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_18_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_18_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 19"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_19_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_19_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_19_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_19_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_19_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 20"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_20_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_20_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_20_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_20_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_20_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 21"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_21_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_21_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_21_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_21_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_21_full_description",
+      "label": "Full description (for popup)"
+    },
+    {
+      "type": "header",
+      "content": "Ingredient 22"
+    },
+    {
+      "type": "checkbox",
+      "id": "ingredient_22_enabled",
+      "label": "Show ingredient",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredient_22_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_22_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "ingredient_22_description",
+      "label": "Short description"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_22_full_description",
+      "label": "Full description (for popup)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredients Banner"
+    }
+  ]
+}
+{% endschema %}

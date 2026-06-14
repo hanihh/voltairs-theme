@@ -1,0 +1,1409 @@
+{% doc %}
+  @prompt
+    Design a premium mobile-optimized product review card inspired by Amazon but more modern, minimal, and high-trust. Clean white background, subtle shadow, rounded corners, elegant spacing. Top section: circular avatar left, customer name bold beside it, small verified badge with brand accent color. Below: 5-star rating row, then bold review title. Show metadata like “Reviewed in United States on October 19, 2025 | Style: Chrome | Verified Purchase” in small gray text. Always show date as “Month DD, YYYY”, never “days ago”. Main review paragraph in readable 16px font with 1.6 line height. Include optional product variant tags (Color, Style) and optional horizontal image strip. Footer has two pill buttons “Helpful” and “Report” plus small text “13 people found this helpful.” Keep all text, padding, radius, and colors fully controllable by user (font size, spacing, accent color, language). Layout must be touch-friendly, responsive, and visually superior to Amazon with perfect balance of hierarchy, whitespace, and typography, i want it to be fitien into a row that has 3 colums on desktop and 2 colums on mobile
+    
+    if i click on Helpful , the number of people foundt his helpful will increase by 1
+    
+    if any field left empty - delete it and delete its padding
+    
+    give me options for the "Verifed" badge , i dont like the current sytle.
+    
+    the date i want it to be custom or selected "up to 120 days ago" but dont show 88 days ago rather show October 19, 2025
+    
+    i dont like the starts shape give me options, there is no space after the " On " for the date , if i put days ago the years gets wrong, on mobile it does not fit well 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-review-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    box-shadow: {{ block.settings.shadow_x }}px {{ block.settings.shadow_y }}px {{ block.settings.shadow_blur }}px {{ block.settings.shadow_color }};
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-review-card-header-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.header_gap }}px;
+  }
+
+  .ai-review-card-avatar-{{ ai_gen_id }} {
+    width: {{ block.settings.avatar_size }}px;
+    height: {{ block.settings.avatar_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.avatar_bg_color }};
+    color: {{ block.settings.avatar_text_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: {{ block.settings.avatar_size | divided_by: 2.5 }}px;
+    flex-shrink: 0;
+  }
+
+  .ai-review-card-avatar-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .ai-review-card-user-info-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.badge_gap }}px;
+    flex-wrap: wrap;
+  }
+
+  .ai-review-card-name-{{ ai_gen_id }} {
+    font-weight: {{ block.settings.name_font_weight }};
+    font-size: {{ block.settings.name_font_size }}px;
+    color: {{ block.settings.name_color }};
+    margin: 0;
+  }
+
+  .ai-review-card-badge-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background-color: {{ block.settings.badge_bg_color }};
+    color: {{ block.settings.badge_text_color }};
+    padding: {{ block.settings.badge_padding_y }}px {{ block.settings.badge_padding_x }}px;
+    border-radius: {{ block.settings.badge_radius }}px;
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: {{ block.settings.badge_font_weight }};
+    border: {{ block.settings.badge_border_width }}px solid {{ block.settings.badge_border_color }};
+  }
+
+  .ai-review-card-badge-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.badge_icon_size }}px;
+    height: {{ block.settings.badge_icon_size }}px;
+  }
+
+  .ai-review-card-rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .ai-review-card-star-{{ ai_gen_id }} {
+    width: {{ block.settings.star_size }}px;
+    height: {{ block.settings.star_size }}px;
+    color: {{ block.settings.star_color }};
+  }
+
+  .ai-review-card-star-empty-{{ ai_gen_id }} {
+    color: {{ block.settings.star_empty_color }};
+  }
+
+  .ai-review-card-title-{{ ai_gen_id }} {
+    font-weight: {{ block.settings.title_font_weight }};
+    font-size: {{ block.settings.title_font_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ai-review-card-metadata-{{ ai_gen_id }} {
+    font-size: {{ block.settings.metadata_font_size }}px;
+    color: {{ block.settings.metadata_color }};
+    line-height: 1.5;
+  }
+
+  .ai-review-card-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_font_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: {{ block.settings.text_line_height }};
+    margin: 0;
+  }
+
+  .ai-review-card-variants-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: {{ block.settings.variant_gap }}px;
+  }
+
+  .ai-review-card-variant-tag-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: {{ block.settings.variant_padding_y }}px {{ block.settings.variant_padding_x }}px;
+    background-color: {{ block.settings.variant_bg_color }};
+    color: {{ block.settings.variant_text_color }};
+    border-radius: {{ block.settings.variant_radius }}px;
+    font-size: {{ block.settings.variant_font_size }}px;
+    border: {{ block.settings.variant_border_width }}px solid {{ block.settings.variant_border_color }};
+  }
+
+  .ai-review-card-variant-label-{{ ai_gen_id }} {
+    font-weight: 600;
+  }
+
+  .ai-review-card-images-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.image_gap }}px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .ai-review-card-images-{{ ai_gen_id }}::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .ai-review-card-images-{{ ai_gen_id }}::-webkit-scrollbar-thumb {
+    background-color: {{ block.settings.metadata_color }};
+    border-radius: 2px;
+  }
+
+  .ai-review-card-image-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.image_size }}px;
+    height: {{ block.settings.image_size }}px;
+    border-radius: {{ block.settings.image_radius }}px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .ai-review-card-image-{{ ai_gen_id }}:hover {
+    transform: scale(1.05);
+  }
+
+  .ai-review-card-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-review-card-footer-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: {{ block.settings.footer_gap }}px;
+    padding-top: {{ block.settings.footer_padding }}px;
+    border-top: {{ block.settings.footer_border_width }}px solid {{ block.settings.footer_border_color }};
+    margin-top: auto;
+  }
+
+  .ai-review-card-actions-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.button_gap }}px;
+  }
+
+  .ai-review-card-button-{{ ai_gen_id }} {
+    padding: {{ block.settings.button_padding_y }}px {{ block.settings.button_padding_x }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+    border-radius: {{ block.settings.button_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .ai-review-card-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+  }
+
+  .ai-review-card-button-{{ ai_gen_id }}:active {
+    transform: scale(0.98);
+  }
+
+  .ai-review-card-helpful-{{ ai_gen_id }} {
+    font-size: {{ block.settings.helpful_font_size }}px;
+    color: {{ block.settings.helpful_color }};
+  }
+
+  .ai-review-card-spacer-{{ ai_gen_id }} {
+    height: {{ block.settings.section_spacing }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-review-card-{{ ai_gen_id }} {
+      padding: {{ block.settings.card_padding | times: 0.75 }}px;
+    }
+
+    .ai-review-card-header-{{ ai_gen_id }} {
+      gap: {{ block.settings.header_gap | times: 0.75 }}px;
+    }
+
+    .ai-review-card-avatar-{{ ai_gen_id }} {
+      width: {{ block.settings.avatar_size | times: 0.85 }}px;
+      height: {{ block.settings.avatar_size | times: 0.85 }}px;
+      font-size: {{ block.settings.avatar_size | divided_by: 2.5 | times: 0.85 }}px;
+    }
+
+    .ai-review-card-name-{{ ai_gen_id }} {
+      font-size: {{ block.settings.name_font_size | times: 0.9 }}px;
+    }
+
+    .ai-review-card-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | times: 0.9 }}px;
+    }
+
+    .ai-review-card-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_font_size | times: 0.95 }}px;
+    }
+
+    .ai-review-card-metadata-{{ ai_gen_id }} {
+      font-size: {{ block.settings.metadata_font_size | times: 0.9 }}px;
+    }
+
+    .ai-review-card-footer-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .ai-review-card-spacer-{{ ai_gen_id }} {
+      height: {{ block.settings.section_spacing | times: 0.75 }}px;
+    }
+  }
+{% endstyle %}
+
+<review-card-{{ ai_gen_id }} class="ai-review-card-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-review-card-header-{{ ai_gen_id }}">
+    {% if block.settings.avatar_image or block.settings.customer_name != blank %}
+      <div class="ai-review-card-avatar-{{ ai_gen_id }}">
+        {% if block.settings.avatar_image %}
+          <img
+            src="{{ block.settings.avatar_image | image_url: width: 200 }}"
+            alt="{{ block.settings.customer_name | escape }}"
+            loading="lazy"
+            width="200"
+            height="200"
+          >
+        {% else %}
+          {{ block.settings.customer_name | slice: 0 | upcase }}
+        {% endif %}
+      </div>
+    {% endif %}
+    <div class="ai-review-card-user-info-{{ ai_gen_id }}">
+      {% if block.settings.customer_name != blank %}
+        <h3 class="ai-review-card-name-{{ ai_gen_id }}">{{ block.settings.customer_name }}</h3>
+      {% endif %}
+      {% if block.settings.show_verified_badge %}
+        <span class="ai-review-card-badge-{{ ai_gen_id }}">
+          {% if block.settings.badge_style == 'checkmark_circle' %}
+            <svg class="ai-review-card-badge-icon-{{ ai_gen_id }}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 8L7 10L11 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% elsif block.settings.badge_style == 'shield' %}
+            <svg class="ai-review-card-badge-icon-{{ ai_gen_id }}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1L3 3V7C3 10.5 5.5 13.5 8 15C10.5 13.5 13 10.5 13 7V3L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 8L7.5 9.5L10.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% elsif block.settings.badge_style == 'badge' %}
+            <svg class="ai-review-card-badge-icon-{{ ai_gen_id }}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1L9.5 3.5L12.5 4L10.5 6.5L11 9.5L8 8L5 9.5L5.5 6.5L3.5 4L6.5 3.5L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 7L7 8L9.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% else %}
+            <svg class="ai-review-card-badge-icon-{{ ai_gen_id }}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 8L6.5 10.5L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% endif %}
+          {{ block.settings.verified_text }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if block.settings.customer_name != blank or block.settings.avatar_image or block.settings.show_verified_badge %}
+    <div class="ai-review-card-spacer-{{ ai_gen_id }}"></div>
+  {% endif %}
+
+  <div class="ai-review-card-rating-{{ ai_gen_id }}">
+    {% for i in (1..5) %}
+      {% if i <= block.settings.rating %}
+        {% if block.settings.star_style == 'circle' %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="8"/>
+          </svg>
+        {% elsif block.settings.star_style == 'heart' %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 17.5L8.5 16.2C4 12.2 1 9.5 1 6.3C1 3.6 3.1 1.5 5.8 1.5C7.4 1.5 9 2.2 10 3.4C11 2.2 12.6 1.5 14.2 1.5C16.9 1.5 19 3.6 19 6.3C19 9.5 16 12.2 11.5 16.2L10 17.5Z"/>
+          </svg>
+        {% elsif block.settings.star_style == 'rounded_star' %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2C10 2 11.5 6.5 12 8C13.5 8.5 18 10 18 10C18 10 13.5 11.5 12 12C11.5 13.5 10 18 10 18C10 18 8.5 13.5 8 12C6.5 11.5 2 10 2 10C2 10 6.5 8.5 8 8C8.5 6.5 10 2 10 2Z"/>
+          </svg>
+        {% elsif block.settings.star_style == 'diamond' %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2L14 10L10 18L6 10L10 2Z"/>
+          </svg>
+        {% else %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 1L12.5 6.5L18.5 7.5L14.25 11.5L15.5 17.5L10 14.5L4.5 17.5L5.75 11.5L1.5 7.5L7.5 6.5L10 1Z"/>
+          </svg>
+        {% endif %}
+      {% else %}
+        {% if block.settings.star_style == 'circle' %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }} ai-review-card-star-empty-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="8"/>
+          </svg>
+        {% elsif block.settings.star_style == 'heart' %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }} ai-review-card-star-empty-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 17.5L8.5 16.2C4 12.2 1 9.5 1 6.3C1 3.6 3.1 1.5 5.8 1.5C7.4 1.5 9 2.2 10 3.4C11 2.2 12.6 1.5 14.2 1.5C16.9 1.5 19 3.6 19 6.3C19 9.5 16 12.2 11.5 16.2L10 17.5Z"/>
+          </svg>
+        {% elsif block.settings.star_style == 'rounded_star' %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }} ai-review-card-star-empty-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2C10 2 11.5 6.5 12 8C13.5 8.5 18 10 18 10C18 10 13.5 11.5 12 12C11.5 13.5 10 18 10 18C10 18 8.5 13.5 8 12C6.5 11.5 2 10 2 10C2 10 6.5 8.5 8 8C8.5 6.5 10 2 10 2Z"/>
+          </svg>
+        {% elsif block.settings.star_style == 'diamond' %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }} ai-review-card-star-empty-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2L14 10L10 18L6 10L10 2Z"/>
+          </svg>
+        {% else %}
+          <svg class="ai-review-card-star-{{ ai_gen_id }} ai-review-card-star-empty-{{ ai_gen_id }}" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 1L12.5 6.5L18.5 7.5L14.25 11.5L15.5 17.5L10 14.5L4.5 17.5L5.75 11.5L1.5 7.5L7.5 6.5L10 1Z"/>
+          </svg>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="ai-review-card-spacer-{{ ai_gen_id }}"></div>
+
+  {% if block.settings.review_title != blank %}
+    <h4 class="ai-review-card-title-{{ ai_gen_id }}">{{ block.settings.review_title }}</h4>
+    <div class="ai-review-card-spacer-{{ ai_gen_id }}"></div>
+  {% endif %}
+
+  {% if block.settings.show_date %}
+    <div class="ai-review-card-metadata-{{ ai_gen_id }}">
+      {% if block.settings.date_type == 'custom' %}
+        {% if block.settings.review_location_text != blank %}{{ block.settings.review_location_text }} {% endif %}{{ block.settings.custom_date }}{% if block.settings.show_verified_purchase %} | {{ block.settings.verified_purchase_text }}{% endif %}
+      {% else %}
+        {% assign days_ago = block.settings.days_ago | plus: 0 %}
+        {% if days_ago > 120 %}
+          {% assign days_ago = 120 %}
+        {% endif %}
+        {% assign seconds_ago = days_ago | times: 86400 %}
+        {% assign current_timestamp = 'now' | date: '%s' | plus: 0 %}
+        {% assign review_timestamp = current_timestamp | minus: seconds_ago %}
+        {% assign formatted_date = review_timestamp | date: '%B %d, %Y' %}
+        {% if block.settings.review_location_text != blank %}{{ block.settings.review_location_text }} {% endif %}{{ formatted_date }}{% if block.settings.show_verified_purchase %} | {{ block.settings.verified_purchase_text }}{% endif %}
+      {% endif %}
+    </div>
+    <div class="ai-review-card-spacer-{{ ai_gen_id }}"></div>
+  {% endif %}
+
+  {% if block.settings.review_text != blank %}
+    <p class="ai-review-card-text-{{ ai_gen_id }}">{{ block.settings.review_text }}</p>
+    <div class="ai-review-card-spacer-{{ ai_gen_id }}"></div>
+  {% endif %}
+
+  {% if block.settings.show_variant_tags and block.settings.variant_1_label != blank and block.settings.variant_1_value != blank %}
+    <div class="ai-review-card-variants-{{ ai_gen_id }}">
+      {% if block.settings.variant_1_label != blank and block.settings.variant_1_value != blank %}
+        <div class="ai-review-card-variant-tag-{{ ai_gen_id }}">
+          <span class="ai-review-card-variant-label-{{ ai_gen_id }}">{{ block.settings.variant_1_label }}:</span>
+          <span>{{ block.settings.variant_1_value }}</span>
+        </div>
+      {% endif %}
+      {% if block.settings.variant_2_label != blank and block.settings.variant_2_value != blank %}
+        <div class="ai-review-card-variant-tag-{{ ai_gen_id }}">
+          <span class="ai-review-card-variant-label-{{ ai_gen_id }}">{{ block.settings.variant_2_label }}:</span>
+          <span>{{ block.settings.variant_2_value }}</span>
+        </div>
+      {% endif %}
+      {% if block.settings.variant_3_label != blank and block.settings.variant_3_value != blank %}
+        <div class="ai-review-card-variant-tag-{{ ai_gen_id }}">
+          <span class="ai-review-card-variant-label-{{ ai_gen_id }}">{{ block.settings.variant_3_label }}:</span>
+          <span>{{ block.settings.variant_3_value }}</span>
+        </div>
+      {% endif %}
+    </div>
+    <div class="ai-review-card-spacer-{{ ai_gen_id }}"></div>
+  {% endif %}
+
+  {% if block.settings.show_images and block.settings.review_image_1 %}
+    <div class="ai-review-card-images-{{ ai_gen_id }}">
+      {% if block.settings.review_image_1 %}
+        <div class="ai-review-card-image-{{ ai_gen_id }}">
+          <img
+            src="{{ block.settings.review_image_1 | image_url: width: 400 }}"
+            alt="{{ block.settings.review_title | escape }}"
+            loading="lazy"
+            width="400"
+            height="400"
+          >
+        </div>
+      {% endif %}
+      {% if block.settings.review_image_2 %}
+        <div class="ai-review-card-image-{{ ai_gen_id }}">
+          <img
+            src="{{ block.settings.review_image_2 | image_url: width: 400 }}"
+            alt="{{ block.settings.review_title | escape }}"
+            loading="lazy"
+            width="400"
+            height="400"
+          >
+        </div>
+      {% endif %}
+      {% if block.settings.review_image_3 %}
+        <div class="ai-review-card-image-{{ ai_gen_id }}">
+          <img
+            src="{{ block.settings.review_image_3 | image_url: width: 400 }}"
+            alt="{{ block.settings.review_title | escape }}"
+            loading="lazy"
+            width="400"
+            height="400"
+          >
+        </div>
+      {% endif %}
+      {% if block.settings.review_image_4 %}
+        <div class="ai-review-card-image-{{ ai_gen_id }}">
+          <img
+            src="{{ block.settings.review_image_4 | image_url: width: 400 }}"
+            alt="{{ block.settings.review_title | escape }}"
+            loading="lazy"
+            width="400"
+            height="400"
+          >
+        </div>
+      {% endif %}
+    </div>
+    <div class="ai-review-card-spacer-{{ ai_gen_id }}"></div>
+  {% endif %}
+
+  <div class="ai-review-card-footer-{{ ai_gen_id }}">
+    <div class="ai-review-card-actions-{{ ai_gen_id }}">
+      <button 
+        class="ai-review-card-button-{{ ai_gen_id }}" 
+        data-helpful-button
+        aria-label="{{ block.settings.helpful_button_text }}"
+      >
+        {{ block.settings.helpful_button_text }}
+      </button>
+      <button class="ai-review-card-button-{{ ai_gen_id }}" aria-label="{{ block.settings.report_button_text }}">
+        {{ block.settings.report_button_text }}
+      </button>
+    </div>
+    {% if block.settings.show_helpful_count %}
+      <div class="ai-review-card-helpful-{{ ai_gen_id }}" data-helpful-count>
+        <span data-count>{{ block.settings.helpful_count }}</span> {{ block.settings.helpful_count_text }}
+      </div>
+    {% endif %}
+  </div>
+</review-card-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ReviewCard{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.helpfulButton = this.querySelector('[data-helpful-button]');
+        this.helpfulCountElement = this.querySelector('[data-count]');
+        this.hasVoted = false;
+      }
+
+      connectedCallback() {
+        if (this.helpfulButton) {
+          this.helpfulButton.addEventListener('click', this.handleHelpfulClick.bind(this));
+        }
+      }
+
+      handleHelpfulClick() {
+        if (this.hasVoted) return;
+        
+        this.hasVoted = true;
+        
+        if (this.helpfulCountElement) {
+          const currentCount = parseInt(this.helpfulCountElement.textContent) || 0;
+          this.helpfulCountElement.textContent = currentCount + 1;
+        }
+        
+        this.helpfulButton.style.opacity = '0.6';
+        this.helpfulButton.style.cursor = 'default';
+      }
+    }
+
+    customElements.define('review-card-{{ ai_gen_id }}', ReviewCard{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product review card",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Review content"
+    },
+    {
+      "type": "text",
+      "id": "customer_name",
+      "label": "Customer name",
+      "default": "Sarah Johnson"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_image",
+      "label": "Avatar image"
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Star rating",
+      "default": 5
+    },
+    {
+      "type": "select",
+      "id": "star_style",
+      "label": "Star style",
+      "options": [
+        { "value": "star", "label": "Star" },
+        { "value": "circle", "label": "Circle" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "rounded_star", "label": "Rounded star" },
+        { "value": "diamond", "label": "Diamond" }
+      ],
+      "default": "star"
+    },
+    {
+      "type": "text",
+      "id": "review_title",
+      "label": "Review title",
+      "default": "Absolutely love this product!"
+    },
+    {
+      "type": "textarea",
+      "id": "review_text",
+      "label": "Review text",
+      "default": "This product exceeded all my expectations. The quality is outstanding and it works exactly as described. I've been using it for a few weeks now and couldn't be happier with my purchase. Highly recommend to anyone looking for a reliable solution."
+    },
+    {
+      "type": "header",
+      "content": "Review date"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "date_type",
+      "label": "Date type",
+      "options": [
+        { "value": "custom", "label": "Custom date" },
+        { "value": "days_ago", "label": "Days ago" }
+      ],
+      "default": "custom"
+    },
+    {
+      "type": "text",
+      "id": "custom_date",
+      "label": "Custom date",
+      "default": "October 19, 2025"
+    },
+    {
+      "type": "text",
+      "id": "days_ago",
+      "label": "Days ago (1-120)",
+      "default": "15"
+    },
+    {
+      "type": "text",
+      "id": "review_location_text",
+      "label": "Location text",
+      "default": "Reviewed in United States on"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_purchase",
+      "label": "Show verified purchase",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "verified_purchase_text",
+      "label": "Verified purchase text",
+      "default": "Verified Purchase"
+    },
+    {
+      "type": "header",
+      "content": "Verified badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_badge",
+      "label": "Show verified badge",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "badge_style",
+      "label": "Badge style",
+      "options": [
+        { "value": "checkmark", "label": "Checkmark" },
+        { "value": "checkmark_circle", "label": "Checkmark circle" },
+        { "value": "shield", "label": "Shield" },
+        { "value": "badge", "label": "Badge star" }
+      ],
+      "default": "checkmark"
+    },
+    {
+      "type": "text",
+      "id": "verified_text",
+      "label": "Verified text",
+      "default": "Verified"
+    },
+    {
+      "type": "header",
+      "content": "Variant tags"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_tags",
+      "label": "Show variant tags",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "variant_1_label",
+      "label": "Variant 1 label",
+      "default": "Color"
+    },
+    {
+      "type": "text",
+      "id": "variant_1_value",
+      "label": "Variant 1 value",
+      "default": "Black"
+    },
+    {
+      "type": "text",
+      "id": "variant_2_label",
+      "label": "Variant 2 label",
+      "default": "Size"
+    },
+    {
+      "type": "text",
+      "id": "variant_2_value",
+      "label": "Variant 2 value",
+      "default": "Medium"
+    },
+    {
+      "type": "text",
+      "id": "variant_3_label",
+      "label": "Variant 3 label"
+    },
+    {
+      "type": "text",
+      "id": "variant_3_value",
+      "label": "Variant 3 value"
+    },
+    {
+      "type": "header",
+      "content": "Review images"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_images",
+      "label": "Show images",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "review_image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_image_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "helpful_button_text",
+      "label": "Helpful button text",
+      "default": "Helpful"
+    },
+    {
+      "type": "text",
+      "id": "report_button_text",
+      "label": "Report button text",
+      "default": "Report"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_helpful_count",
+      "label": "Show helpful count",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "helpful_count",
+      "label": "Initial helpful count",
+      "default": "13"
+    },
+    {
+      "type": "text",
+      "id": "helpful_count_text",
+      "label": "Helpful count text",
+      "default": "people found this helpful"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "shadow_x",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Shadow X offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "shadow_y",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Shadow Y offset",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow blur",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow color",
+      "default": "#00000014"
+    },
+    {
+      "type": "header",
+      "content": "Avatar"
+    },
+    {
+      "type": "range",
+      "id": "avatar_size",
+      "min": 32,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Size",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "avatar_bg_color",
+      "label": "Background",
+      "default": "#223edc"
+    },
+    {
+      "type": "color",
+      "id": "avatar_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Customer name"
+    },
+    {
+      "type": "range",
+      "id": "name_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "name_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Verified badge style"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Background",
+      "default": "#223edc"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_border_color",
+      "label": "Border",
+      "default": "#223edc"
+    },
+    {
+      "type": "range",
+      "id": "badge_border_width",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "badge_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "badge_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "badge_icon_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_x",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_y",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Star rating"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Star size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFA500"
+    },
+    {
+      "type": "color",
+      "id": "star_empty_color",
+      "label": "Empty star color",
+      "default": "#E0E0E0"
+    },
+    {
+      "type": "header",
+      "content": "Review title"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Metadata"
+    },
+    {
+      "type": "range",
+      "id": "metadata_font_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "metadata_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Review text"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height",
+      "default": 1.6
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Variant tags"
+    },
+    {
+      "type": "color",
+      "id": "variant_bg_color",
+      "label": "Background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "variant_text_color",
+      "label": "Text",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "variant_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "variant_border_width",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "variant_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "variant_font_size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "variant_padding_x",
+      "min": 8,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "variant_padding_y",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Review images"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "min": 60,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Image size",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Footer buttons"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Hover border",
+      "default": "#d0d0d0"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_x",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_padding_y",
+      "min": 6,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "button_gap",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Helpful count"
+    },
+    {
+      "type": "range",
+      "id": "helpful_font_size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "helpful_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Footer style"
+    },
+    {
+      "type": "color",
+      "id": "footer_border_color",
+      "label": "Border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "footer_border_width",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "footer_padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "footer_gap",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_spacing",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Section spacing",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "header_gap",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Header gap",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "badge_gap",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge gap",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product review card"
+    }
+  ]
+}
+{% endschema %}

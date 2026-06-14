@@ -1,0 +1,1461 @@
+{% doc %}
+  @prompt
+    CREAT COMPARISON TABLE WITH APILITY TO ADD MORE COLUMNS AND RAWS, WITH APILITY TO ADD IMAGES ON THE FIRST RAW. I WANT FULL CONTROL OF EACH CELLAND EVERY CELL HASE TEXT, i want the ability to change each column color not the rows . make border radios for the table .also make mobile responsive, Compare The Difference" banner exactly** as shown:
+    
+    ---
+    
+    ### ✅ Prompt to Recreate Comparison Table Banner in Shopify
+    
+    > Create a **responsive comparison table section** with the following structure and features, exactly matching the uploaded image design:
+    >
+    > ---
+    >
+    > **Header Section:**
+    >
+    > * Title: `Compare The Difference`
+    > * Subtitle: `The #1 Most Reviewed Head Shaver`
+    > * Center-aligned, bold typography for title and smaller font for subtitle
+    >
+    > ---
+    >
+    > **Comparison Table Structure:**
+    >
+    > * 3 columns:
+    >
+    >   1. **Freebird FlexSeries®** (highlighted with red border)
+    >   2. Pitbull Gold Pro GX5
+    >   3. Remington® Balder Boss
+    > * 8 rows:
+    >
+    >   1. Warranty (e.g., Lifetime, 1-Year, 5-Year)
+    >   2. Free Shipping (✅ or ❌)
+    >   3. Hair Clipper (FREE or ✕)
+    >   4. Nose Trimmer (FREE or ✕)
+    >   5. Exfoliate Brush (FREE or ✕)
+    >   6. Scalp Scrubber (FREE or ✕)
+    >   7. Replacement Blade Price (e.g., "\$17.95", "\$31.49", "\$20.99")
+    >   8. Total Price (e.g., "\$39.95", "\$99.89")
+    > * Bottom of first column:
+    >
+    >   * 5-Star rating (yellow stars)
+    >   * Text: `33,818 reviews`
+    >
+    > ---
+    >
+    > **Design Requirements:**
+    >
+    > * Highlight the **first product column** (Freebird) with:
+    >
+    >   * Red outline border
+    >   * Bold blue for “Lifetime”
+    >   * Red prices with strikethrough original price (e.g., “FREE ~~\$19.95~~”)
+    >   * Show check marks (✅) and X (✕) icons clearly
+    >   * Emphasize **price row** in red and bold
+    >   * Mobile-responsive stacked layout with swipe option for viewing columns
+    >
+    > ---
+    >
+    > **Admin Flexibility:**
+    >
+    > * Allow user to:
+    >
+    >   * Add/edit products (columns)
+    >   * Edit all text content
+    >   * Set icons (✅ or ✕)
+    >   * Toggle red border highlight per column
+    >   * Input discounted vs original pricing with strikethrough
+    >
+    > ---
+    >
+    > **Output this as a reusable section** in Shopify 2.0 compatible Liquid + CSS format., add the ability to change the word reveiws, Make Element Full Width ,
+    
+    Change the Check mark icon and make it more professional but keep it green.
+    
+    Add abilty to add image in the Sell.
+    
+    Add field "original Price" when selected Colutm type is "Free" , and ability to change the word "Free" 
+    
+    
+    give me ability to make the Highlighted column has a unique BG Color.   i want ful
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-comparison-banner-{{ ai_gen_id }} {
+    padding: 40px 0;
+    background-color: {{ block.settings.section_bg_color }};
+    text-align: center;width: 100%;
+  }
+
+  .ai-comparison-banner__container-{{ ai_gen_id }} {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-comparison-banner__header-{{ ai_gen_id }} {
+    margin-bottom: 40px;
+  }
+
+  .ai-comparison-banner__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_font_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+  }
+
+  .ai-comparison-banner__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_font_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .ai-comparison-banner__table-wrapper-{{ ai_gen_id }} {
+    overflow-x: auto;
+    margin: 0 auto;
+    width: 100%;border-radius: {{ block.settings.table_border_radius }}px;
+    box-shadow: {{ block.settings.table_shadow_x }}px {{ block.settings.table_shadow_y }}px {{ block.settings.table_shadow_blur }}px {{ block.settings.table_shadow_color }};
+    background-color: {{ block.settings.table_bg_color }};
+  }
+
+  .ai-comparison-banner__table-{{ ai_gen_id }} {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: {{ block.settings.table_bg_color }};min-width: 600px;
+    border: {{ block.settings.table_border_width }}px solid {{ block.settings.table_border_color }};border-radius: {{ block.settings.table_border_radius }}px;
+  }
+
+  .ai-comparison-banner__image-row-{{ ai_gen_id }} {
+    background-color: {{ block.settings.image_row_bg_color }};
+  }
+
+  .ai-comparison-banner__image-cell-{{ ai_gen_id }} {
+    padding: 20px 15px;
+    border-bottom: 1px solid {{ block.settings.cell_border_color }};
+    border-left: 1px solid {{ block.settings.cell_border_color }};
+    border-right: 1px solid {{ block.settings.cell_border_color }};text-align: center;
+    vertical-align: middle;
+  }
+
+  .ai-comparison-banner__image-cell-{{ ai_gen_id }}.highlighted {
+    background-color: {{ block.settings.highlighted_column_bg }};
+    border-left-color: {{ block.settings.highlight_border_color }};
+    border-right-color: {{ block.settings.highlight_border_color }};
+    border-left-width: 3px;
+    border-right-width: 3px;
+  }
+
+  .ai-comparison-banner__product-image-{{ ai_gen_id }} {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ai-comparison-banner__product-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-comparison-banner__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .ai-comparison-banner__image-placeholder-{{ ai_gen_id }} svg {
+    width: 60px;
+    height: 60px;
+    opacity: 0.5;
+  }
+
+  .ai-comparison-banner__header-cell-{{ ai_gen_id }} {
+    padding: 20px 15px;
+    background-color: {{ block.settings.header_bg_color }};
+    border:2px solid transparent;
+    border-bottom: 1px solid {{ block.settings.cell_border_color }};
+    border-left: 1px solid {{ block.settings.cell_border_color }};
+    border-right: 1px solid {{ block.settings.cell_border_color }};
+    position: relative;
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .ai-comparison-banner__header-cell-{{ ai_gen_id }}.highlighted {
+    background-color: {{ block.settings.highlighted_column_bg }};
+    border-color: {{ block.settings.highlight_border_color }};
+    border-width: 3px;border-bottom-width: 1px;
+  }
+
+  .ai-comparison-banner__product-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_name_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.product_name_color }};
+    margin: 0 0 15px 0;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .ai-comparison-banner__rating-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-comparison-banner__stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: 2px;
+  }
+
+  .ai-comparison-banner__star-{{ ai_gen_id }} {
+    color: {{ block.settings.star_color }};
+    font-size: 18px;
+  }
+
+  .ai-comparison-banner__reviews-{{ ai_gen_id }} {
+    font-size:12px;
+    color: {{ block.settings.reviews_text_color }};
+    font-weight: 500;
+  }
+
+  .ai-comparison-banner__cell-{{ ai_gen_id }} {
+    padding: 15px;
+    border-bottom: 1px solid {{ block.settings.cell_border_color }};
+    border-left: 1px solid {{ block.settings.cell_border_color }};
+    border-right: 1px solid {{ block.settings.cell_border_color }};
+    text-align: center;
+    vertical-align: middle;
+    font-size: {{ block.settings.cell_font_size }}px;
+    position: relative;
+    background-color: {{ block.settings.table_bg_color }};
+  }
+
+  .ai-comparison-banner__cell-{{ ai_gen_id }}.highlighted {
+    background-color: {{ block.settings.highlighted_column_bg }};
+    border-left-color: {{ block.settings.highlight_border_color }};
+    border-right-color: {{ block.settings.highlight_border_color }};
+    border-left-width: 3px;
+    border-right-width: 3px;
+  }
+
+  .ai-comparison-banner__cell-{{ ai_gen_id }}:last-child.highlighted {
+    border-bottom-color: {{ block.settings.highlight_border_color }};border-bottom-width: 3px;
+  }
+
+  .ai-comparison-banner__feature-label-{{ ai_gen_id }} {
+    font-weight: 600;
+    color: {{ block.settings.feature_label_color }};
+    background-color: {{ block.settings.feature_bg_color }};
+    padding: 15px;
+    border-bottom: 1px solid {{ block.settings.cell_border_color }};
+    border-left: {{ block.settings.table_border_width }}px solid {{ block.settings.table_border_color }};
+    text-align: left;
+    font-size: {{ block.settings.cell_font_size }}px;
+  }
+
+  .ai-comparison-banner__warranty-{{ ai_gen_id }} {
+    font-weight: 700;
+    color: {{ block.settings.warranty_highlight_color }};
+    font-size: 16px;
+  }
+
+  .ai-comparison-banner__check-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: {{ block.settings.check_color }};
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .ai-comparison-banner__cross-{{ ai_gen_id }} {
+    color: {{ block.settings.cross_color }};
+    font-size: 20px;
+    font-weight: bold;}
+
+  .ai-comparison-banner__price-{{ ai_gen_id }} {
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .ai-comparison-banner__price-highlighted-{{ ai_gen_id }} {
+    color: {{ block.settings.price_highlight_color }};}
+
+  .ai-comparison-banner__price-original-{{ ai_gen_id }} {
+    text-decoration: line-through;
+    color: {{ block.settings.original_price_color }};
+    font-size: 14px;
+    margin-left: 5px;
+  }
+
+  .ai-comparison-banner__free-text-{{ ai_gen_id }} {
+    color: {{ block.settings.free_text_color }};
+    font-weight: 700;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-comparison-banner-{{ ai_gen_id }} {
+      padding: 30px 0;
+    }
+
+    .ai-comparison-banner__container-{{ ai_gen_id }} {
+      padding: 0 15px;
+    }
+
+    .ai-comparison-banner__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | minus: 6 }}px;
+    }
+
+    .ai-comparison-banner__subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_font_size | minus: 2 }}px;
+    }
+
+    .ai-comparison-banner__table-{{ ai_gen_id }} {
+      min-width: 500px;
+    }
+
+    .ai-comparison-banner__header-cell-{{ ai_gen_id }},
+    .ai-comparison-banner__cell-{{ ai_gen_id }},
+    .ai-comparison-banner__image-cell-{{ ai_gen_id }} {
+      padding: 12px 8px;
+    }
+
+    .ai-comparison-banner__product-name-{{ ai_gen_id }} {
+      font-size: {{ block.settings.product_name_size | minus: 2 }}px;
+    }
+
+    .ai-comparison-banner__cell-{{ ai_gen_id }},
+    .ai-comparison-banner__feature-label-{{ ai_gen_id }} {
+      font-size: {{ block.settings.cell_font_size | minus: 2 }}px;
+    }
+
+    .ai-comparison-banner__product-image-{{ ai_gen_id }} {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .ai-comparison-banner__table-{{ ai_gen_id }} {
+      min-width: 400px;
+    }
+
+    .ai-comparison-banner__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | minus: 10 }}px;
+    }
+
+    .ai-comparison-banner__header-cell-{{ ai_gen_id }},
+    .ai-comparison-banner__cell-{{ ai_gen_id }},
+    .ai-comparison-banner__image-cell-{{ ai_gen_id }} {
+      padding: 10px 6px;
+    }
+
+    .ai-comparison-banner__product-image-{{ ai_gen_id }} {
+      width: 60px;
+      height: 60px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-comparison-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-comparison-banner__container-{{ ai_gen_id }}">
+    <div class="ai-comparison-banner__header-{{ ai_gen_id }}">
+      {% if block.settings.main_title != blank %}
+        <h2 class="ai-comparison-banner__title-{{ ai_gen_id }}">{{ block.settings.main_title }}</h2>
+      {% endif %}
+      {% if block.settings.subtitle != blank %}
+        <p class="ai-comparison-banner__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="ai-comparison-banner__table-wrapper-{{ ai_gen_id }}">
+      <table class="ai-comparison-banner__table-{{ ai_gen_id }}">
+        {% if block.settings.show_image_row %}
+          <tr class="ai-comparison-banner__image-row-{{ ai_gen_id }}">
+            <td class="ai-comparison-banner__feature-label-{{ ai_gen_id }}"></td>
+            {% for i in (1..3) %}
+              {% assign product_image_key = 'product_' | append: i | append: '_image' %}
+              {% assign highlight_key = 'product_' | append: i | append: '_highlight' %}
+              <td class="ai-comparison-banner__image-cell-{{ ai_gen_id }} {% if block.settings[highlight_key] %}highlighted{% endif %}">
+                <div class="ai-comparison-banner__product-image-{{ ai_gen_id }}">
+                  {% if block.settings[product_image_key] %}
+                    <img
+                      src="{{ block.settings[product_image_key] | image_url: width: 200 }}"
+                      alt="{{ block.settings[product_image_key].alt | escape }}"
+                      loading="lazy"
+                      width="200"
+                      height="200"
+                    >
+                  {% else %}
+                    <div class="ai-comparison-banner__image-placeholder-{{ ai_gen_id }}">
+                      {{ 'product-1' | placeholder_svg_tag }}
+                    </div>
+                  {% endif %}
+                </div>
+              </td>
+            {% endfor %}
+          </tr>
+        {% endif %}
+
+        <thead>
+          <tr>
+            <th class="ai-comparison-banner__feature-label-{{ ai_gen_id }}"></th>
+            {% for i in (1..3) %}
+              {% assign product_name_key = 'product_' | append: i | append: '_name' %}
+              {% assign highlight_key = 'product_' | append: i | append: '_highlight' %}
+              {% assign show_rating_key = 'product_' | append: i | append: '_show_rating' %}
+              {% assign rating_count_key = 'product_' | append: i | append: '_rating_count' %}
+              
+              <th class="ai-comparison-banner__header-cell-{{ ai_gen_id }} {% if block.settings[highlight_key] %}highlighted{% endif %}">
+                <div class="ai-comparison-banner__product-name-{{ ai_gen_id }}">
+                  {{ block.settings[product_name_key] }}
+                </div>
+                {% if block.settings[show_rating_key] %}
+                  <div class="ai-comparison-banner__rating-{{ ai_gen_id }}">
+                    <div class="ai-comparison-banner__stars-{{ ai_gen_id }}">
+                      {% for star in (1..5) %}
+                        <span class="ai-comparison-banner__star-{{ ai_gen_id }}">★</span>
+                      {% endfor %}
+                    </div>
+                    <div class="ai-comparison-banner__reviews-{{ ai_gen_id }}">
+                      {{ block.settings[rating_count_key] }} {{ block.settings.reviews_text }}
+                    </div>
+                  </div>
+                {% endif %}
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row_num in (1..6) %}
+            {% assign row_feature_key = 'row_' | append: row_num | append: '_feature' %}
+            <tr>
+              <td class="ai-comparison-banner__feature-label-{{ ai_gen_id }}">
+                {{ block.settings[row_feature_key] }}
+              </td>
+              {% for col in (1..3) %}
+                {% assign cell_key = 'row_' | append: row_num | append: '_col_' | append: col %}
+                {% assign cell_type_key = 'row_' | append: row_num | append: '_col_' | append: col | append: '_type' %}
+                {% assign original_price_key = 'row_' | append: row_num | append: '_col_' | append: col | append: '_original' %}
+                {% assign free_text_key = 'row_' | append: row_num | append: '_col_' | append: col | append: '_free_text' %}
+                {% assign highlight_key = 'product_' | append: col | append: '_highlight' %}
+                
+                <td class="ai-comparison-banner__cell-{{ ai_gen_id }} {% if block.settings[highlight_key] %}highlighted{% endif %}">
+                  {% assign cell_type = block.settings[cell_type_key] %}
+                  {% assign cell_content = block.settings[cell_key] %}
+                  {% assign original_price = block.settings[original_price_key] %}
+                  {% assign free_text = block.settings[free_text_key] %}
+                  {% case cell_type %}
+                    {% when 'check' %}
+                      <span class="ai-comparison-banner__check-{{ ai_gen_id }}">✓</span>
+                    {% when 'cross' %}
+                      <span class="ai-comparison-banner__cross-{{ ai_gen_id }}">✕</span>
+                    {% when 'warranty' %}
+                      <span class="ai-comparison-banner__warranty-{{ ai_gen_id }}">{{ cell_content }}</span>
+                    {% when 'price' %}
+                      <span class="ai-comparison-banner__price-{{ ai_gen_id }} {% if block.settings[highlight_key] %}ai-comparison-banner__price-highlighted-{{ ai_gen_id }}{% endif %}">
+                        {{ cell_content }}
+                        {% if original_price != blank %}
+                          <span class="ai-comparison-banner__price-original-{{ ai_gen_id }}">{{ original_price }}</span>
+                        {% endif %}
+                      </span>
+                    {% when 'free' %}
+                      <span class="ai-comparison-banner__free-text-{{ ai_gen_id }}">
+                        {% if free_text != blank %}{{ free_text }}{% else %}FREE{% endif %}
+                {% if original_price != blank %}
+                          <span class="ai-comparison-banner__price-original-{{ ai_gen_id }}">{{ original_price }}</span>
+                        {% endif %}
+                      </span>
+                    {% else %}
+                      {{ cell_content }}
+                  {% endcase %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Compare The Difference",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main title",
+      "default": "Compare The Difference"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "The #1 Most Reviewed Head Shaver"
+    },
+    {
+      "type": "header",
+      "content": "Product Images"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image_row",
+      "label": "Show product images",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "product_1_image",
+      "label": "Product 1 image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_2_image",
+      "label": "Product 2 image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_3_image",
+      "label": "Product 3 image"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "text",
+      "id": "product_1_name",
+      "label": "Product 1 name",
+      "default": "Freebird FlexSeries®"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_1_highlight",
+      "label": "Highlight product 1",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "product_1_show_rating",
+      "label": "Show rating for product 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_1_rating_count",
+      "label": "Product 1 review count",
+      "default": "33,818"
+    },
+    {
+      "type": "text",
+      "id": "reviews_text",
+      "label": "Reviews text",
+      "default": "reviews"
+    },
+    {
+      "type": "text",
+      "id": "product_2_name",
+      "label": "Product 2 name",
+      "default": "Pitbull Gold Pro GX5"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_2_highlight",
+      "label": "Highlight product 2",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "product_2_show_rating",
+      "label": "Show rating for product 2",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "product_2_rating_count",
+      "label": "Product 2 review count"
+    },
+    {
+      "type": "text",
+      "id": "product_3_name",
+      "label": "Product 3 name",
+      "default": "Remington® Balder Boss"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_3_highlight",
+      "label": "Highlight product 3",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "product_3_show_rating",
+      "label": "Show rating for product 3",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "product_3_rating_count",
+      "label": "Product 3 review count"
+    },
+    {
+      "type": "header",
+      "content": "Row1"
+    },
+    {
+      "type": "text",
+      "id": "row_1_feature",
+      "label": "Feature name",
+      "default": "Warranty"
+    },
+    {
+      "type": "select",
+      "id": "row_1_col_1_type",
+      "label": "Column 1 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "warranty"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_1",
+      "label": "Column 1 content",
+      "default": "Lifetime"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_1_original",
+      "label": "Column 1 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_1_free_text",
+      "label": "Column 1 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_1_col_2_type",
+      "label": "Column 2 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "warranty"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_2",
+      "label": "Column 2 content",
+      "default": "1-Year"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_2_original",
+      "label": "Column 2 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_2_free_text",
+      "label": "Column 2 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_1_col_3_type",
+      "label": "Column 3 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "warranty"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_3",
+      "label": "Column 3 content",
+      "default": "5-Year"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_3_original",
+      "label": "Column 3 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_3_free_text",
+      "label": "Column 3 free text"
+    },
+    {
+      "type": "header",
+      "content": "Row 2"
+    },
+    {
+      "type": "text",
+      "id": "row_2_feature",
+      "label": "Feature name",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "select",
+      "id": "row_2_col_1_type",
+      "label": "Column 1 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "check"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_1",
+      "label": "Column 1 content"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_1_original",
+      "label": "Column 1 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_1_free_text",
+      "label": "Column 1 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_2_col_2_type",
+      "label": "Column 2 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "check"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_2",
+      "label": "Column 2 content"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_2_original",
+      "label": "Column 2 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_2_free_text",
+      "label": "Column 2 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_2_col_3_type",
+      "label": "Column 3 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "cross"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_3",
+      "label": "Column 3 content"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_3_original",
+      "label": "Column 3 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_3_free_text",
+      "label": "Column 3 free text"
+    },
+    {
+      "type": "header",
+      "content": "Row 3"
+    },
+    {
+      "type": "text",
+      "id": "row_3_feature",
+      "label": "Feature name",
+      "default": "Hair Clipper"
+    },
+    {
+      "type": "select",
+      "id": "row_3_col_1_type",
+      "label": "Column 1 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "free"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_1",
+      "label": "Column 1 content"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_1_original",
+      "label": "Column 1 original price",
+      "default": "$19.95"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_1_free_text",
+      "label": "Column 1 free text",
+      "default": "FREE"
+    },
+    {
+      "type": "select",
+      "id": "row_3_col_2_type",
+      "label": "Column 2 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "cross"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_2",
+      "label": "Column 2 content"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_2_original",
+      "label": "Column 2 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_2_free_text",
+      "label": "Column 2 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_3_col_3_type",
+      "label": "Column 3 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "cross"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_3",
+      "label": "Column 3 content"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_3_original",
+      "label": "Column 3 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_3_free_text",
+      "label": "Column 3 free text"
+    },
+    {
+      "type": "header",
+      "content": "Row 4"
+    },
+    {
+      "type": "text",
+      "id": "row_4_feature",
+      "label": "Feature name",
+      "default": "Nose Trimmer"
+    },
+    {
+      "type": "select",
+      "id": "row_4_col_1_type",
+      "label": "Column 1 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "free"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_1",
+      "label": "Column 1 content"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_1_original",
+      "label": "Column 1 original price",
+      "default": "$19.95"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_1_free_text",
+      "label": "Column 1 free text",
+      "default": "FREE"
+    },
+    {
+      "type": "select",
+      "id": "row_4_col_2_type",
+      "label": "Column 2 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "cross"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_2",
+      "label": "Column 2 content"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_2_original",
+      "label": "Column 2 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_2_free_text",
+      "label": "Column 2 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_4_col_3_type",
+      "label": "Column 3 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "cross"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_3",
+      "label": "Column 3 content"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_3_original",
+      "label": "Column 3 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_4_col_3_free_text",
+      "label": "Column 3 free text"
+    },
+    {
+      "type": "header",
+      "content": "Row 5"
+    },
+    {
+      "type": "text",
+      "id": "row_5_feature",
+      "label": "Feature name",
+      "default": "Exfoliate Brush"
+    },
+    {
+      "type": "select",
+      "id": "row_5_col_1_type",
+      "label": "Column 1 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "free"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_1",
+      "label": "Column 1 content"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_1_original",
+      "label": "Column 1 original price",
+      "default": "$19.95"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_1_free_text",
+      "label": "Column 1 free text",
+      "default": "FREE"
+    },
+    {
+      "type": "select",
+      "id": "row_5_col_2_type",
+      "label": "Column 2 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "cross"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_2",
+      "label": "Column 2 content"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_2_original",
+      "label": "Column 2 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_2_free_text",
+      "label": "Column 2 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_5_col_3_type",
+      "label": "Column 3 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "cross"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_3",
+      "label": "Column 3 content"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_3_original",
+      "label": "Column 3 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_5_col_3_free_text",
+      "label": "Column 3 free text"
+    },
+    {
+      "type": "header",
+      "content": "Row 6"
+    },
+    {
+      "type": "text",
+      "id": "row_6_feature",
+      "label": "Feature name",
+      "default": "Replacement Blade Price"
+    },
+    {
+      "type": "select",
+      "id": "row_6_col_1_type",
+      "label": "Column 1 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "price"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_1",
+      "label": "Column 1 content",
+      "default": "$17.95"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_1_original",
+      "label": "Column 1 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_1_free_text",
+      "label": "Column 1 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_6_col_2_type",
+      "label": "Column 2 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "price"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_2",
+      "label": "Column 2 content",
+      "default": "$31.49"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_2_original",
+      "label": "Column 2 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_2_free_text",
+      "label": "Column 2 free text"
+    },
+    {
+      "type": "select",
+      "id": "row_6_col_3_type",
+      "label": "Column 3 type",
+      "options": [
+        {"value": "text", "label": "Text"},
+        {"value": "warranty", "label": "Warranty (highlighted)"},
+        {"value": "check", "label": "Check mark"},
+        {"value": "cross", "label": "Cross"},
+        {"value": "price", "label": "Price"},
+        {"value": "free", "label": "FREE"}
+      ],
+      "default": "price"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_3",
+      "label": "Column 3 content",
+      "default": "$20.99"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_3_original",
+      "label": "Column 3 original price"
+    },
+    {
+      "type": "text",
+      "id": "row_6_col_3_free_text",
+      "label": "Column 3 free text"
+    },
+    {
+      "type": "header",
+      "content": "Table Design"
+    },
+    {
+      "type": "color",
+      "id": "table_bg_color",
+      "label": "Table background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "table_border_color",
+      "label": "Table border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "table_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Table border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "table_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Table border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "table_shadow_x",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Shadow X offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "table_shadow_y",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Shadow Y offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "table_shadow_blur",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow blur",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "table_shadow_color",
+      "label": "Shadow color",
+      "default": "rgba(0, 0, 0, 0.1)"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "highlighted_column_bg",
+      "label": "Highlighted column background",
+      "default": "#fff8f0"
+    },
+    {
+      "type": "color",
+      "id": "highlight_border_color",
+      "label": "Highlight border color",
+      "default": "#ff0000"
+    },
+    {
+      "type": "color",
+      "id": "header_bg_color",
+      "label": "Header background color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "image_row_bg_color",
+      "label": "Image row background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "product_name_color",
+      "label": "Product name color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#ffd700"
+    },
+    {
+      "type": "color",
+      "id": "reviews_text_color",
+      "label": "Reviews text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "feature_label_color",
+      "label": "Feature label color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "feature_bg_color",
+      "label": "Feature background color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "cell_border_color",
+      "label": "Cell border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "warranty_highlight_color",
+      "label": "Warranty highlight color",
+      "default": "#0066cc"
+    },
+    {
+      "type": "color",
+      "id": "check_color",
+      "label": "Check mark color",
+      "default": "#28a745"
+    },
+    {
+      "type": "color",
+      "id": "cross_color",
+      "label": "Cross color",
+      "default": "#dc3545"
+    },
+    {
+      "type": "color",
+      "id": "price_highlight_color",
+      "label": "Price highlight color",
+      "default": "#ff0000"
+    },
+    {
+      "type": "color",
+      "id": "original_price_color",
+      "label": "Original price color",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "free_text_color",
+      "label": "FREE text color",
+      "default": "#ff0000"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "product_name_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Product name font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "cell_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Cell font size",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "Compare The Difference"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,593 @@
+{% doc %}
+  @prompt
+    Create a TL;DR summary box that appears at the top of the listicle page, immediately after the main headline and before section 1.
+    CONTENT STRUCTURE:
+    Line 1: Label "TL;DR" or emoji 📌 + "Quick Summary" (12px uppercase, brand color)
+    Line 2: One-sentence transformation promise using this formula: [PRODUCT/METHOD] helps you [DESIRED_OUTCOME] in [TIMEFRAME] using [UNIQUE_MECHANISM] - without [COMMON_PAIN_POINT]. Max 25 words.
+    Line 3: Star rating with social proof: Five star emojis + "4.9/5 from 30,000+ [TARGET_AUDIENCE]"
+    Line 4: Micro-CTA with down arrow: "Discover the 10 reasons below" or "See why it works" with down arrow emoji
+    VISUAL STYLING:
+    Background: Light pastel box (soft yellow #FFF9E6, light blue #E8F4F8, or soft pink #FFF0F5) - choose based on brand
+    Border: 4px solid left border in brand primary color, other sides have 1px light gray border
+    Padding: 20px all sides
+    Border radius: 12px rounded corners
+    Width: 90% of page width, centered, max-width 600px
+    Typography: Line 1 (label) 12px bold uppercase. Line 2 (promise) 16px regular weight, line-height 1.5. Line 3 (rating) 16px with 18px star emojis. Line 4 (CTA) 14px semi-bold.
+    MOBILE BEHAVIOR:
+    On screens under 768px: Reduce padding to 15px, reduce promise text to 15px, make box 95% width. Optional: Add collapse/expand functionality - default collapsed with "Tap to expand" text, expands on tap to show full content.
+    SPACING:
+    Place 30px below main headline, 40px above first listicle section. Creates clear visual separation.
+    VARIABLES TO REPLACE:
+    [PRODUCT/METHOD] = Product name or solution type
+    [DESIRED_OUTCOME] = Main transformation benefit
+    [TIMEFRAME] = How quickly results appear
+    [UNIQUE_MECHANISM] = Proprietary technology or approach
+    [COMMON_PAIN_POINT] = What other solutions cause
+    [TARGET_AUDIENCE] = Who the customers are
+    ACCESSIBILITY:
+    Ensure 4.5:1 contrast ratio between text and background. Star emojis should have aria-label for screen readers. Box should be keyboard navigable if collapsible., start rating should be real stars not emoji starts , the below icon also. and the pin icon also, i want text size and padding controller, i need to controal wideth and hight
+    
+    do not make the "/5" rating fixed. i want to be abe to change it , , the below arrow is very ugly ... make it better looking... its too small and feels like accordion, remove the "/"  from the review line
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-tldr-summary-{{ ai_gen_id }} {
+    width: {{ block.settings.box_width }}%;
+    max-width: {{ block.settings.max_width }}px;
+    margin: 30px auto 40px;
+    padding: {{ block.settings.padding_desktop }}px;
+    background-color: {{ block.settings.background_color }};
+    border-left: 4px solid {{ block.settings.border_color }};
+    border-top: 1px solid {{ block.settings.light_border_color }};
+    border-right: 1px solid {{ block.settings.light_border_color }};
+    border-bottom: 1px solid {{ block.settings.light_border_color }};
+    border-radius: 12px;
+  }
+
+  .ai-tldr-summary__label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: {{ block.settings.label_color }};
+    margin: 0 0 12px 0;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ai-tldr-summary__pin-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.label_size }}px;
+    height: {{ block.settings.label_size }}px;
+    flex-shrink: 0;
+  }
+
+  .ai-tldr-summary__promise-{{ ai_gen_id }} {
+    font-size: {{ block.settings.promise_size }}px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 12px 0;
+  }
+
+  .ai-tldr-summary__rating-{{ ai_gen_id }} {
+    font-size: {{ block.settings.rating_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-tldr-summary__stars-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .ai-tldr-summary__star-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.star_size }}px;
+    height: {{ block.settings.star_size }}px;
+    fill: {{ block.settings.star_color }};
+  }
+
+  .ai-tldr-summary__cta-{{ ai_gen_id }} {
+    font-size: {{ block.settings.cta_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.cta_color }};
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-tldr-summary__arrow-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    stroke: {{ block.settings.cta_color }};
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+  }
+
+  .ai-tldr-summary__content-{{ ai_gen_id }} {
+    display: block;
+  }
+
+  .ai-tldr-summary__toggle-{{ ai_gen_id }} {
+    display: none;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: {{ block.settings.cta_color }};
+  }
+
+  @media screen and (max-width: 767px) {
+    .ai-tldr-summary-{{ ai_gen_id }} {
+      width: {{ block.settings.box_width_mobile }}%;
+      padding: {{ block.settings.padding_mobile }}px;
+    }
+
+    .ai-tldr-summary__label-{{ ai_gen_id }} {
+      font-size: {{ block.settings.label_size_mobile }}px;
+    }
+
+    .ai-tldr-summary__pin-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.label_size_mobile }}px;
+      height: {{ block.settings.label_size_mobile }}px;
+    }
+
+    .ai-tldr-summary__promise-{{ ai_gen_id }} {
+      font-size: {{ block.settings.promise_size_mobile }}px;
+    }
+
+    .ai-tldr-summary__rating-{{ ai_gen_id }} {
+      font-size: {{ block.settings.rating_size_mobile }}px;
+    }
+
+    .ai-tldr-summary__star-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.star_size_mobile }}px;
+      height: {{ block.settings.star_size_mobile }}px;
+    }
+
+    .ai-tldr-summary__cta-{{ ai_gen_id }} {
+      font-size: {{ block.settings.cta_size_mobile }}px;
+    }
+
+    .ai-tldr-summary__arrow-icon-{{ ai_gen_id }} {
+      width: 18px;
+      height: 18px;
+    }
+
+    {% if block.settings.mobile_collapsible %}
+      .ai-tldr-summary__toggle-{{ ai_gen_id }} {
+        display: block;
+        margin-bottom: 12px;
+      }
+
+      .ai-tldr-summary__content-{{ ai_gen_id }} {
+        display: none;
+      }
+
+      .ai-tldr-summary__content-{{ ai_gen_id }}.active {
+        display: block;
+      }
+    {% endif %}
+  }
+{% endstyle %}
+
+<tldr-summary-{{ ai_gen_id }} class="ai-tldr-summary-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.mobile_collapsible %}
+    <button class="ai-tldr-summary__toggle-{{ ai_gen_id }}" aria-expanded="false">
+      {{ block.settings.mobile_toggle_text }}
+    </button>
+  {% endif %}
+
+  <div class="ai-tldr-summary__content-{{ ai_gen_id }}">
+    {% if block.settings.label_text != blank %}
+      <div class="ai-tldr-summary__label-{{ ai_gen_id }}">
+        <svg class="ai-tldr-summary__pin-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 12V4H17V2H7V4H8V12L6 14V16H11.2V22H12.8V16H18V14L16 12Z" fill="currentColor"/>
+        </svg>
+        <span>{{ block.settings.label_text }}</span>
+      </div>
+    {% endif %}
+
+    {% if block.settings.promise_text != blank %}
+      <div class="ai-tldr-summary__promise-{{ ai_gen_id }}">
+        {{ block.settings.promise_text }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_rating %}
+      <div class="ai-tldr-summary__rating-{{ ai_gen_id }}">
+        <div class="ai-tldr-summary__stars-{{ ai_gen_id }}" aria-label="Rating: {{ block.settings.rating_value }} out of {{ block.settings.rating_max }} stars">
+          <svg class="ai-tldr-summary__star-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+          <svg class="ai-tldr-summary__star-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+          <svg class="ai-tldr-summary__star-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+          <svg class="ai-tldr-summary__star-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+          <svg class="ai-tldr-summary__star-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+        </div>
+        <span>{{ block.settings.rating_value }} {{ block.settings.rating_max }} {{ block.settings.rating_count }}+ {{ block.settings.target_audience }}</span>
+      </div>
+    {% endif %}
+
+    {% if block.settings.cta_text != blank %}
+      <div class="ai-tldr-summary__cta-{{ ai_gen_id }}">
+        <span>{{ block.settings.cta_text }}</span>
+        <svg class="ai-tldr-summary__arrow-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 5L12 19M12 19L19 12M12 19L5 12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    {% endif %}
+  </div>
+</tldr-summary-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class TldrSummary{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.toggleButton = this.querySelector('.ai-tldr-summary__toggle-{{ ai_gen_id }}');
+        this.content = this.querySelector('.ai-tldr-summary__content-{{ ai_gen_id }}');
+
+        if (this.toggleButton && this.content) {
+          this.toggleButton.addEventListener('click', this.handleToggle.bind(this));
+        }
+      }
+
+      handleToggle() {
+        const isExpanded = this.content.classList.contains('active');
+        this.content.classList.toggle('active');
+        this.toggleButton.setAttribute('aria-expanded', !isExpanded);
+      }
+    }
+
+    customElements.define('tldr-summary-{{ ai_gen_id }}', TldrSummary{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "TL;DR summary box",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Label",
+      "default": "Quick Summary"
+    },
+    {
+      "type": "textarea",
+      "id": "promise_text",
+      "label": "Transformation promise",
+      "default": "This product helps you achieve amazing results in just 30 days using our unique formula - without any hassle."
+    },
+    {
+      "type": "header",
+      "content": "Social proof"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating value",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "rating_max",
+      "label": "Rating maximum",
+      "default": "5"
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Number of reviews",
+      "default": "30,000"
+    },
+    {
+      "type": "text",
+      "id": "target_audience",
+      "label": "Target audience",
+      "default": "customers"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Discover the 10 reasons below"
+    },
+    {
+      "type": "header",
+      "content": "Box dimensions"
+    },
+    {
+      "type": "range",
+      "id": "box_width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Desktop width",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "box_width_mobile",
+      "min": 80,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Mobile width",
+      "default": 95
+    },
+    {
+      "type": "header",
+      "content": "Desktop typography"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Label size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "promise_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Promise size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "rating_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Rating size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Star size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "cta_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "CTA size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Mobile typography"
+    },
+    {
+      "type": "range",
+      "id": "label_size_mobile",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Label size",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "promise_size_mobile",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Promise size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "rating_size_mobile",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Rating size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "star_size_mobile",
+      "min": 14,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Star size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "cta_size_mobile",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "CTA size",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "background_preset",
+      "label": "Background preset",
+      "options": [
+        {
+          "value": "yellow",
+          "label": "Soft yellow"
+        },
+        {
+          "value": "blue",
+          "label": "Light blue"
+        },
+        {
+          "value": "pink",
+          "label": "Soft pink"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "yellow"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFF9E6"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Left border color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "light_border_color",
+      "label": "Other borders color",
+      "default": "#E6E6E6"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFB800"
+    },
+    {
+      "type": "color",
+      "id": "cta_color",
+      "label": "CTA color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Mobile settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_collapsible",
+      "label": "Make collapsible on mobile",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "mobile_toggle_text",
+      "label": "Toggle text",
+      "default": "Tap to expand summary"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TL;DR summary box"
+    }
+  ]
+}
+{% endschema %}

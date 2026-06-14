@@ -1,0 +1,559 @@
+{% doc %}
+  @prompt
+    Create a two-column promotional banner section for a men's body care brand called "Manly". Left column should have an image of a teenage boy looking disgusted sniffing his shirt, with headline "What's the real cause of B.O and bad hygiene?" and text explaining body odor causes with emphasis on bacteria buildup. Right column should feature a product flat-lay of 4 "Manly" brand bottles with sliced limes, headline "Why Manly's The Solution", two-step benefits list about killing stink and lasting freshness, highlighting natural ingredients like aloe vera, charcoal, and coconut oil. Use soft mint green background, bold sans-serif typography, rounded image corners, and include a pop-up overlay with "Want a Fresh Start? Get 15% Off Today" offer, email input field, and privacy text., make the content below every headline to be in drop down
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+.manly-promo-{{ ai_gen_id }} {
+  display: flex;
+  flex-direction: column;
+  background-color: {{ block.settings.background_color }};
+  border-radius: {{ block.settings.border_radius }}px;
+  overflow: hidden;
+  position: relative;
+}
+
+@media screen and (min-width: 750px) {
+  .manly-promo-{{ ai_gen_id }} {
+    flex-direction: row;
+  }
+}
+
+.manly-promo__column-{{ ai_gen_id }} {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .manly-promo__column-{{ ai_gen_id }} {
+    width: 50%;
+  }
+}
+
+.manly-promo__image-container-{{ ai_gen_id }} {
+  margin-bottom: 20px;
+  border-radius: {{ block.settings.image_border_radius }}px;
+  overflow: hidden;
+}
+
+.manly-promo__image-{{ ai_gen_id }} {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: {{ block.settings.image_border_radius }}px;
+}
+
+.manly-promo__placeholder-{{ ai_gen_id }} {
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: {{ block.settings.image_border_radius }}px;
+}
+
+.manly-promo__placeholder-{{ ai_gen_id }} svg {
+  width: 100%;
+  height: 100%;
+}
+
+.manly-promo__dropdown-{{ ai_gen_id }} {
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.manly-promo__heading-{{ ai_gen_id }} {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding: 15px 0;
+  color: {{ block.settings.heading_color }};
+  font-family: {{ block.settings.heading_font.family }}, sans-serif;
+  font-weight: {{ block.settings.heading_font.weight }};
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.manly-promo__heading-icon-{{ ai_gen_id }} {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.manly-promo__dropdown-{{ ai_gen_id }}.active .manly-promo__heading-icon-{{ ai_gen_id }} {
+  transform: rotate(180deg);
+}
+
+.manly-promo__content-{{ ai_gen_id }} {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.manly-promo__dropdown-{{ ai_gen_id }}.active .manly-promo__content-{{ ai_gen_id }} {
+  max-height: 500px;
+}
+
+.manly-promo__text-{{ ai_gen_id }} {
+  margin-bottom: 20px;
+  color: {{ block.settings.text_color }};
+  line-height: 1.5;
+  padding-bottom: 15px;
+}
+
+.manly-promo__benefits-{{ ai_gen_id }} {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.manly-promo__benefit-item-{{ ai_gen_id }} {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  color: {{ block.settings.text_color }};
+}
+
+.manly-promo__benefit-number-{{ ai_gen_id }} {
+  background-color: {{ block.settings.accent_color }};
+  color: {{ block.settings.background_color }};
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.manly-promo__benefit-text-{{ ai_gen_id }} {
+  flex-grow: 1;
+}
+
+.manly-promo__overlay-{{ ai_gen_id }} {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.manly-promo__overlay-{{ ai_gen_id }}.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.manly-promo__popup-{{ ai_gen_id }} {
+  background-color: {{ block.settings.popup_background_color }};
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+}
+
+.manly-promo__popup-close-{{ ai_gen_id }} {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: {{ block.settings.text_color }};
+}
+
+.manly-promo__popup-heading-{{ ai_gen_id }} {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: {{ block.settings.heading_color }};
+  font-family: {{ block.settings.heading_font.family }}, sans-serif;
+  font-weight: {{ block.settings.heading_font.weight }};
+}
+
+.manly-promo__popup-form-{{ ai_gen_id }} {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.manly-promo__popup-input-{{ ai_gen_id }} {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.manly-promo__popup-button-{{ ai_gen_id }} {
+  padding: 12px;
+  background-color: {{ block.settings.button_color }};
+  color: {{ block.settings.button_text_color }};
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.manly-promo__popup-privacy-{{ ai_gen_id }} {
+  font-size: 12px;
+  color: {{ block.settings.text_color }};
+  opacity: 0.7;
+  margin-top: 10px;
+}
+
+.manly-promo__show-popup-button-{{ ai_gen_id }} {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: {{ block.settings.button_color }};
+  color: {{ block.settings.button_text_color }};
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  margin-top: 20px;
+}
+{% endstyle %}
+
+<manly-promo-banner-{{ ai_gen_id }} class="manly-promo-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="manly-promo__column-{{ ai_gen_id }}">
+    <div class="manly-promo__image-container-{{ ai_gen_id }}">
+      {% if block.settings.left_image %}
+        <img 
+          src="{{ block.settings.left_image | image_url: width: 800 }}"
+          alt="{{ block.settings.left_image.alt | escape }}"
+          class="manly-promo__image-{{ ai_gen_id }}"
+          width="{{ block.settings.left_image.width }}"
+          height="{{ block.settings.left_image.height }}"
+          loading="lazy"
+        >
+      {% else %}
+        <div class="manly-promo__placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="manly-promo__dropdown-{{ ai_gen_id }}" data-dropdown>
+      <h2 class="manly-promo__heading-{{ ai_gen_id }}">
+        {{ block.settings.left_heading }}
+        <svg class="manly-promo__heading-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </h2>
+      <div class="manly-promo__content-{{ ai_gen_id }}">
+        <div class="manly-promo__text-{{ ai_gen_id }}">{{ block.settings.left_text }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="manly-promo__column-{{ ai_gen_id }}">
+    <div class="manly-promo__image-container-{{ ai_gen_id }}">
+      {% if block.settings.right_image %}
+        <img 
+          src="{{ block.settings.right_image | image_url: width: 800 }}"
+          alt="{{ block.settings.right_image.alt | escape }}"
+          class="manly-promo__image-{{ ai_gen_id }}"
+          width="{{ block.settings.right_image.width }}"
+          height="{{ block.settings.right_image.height }}"
+          loading="lazy"
+        >
+      {% else %}
+        <div class="manly-promo__placeholder-{{ ai_gen_id }}">
+          {{ 'product-apparel-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="manly-promo__dropdown-{{ ai_gen_id }}" data-dropdown>
+      <h2 class="manly-promo__heading-{{ ai_gen_id }}">
+        {{ block.settings.right_heading }}
+        <svg class="manly-promo__heading-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </h2>
+      <div class="manly-promo__content-{{ ai_gen_id }}">
+        <ul class="manly-promo__benefits-{{ ai_gen_id }}">
+          <li class="manly-promo__benefit-item-{{ ai_gen_id }}">
+            <div class="manly-promo__benefit-number-{{ ai_gen_id }}">1</div>
+            <div class="manly-promo__benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_1 }}</div>
+          </li>
+          <li class="manly-promo__benefit-item-{{ ai_gen_id }}">
+            <div class="manly-promo__benefit-number-{{ ai_gen_id }}">2</div>
+            <div class="manly-promo__benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_2 }}</div>
+          </li>
+        </ul>
+        <a href="#" class="manly-promo__show-popup-button-{{ ai_gen_id }}">{{ block.settings.button_text }}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="manly-promo__overlay-{{ ai_gen_id }}">
+    <div class="manly-promo__popup-{{ ai_gen_id }}">
+      <button class="manly-promo__popup-close-{{ ai_gen_id }}" aria-label="Close popup">×</button>
+      <h3 class="manly-promo__popup-heading-{{ ai_gen_id }}">{{ block.settings.popup_heading }}</h3>
+      <form class="manly-promo__popup-form-{{ ai_gen_id }}">
+        <input 
+          type="email" 
+          class="manly-promo__popup-input-{{ ai_gen_id }}" 
+          placeholder="{{ block.settings.email_placeholder }}" 
+          required
+        >
+        <button type="submit" class="manly-promo__popup-button-{{ ai_gen_id }}">{{ block.settings.popup_button_text }}</button>
+      </form>
+      <p class="manly-promo__popup-privacy-{{ ai_gen_id }}">{{ block.settings.privacy_text }}</p>
+    </div>
+  </div>
+</manly-promo-banner-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ManlyPromoBanner extends HTMLElement {
+      constructor() {
+        super();
+        this.overlay = this.querySelector('.manly-promo__overlay-{{ ai_gen_id }}');
+        this.showPopupButton = this.querySelector('.manly-promo__show-popup-button-{{ ai_gen_id }}');
+        this.closePopupButton = this.querySelector('.manly-promo__popup-close-{{ ai_gen_id }}');
+        this.popupForm = this.querySelector('.manly-promo__popup-form-{{ ai_gen_id }}');
+        this.dropdowns = this.querySelectorAll('[data-dropdown]');
+        
+        this.showPopupButton.addEventListener('click', this.showPopup.bind(this));
+        this.closePopupButton.addEventListener('click', this.hidePopup.bind(this));
+        this.overlay.addEventListener('click', (event) => {
+          if (event.target === this.overlay) {
+            this.hidePopup();
+          }
+        });
+        
+        this.popupForm.addEventListener('submit', this.handleFormSubmit.bind(this));
+        
+        // Set up dropdowns
+        this.dropdowns.forEach(dropdown => {
+          const heading = dropdown.querySelector('.manly-promo__heading-{{ ai_gen_id }}');
+          heading.addEventListener('click', () => {
+            dropdown.classList.toggle('active');
+          });
+        });
+        
+        // Open first dropdown by default if autoExpand is enabled
+        if ({{ block.settings.auto_expand_first_dropdown | json }}) {
+          this.dropdowns[0]?.classList.add('active');
+        }
+      }
+      
+      showPopup(event) {
+        event.preventDefault();
+        this.overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      hidePopup() {
+        this.overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      
+      handleFormSubmit(event) {
+        event.preventDefault();
+        // Here you would typically handle the form submission
+        // For now, we'll just close the popup
+        this.hidePopup();
+      }
+    }
+    
+    customElements.define('manly-promo-banner-{{ ai_gen_id }}', ManlyPromoBanner);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Manly Promo Banner",
+  "tag": null,
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout & Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#e0f0ea"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3d8168"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#3d8168"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Banner border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 10
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading font",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_expand_first_dropdown",
+      "label": "Auto-expand first dropdown",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Left Column Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left column image"
+    },
+    {
+      "type": "text",
+      "id": "left_heading",
+      "label": "Left column heading",
+      "default": "What's the real cause of B.O and bad hygiene?"
+    },
+    {
+      "type": "richtext",
+      "id": "left_text",
+      "label": "Left column text",
+      "default": "<p>Body odor happens when bacteria on your skin break down sweat into acids. The real culprit isn't sweat itself - it's the bacteria buildup that causes that unmistakable smell. Regular soap just isn't enough to combat the bacteria that thrive in warm, moist environments.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Right Column Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right column image"
+    },
+    {
+      "type": "text",
+      "id": "right_heading",
+      "label": "Right column heading",
+      "default": "Why Manly's The Solution"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1",
+      "label": "Benefit 1",
+      "default": "Our powerful natural formula with activated charcoal kills 99.9% of odor-causing bacteria for immediate freshness."
+    },
+    {
+      "type": "text",
+      "id": "benefit_2",
+      "label": "Benefit 2",
+      "default": "Aloe vera and coconut oil provide lasting protection while nourishing your skin with natural ingredients that keep working all day."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Get 15% Off Today"
+    },
+    {
+      "type": "header",
+      "content": "Popup Settings"
+    },
+    {
+      "type": "color",
+      "id": "popup_background_color",
+      "label": "Popup background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "popup_heading",
+      "label": "Popup heading",
+      "default": "Want a Fresh Start? Get 15% Off Today"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "popup_button_text",
+      "label": "Popup button text",
+      "default": "Get My Discount"
+    },
+    {
+      "type": "text",
+      "id": "privacy_text",
+      "label": "Privacy text",
+      "default": "We respect your privacy and will never share your information."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Manly Promo Banner"
+    }
+  ]
+}
+{% endschema %}

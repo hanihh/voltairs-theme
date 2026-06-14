@@ -1,0 +1,676 @@
+{% doc %}
+  @prompt
+    create a slider for 3-7 slides , each slide has 1 image/icon + text below
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-slider-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding-bottom: 50px;
+  }
+
+  .ai-slider-container-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+  }
+
+  .ai-slide-{{ ai_gen_id }} {
+    flex: 0 0 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ai-slide-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    max-width: {{ block.settings.image_max_width }}px;
+    margin: 0 auto {{ block.settings.image_text_spacing }}px;
+    height: {{ block.settings.image_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-slide-image-{{ ai_gen_id }} {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .ai-slide-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-slide-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: {{ block.settings.image_max_width }}px;
+    max-height: {{ block.settings.image_height }}px;
+  }
+
+  .ai-slide-text-{{ ai_gen_id }} {
+    margin: 0;
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-slider-nav-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .ai-slider-dot-{{ ai_gen_id }} {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-slider-dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+  }
+
+  .ai-slider-arrow-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: {{ block.settings.arrow_background }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-slider-arrow-{{ ai_gen_id }}:hover {
+    opacity: 1;
+  }
+
+  .ai-slider-arrow-{{ ai_gen_id }}.prev {
+    left: 10px;
+  }
+
+  .ai-slider-arrow-{{ ai_gen_id }}.next {
+    right: 10px;
+  }
+
+  .ai-slider-arrow-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: {{ block.settings.arrow_color }};
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-slide-{{ ai_gen_id }} {
+      flex: 0 0 calc(100% / {{ block.settings.slides_per_view }});
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-slide-{{ ai_gen_id }} {
+      flex: 0 0 calc(100% / {{ block.settings.slides_per_view_mobile }});
+    }
+    
+    .ai-slider-arrow-{{ ai_gen_id }} {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .ai-slider-arrow-{{ ai_gen_id }} svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+{% endstyle %}
+
+<slider-component-{{ ai_gen_id }} class="ai-slider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-slider-container-{{ ai_gen_id }}">
+    {% for i in (1..7) %}
+      {% assign slide_enabled_key = 'slide_' | append: i | append: '_enabled' %}
+      {% assign slide_image_key = 'slide_' | append: i | append: '_image' %}
+      {% assign slide_text_key = 'slide_' | append: i | append: '_text' %}
+      
+      {% if block.settings[slide_enabled_key] %}
+        <div class="ai-slide-{{ ai_gen_id }}" data-index="{{ forloop.index0 }}">
+          <div class="ai-slide-image-wrapper-{{ ai_gen_id }}">
+            {% if block.settings[slide_image_key] != blank %}
+              <img 
+                src="{{ block.settings[slide_image_key] | image_url: width: block.settings.image_max_width }}"
+                alt="{{ block.settings[slide_image_key].alt | escape }}"
+                loading="lazy"
+                class="ai-slide-image-{{ ai_gen_id }}"
+                width="{{ block.settings.image_max_width }}"
+                height="{{ block.settings.image_height }}"
+              >
+            {% else %}
+              <div class="ai-slide-image-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+          <p class="ai-slide-text-{{ ai_gen_id }}">{{ block.settings[slide_text_key] }}</p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% if block.settings.show_arrows %}
+    <div class="ai-slider-arrow-{{ ai_gen_id }} prev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </div>
+    <div class="ai-slider-arrow-{{ ai_gen_id }} next" aria-label="Next slide">
+      <svg viewBox="0 0 24 24">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </div>
+  {% endif %}
+
+  {% if block.settings.show_dots %}
+    <div class="ai-slider-nav-{{ ai_gen_id }}"></div>
+  {% endif %}
+</slider-component-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SliderComponent{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.container = this.querySelector('.ai-slider-container-{{ ai_gen_id }}');
+        this.slides = this.querySelectorAll('.ai-slide-{{ ai_gen_id }}');
+        this.prevButton = this.querySelector('.ai-slider-arrow-{{ ai_gen_id }}.prev');
+        this.nextButton = this.querySelector('.ai-slider-arrow-{{ ai_gen_id }}.next');
+        this.navContainer = this.querySelector('.ai-slider-nav-{{ ai_gen_id }}');
+        this.currentIndex = 0;
+        this.totalSlides = this.slides.length;
+        this.slidesPerView = {{ block.settings.slides_per_view }};
+        this.slidesPerViewMobile = {{ block.settings.slides_per_view_mobile }};
+        this.autoplay = {{ block.settings.autoplay }};
+        this.autoplaySpeed = {{ block.settings.autoplay_speed }} * 1000;
+        this.autoplayInterval = null;
+        this.isMobile = window.innerWidth < 750;
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+      }
+
+      connectedCallback() {
+        if (this.slides.length === 0) return;
+        
+        this.setupDots();
+        this.setupEventListeners();
+        this.updateSlidePosition();
+        
+        if (this.autoplay) {
+          this.startAutoplay();
+        }
+        
+        this.setupTouchEvents();
+        
+        window.addEventListener('resize', this.handleResize.bind(this));
+      }
+      
+      setupDots() {
+        if (!this.navContainer) return;
+        
+        // Calculate the number of dots needed
+        const slidesPerView = this.isMobile ? this.slidesPerViewMobile : this.slidesPerView;
+        const totalDots = Math.ceil(this.totalSlides / slidesPerView);
+        
+        // Create dots
+        for (let i = 0; i < totalDots; i++) {
+          const dot = document.createElement('div');
+          dot.classList.add('ai-slider-dot-{{ ai_gen_id }}');
+          dot.setAttribute('data-index', i * slidesPerView);
+          dot.addEventListener('click', () => {
+            this.goToSlide(i * slidesPerView);
+          });
+          this.navContainer.appendChild(dot);
+        }
+        
+        this.dots = this.navContainer.querySelectorAll('.ai-slider-dot-{{ ai_gen_id }}');
+        this.updateActiveDot();
+      }
+      
+      setupEventListeners() {
+        if (this.prevButton) {
+          this.prevButton.addEventListener('click', () => {
+            this.goToPrevSlide();
+          });
+        }
+        
+        if (this.nextButton) {
+          this.nextButton.addEventListener('click', () => {
+            this.goToNextSlide();
+          });
+        }
+      }
+      
+      setupTouchEvents() {
+        this.addEventListener('touchstart', (e) => {
+          this.touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        this.addEventListener('touchend', (e) => {
+          this.touchEndX = e.changedTouches[0].screenX;
+          this.handleSwipe();
+        });
+      }
+      
+      handleSwipe() {
+        const threshold = 50;
+        if (this.touchStartX - this.touchEndX > threshold) {
+          this.goToNextSlide();
+        } else if (this.touchEndX - this.touchStartX > threshold) {
+          this.goToPrevSlide();
+        }
+      }
+      
+      handleResize() {
+        const wasMobile = this.isMobile;
+        this.isMobile = window.innerWidth < 750;
+        
+        if (wasMobile !== this.isMobile) {
+          // Rebuild dots if we're switching between mobile and desktop
+          if (this.navContainer) {
+            this.navContainer.innerHTML = '';
+            this.setupDots();
+          }
+          this.updateSlidePosition();
+        }
+      }
+      
+      startAutoplay() {
+        this.autoplayInterval = setInterval(() => {
+          this.goToNextSlide();
+        }, this.autoplaySpeed);
+      }
+      
+      stopAutoplay() {
+        if (this.autoplayInterval) {
+          clearInterval(this.autoplayInterval);
+          this.autoplayInterval = null;
+        }
+      }
+      
+      goToPrevSlide() {
+        const slidesPerView = this.isMobile ? this.slidesPerViewMobile : this.slidesPerView;
+        this.currentIndex = Math.max(this.currentIndex - slidesPerView, 0);
+        this.updateSlidePosition();
+        
+        if (this.autoplay) {
+          this.stopAutoplay();
+          this.startAutoplay();
+        }
+      }
+      
+      goToNextSlide() {
+        const slidesPerView = this.isMobile ? this.slidesPerViewMobile : this.slidesPerView;
+        const maxIndex = this.totalSlides - slidesPerView;
+        this.currentIndex = Math.min(this.currentIndex + slidesPerView, maxIndex);
+        
+        // If we've reached the end and autoplay is on, loop back to the beginning
+        if (this.currentIndex >= maxIndex && this.autoplay) {
+          this.currentIndex = 0;
+        }
+        
+        this.updateSlidePosition();
+        
+        if (this.autoplay) {
+          this.stopAutoplay();
+          this.startAutoplay();
+        }
+      }
+      
+      goToSlide(index) {
+        this.currentIndex = index;
+        this.updateSlidePosition();
+        
+        if (this.autoplay) {
+          this.stopAutoplay();
+          this.startAutoplay();
+        }
+      }
+      
+      updateSlidePosition() {
+        const slidesPerView = this.isMobile ? this.slidesPerViewMobile : this.slidesPerView;
+        const slideWidth = 100 / slidesPerView;
+        const offset = -this.currentIndex * slideWidth;
+        this.container.style.transform = `translateX(${offset}%)`;
+        this.updateActiveDot();
+      }
+      
+      updateActiveDot() {
+        if (!this.dots || this.dots.length === 0) return;
+        
+        const slidesPerView = this.isMobile ? this.slidesPerViewMobile : this.slidesPerView;
+        const activeDotIndex = Math.floor(this.currentIndex / slidesPerView);
+        
+        this.dots.forEach((dot, index) => {
+          if (index === activeDotIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    customElements.define('slider-component-{{ ai_gen_id }}', SliderComponent{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Image Text Slider",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Slider Settings"
+    },
+    {
+      "type": "range",
+      "id": "slides_per_view",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Slides per view (desktop)",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "slides_per_view_mobile",
+      "label": "Slides per view (mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show navigation dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay speed",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "range",
+      "id": "image_max_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Image max width",
+      "default": 150
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height",
+      "default": 150
+    },
+    {
+      "type": "range",
+      "id": "image_text_spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Space between image and text",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Navigation dot color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "arrow_background",
+      "label": "Arrow background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Slide 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_1_enabled",
+      "label": "Enable slide",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_text",
+      "label": "Text",
+      "default": "Slide 1 text"
+    },
+    {
+      "type": "header",
+      "content": "Slide 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_2_enabled",
+      "label": "Enable slide",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_text",
+      "label": "Text",
+      "default": "Slide 2 text"
+    },
+    {
+      "type": "header",
+      "content": "Slide 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_3_enabled",
+      "label": "Enable slide",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_text",
+      "label": "Text",
+      "default": "Slide 3 text"
+    },
+    {
+      "type": "header",
+      "content": "Slide 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_4_enabled",
+      "label": "Enable slide",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_4_text",
+      "label": "Text",
+      "default": "Slide 4 text"
+    },
+    {
+      "type": "header",
+      "content": "Slide 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_5_enabled",
+      "label": "Enable slide",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_5_text",
+      "label": "Text",
+      "default": "Slide 5 text"
+    },
+    {
+      "type": "header",
+      "content": "Slide 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_6_enabled",
+      "label": "Enable slide",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_6_text",
+      "label": "Text",
+      "default": "Slide 6 text"
+    },
+    {
+      "type": "header",
+      "content": "Slide 7"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_7_enabled",
+      "label": "Enable slide",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_7_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_7_text",
+      "label": "Text",
+      "default": "Slide 7 text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Text Slider"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,594 @@
+{% doc %}
+  @prompt
+    A magazine-style editorial layout
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-editorial-layout-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-editorial-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .ai-editorial-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .ai-editorial-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.7;
+    margin: 0;
+    font-style: italic;
+  }
+
+  .ai-editorial-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+
+  .ai-editorial-hero-{{ ai_gen_id }} {
+    grid-column: 1 / -1;
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-editorial-hero-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-editorial-hero-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-editorial-hero-placeholder-{{ ai_gen_id }} svg {
+    width: 100px;
+    height: 100px;
+    opacity: 0.3;
+  }
+
+  .ai-editorial-hero-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    padding: 40px;
+    color: white;
+  }
+
+  .ai-editorial-hero-title-{{ ai_gen_id }} {
+    font-size: 32px;
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+
+  .ai-editorial-hero-excerpt-{{ ai_gen_id }} {
+    font-size: 16px;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .ai-editorial-article-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ai-editorial-article-image-{{ ai_gen_id }} {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-editorial-article-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-editorial-article-image-{{ ai_gen_id }}:hover img {
+    transform: scale(1.05);
+  }
+
+  .ai-editorial-article-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-editorial-article-placeholder-{{ ai_gen_id }} svg {
+    width: 60px;
+    height: 60px;
+    opacity: 0.3;
+  }
+
+  .ai-editorial-article-content-{{ ai_gen_id }} {
+    flex-grow: 1;
+  }
+
+  .ai-editorial-article-category-{{ ai_gen_id }} {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: {{ block.settings.accent_color }};
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+
+  .ai-editorial-article-title-{{ ai_gen_id }} {
+    font-size: 20px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 12px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .ai-editorial-article-excerpt-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.7;
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+
+  .ai-editorial-article-meta-{{ ai_gen_id }} {
+    font-size: 12px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.5;
+    margin: 0;
+  }
+
+  .ai-editorial-content-section-{{ ai_gen_id }} {
+    margin-bottom: 60px;
+  }
+
+  .ai-editorial-content-{{ ai_gen_id }} {
+    font-size: {{ block.settings.content_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .ai-editorial-content-{{ ai_gen_id }} p {
+    margin: 0 0 24px;
+  }
+
+  .ai-editorial-content-{{ ai_gen_id }} h1,
+  .ai-editorial-content-{{ ai_gen_id }} h2,
+  .ai-editorial-content-{{ ai_gen_id }} h3,
+  .ai-editorial-content-{{ ai_gen_id }} h4,
+  .ai-editorial-content-{{ ai_gen_id }} h5,
+  .ai-editorial-content-{{ ai_gen_id }} h6 {
+    margin: 40px 0 16px;
+    font-weight: 600;
+  }
+
+  .ai-editorial-content-{{ ai_gen_id }} ul,
+  .ai-editorial-content-{{ ai_gen_id }} ol {
+    margin: 0 0 24px;
+    padding-left: 24px;
+  }
+
+  .ai-editorial-content-{{ ai_gen_id }} li {
+    margin-bottom: 8px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-editorial-layout-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding | times: 0.5 }}px;
+    }
+
+    .ai-editorial-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .ai-editorial-hero-overlay-{{ ai_gen_id }} {
+      padding: 20px;
+    }
+
+    .ai-editorial-hero-title-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-editorial-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-editorial-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.9 }}px;
+    }
+
+    .ai-editorial-content-{{ ai_gen_id }} {
+      font-size: {{ block.settings.content_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-editorial-layout-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.title != blank or block.settings.subtitle != blank %}
+    <div class="ai-editorial-header-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h1 class="ai-editorial-title-{{ ai_gen_id }}">{{ block.settings.title }}</h1>
+      {% endif %}
+      {% if block.settings.subtitle != blank %}
+        <p class="ai-editorial-subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+  {% endif %}<div class="ai-editorial-grid-{{ ai_gen_id }}">
+    <div class="ai-editorial-hero-{{ ai_gen_id }}">
+      {% if block.settings.hero_image %}
+        <img
+          src="{{ block.settings.hero_image | image_url: width: 1200 }}"
+          alt="{{ block.settings.hero_image.alt | escape }}"
+          class="ai-editorial-hero-image-{{ ai_gen_id }}"
+          loading="lazy"width="{{ block.settings.hero_image.width }}"
+          height="{{ block.settings.hero_image.height }}"
+        >
+      {% else %}
+        <div class="ai-editorial-hero-placeholder-{{ ai_gen_id }}">
+          {{ 'hero-apparel-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+      {% if block.settings.hero_title != blank or block.settings.hero_excerpt != blank %}
+        <div class="ai-editorial-hero-overlay-{{ ai_gen_id }}">
+          {% if block.settings.hero_title != blank %}
+            <h2 class="ai-editorial-hero-title-{{ ai_gen_id }}">{{ block.settings.hero_title }}</h2>
+          {% endif %}
+          {% if block.settings.hero_excerpt != blank %}
+            <p class="ai-editorial-hero-excerpt-{{ ai_gen_id }}">{{ block.settings.hero_excerpt }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% for i in (1..4) %}
+      {% assign article_image_key = 'article_' | append: i | append: '_image' %}
+      {% assign article_category_key = 'article_' | append: i | append: '_category' %}
+      {% assign article_title_key = 'article_' | append: i | append: '_title' %}
+      {% assign article_excerpt_key = 'article_' | append: i | append: '_excerpt' %}
+      {% assign article_date_key = 'article_' | append: i | append: '_date' %}
+
+      {% assign article_image = block.settings[article_image_key] %}
+      {% assign article_category = block.settings[article_category_key] %}
+      {% assign article_title = block.settings[article_title_key] %}
+      {% assign article_excerpt = block.settings[article_excerpt_key] %}
+      {% assign article_date = block.settings[article_date_key] %}
+
+      {% if article_title != blank %}
+        <article class="ai-editorial-article-{{ ai_gen_id }}">
+          <div class="ai-editorial-article-image-{{ ai_gen_id }}">
+            {% if article_image %}
+              <img
+                src="{{ article_image | image_url: width: 600 }}"
+                alt="{{ article_image.alt | escape }}"
+                loading="lazy"
+                width="{{ article_image.width }}"
+                height="{{ article_image.height }}"
+              >
+            {% else %}
+              <div class="ai-editorial-article-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+          
+          <div class="ai-editorial-article-content-{{ ai_gen_id }}">
+            {% if article_category != blank %}
+              <p class="ai-editorial-article-category-{{ ai_gen_id }}">{{ article_category }}</p>
+            {% endif %}<h3 class="ai-editorial-article-title-{{ ai_gen_id }}">{{ article_title }}</h3>
+            {% if article_excerpt != blank %}
+              <p class="ai-editorial-article-excerpt-{{ ai_gen_id }}">{{ article_excerpt }}</p>
+            {% endif %}
+            
+            {% if article_date != blank %}
+              <p class="ai-editorial-article-meta-{{ ai_gen_id }}">{{ article_date }}</p>
+            {% endif %}
+          </div>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% if block.settings.content != blank %}
+    <div class="ai-editorial-content-section-{{ ai_gen_id }}">
+      <div class="ai-editorial-content-{{ ai_gen_id }}">
+        {{ block.settings.content }}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Editorial Layout",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Editorial"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section subtitle",
+      "default": "Latest stories and insights"
+    },
+    {
+      "type": "header",
+      "content": "Hero Article"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero title",
+      "default": "Featured Story"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_excerpt",
+      "label": "Hero excerpt",
+      "default": "Discover the latest trends and insights in our featured editorial piece."
+    },
+    {
+      "type": "header",
+      "content": "Article 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_1_image",
+      "label": "Article image"
+    },
+    {
+      "type": "text",
+      "id": "article_1_category",
+      "label": "Category",
+      "default": "Fashion"
+    },
+    {
+      "type": "text",
+      "id": "article_1_title",
+      "label": "Article title",
+      "default": "Spring Collection Highlights"
+    },
+    {
+      "type": "textarea",
+      "id": "article_1_excerpt",
+      "label": "Article excerpt",
+      "default": "Explore the standout pieces from our latest spring collection."
+    },
+    {
+      "type": "text",
+      "id": "article_1_date",
+      "label": "Publication date",
+      "default": "March 15, 2024"
+    },
+    {
+      "type": "header",
+      "content": "Article 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_2_image",
+      "label": "Article image"
+    },
+    {
+      "type": "text",
+      "id": "article_2_category",
+      "label": "Category",
+      "default": "Lifestyle"
+    },
+    {
+      "type": "text",
+      "id": "article_2_title",
+      "label": "Article title",
+      "default": "Sustainable Fashion Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "article_2_excerpt",
+      "label": "Article excerpt",
+      "default": "Learn how to build a more sustainable wardrobe with our expert tips."
+    },
+    {
+      "type": "text",
+      "id": "article_2_date",
+      "label": "Publication date",
+      "default": "March 10, 2024"
+    },
+    {
+      "type": "header",
+      "content": "Article 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_3_image",
+      "label": "Article image"
+    },
+    {
+      "type": "text",
+      "id": "article_3_category",
+      "label": "Category",
+      "default": "Trends"
+    },
+    {
+      "type": "text",
+      "id": "article_3_title",
+      "label": "Article title",
+      "default": "Color Trends 2024"
+    },
+    {
+      "type": "textarea",
+      "id": "article_3_excerpt",
+      "label": "Article excerpt",
+      "default": "Discover the colors that will define fashion this year."
+    },
+    {
+      "type": "text",
+      "id": "article_3_date",
+      "label": "Publication date",
+      "default": "March 5, 2024"
+    },
+    {
+      "type": "header",
+      "content": "Article 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "article_4_image",
+      "label": "Article image"
+    },
+    {
+      "type": "text",
+      "id": "article_4_category",
+      "label": "Category",
+      "default": "Style"
+    },
+    {
+      "type": "text",
+      "id": "article_4_title",
+      "label": "Article title",
+      "default": "Styling Tips for Every Occasion"
+    },
+    {
+      "type": "textarea",
+      "id": "article_4_excerpt",
+      "label": "Article excerpt",
+      "default": "Master the art of dressing for any event with our styling guide."
+    },
+    {
+      "type": "text",
+      "id": "article_4_date",
+      "label": "Publication date",
+      "default": "February 28, 2024"
+    },
+    {
+      "type": "header",
+      "content": "Editorial Content"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Editorial content",
+      "default": "<p>Welcome to our editorial section where we share the latest insights, trends, and stories from the world of fashion and lifestyle. Our curated content brings you closer to the brands and products you love.</p><h3>Our Mission</h3><p>We believe in creating meaningful connections between our customers and the products they choose. Through thoughtful storytelling and expert insights, we aim to inspire and inform your style journey.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#000f9f"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "content_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Content size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Layout"
+    }
+  ]
+}
+{% endschema %}

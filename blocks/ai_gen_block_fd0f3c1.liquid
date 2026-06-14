@@ -1,0 +1,257 @@
+{% doc %}
+  @prompt
+    create a small countdown timer for urgency , make it like "apple.com" style , super simple and narrow and minimal, i want abilite to conotrol allignment
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-countdown-container-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: {{ block.settings.alignment }};
+    width: 100%;
+  }
+
+  .ai-countdown-timer-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: 500;
+    color: {{ block.settings.text_color }};
+    border: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-countdown-timer__label-{{ ai_gen_id }} {
+    white-space: nowrap;
+    opacity: 0.8;
+  }
+
+  .ai-countdown-timer__time-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .ai-countdown-timer__separator-{{ ai_gen_id }} {
+    opacity: 0.6;
+    font-weight: 300;
+  }
+
+  .ai-countdown-timer__unit-{{ ai_gen_id }} {
+    min-width: 20px;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-countdown-timer-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size | times: 0.9 }}px;
+      padding: 6px 12px;
+      gap: 6px;
+    }
+    
+    .ai-countdown-timer__time-{{ ai_gen_id }} {
+      gap: 3px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-countdown-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <countdown-timer-{{ ai_gen_id }}
+    class="ai-countdown-timer-{{ ai_gen_id }}"
+    data-end-date="{{ block.settings.end_date }}"
+    data-end-time="{{ block.settings.end_time }}"
+  >
+    {% if block.settings.label != blank %}
+      <span class="ai-countdown-timer__label-{{ ai_gen_id }}">{{ block.settings.label }}</span>
+    {% endif %}
+    
+    <div class="ai-countdown-timer__time-{{ ai_gen_id }}">
+      <span class="ai-countdown-timer__unit-{{ ai_gen_id }}" data-hours>00</span>
+      <span class="ai-countdown-timer__separator-{{ ai_gen_id }}">:</span>
+      <span class="ai-countdown-timer__unit-{{ ai_gen_id }}" data-minutes>00</span>
+      <span class="ai-countdown-timer__separator-{{ ai_gen_id }}">:</span>
+      <span class="ai-countdown-timer__unit-{{ ai_gen_id }}" data-seconds>00</span>
+    </div>
+  </countdown-timer-{{ ai_gen_id }}>
+</div>
+
+<script>
+(function() {
+  class CountdownTimer{{ ai_gen_id }} extends HTMLElement {
+    constructor() {
+      super();
+      this.interval = null;
+    }
+
+    connectedCallback() {
+      this.endDate = this.dataset.endDate;
+      this.endTime = this.dataset.endTime;
+      
+      if (!this.endDate || !this.endTime) {
+        this.showDefaultTime();
+        return;
+      }
+
+      this.hoursElement = this.querySelector('[data-hours]');
+      this.minutesElement = this.querySelector('[data-minutes]');
+      this.secondsElement = this.querySelector('[data-seconds]');
+
+      this.startCountdown();
+    }
+
+    disconnectedCallback() {
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+    }
+
+    startCountdown() {
+      this.updateTime();
+      this.interval = setInterval(() => {
+        this.updateTime();
+      }, 1000);
+    }
+
+    updateTime() {
+      const now = new Date().getTime();
+      const endDateTime = new Date(`${this.endDate}T${this.endTime}`).getTime();
+      const timeLeft = endDateTime - now;
+
+      if (timeLeft <= 0) {
+        this.showExpired();
+        if (this.interval) {
+          clearInterval(this.interval);
+        }
+        return;
+      }
+
+      const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      this.hoursElement.textContent = hours.toString().padStart(2, '0');
+      this.minutesElement.textContent = minutes.toString().padStart(2, '0');
+      this.secondsElement.textContent = seconds.toString().padStart(2, '0');
+    }
+
+    showExpired() {
+      this.hoursElement.textContent = '00';
+      this.minutesElement.textContent = '00';
+      this.secondsElement.textContent = '00';
+    }
+
+    showDefaultTime() {
+      if (this.hoursElement) this.hoursElement.textContent = '00';
+      if (this.minutesElement) this.minutesElement.textContent = '00';
+      if (this.secondsElement) this.secondsElement.textContent = '00';
+    }
+  }
+
+  customElements.define('countdown-timer-{{ ai_gen_id }}', CountdownTimer{{ ai_gen_id }});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Countdown Timer",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Timer Settings"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label text",
+      "default": "Ends in"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date",
+      "info": "Format: YYYY-MM-DD (e.g., 2024-12-31)"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "End time",
+      "info": "Format: HH:MM (24-hour format, e.g., 23:59)"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f5f5f7"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#1d1d1f"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#d2d2d7"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Timer"
+    }
+  ]
+}
+{% endschema %}

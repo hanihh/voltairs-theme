@@ -1,0 +1,23 @@
+<div class="video-slider-section">
+  {% for block in section.blocks %}
+    {% render block.type, block: block %}
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Video Slider Container",
+  "tag": "section",
+  "class": "section-video-slider",
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "ai_gen_block_a63a6e2",
+      "name": "Video Cards Slider",
+      "limit": 5
+    }
+  ]
+}
+{% endschema %}

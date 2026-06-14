@@ -1,0 +1,1263 @@
+{% doc %}
+  @prompt
+    Create an Expandable Therapy Slider Banner (Image/Video + Dynamic Slides):
+    Design a modern, responsive slider banner that showcases multiple therapy features of a wellness or beauty device. The section should include:
+    
+    ✅ Layout:
+    A 2-column layout per slide:
+    
+    Left side: device in use photo or embedded video (optional play icon overlay if video)
+    
+    Right side: text box with:
+    
+    Title: “3 Proven Therapies, 1 Powerful Device” (bold, centered, split by a comma)
+    
+    3 stacked or horizontal therapy cards (icons + titles + short descriptions)
+    
+    Example:
+    
+    🔴 Red-Light Therapy – Rejuvenates the skin, stimulates collagen production, and improves overall appearance.
+    
+    💪 Sculpting Therapy – Breaks down fatty tissue, promotes better lymphatic flow.
+    
+    💨 Vacuum Therapy – Lifts, firms, and smooths skin.
+    
+    ✅ Dynamic Control:
+    Provide a dropdown, slider, or stepper input allowing users to choose number of slides to display:
+    
+    Minimum: 3 slides
+    
+    Maximum: 6 slides
+    
+    Slides not selected are hidden by default
+    
+    Clicking arrows or swiping navigates the visible slides only
+    
+    ✅ Slide Content Options:
+    Each slide may have unique media:
+    
+    Upload either an image or a video for each slide
+    
+    System should auto-detect and render the proper format
+    
+    ✅ Design Style:
+    Background: soft blush pink (#FFEAEA or #FDEFF2)
+    
+    Font: modern (e.g. Poppins, Inter)
+    
+    Therapy icons: simple line or flat icons (centered and color-coded)
+    
+    Card layout with rounded corners, light shadows
+    
+    CTA Button optional below each slide (e.g., “Learn More” or “Shop Now”)
+    
+    Smooth transitions on slide switch
+    
+    ✅ Optional Features:
+    Dot navigation or progress indicator
+    
+    Autoplay toggle
+    
+    “Add New Slide” and “Remove Slide” admin control, remove the slide ability , just keep it only 1 , remove arrows and hint poijnts, make the vertical layout also full width , i want abilite to upload icon/image or select emoji and not only stick to emoji, and i want to be able to  add up to 9 items not only 3 , with hide/show option. and control the colums count and boarder amd shadow and radius
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .therapy-banner-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    padding: 40px 20px;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .therapy-banner__container-{{ ai_gen_id }} {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .therapy-banner__content-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .therapy-banner__content-wrapper-{{ ai_gen_id }} {
+      flex-direction: row;
+    }
+  }
+
+  .therapy-banner__media-{{ ai_gen_id }} {
+    flex: 1;
+    position: relative;
+    border-radius: {{ block.settings.media_border_radius }}px;
+    overflow: hidden;
+    box-shadow: {{ block.settings.media_shadow_h_offset }}px {{ block.settings.media_shadow_v_offset }}px {{ block.settings.media_shadow_blur }}px {{ block.settings.media_shadow_spread }}px {{ block.settings.media_shadow_color }}{{ block.settings.media_shadow_opacity | divided_by: 100.0 }};
+    border: {{ block.settings.media_border_width }}px solid {{ block.settings.media_border_color }};
+  }
+
+  .therapy-banner__media-{{ ai_gen_id }} img,
+  .therapy-banner__media-{{ ai_gen_id }} video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .therapy-banner__placeholder-{{ ai_gen_id }} {
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+  }
+
+  .therapy-banner__placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.5;
+  }
+
+  .therapy-banner__video-play-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .therapy-banner__video-play-{{ ai_gen_id }} svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .therapy-banner__content-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .therapy-banner__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    color: {{ block.settings.title_color }};
+  }
+
+  .therapy-banner__title-{{ ai_gen_id }} span {
+    display: block;
+  }
+
+  .therapy-banner__therapies-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 768px) {
+    .therapy-banner__therapies-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    }
+  }
+
+  .therapy-banner__therapy-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background_color }};
+    padding: 20px;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    box-shadow: {{ block.settings.card_shadow_h_offset }}px {{ block.settings.card_shadow_v_offset }}px {{ block.settings.card_shadow_blur }}px {{ block.settings.card_shadow_spread }}px {{ block.settings.card_shadow_color }}{{ block.settings.card_shadow_opacity | divided_by: 100.0 }};
+    transition: transform 0.3s ease;
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+  }
+
+  .therapy-banner__therapy-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+  }
+
+  .therapy-banner__therapy-icon-{{ ai_gen_id }} {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 24px;
+  }
+
+  .therapy-banner__therapy-icon-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .therapy-banner__therapy-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.therapy_title_size }}px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+    color: {{ block.settings.therapy_title_color }};
+  }
+
+  .therapy-banner__therapy-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.therapy_text_size }}px;
+    color: {{ block.settings.therapy_text_color }};
+    text-align: center;
+  }
+
+  .therapy-banner__cta-{{ ai_gen_id }} {
+    text-align: center;
+    margin-top: auto;
+  }
+
+  .therapy-banner__cta-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_background_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+
+  .therapy-banner__cta-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background_color }};
+  }
+{% endstyle %}
+
+<therapy-banner-{{ ai_gen_id }} class="therapy-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="therapy-banner__container-{{ ai_gen_id }}">
+    <div class="therapy-banner__content-wrapper-{{ ai_gen_id }}">
+      <div class="therapy-banner__media-{{ ai_gen_id }}">
+        {% if block.settings.media %}
+          {% if block.settings.media_type == 'video' %}
+            <video 
+              src="{{ block.settings.media | file_url }}"
+              poster="{{ block.settings.media | image_url }}"
+              controls
+              playsinline
+              muted
+              loop
+            ></video>
+            <div class="therapy-banner__video-play-{{ ai_gen_id }}">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+              </svg>
+            </div>
+          {% else %}
+            <img 
+              src="{{ block.settings.media | image_url: width: 800 }}"
+              alt="{{ block.settings.media.alt | escape }}"
+              loading="lazy"
+              width="{{ block.settings.media.width }}"
+              height="{{ block.settings.media.height }}"
+            >
+          {% endif %}
+        {% else %}
+          <div class="therapy-banner__placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="therapy-banner__content-{{ ai_gen_id }}">
+        {% if block.settings.title != blank %}
+          <h2 class="therapy-banner__title-{{ ai_gen_id }}">
+            {{ block.settings.title }}
+          </h2>
+        {% endif %}
+
+        <div class="therapy-banner__therapies-{{ ai_gen_id }}">
+          {% for i in (1..9) %}
+            {% assign therapy_enabled_key = 'therapy' | append: i | append: '_enabled' %}
+            {% assign therapy_icon_type_key = 'therapy' | append: i | append: '_icon_type' %}
+            {% assign therapy_icon_key = 'therapy' | append: i | append: '_icon' %}
+            {% assign therapy_icon_image_key = 'therapy' | append: i | append: '_icon_image' %}
+            {% assign therapy_title_key = 'therapy' | append: i | append: '_title' %}
+            {% assign therapy_description_key = 'therapy' | append: i | append: '_description' %}
+            {% assign therapy_color_key = 'therapy' | append: i | append: '_color' %}
+
+            {% if block.settings[therapy_enabled_key] %}
+              <div class="therapy-banner__therapy-{{ ai_gen_id }}">
+                <div class="therapy-banner__therapy-icon-{{ ai_gen_id }}" style="background-color: {{ block.settings[therapy_color_key] }}20;">
+                  {% if block.settings[therapy_icon_type_key] == 'emoji' %}
+                    <span style="color: {{ block.settings[therapy_color_key] }}">{{ block.settings[therapy_icon_key] }}</span>
+                  {% else %}
+                    {% if block.settings[therapy_icon_image_key] %}
+                      <img 
+                        src="{{ block.settings[therapy_icon_image_key] | image_url: width: 100 }}"
+                        alt="{{ block.settings[therapy_icon_image_key].alt | escape }}"
+                        loading="lazy"
+                        width="50"
+                        height="50"
+                      >
+                    {% endif %}
+                  {% endif %}
+                </div>
+                <h3 class="therapy-banner__therapy-title-{{ ai_gen_id }}">{{ block.settings[therapy_title_key] }}</h3>
+                <div class="therapy-banner__therapy-description-{{ ai_gen_id }}">{{ block.settings[therapy_description_key] }}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+          <div class="therapy-banner__cta-{{ ai_gen_id }}">
+            <a href="{{ block.settings.button_link }}" class="therapy-banner__cta-button-{{ ai_gen_id }}">
+              {{ block.settings.button_text }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</therapy-banner-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class TherapyBanner extends HTMLElement {
+      constructor() {
+        super();
+        this.videoPlayButton = this.querySelector('.therapy-banner__video-play-{{ ai_gen_id }}');
+      }
+
+      connectedCallback() {
+        this.setupVideoPlayButton();
+      }
+      
+      setupVideoPlayButton() {
+        if (!this.videoPlayButton) return;
+        
+        const video = this.videoPlayButton.previousElementSibling;
+        
+        this.videoPlayButton.addEventListener('click', () => {
+          if (video.paused) {
+            video.play();
+            this.videoPlayButton.style.display = 'none';
+          } else {
+            video.pause();
+            this.videoPlayButton.style.display = 'flex';
+          }
+        });
+        
+        video.addEventListener('play', () => {
+          this.videoPlayButton.style.display = 'none';
+        });
+        
+        video.addEventListener('pause', () => {
+          this.videoPlayButton.style.display = 'flex';
+        });
+        
+        video.addEventListener('ended', () => {
+          this.videoPlayButton.style.display = 'flex';
+        });
+      }
+    }
+    
+    customElements.define('therapy-banner-{{ ai_gen_id }}', TherapyBanner);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Therapy Banner",
+  "tag": null,
+  "class": "therapy-banner-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "media",
+      "label": "Image or video"
+    },
+    {
+      "type": "select",
+      "id": "media_type",
+      "label": "Media type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "range",
+      "id": "media_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Media border radius",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "media_border_width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Media border width",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "media_border_color",
+      "label": "Media border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Media Shadow"
+    },
+    {
+      "type": "range",
+      "id": "media_shadow_h_offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "media_shadow_v_offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "media_shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Blur",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "media_shadow_spread",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Spread",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "media_shadow_color",
+      "label": "Shadow color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "media_shadow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Shadow opacity",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "3 Proven Therapies, 1 Powerful Device"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy1_enabled",
+      "label": "Enable therapy 1",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "therapy1_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy1_icon",
+      "label": "Icon (emoji)",
+      "default": "🔴",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy1_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy1_title",
+      "label": "Title",
+      "default": "Red-Light Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy1_description",
+      "label": "Description",
+      "default": "Rejuvenates the skin, stimulates collagen production, and improves overall appearance."
+    },
+    {
+      "type": "color",
+      "id": "therapy1_color",
+      "label": "Color",
+      "default": "#FF5252"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy2_enabled",
+      "label": "Enable therapy 2",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "therapy2_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy2_icon",
+      "label": "Icon (emoji)",
+      "default": "💪",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy2_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy2_title",
+      "label": "Title",
+      "default": "Sculpting Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy2_description",
+      "label": "Description",
+      "default": "Breaks down fatty tissue, promotes better lymphatic flow."
+    },
+    {
+      "type": "color",
+      "id": "therapy2_color",
+      "label": "Color",
+      "default": "#448AFF"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy3_enabled",
+      "label": "Enable therapy 3",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "therapy3_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy3_icon",
+      "label": "Icon (emoji)",
+      "default": "💨",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy3_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy3_title",
+      "label": "Title",
+      "default": "Vacuum Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy3_description",
+      "label": "Description",
+      "default": "Lifts, firms, and smooths skin."
+    },
+    {
+      "type": "color",
+      "id": "therapy3_color",
+      "label": "Color",
+      "default": "#66BB6A"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy4_enabled",
+      "label": "Enable therapy 4",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "therapy4_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy4_icon",
+      "label": "Icon (emoji)",
+      "default": "✨",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy4_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy4_title",
+      "label": "Title",
+      "default": "Additional Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy4_description",
+      "label": "Description",
+      "default": "Description for additional therapy."
+    },
+    {
+      "type": "color",
+      "id": "therapy4_color",
+      "label": "Color",
+      "default": "#FF9800"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy5_enabled",
+      "label": "Enable therapy 5",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "therapy5_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy5_icon",
+      "label": "Icon (emoji)",
+      "default": "🔋",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy5_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy5_title",
+      "label": "Title",
+      "default": "Additional Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy5_description",
+      "label": "Description",
+      "default": "Description for additional therapy."
+    },
+    {
+      "type": "color",
+      "id": "therapy5_color",
+      "label": "Color",
+      "default": "#9C27B0"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy6_enabled",
+      "label": "Enable therapy 6",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "therapy6_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy6_icon",
+      "label": "Icon (emoji)",
+      "default": "🌟",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy6_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy6_title",
+      "label": "Title",
+      "default": "Additional Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy6_description",
+      "label": "Description",
+      "default": "Description for additional therapy."
+    },
+    {
+      "type": "color",
+      "id": "therapy6_color",
+      "label": "Color",
+      "default": "#009688"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 7"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy7_enabled",
+      "label": "Enable therapy 7",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "therapy7_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy7_icon",
+      "label": "Icon (emoji)",
+      "default": "🌊",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy7_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy7_title",
+      "label": "Title",
+      "default": "Additional Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy7_description",
+      "label": "Description",
+      "default": "Description for additional therapy."
+    },
+    {
+      "type": "color",
+      "id": "therapy7_color",
+      "label": "Color",
+      "default": "#03A9F4"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 8"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy8_enabled",
+      "label": "Enable therapy 8",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "therapy8_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy8_icon",
+      "label": "Icon (emoji)",
+      "default": "🔥",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy8_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy8_title",
+      "label": "Title",
+      "default": "Additional Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy8_description",
+      "label": "Description",
+      "default": "Description for additional therapy."
+    },
+    {
+      "type": "color",
+      "id": "therapy8_color",
+      "label": "Color",
+      "default": "#F44336"
+    },
+    {
+      "type": "header",
+      "content": "Therapy 9"
+    },
+    {
+      "type": "checkbox",
+      "id": "therapy9_enabled",
+      "label": "Enable therapy 9",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "therapy9_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "therapy9_icon",
+      "label": "Icon (emoji)",
+      "default": "🌿",
+      "info": "Only used if icon type is set to Emoji"
+    },
+    {
+      "type": "image_picker",
+      "id": "therapy9_icon_image",
+      "label": "Icon image",
+      "info": "Only used if icon type is set to Image"
+    },
+    {
+      "type": "text",
+      "id": "therapy9_title",
+      "label": "Title",
+      "default": "Additional Therapy"
+    },
+    {
+      "type": "textarea",
+      "id": "therapy9_description",
+      "label": "Description",
+      "default": "Description for additional therapy."
+    },
+    {
+      "type": "color",
+      "id": "therapy9_color",
+      "label": "Color",
+      "default": "#4CAF50"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFEAEA"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "therapy_title_color",
+      "label": "Therapy title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "therapy_text_color",
+      "label": "Therapy description color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Therapy card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Card border width",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Card Shadow"
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_h_offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_v_offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Blur",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_spread",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Spread",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "card_shadow_color",
+      "label": "Shadow color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Shadow opacity",
+      "default": 5
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background_color",
+      "label": "Button hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Section border radius",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "therapy_title_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Therapy title font size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "therapy_text_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Therapy description font size",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "Therapy Banner"
+    }
+  ]
+}
+{% endschema %}

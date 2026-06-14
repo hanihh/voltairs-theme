@@ -1,0 +1,1352 @@
+{% doc %}
+  @prompt
+    MAKE IT MOBILE RESPONSIVE ! I'd like your help designing a clean and modern "Trust Badge Bar" for our product pages. This section should visually highlight 4–5 key selling points in a horizontal layout (like icons + short text).
+    
+    Content to include:
+    
+    :blue_heart: Dedicated Support
+    
+    :check: 1-Year Warranty
+    
+    :lock: Secure Checkout
+    
+    :repeat: 60-Day Returns
+    
+    :truck: Free Tracked Shipping
+    
+    Style Preferences:
+    
+    Rounded pill-style containers for each item
+    
+    Light background (white or light gray)
+    
+    Minimal icon next to each text (solid, clean line icons)
+    
+    Font consistent with our brand (e.g., Inter or similar)
+    
+    Responsive layout (mobile friendly)
+    
+    This section should blend well with our product detail page and feel premium but not distracting.
+    
+    Let me know if you need references or if you can mock this up for both desktop and mobile views.
+    
+    Thanks!, i want ability to add my icons "upload image" or add emoji and i want abilite to add up to 20 items, make them grid not swipable, i need ability to add up to 20 badge, i want the width of eahc badge to be maximum as text lenght .. on desktop and. onmobile, i want the width of each badge to not be FIXED! but responsive depending on the text lenght ! on both mobile and desk top, give me ability to change aligement and order for all badges together "Center,left,right, wrapped , etc .. ", Mobile allignment options are not working
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .trust-badge-bar-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.padding }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;}
+
+  .trust-badge-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: {{ block.settings.layout_type | default: 'grid' | replace: 'grid', 'wrap' | replace: 'inline', 'nowrap' }};
+    gap: {{ block.settings.gap }}px;
+    width: 100%;
+    justify-content: {{ block.settings.alignment }};
+    {% if block.settings.layout_type == 'grid' %}
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, minmax(0, max-content));
+    justify-content: {{ block.settings.alignment }};
+    {% endif %}
+  }
+
+  .trust-badge-item-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: {{ block.settings.badge_padding }}px {{ block.settings.badge_padding | times: 1.5 }}px;
+    background-color: {{ block.settings.badge_background_color }};
+    border-radius: {{ block.settings.badge_border_radius }}px;
+    box-shadow: {{ block.settings.show_shadow | default: false | ternary: '0 2px 6px rgba(0, 0, 0, 0.1)', 'none' }};
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: max-content;
+    min-width: fit-content;
+  }
+
+  {% if block.settings.hover_effect != 'none' %}
+    .trust-badge-item-{{ ai_gen_id }}:hover {
+      {% case block.settings.hover_effect %}
+        {% when 'lift' %}
+          transform: translateY(-3px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        {% when 'scale' %}
+          transform: scale(1.05);
+        {% when 'highlight' %}
+          box-shadow: 0 0 0 2px {{ block.settings.badge_highlight_color }};
+      {% endcase %}
+    }
+  {% endif %}
+
+  .trust-badge-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .trust-badge-icon-{{ ai_gen_id }} img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .trust-badge-emoji-{{ ai_gen_id }} {
+    font-size: {{ block.settings.icon_size }}px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .trust-badge-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    color: {{ block.settings.text_color }};
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .trust-badge-container-{{ ai_gen_id }} {
+      {% if block.settings.layout_type == 'grid' %}
+      display: grid;
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, minmax(0, max-content));
+      {% endif %}
+      gap: {{ block.settings.mobile_gap }}px;
+      justify-content: {{ block.settings.mobile_alignment }};
+    }
+
+    .trust-badge-item-{{ ai_gen_id }} {
+      padding: {{ block.settings.badge_padding | times: 0.8 }}px {{ block.settings.badge_padding | times: 1.2 }}px;
+      width: max-content;
+      min-width: fit-content;
+    }
+
+    .trust-badge-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.8 }}px;
+      height: {{ block.settings.icon_size | times: 0.8 }}px;
+    }
+
+    .trust-badge-emoji-{{ ai_gen_id }} {
+      font-size: {{ block.settings.icon_size | times: 0.8 }}px;
+    }
+
+    .trust-badge-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+      white-space: nowrap;
+    }
+  }
+{% endstyle %}
+
+<div class="trust-badge-bar-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="trust-badge-container-{{ ai_gen_id }}">
+    {% for i in (1..20) %}
+      {% assign badge_enabled_key = 'badge_' | append: i | append: '_enabled' %}
+      {% assign badge_text_key = 'badge_' | append: i | append: '_text' %}
+      {% assign badge_icon_type_key = 'badge_' | append: i | append: '_icon_type' %}
+      {% assign badge_emoji_key = 'badge_' | append: i | append: '_emoji' %}
+      {% assign badge_image_key = 'badge_' | append: i | append: '_image' %}
+      {% if block.settings[badge_enabled_key] %}
+        <div class="trust-badge-item-{{ ai_gen_id }}">
+          {% if block.settings[badge_icon_type_key] == 'emoji' and block.settings[badge_emoji_key] != blank %}
+            <div class="trust-badge-emoji-{{ ai_gen_id }}">{{ block.settings[badge_emoji_key] }}</div>
+          {% elsif block.settings[badge_icon_type_key] == 'image' and block.settings[badge_image_key] != blank %}
+            <div class="trust-badge-icon-{{ ai_gen_id }}">
+              <img 
+                src="{{ block.settings[badge_image_key] | image_url: width: 60 }}" 
+                alt="{{ block.settings[badge_text_key] | escape }}"
+                width="{{ block.settings.icon_size }}"
+                height="{{ block.settings.icon_size }}"
+                loading="lazy"
+              >
+            </div>
+          {% endif %}
+          <span class="trust-badge-text-{{ ai_gen_id }}">{{ block.settings[badge_text_key] }}</span>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Badge Bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Layout type",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "inline",
+          "label": "Single line"
+        },
+        {
+          "value": "wrap",
+          "label": "Wrapped"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Desktop alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        },
+        {
+          "value": "space-around",
+          "label": "Space around"
+        },
+        {
+          "value": "space-evenly",
+          "label": "Space evenly"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "mobile_alignment",
+      "label": "Mobile alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        },
+        {
+          "value": "space-around",
+          "label": "Space around"
+        },
+        {
+          "value": "space-evenly",
+          "label": "Space evenly"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Space between badges",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 5,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Badge Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_background_color",
+      "label": "Badge background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Section border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "badge_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge border radius",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "badge_padding",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge padding",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shadow",
+      "label": "Show shadow",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "hover_effect",
+      "label": "Hover effect",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "lift",
+          "label": "Lift"
+        },
+        {
+          "value": "scale",
+          "label": "Scale"
+        },
+        {
+          "value": "highlight",
+          "label": "Highlight"
+        }
+      ],
+      "default": "lift"
+    },
+    {
+      "type": "color",
+      "id": "badge_highlight_color",
+      "label": "Highlight color",
+      "default": "#000f9f",
+      "info": "Used for highlight hover effect"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile space between badges",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Badge 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_1_enabled",
+      "label": "Enable badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_1_text",
+      "label": "Text",
+      "default": "Dedicated Support"
+    },
+    {
+      "type": "select",
+      "id": "badge_1_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_emoji",
+      "label": "Emoji",
+      "default": "💙",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_2_enabled",
+      "label": "Enable badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_2_text",
+      "label": "Text",
+      "default": "1-Year Warranty"
+    },
+    {
+      "type": "select",
+      "id": "badge_2_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_emoji",
+      "label": "Emoji",
+      "default": "✓",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_3_enabled",
+      "label": "Enable badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_3_text",
+      "label": "Text",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "select",
+      "id": "badge_3_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_emoji",
+      "label": "Emoji",
+      "default": "🔒",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_4_enabled",
+      "label": "Enable badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_4_text",
+      "label": "Text",
+      "default": "60-Day Returns"
+    },
+    {
+      "type": "select",
+      "id": "badge_4_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_4_emoji",
+      "label": "Emoji",
+      "default": "🔄",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_5_enabled",
+      "label": "Enable badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_5_text",
+      "label": "Text",
+      "default": "Free Tracked Shipping"
+    },
+    {
+      "type": "select",
+      "id": "badge_5_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_5_emoji",
+      "label": "Emoji",
+      "default": "🚚",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_6_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_6_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_6_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_6_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 7"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_7_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_7_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_7_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_7_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_7_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 8"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_8_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_8_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_8_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_8_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_8_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 9"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_9_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_9_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_9_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_9_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_9_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 10"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_10_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_10_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_10_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_10_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_10_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 11"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_11_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_11_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_11_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_11_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_11_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 12"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_12_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_12_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_12_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_12_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_12_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 13"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_13_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_13_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_13_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_13_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_13_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 14"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_14_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_14_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_14_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_14_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_14_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 15"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_15_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_15_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_15_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_15_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_15_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 16"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_16_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_16_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_16_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_16_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_16_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 17"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_17_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_17_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_17_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_17_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_17_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 18"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_18_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_18_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_18_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_18_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_18_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 19"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_19_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_19_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_19_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_19_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_19_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 20"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_20_enabled",
+      "label": "Enable badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_20_text",
+      "label": "Text",
+      "default": "Custom Badge"
+    },
+    {
+      "type": "select",
+      "id": "badge_20_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "emoji"
+    },
+    {
+      "type": "text",
+      "id": "badge_20_emoji",
+      "label": "Emoji",
+      "default": "⭐",
+      "info": "Enter a single emoji character"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_20_image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Badge Bar"
+    }
+  ]
+}
+{% endschema %}

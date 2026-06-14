@@ -1,0 +1,710 @@
+{% doc %}
+  @prompt
+    I'd like your help designing a clean and modern "Trust Badge Bar" for our product pages. This section should visually highlight 4–5 key selling points in a horizontal layout (like icons + short text).
+    
+    Content to include:
+    
+    :blue_heart: Dedicated Support
+    
+    :check: 1-Year Warranty
+    
+    :lock: Secure Checkout
+    
+    :repeat: 60-Day Returns
+    
+    :truck: Free Tracked Shipping
+    
+    Style Preferences:
+    
+    Rounded pill-style containers for each item
+    
+    Light background (white or light gray)
+    
+    Minimal icon next to each text (solid, clean line icons)
+    
+    Font consistent with our brand (e.g., Inter or similar)
+    
+    Responsive layout (mobile friendly)
+    
+    This section should blend well with our product detail page and feel premium but not distracting.
+    
+    Let me know if you need references or if you can mock this up for both desktop and mobile views.
+    
+    Thanks!, i want ability to add my icons "upload image" or add emoji and i want abilite to add up to 20 items
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .trust-badge-bar-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.padding }}px 0;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.container_border_radius }}px;
+  }
+
+  .trust-badge-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: {{ block.settings.alignment }};
+    gap: {{ block.settings.gap }}px;
+    overflow-x: auto;
+    padding: 0 {{ block.settings.padding }}px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .trust-badge-container-{{ ai_gen_id }}::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .trust-badge-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    padding: {{ block.settings.badge_padding }}px {{ block.settings.badge_padding | times: 1.5 }}px;
+    background-color: {{ block.settings.badge_background_color }};
+    border-radius: {{ block.settings.badge_border_radius }}px;
+    min-width: max-content;
+    box-shadow: {{ block.settings.show_shadow | default: false | ternary: '0 2px 5px rgba(0,0,0,0.1)', 'none' }};
+  }
+
+  .trust-badge-icon-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    font-size: {{ block.settings.icon_size }}px;
+  }
+
+  .trust-badge-icon-image-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    object-fit: contain;
+  }
+
+  .trust-badge-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    font-weight: {{ block.settings.text_weight }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .trust-badge-container-{{ ai_gen_id }} {
+      justify-content: flex-start;
+      padding: 0 {{ block.settings.padding | divided_by: 2 }}px;
+    }
+    
+    .trust-badge-item-{{ ai_gen_id }} {
+      padding: {{ block.settings.badge_padding | times: 0.8 }}px {{ block.settings.badge_padding | times: 1.2 }}px;
+    }
+    
+    .trust-badge-icon-{{ ai_gen_id }} {
+      font-size: {{ block.settings.icon_size | times: 0.9 }}px;
+    }
+    
+    .trust-badge-icon-image-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.9 }}px;
+      height: {{ block.settings.icon_size | times: 0.9 }}px;
+    }
+    
+    .trust-badge-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="trust-badge-bar-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="trust-badge-container-{{ ai_gen_id }}">
+    {% for i in (1..20) %}
+      {% assign badge_text_key = 'badge_' | append: i | append: '_text' %}
+      {% assign badge_icon_key = 'badge_' | append: i | append: '_icon' %}
+      {% assign badge_image_key = 'badge_' | append: i | append: '_image' %}
+      
+      {% assign badge_text = block.settings[badge_text_key] %}
+      {% assign badge_icon = block.settings[badge_icon_key] %}
+      {% assign badge_image = block.settings[badge_image_key] %}
+      
+      {% if badge_text != blank %}
+        <div class="trust-badge-item-{{ ai_gen_id }}">
+          <div class="trust-badge-icon-{{ ai_gen_id }}">
+            {% if badge_image != blank %}
+              <img 
+                src="{{ badge_image | image_url: width: 50 }}" 
+                alt="{{ badge_text }}" 
+                loading="lazy" 
+                width="{{ block.settings.icon_size }}" 
+                height="{{ block.settings.icon_size }}" 
+                class="trust-badge-icon-image-{{ ai_gen_id }}"
+              >
+            {% elsif badge_icon != blank %}
+              {{ badge_icon }}
+            {% endif %}
+          </div>
+          <div class="trust-badge-text-{{ ai_gen_id }}">{{ badge_text }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Badge Bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "container_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Container border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Container padding",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Badge alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        },
+        {
+          "value": "space-around",
+          "label": "Space around"
+        },
+        {
+          "value": "space-evenly",
+          "label": "Space evenly"
+        }
+      ],
+      "default": "space-evenly"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "label": "Space between badges",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Badge Style"
+    },
+    {
+      "type": "color",
+      "id": "badge_background_color",
+      "label": "Badge background color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "range",
+      "id": "badge_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge border radius",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "badge_padding",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge padding",
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shadow",
+      "label": "Show shadow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Text Style"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Badge 1"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_text",
+      "label": "Text",
+      "default": "Dedicated Support"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_icon",
+      "label": "Emoji (optional)",
+      "default": "💙"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_1_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 2"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_text",
+      "label": "Text",
+      "default": "1-Year Warranty"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_icon",
+      "label": "Emoji (optional)",
+      "default": "✓"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_2_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 3"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_text",
+      "label": "Text",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_icon",
+      "label": "Emoji (optional)",
+      "default": "🔒"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_3_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 4"
+    },
+    {
+      "type": "text",
+      "id": "badge_4_text",
+      "label": "Text",
+      "default": "60-Day Returns"
+    },
+    {
+      "type": "text",
+      "id": "badge_4_icon",
+      "label": "Emoji (optional)",
+      "default": "🔄"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_4_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 5"
+    },
+    {
+      "type": "text",
+      "id": "badge_5_text",
+      "label": "Text",
+      "default": "Free Tracked Shipping"
+    },
+    {
+      "type": "text",
+      "id": "badge_5_icon",
+      "label": "Emoji (optional)",
+      "default": "🚚"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_5_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 6"
+    },
+    {
+      "type": "text",
+      "id": "badge_6_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_6_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_6_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 7"
+    },
+    {
+      "type": "text",
+      "id": "badge_7_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_7_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_7_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 8"
+    },
+    {
+      "type": "text",
+      "id": "badge_8_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_8_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_8_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 9"
+    },
+    {
+      "type": "text",
+      "id": "badge_9_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_9_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_9_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 10"
+    },
+    {
+      "type": "text",
+      "id": "badge_10_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_10_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_10_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 11"
+    },
+    {
+      "type": "text",
+      "id": "badge_11_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_11_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_11_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 12"
+    },
+    {
+      "type": "text",
+      "id": "badge_12_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_12_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_12_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 13"
+    },
+    {
+      "type": "text",
+      "id": "badge_13_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_13_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_13_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 14"
+    },
+    {
+      "type": "text",
+      "id": "badge_14_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_14_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_14_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 15"
+    },
+    {
+      "type": "text",
+      "id": "badge_15_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_15_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_15_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 16"
+    },
+    {
+      "type": "text",
+      "id": "badge_16_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_16_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_16_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 17"
+    },
+    {
+      "type": "text",
+      "id": "badge_17_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_17_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_17_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 18"
+    },
+    {
+      "type": "text",
+      "id": "badge_18_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_18_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_18_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 19"
+    },
+    {
+      "type": "text",
+      "id": "badge_19_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_19_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_19_image",
+      "label": "Icon image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Badge 20"
+    },
+    {
+      "type": "text",
+      "id": "badge_20_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "badge_20_icon",
+      "label": "Emoji (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_20_image",
+      "label": "Icon image (optional)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Badge Bar"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

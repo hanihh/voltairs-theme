@@ -1,0 +1,378 @@
+{% doc %}
+  @prompt
+    create a circle profile image with name beside it , and then date
+    
+    i want to be able to select yesterdays date so it automaticcly change the dates
+    and i want to be able to pick dates language (english,german,france,dutsh,sweden,arabic,.. etc)
+    
+    the name style is text 
+    
+    example
+    
+    By Kwefi M. - Oct 28, 2025
+    
+    the "By" is light black
+    The Name "Kwefi M." is bold black
+    The Date "- Last Updated Oct 28, 2025" is light and in other color like gray
+    
+    
+    i want it to be comparct and use best design practices
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-author-profile-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ai-author-profile__image-{{ ai_gen_id }} {
+    width: {{ block.settings.image_size }}px;
+    height: {{ block.settings.image_size }}px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .ai-author-profile__image-placeholder-{{ ai_gen_id }} {
+    width: {{ block.settings.image_size }}px;
+    height: {{ block.settings.image_size }}px;
+    border-radius: 50%;
+    background-color: #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ai-author-profile__image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-author-profile__content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ai-author-profile__byline-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .ai-author-profile__by-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.by_color }};
+    font-weight: 400;
+  }
+
+  .ai-author-profile__name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.name_color }};
+    font-weight: 700;
+  }
+
+  .ai-author-profile__date-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.date_color }};
+    font-weight: 400;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-author-profile-{{ ai_gen_id }} {
+      gap: 10px;
+    }
+
+    .ai-author-profile__image-{{ ai_gen_id }},
+    .ai-author-profile__image-placeholder-{{ ai_gen_id }} {
+      width: {{ block.settings.image_size | times: 0.8 }}px;
+      height: {{ block.settings.image_size | times: 0.8 }}px;
+    }
+
+    .ai-author-profile__by-{{ ai_gen_id }},
+    .ai-author-profile__name-{{ ai_gen_id }},
+    .ai-author-profile__date-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<author-profile-{{ ai_gen_id }}
+  class="ai-author-profile-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.author_image %}
+    <img
+      src="{{ block.settings.author_image | image_url: width: 200 }}"
+      alt="{{ block.settings.author_name | escape }}"
+      class="ai-author-profile__image-{{ ai_gen_id }}"
+      loading="lazy"
+      width="200"
+      height="200"
+    >
+  {% else %}
+    <div class="ai-author-profile__image-placeholder-{{ ai_gen_id }}">
+      {{ 'image' | placeholder_svg_tag }}
+    </div>
+  {% endif %}
+
+  <div class="ai-author-profile__content-{{ ai_gen_id }}">
+    <div class="ai-author-profile__byline-{{ ai_gen_id }}">
+      <span class="ai-author-profile__by-{{ ai_gen_id }}">{{ block.settings.by_text }}</span>
+      <span class="ai-author-profile__name-{{ ai_gen_id }}">{{ block.settings.author_name }}</span>
+    </div>
+    <div
+      class="ai-author-profile__date-{{ ai_gen_id }}"
+      data-date-type="{{ block.settings.date_type }}"
+      data-date-value="{{ block.settings.custom_date }}"
+      data-language="{{ block.settings.date_language }}"
+      data-date-prefix="{{ block.settings.date_prefix }}"
+    ></div>
+  </div>
+</author-profile-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AuthorProfile{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.dateElement = this.querySelector('.ai-author-profile__date-{{ ai_gen_id }}');
+        this.updateDate();
+      }
+
+      updateDate() {
+        const dateType = this.dateElement.getAttribute('data-date-type');
+        const customDate = this.dateElement.getAttribute('data-date-value');
+        const language = this.dateElement.getAttribute('data-language');
+        const prefix = this.dateElement.getAttribute('data-date-prefix');
+
+        let targetDate;
+
+        if (dateType === 'yesterday') {
+          targetDate = new Date();
+          targetDate.setDate(targetDate.getDate() - 1);
+        } else if (dateType === 'today') {
+          targetDate = new Date();
+        } else if (dateType === 'custom' && customDate) {
+          targetDate = new Date(customDate);
+        } else {
+          targetDate = new Date();
+        }
+
+        const formattedDate = this.formatDate(targetDate, language);
+        this.dateElement.textContent = prefix + ' ' + formattedDate;
+      }
+
+      formatDate(date, language) {
+        const monthNames = {
+          en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          de: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+          fr: ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'],
+          nl: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+          sv: ['jan', 'feb', 'mars', 'apr', 'maj', 'juni', 'juli', 'aug', 'sep', 'okt', 'nov', 'dec'],
+          ar: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+          es: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+          it: ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'],
+          pt: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
+          ru: ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'],
+          ja: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+          zh: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+        };
+
+        const months = monthNames[language] || monthNames.en;
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+
+        if (language === 'ar') {
+          return day + ' ' + month + ' ' + year;
+        } else if (language === 'de' || language === 'fr' || language === 'nl' || language === 'sv' || language === 'it' || language === 'pt' || language === 'es') {
+          return day + ' ' + month + ' ' + year;
+        } else if (language === 'ja' || language === 'zh') {
+          return year + '年' + month + day + '日';
+        } else {
+          return month + ' ' + day + ', ' + year;
+        }
+      }
+    }
+
+    customElements.define('author-profile-{{ ai_gen_id }}', AuthorProfile{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Author profile",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Author"
+    },
+    {
+      "type": "image_picker",
+      "id": "author_image",
+      "label": "Profile image"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Image size",
+      "default": 50
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "Name",
+      "default": "Kwefi M."
+    },
+    {
+      "type": "text",
+      "id": "by_text",
+      "label": "By text",
+      "default": "By"
+    },
+    {
+      "type": "header",
+      "content": "Date"
+    },
+    {
+      "type": "select",
+      "id": "date_type",
+      "label": "Date type",
+      "options": [
+        {
+          "value": "today",
+          "label": "Today"
+        },
+        {
+          "value": "yesterday",
+          "label": "Yesterday"
+        },
+        {
+          "value": "custom",
+          "label": "Custom date"
+        }
+      ],
+      "default": "today"
+    },
+    {
+      "type": "text",
+      "id": "custom_date",
+      "label": "Custom date",
+      "info": "Format: YYYY-MM-DD (e.g., 2025-10-28)"
+    },
+    {
+      "type": "select",
+      "id": "date_language",
+      "label": "Language",
+      "options": [
+        {
+          "value": "en",
+          "label": "English"
+        },
+        {
+          "value": "de",
+          "label": "German"
+        },
+        {
+          "value": "fr",
+          "label": "French"
+        },
+        {
+          "value": "nl",
+          "label": "Dutch"
+        },
+        {
+          "value": "sv",
+          "label": "Swedish"
+        },
+        {
+          "value": "ar",
+          "label": "Arabic"
+        },
+        {
+          "value": "es",
+          "label": "Spanish"
+        },
+        {
+          "value": "it",
+          "label": "Italian"
+        },
+        {
+          "value": "pt",
+          "label": "Portuguese"
+        },
+        {
+          "value": "ru",
+          "label": "Russian"
+        },
+        {
+          "value": "ja",
+          "label": "Japanese"
+        },
+        {
+          "value": "zh",
+          "label": "Chinese"
+        }
+      ],
+      "default": "en"
+    },
+    {
+      "type": "text",
+      "id": "date_prefix",
+      "label": "Date prefix",
+      "default": "- Last Updated"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "by_color",
+      "label": "By text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Name color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "date_color",
+      "label": "Date color",
+      "default": "#999999"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Author profile"
+    }
+  ]
+}
+{% endschema %}

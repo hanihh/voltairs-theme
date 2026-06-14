@@ -1,0 +1,765 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-video-slider-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.padding_top }}px {{ block.settings.padding_horizontal }}px {{ block.settings.padding_bottom }}px;
+    overflow: visible;
+  }
+
+  .ai-video-slider-container-{{ ai_gen_id }} {
+    max-width: 100%;
+    margin: 0 auto;
+    {% if block.settings.content_alignment == 'center' %}
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    {% elsif block.settings.content_alignment == 'right' %}
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    {% elsif block.settings.content_alignment == 'left' %}
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    {% elsif block.settings.content_alignment == 'space-between' %}
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    {% endif %}
+  }
+
+  .ai-video-slider-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    margin: 0 0 {{ block.settings.vertical_gap }}px 0;
+    width: 100%;
+    {% if block.settings.heading_alignment == 'center' %}
+      text-align: center;
+    {% elsif block.settings.heading_alignment == 'right' %}
+      text-align: right;
+    {% elsif block.settings.heading_alignment == 'left' %}
+      text-align: left;
+    {% endif %}
+    {% if block.settings.heading == blank %}
+      display: none;
+    {% endif %}
+  }
+
+  .ai-video-slider-track-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    padding: {{ block.settings.glow_vertical_padding }}px 0;
+  }
+
+  .ai-video-slider-track-{{ ai_gen_id }} {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - ({{ block.settings.card_gap }}px * 2.5)) / 3.5);
+    gap: {{ block.settings.card_gap }}px;
+    overflow-x: hidden;
+    overflow-y: visible;
+    scroll-behavior: smooth;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .ai-video-slider-track-{{ ai_gen_id }}.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-video-slider-track-{{ ai_gen_id }} {
+      {% if block.settings.mobile_columns == '2' %}
+        grid-auto-columns: calc((100% - ({{ block.settings.card_gap }}px * 1.25)) / 2.25);
+      {% elsif block.settings.mobile_columns == '3' %}
+        grid-auto-columns: calc((100% - ({{ block.settings.card_gap }}px * 2.25)) / 3.25);
+      {% elsif block.settings.mobile_columns == '4' %}
+        grid-auto-columns: calc((100% - ({{ block.settings.card_gap }}px * 3.25)) / 4.25);
+      {% else %}
+        grid-auto-columns: calc((100% - ({{ block.settings.card_gap }}px * 0.25)) / 1.25);
+      {% endif %}
+    }
+  }
+
+  .ai-video-card-{{ ai_gen_id }} {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-video-card-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    overflow: visible;
+  }
+
+  .ai-video-card-wrapper-{{ ai_gen_id }}:hover .ai-video-glow-{{ ai_gen_id }} {
+    opacity: 1;
+  }
+
+  .ai-video-glow-{{ ai_gen_id }} {
+    position: absolute;
+    left: -{{ block.settings.glow_blur }}px;
+    right: -{{ block.settings.glow_blur }}px;
+    top: -{{ block.settings.glow_vertical_padding }}px;
+    bottom: -{{ block.settings.glow_vertical_padding }}px;
+    background: {{ block.settings.glow_color }};
+    filter: blur({{ block.settings.glow_blur }}px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+    pointer-events: none;
+    {% if block.settings.thumbnail_style == 'circle' %}
+      border-radius: 50%;
+    {% else %}
+      border-radius: {{ block.settings.card_border_radius }}px;
+    {% endif %}
+  }
+
+  .ai-video-thumbnail-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    {% if block.settings.thumbnail_style == 'circle' %}
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: {{ block.settings.story_border_width }}px solid {{ block.settings.story_border_color }};
+      padding: {{ block.settings.story_border_width }}px;
+    {% elsif block.settings.thumbnail_style == 'portrait' %}
+      aspect-ratio: 9 / 16;
+      border-radius: {{ block.settings.card_border_radius }}px;
+      {% if block.settings.card_border %}
+        border: 1px solid {{ block.settings.card_border_color }};
+      {% endif %}
+    {% elsif block.settings.thumbnail_style == 'landscape' %}
+      aspect-ratio: 16 / 9;
+      border-radius: {{ block.settings.card_border_radius }}px;
+      {% if block.settings.card_border %}
+        border: 1px solid {{ block.settings.card_border_color }};
+      {% endif %}
+    {% elsif block.settings.thumbnail_style == 'square' %}
+      aspect-ratio: 1;
+      border-radius: {{ block.settings.card_border_radius }}px;
+      {% if block.settings.card_border %}
+        border: 1px solid {{ block.settings.card_border_color }};
+      {% endif %}
+    {% elsif block.settings.thumbnail_style == 'custom' %}
+      height: {{ block.settings.thumbnail_height }}px;
+      border-radius: {{ block.settings.card_border_radius }}px;
+      {% if block.settings.card_border %}
+        border: 1px solid {{ block.settings.card_border_color }};
+      {% endif %}
+    {% endif %}
+  }
+
+  .ai-video-thumbnail-inner-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    {% if block.settings.thumbnail_style == 'circle' %}
+      border-radius: 50%;
+    {% else %}
+      border-radius: {{ block.settings.card_border_radius }}px;
+    {% endif %}
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ai-video-thumbnail-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-video-play-button-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: {{ block.settings.play_button_size }}px;
+    height: {{ block.settings.play_button_size }}px;
+    background: {{ block.settings.play_button_bg }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+    {% if block.settings.show_play_button == false %}
+      display: none;
+    {% endif %}
+  }
+
+  .ai-video-play-button-{{ ai_gen_id }} svg {
+    width: calc({{ block.settings.play_button_size }}px * 0.4);
+    height: calc({{ block.settings.play_button_size }}px * 0.4);
+    fill: {{ block.settings.play_button_icon_color }};
+    margin-left: 3px;
+  }
+
+  .ai-video-card-title-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.vertical_gap }}px;
+    font-size: {{ block.settings.title_size }}px;
+    text-align: center;
+    color: {{ block.settings.title_color }};
+  }
+
+  .ai-video-slider-controls-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: {{ block.settings.vertical_gap }}px;
+  }
+
+  .ai-video-slider-arrow-{{ ai_gen_id }} {
+    width: {{ block.settings.arrow_size }}px;
+    height: {{ block.settings.arrow_size }}px;
+    border-radius: 50%;
+    background: {{ block.settings.arrow_bg_color }};
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+
+  .ai-video-slider-arrow-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.arrow_hover_bg_color }};
+  }
+
+  .ai-video-slider-arrow-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-video-slider-arrow-{{ ai_gen_id }} svg {
+    width: calc({{ block.settings.arrow_size }}px * 0.5);
+    height: calc({{ block.settings.arrow_size }}px * 0.5);
+  }
+
+  .ai-video-slider-arrow-{{ ai_gen_id }}.filled svg {
+    fill: {{ block.settings.arrow_icon_color }};
+    stroke: none;
+  }
+
+  .ai-video-slider-arrow-{{ ai_gen_id }}.outline svg {
+    fill: none;
+    stroke: {{ block.settings.arrow_icon_color }};
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ai-video-modal-{{ ai_gen_id }} {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .ai-video-modal-{{ ai_gen_id }}.active {
+    display: flex;
+  }
+
+  .ai-video-modal-content-{{ ai_gen_id }} {
+    position: relative;
+    width: 95%;
+    max-width: {{ block.settings.popup_max_width }}px;
+    max-height: 95vh;
+  }
+
+  .ai-video-modal-content-{{ ai_gen_id }}.ratio-16-9 {
+    aspect-ratio: 16 / 9;
+  }
+
+  .ai-video-modal-content-{{ ai_gen_id }}.ratio-9-16 {
+    aspect-ratio: 9 / 16;
+    max-width: 600px;
+  }
+
+  .ai-video-modal-content-{{ ai_gen_id }}.ratio-1-1 {
+    aspect-ratio: 1 / 1;
+    max-width: 1000px;
+  }
+
+  .ai-video-modal-content-{{ ai_gen_id }}.ratio-4-3 {
+    aspect-ratio: 4 / 3;
+    max-width: 1100px;
+  }
+
+  .ai-video-modal-content-{{ ai_gen_id }}.ratio-21-9 {
+    aspect-ratio: 21 / 9;
+  }
+
+  .ai-video-modal-content-{{ ai_gen_id }} iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .ai-video-modal-close-{{ ai_gen_id }} {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-video-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .ai-video-placeholder-{{ ai_gen_id }} svg {
+    width: 60px;
+    height: 60px;
+    opacity: 0.3;
+  }
+
+  .ai-video-placeholder-text-{{ ai_gen_id }} {
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+  }
+{% endstyle %}
+
+<video-slider-{{ ai_gen_id }} class="ai-video-slider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-video-slider-container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-video-slider-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="ai-video-slider-track-wrapper-{{ ai_gen_id }}">
+      <div class="ai-video-slider-track-{{ ai_gen_id }}" data-track>
+        {% for i in (1..8) %}
+          {% liquid
+            assign video_enabled_key = 'video_' | append: i | append: '_enabled'
+            assign video_url_key = 'video_' | append: i | append: '_url'
+            assign video_thumbnail_key = 'video_' | append: i | append: '_thumbnail'
+            assign video_title_key = 'video_' | append: i | append: '_title'
+            assign video_ratio_key = 'video_' | append: i | append: '_ratio'
+
+            assign video_enabled = block.settings[video_enabled_key]
+            assign video_url = block.settings[video_url_key]
+            assign video_thumbnail = block.settings[video_thumbnail_key]
+            assign video_title = block.settings[video_title_key]
+            assign video_ratio = block.settings[video_ratio_key]
+          %}
+
+          {% if video_enabled %}
+            <div class="ai-video-card-{{ ai_gen_id }}" data-video-url="{{ video_url }}" data-video-ratio="{{ video_ratio }}">
+              <div class="ai-video-card-wrapper-{{ ai_gen_id }}">
+                <div class="ai-video-glow-{{ ai_gen_id }}"></div>
+                <div class="ai-video-thumbnail-{{ ai_gen_id }}">
+                  <div class="ai-video-thumbnail-inner-{{ ai_gen_id }}">
+                    {% if video_thumbnail %}
+                      <img
+                        src="{{ video_thumbnail | image_url: width: 800 }}"
+                        alt="{{ video_title | escape }}"
+                        loading="lazy"
+                        width="800"
+                        height="800"
+                      >
+                    {% else %}
+                      <div class="ai-video-placeholder-{{ ai_gen_id }}">
+                        {{ 'image' | placeholder_svg_tag }}
+                        <div class="ai-video-placeholder-text-{{ ai_gen_id }}">Add video URL and thumbnail</div>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="ai-video-play-button-{{ ai_gen_id }}">
+                    <svg viewBox="0 0 24 24">
+                      <polygon points="5,3 19,12 5,21"></polygon>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              {% if video_title != blank %}
+                <div class="ai-video-card-title-{{ ai_gen_id }}">{{ video_title }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="ai-video-slider-controls-{{ ai_gen_id }}" data-controls>
+      <button class="ai-video-slider-arrow-{{ ai_gen_id }} {{ block.settings.arrow_style }}" data-prev aria-label="Previous">
+        {% if block.settings.arrow_style == 'filled' %}
+          <svg viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        {% else %}
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        {% endif %}
+      </button>
+      <button class="ai-video-slider-arrow-{{ ai_gen_id }} {{ block.settings.arrow_style }}" data-next aria-label="Next">
+        {% if block.settings.arrow_style == 'filled' %}
+          <svg viewBox="0 0 24 24">
+            <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+          </svg>
+        {% else %}
+          <svg viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        {% endif %}
+      </button>
+    </div>
+  </div>
+
+  <div class="ai-video-modal-{{ ai_gen_id }}" data-modal>
+    <div class="ai-video-modal-content-{{ ai_gen_id }}" data-modal-content>
+      <button class="ai-video-modal-close-{{ ai_gen_id }}" data-close aria-label="Close">&times;</button>
+      <div data-video-container></div>
+    </div>
+  </div>
+</video-slider-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class VideoSlider{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentIndex = 0;
+        this.track = this.querySelector('[data-track]');
+        this.cards = Array.from(this.querySelectorAll('.ai-video-card-{{ ai_gen_id }}'));
+        this.prevBtn = this.querySelector('[data-prev]');
+        this.nextBtn = this.querySelector('[data-next]');
+        this.controls = this.querySelector('[data-controls]');
+        this.modal = this.querySelector('[data-modal]');
+        this.modalContent = this.querySelector('[data-modal-content]');
+        this.closeBtn = this.querySelector('[data-close]');
+        this.videoContainer = this.querySelector('[data-video-container]');
+        
+        this.isDragging = false;
+        this.startPos = 0;
+        this.currentTranslate = 0;
+        this.prevTranslate = 0;
+        this.animationID = 0;
+        this.startTime = 0;
+        this.isClick = true;
+      }
+
+      connectedCallback() {
+        this.setupEventListeners();
+        this.setupTouchEvents();
+        this.checkIfArrowsNeeded();
+      }
+
+      setupEventListeners() {
+        this.cards.forEach((card) => {
+          card.addEventListener('click', (e) => {
+            if (this.isClick) {
+              e.preventDefault();
+              e.stopPropagation();
+              this.openVideo(card);
+            }
+          });
+        });
+
+        this.prevBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigate(-1);
+        });
+        
+        this.nextBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigate(1);
+        });
+        
+        this.closeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.closeVideo();
+        });
+        
+        this.modal.addEventListener('click', (e) => {
+          if (e.target === this.modal) {
+            e.preventDefault();
+            this.closeVideo();
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+            this.closeVideo();
+          }
+        });
+      }
+
+      setupTouchEvents() {
+        this.track.addEventListener('touchstart', this.touchStart.bind(this), { passive: true });
+        this.track.addEventListener('touchend', this.touchEnd.bind(this));
+        this.track.addEventListener('touchmove', this.touchMove.bind(this), { passive: true });
+        
+        this.track.addEventListener('mousedown', this.touchStart.bind(this));
+        this.track.addEventListener('mouseup', this.touchEnd.bind(this));
+        this.track.addEventListener('mouseleave', this.touchEnd.bind(this));
+        this.track.addEventListener('mousemove', this.touchMove.bind(this));
+      }
+
+      touchStart(event) {
+        this.isDragging = true;
+        this.isClick = true;
+        this.startTime = Date.now();
+        this.startPos = this.getPositionX(event);
+        this.prevTranslate = this.track.scrollLeft;
+        this.track.classList.add('dragging');
+        this.animationID = requestAnimationFrame(this.animation.bind(this));
+      }
+
+      touchMove(event) {
+        if (this.isDragging) {
+          const currentPosition = this.getPositionX(event);
+          const diff = this.startPos - currentPosition;
+          
+          if (Math.abs(diff) > 5) {
+            this.isClick = false;
+          }
+          
+          this.currentTranslate = this.prevTranslate + diff;
+        }
+      }
+
+      touchEnd() {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        cancelAnimationFrame(this.animationID);
+        this.track.classList.remove('dragging');
+        
+        const movedBy = this.currentTranslate - this.prevTranslate;
+        const endTime = Date.now();
+        const timeDiff = endTime - this.startTime;
+        const velocity = Math.abs(movedBy) / timeDiff;
+        
+        if (Math.abs(movedBy) > 50 || velocity > 0.5) {
+          if (movedBy < -50) {
+            this.navigate(-1);
+          } else if (movedBy > 50) {
+            this.navigate(1);
+          }
+        }
+        
+        setTimeout(() => {
+          this.isClick = true;
+        }, 100);
+      }
+
+      getPositionX(event) {
+        return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+      }
+
+      animation() {
+        if (this.isDragging) {
+          this.track.scrollLeft = this.currentTranslate;
+          requestAnimationFrame(this.animation.bind(this));
+        }
+      }
+
+      checkIfArrowsNeeded() {
+        const trackWidth = this.track.scrollWidth;
+        const containerWidth = this.track.clientWidth;
+        
+        if (trackWidth <= containerWidth) {
+          this.controls.style.display = 'none';
+        } else {
+          this.controls.style.display = 'flex';
+        }
+      }
+
+      navigate(direction) {
+        this.currentIndex += direction;
+        
+        if (this.currentIndex >= this.cards.length) {
+          this.currentIndex = 0;
+        } else if (this.currentIndex < 0) {
+          this.currentIndex = this.cards.length - 1;
+        }
+
+        const cardWidth = this.cards[0].offsetWidth;
+        const gap = parseInt(getComputedStyle(this.track).gap);
+        const scrollAmount = (cardWidth + gap) * this.currentIndex;
+
+        this.track.scrollTo({
+          left: scrollAmount,
+          behavior: 'smooth'
+        });
+        
+        this.prevTranslate = scrollAmount;
+        this.currentTranslate = scrollAmount;
+      }
+
+      openVideo(card) {
+        const videoUrl = card.dataset.videoUrl;
+        const videoRatio = card.dataset.videoRatio || '16-9';
+        
+        if (!videoUrl) return;
+        
+        const embedUrl = this.getEmbedUrl(videoUrl);
+        
+        if (embedUrl) {
+          this.modalContent.className = 'ai-video-modal-content-{{ ai_gen_id }}';
+          this.modalContent.classList.add('ratio-' + videoRatio);
+          
+          this.videoContainer.innerHTML = `<iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+          this.modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      closeVideo() {
+        this.modal.classList.remove('active');
+        this.videoContainer.innerHTML = '';
+        document.body.style.overflow = '';
+      }
+
+      getEmbedUrl(url) {
+        if (!url) return null;
+        
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+          const videoId = this.extractYouTubeId(url);
+          return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : null;
+        } else if (url.includes('vimeo.com')) {
+          const videoId = url.split('/').pop().split('?')[0];
+          return `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+        }
+        return url;
+      }
+
+      extractYouTubeId(url) {
+        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[7].length === 11) ? match[7] : null;
+      }
+    }
+
+    customElements.define('video-slider-{{ ai_gen_id }}', VideoSlider{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Video Cards Slider",
+  "settings": [
+    {"type": "header", "content": "Layout"},
+    {"type": "text", "id": "heading", "label": "Heading"},
+    {"type": "range", "id": "heading_size", "min": 10, "max": 100, "step": 5, "unit": "px", "label": "Heading size", "default": 30},
+    {"type": "select", "id": "heading_alignment", "label": "Heading alignment", "options": [{"value": "left", "label": "Left"}, {"value": "center", "label": "Center"}, {"value": "right", "label": "Right"}], "default": "center"},
+    {"type": "select", "id": "content_alignment", "label": "Content alignment", "options": [{"value": "left", "label": "Left"}, {"value": "center", "label": "Center"}, {"value": "right", "label": "Right"}, {"value": "space-between", "label": "Space between"}], "default": "center"},
+    {"type": "range", "id": "card_gap", "min": 0, "max": 50, "step": 5, "unit": "px", "label": "Card gap", "default": 15},
+    {"type": "range", "id": "vertical_gap", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Vertical gap", "default": 15},
+    {"type": "select", "id": "mobile_columns", "label": "Mobile columns", "options": [{"value": "1", "label": "1.25"}, {"value": "2", "label": "2.25"}, {"value": "3", "label": "3.25"}, {"value": "4", "label": "4.25"}], "default": "2"},
+    {"type": "header", "content": "Padding"},
+    {"type": "range", "id": "padding_top", "min": 0, "max": 200, "step": 5, "unit": "px", "label": "Top", "default": 40},
+    {"type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Bottom", "default": 40},
+    {"type": "range", "id": "padding_horizontal", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Horizontal", "default": 20},
+    {"type": "header", "content": "Thumbnail"},
+    {"type": "select", "id": "thumbnail_style", "label": "Style", "options": [{"value": "circle", "label": "Circle"}, {"value": "portrait", "label": "Portrait"}, {"value": "landscape", "label": "Landscape"}, {"value": "square", "label": "Square"}, {"value": "custom", "label": "Custom"}], "default": "landscape"},
+    {"type": "range", "id": "thumbnail_height", "min": 50, "max": 500, "step": 10, "unit": "px", "label": "Custom height", "default": 200},
+    {"type": "checkbox", "id": "card_border", "label": "Show border", "default": false},
+    {"type": "color", "id": "card_border_color", "label": "Border color", "default": "#e6e6e6"},
+    {"type": "range", "id": "card_border_radius", "min": 0, "max": 50, "step": 5, "unit": "px", "label": "Border radius", "default": 10},
+    {"type": "range", "id": "story_border_width", "min": 1, "max": 10, "step": 1, "unit": "px", "label": "Story border", "default": 3},
+    {"type": "color", "id": "story_border_color", "label": "Story border color", "default": "#E1306C"},
+    {"type": "header", "content": "Play button"},
+    {"type": "checkbox", "id": "show_play_button", "label": "Show", "default": true},
+    {"type": "range", "id": "play_button_size", "min": 10, "max": 100, "step": 5, "unit": "px", "label": "Size", "default": 60},
+    {"type": "color", "id": "play_button_bg", "label": "Background", "default": "#ffffff"},
+    {"type": "color", "id": "play_button_icon_color", "label": "Icon color", "default": "#000000"},
+    {"type": "header", "content": "Title"},
+    {"type": "range", "id": "title_size", "min": 5, "max": 50, "step": 5, "unit": "px", "label": "Size", "default": 15},
+    {"type": "color", "id": "title_color", "label": "Color", "default": "#000000"},
+    {"type": "header", "content": "Glow effect"},
+    {"type": "color", "id": "glow_color", "label": "Color", "default": "#223edc"},
+    {"type": "range", "id": "glow_blur", "min": 0, "max": 50, "step": 5, "unit": "px", "label": "Blur", "default": 20},
+    {"type": "range", "id": "glow_vertical_padding", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Vertical padding", "default": 20},
+    {"type": "header", "content": "Popup"},
+    {"type": "range", "id": "popup_max_width", "min": 800, "max": 2000, "step": 100, "unit": "px", "label": "Max width", "default": 1600},
+    {"type": "header", "content": "Arrows"},
+    {"type": "select", "id": "arrow_style", "label": "Style", "options": [{"value": "filled", "label": "Filled"}, {"value": "outline", "label": "Outline"}], "default": "filled"},
+    {"type": "range", "id": "arrow_size", "min": 10, "max": 100, "step": 5, "unit": "px", "label": "Size", "default": 40},
+    {"type": "color", "id": "arrow_bg_color", "label": "Background", "default": "#000000"},
+    {"type": "color", "id": "arrow_hover_bg_color", "label": "Hover BG", "default": "#223edc"},
+    {"type": "color", "id": "arrow_icon_color", "label": "Icon color", "default": "#ffffff"},
+    {"type": "header", "content": "Video 1"},
+    {"type": "checkbox", "id": "video_1_enabled", "label": "Enable", "default": true},
+    {"type": "url", "id": "video_1_url", "label": "URL"},
+    {"type": "image_picker", "id": "video_1_thumbnail", "label": "Thumbnail"},
+    {"type": "text", "id": "video_1_title", "label": "Title"},
+    {"type": "select", "id": "video_1_ratio", "label": "Ratio", "options": [{"value": "16-9", "label": "16:9"}, {"value": "9-16", "label": "9:16"}, {"value": "1-1", "label": "1:1"}, {"value": "4-3", "label": "4:3"}, {"value": "21-9", "label": "21:9"}], "default": "16-9"},
+    {"type": "header", "content": "Video 2"},
+    {"type": "checkbox", "id": "video_2_enabled", "label": "Enable", "default": true},
+    {"type": "url", "id": "video_2_url", "label": "URL"},
+    {"type": "image_picker", "id": "video_2_thumbnail", "label": "Thumbnail"},
+    {"type": "text", "id": "video_2_title", "label": "Title"},
+    {"type": "select", "id": "video_2_ratio", "label": "Ratio", "options": [{"value": "16-9", "label": "16:9"}, {"value": "9-16", "label": "9:16"}, {"value": "1-1", "label": "1:1"}, {"value": "4-3", "label": "4:3"}, {"value": "21-9", "label": "21:9"}], "default": "16-9"},
+    {"type": "header", "content": "Video 3"},
+    {"type": "checkbox", "id": "video_3_enabled", "label": "Enable", "default": true},
+    {"type": "url", "id": "video_3_url", "label": "URL"},
+    {"type": "image_picker", "id": "video_3_thumbnail", "label": "Thumbnail"},
+    {"type": "text", "id": "video_3_title", "label": "Title"},
+    {"type": "select", "id": "video_3_ratio", "label": "Ratio", "options": [{"value": "16-9", "label": "16:9"}, {"value": "9-16", "label": "9:16"}, {"value": "1-1", "label": "1:1"}, {"value": "4-3", "label": "4:3"}, {"value": "21-9", "label": "21:9"}], "default": "16-9"},
+    {"type": "header", "content": "Video 4"},
+    {"type": "checkbox", "id": "video_4_enabled", "label": "Enable", "default": true},
+    {"type": "url", "id": "video_4_url", "label": "URL"},
+    {"type": "image_picker", "id": "video_4_thumbnail", "label": "Thumbnail"},
+    {"type": "text", "id": "video_4_title", "label": "Title"},
+    {"type": "select", "id": "video_4_ratio", "label": "Ratio", "options": [{"value": "16-9", "label": "16:9"}, {"value": "9-16", "label": "9:16"}, {"value": "1-1", "label": "1:1"}, {"value": "4-3", "label": "4:3"}, {"value": "21-9", "label": "21:9"}], "default": "16-9"},
+    {"type": "header", "content": "Video 5"},
+    {"type": "checkbox", "id": "video_5_enabled", "label": "Enable", "default": true},
+    {"type": "url", "id": "video_5_url", "label": "URL"},
+    {"type": "image_picker", "id": "video_5_thumbnail", "label": "Thumbnail"},
+    {"type": "text", "id": "video_5_title", "label": "Title"},
+    {"type": "select", "id": "video_5_ratio", "label": "Ratio", "options": [{"value": "16-9", "label": "16:9"}, {"value": "9-16", "label": "9:16"}, {"value": "1-1", "label": "1:1"}, {"value": "4-3", "label": "4:3"}, {"value": "21-9", "label": "21:9"}], "default": "16-9"},
+    {"type": "header", "content": "Video 6"},
+    {"type": "checkbox", "id": "video_6_enabled", "label": "Enable", "default": true},
+    {"type": "url", "id": "video_6_url", "label": "URL"},
+    {"type": "image_picker", "id": "video_6_thumbnail", "label": "Thumbnail"},
+    {"type": "text", "id": "video_6_title", "label": "Title"},
+    {"type": "select", "id": "video_6_ratio", "label": "Ratio", "options": [{"value": "16-9", "label": "16:9"}, {"value": "9-16", "label": "9:16"}, {"value": "1-1", "label": "1:1"}, {"value": "4-3", "label": "4:3"}, {"value": "21-9", "label": "21:9"}], "default": "16-9"},
+    {"type": "header", "content": "Video 7"},
+    {"type": "checkbox", "id": "video_7_enabled", "label": "Enable", "default": true},
+    {"type": "url", "id": "video_7_url", "label": "URL"},
+    {"type": "image_picker", "id": "video_7_thumbnail", "label": "Thumbnail"},
+    {"type": "text", "id": "video_7_title", "label": "Title"},
+    {"type": "select", "id": "video_7_ratio", "label": "Ratio", "options": [{"value": "16-9", "label": "16:9"}, {"value": "9-16", "label": "9:16"}, {"value": "1-1", "label": "1:1"}, {"value": "4-3", "label": "4:3"}, {"value": "21-9", "label": "21:9"}], "default": "16-9"},
+    {"type": "header", "content": "Video 8"},
+    {"type": "checkbox", "id": "video_8_enabled", "label": "Enable", "default": true},
+    {"type": "url", "id": "video_8_url", "label": "URL"},
+    {"type": "image_picker", "id": "video_8_thumbnail", "label": "Thumbnail"},
+    {"type": "text", "id": "video_8_title", "label": "Title"},
+    {"type": "select", "id": "video_8_ratio", "label": "Ratio", "options": [{"value": "16-9", "label": "16:9"}, {"value": "9-16", "label": "9:16"}, {"value": "1-1", "label": "1:1"}, {"value": "4-3", "label": "4:3"}, {"value": "21-9", "label": "21:9"}], "default": "16-9"}
+  ]
+}
+{% endschema %}

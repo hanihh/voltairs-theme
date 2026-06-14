@@ -1,0 +1,973 @@
+{% doc %}
+  @prompt
+    create a card courasel , each card has a media then headline then text below., ability to up to  "10 card " , and ability to edit each card upload media , add text , add headline and edit ealignment and edit BG colors, slider is not working , and i want to be able to change image size from portairt to landscape to Lightbox, Fix the swiping issue , its not working, make the arrow left / right, make it swipable, show 1.5 card on mobie view or 2.5 card
+    
+    add arrows on mobile if user dont want to do swiping, 
+    
+    make sure if you user swipe left , cards go left and right card goes right, i looks nice on desktop , make it responsive on mobile , and make each colum take will width, the point "count hinter " on desktop is not showing the number of cards correctly, 
+    
+    on mobile card we show 1.25 cards so the user knows there are more cards to see and motivate him to swipe ?, do not show arrow on left side if there is no previous cards to show , and do the same for right arrow
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-carousel-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: {{ block.settings.carousel_bg_color }};
+    padding: {{ block.settings.carousel_padding }}px 0;
+  }
+
+  .ai-carousel-track-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.5s ease;will-change: transform;touch-action: pan-y;
+  }
+
+  .ai-carousel-card-{{ ai_gen_id }} {
+    flex: 0 0 auto;
+    width: calc(100% / {{ block.settings.cards_per_view }});
+    padding: 0 {{ block.settings.card_gap }}px;
+    box-sizing: border-box;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-carousel-{{ ai_gen_id }} {
+      padding: {{ block.settings.carousel_padding | divided_by: 2 }}px 0;
+    }
+    
+    .ai-carousel-card-{{ ai_gen_id }} {
+      width: 80%; /* Show 1.25 cards on mobile */
+    }
+    .ai-carousel-arrow-{{ ai_gen_id }} {
+      width: 36px;
+      height: 36px;}
+  }
+
+  .ai-carousel-card-inner-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_bg_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-carousel-media-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    {% if block.settings.image_aspect_ratio == 'portrait' %}
+      aspect-ratio: 3/4;
+    {% elsif block.settings.image_aspect_ratio == 'landscape' %}
+      aspect-ratio: 16/9;
+    {% else %}
+      aspect-ratio: 1/1;
+    {% endif %}
+  }
+
+  .ai-carousel-media-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-carousel-media-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;}
+
+  .ai-carousel-media-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.5;
+  }
+
+  .ai-carousel-content-{{ ai_gen_id }} {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-carousel-headline-{{ ai_gen_id }} {
+    margin: 0 0 10px;
+    font-size: {{ block.settings.headline_size }}px;
+    color: {{ block.settings.headline_color }};
+  }
+
+  .ai-carousel-text-{{ ai_gen_id }} {
+    margin: 0;
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-carousel-arrow-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: {{ block.settings.arrow_bg_color }};
+    color: {{ block.settings.arrow_color }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .ai-carousel-arrow-{{ ai_gen_id }}:focus {
+    outline: 2px solid {{ block.settings.arrow_color }};
+    outline-offset: 2px;
+  }
+
+  .ai-carousel-arrow-{{ ai_gen_id }}.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .ai-carousel-arrow-prev-{{ ai_gen_id }} {
+    left: 10px;
+  }
+
+  .ai-carousel-arrow-next-{{ ai_gen_id }} {
+    right: 10px;
+  }
+
+  .ai-carousel-dots-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .ai-carousel-dot-{{ ai_gen_id }} {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    opacity: 0.5;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .ai-carousel-dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+  }
+
+  .ai-lightbox-{{ ai_gen_id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  .ai-lightbox-{{ ai_gen_id }}.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .ai-lightbox-content-{{ ai_gen_id }} {
+    max-width: 90%;
+    max-height: 90%;}
+
+  .ai-lightbox-content-{{ ai_gen_id }} img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+
+  .ai-lightbox-close-{{ ai_gen_id }} {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-carousel-headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_size | times: 0.9 }}px;
+    }
+    
+    .ai-carousel-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+    
+    .ai-carousel-content-{{ ai_gen_id }} {
+      padding: 15px;
+    }
+    
+    .ai-carousel-dots-{{ ai_gen_id }} {
+      margin-top: 15px;
+    }
+  }
+{% endstyle %}
+
+<card-carousel-{{ ai_gen_id }} 
+  class="ai-carousel-{{ ai_gen_id }}" 
+  data-cards-count="{{ block.settings.cards_count }}"
+  data-cards-per-view="{{ block.settings.cards_per_view }}"
+  data-enable-lightbox="{{ block.settings.enable_lightbox }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-carousel-track-{{ ai_gen_id }}">
+    {% for i in (1..block.settings.cards_count) %}
+      {% liquid
+        assign card_image_key = 'card_' | append: i | append: '_image'
+        assign card_headline_key = 'card_' | append: i | append: '_headline'
+        assign card_text_key = 'card_' | append: i | append: '_text'
+        assign card_image = block.settings[card_image_key]
+        assign card_headline = block.settings[card_headline_key]
+        assign card_text = block.settings[card_text_key]
+      %}
+      
+      <div class="ai-carousel-card-{{ ai_gen_id }}" data-index="{{ forloop.index0 }}">
+        <div class="ai-carousel-card-inner-{{ ai_gen_id }}">
+          <div class="ai-carousel-media-{{ ai_gen_id }}" {% if block.settings.enable_lightbox %}data-lightbox="true"{% endif %}>
+            {% if card_image %}
+              <img 
+                src="{{ card_image | image_url: width: 800 }}" 
+                alt="{{ card_image.alt | escape }}"
+                loading="lazy"
+                width="{{ card_image.width }}"
+                height="{{ card_image.height }}"
+              >
+            {% else %}
+              <div class="ai-carousel-media-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div><div class="ai-carousel-content-{{ ai_gen_id }}">
+            {% if card_headline != blank %}
+              <h3 class="ai-carousel-headline-{{ ai_gen_id }}">{{ card_headline }}</h3>
+            {% endif %}
+            {% if card_text != blank %}
+              <p class="ai-carousel-text-{{ ai_gen_id }}">{{ card_text }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <button class="ai-carousel-arrow-{{ ai_gen_id }} ai-carousel-arrow-prev-{{ ai_gen_id }}" aria-label="Previous slide">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  
+  <button class="ai-carousel-arrow-{{ ai_gen_id }} ai-carousel-arrow-next-{{ ai_gen_id }}" aria-label="Next slide">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  
+  <div class="ai-carousel-dots-{{ ai_gen_id }}"></div>
+  
+  {% if block.settings.enable_lightbox %}
+    <div class="ai-lightbox-{{ ai_gen_id }}">
+      <div class="ai-lightbox-content-{{ ai_gen_id }}">
+        <img src="" alt="">
+      </div>
+      <button class="ai-lightbox-close-{{ ai_gen_id }}" aria-label="Close lightbox">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  {% endif %}
+</card-carousel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CardCarousel{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        
+        this.track = this.querySelector('.ai-carousel-track-{{ ai_gen_id }}');
+        this.cards = Array.from(this.querySelectorAll('.ai-carousel-card-{{ ai_gen_id }}'));
+        this.prevButton = this.querySelector('.ai-carousel-arrow-prev-{{ ai_gen_id }}');
+        this.nextButton = this.querySelector('.ai-carousel-arrow-next-{{ ai_gen_id }}');
+        this.dotsContainer = this.querySelector('.ai-carousel-dots-{{ ai_gen_id }}');
+        this.cardsCount = parseInt(this.dataset.cardsCount, 10);
+        this.cardsPerView = parseInt(this.dataset.cardsPerView, 10);
+        this.enableLightbox = this.dataset.enableLightbox === 'true';
+        
+        this.currentIndex = 0;
+        this.isDragging = false;
+        this.startPos = 0;
+        this.currentTranslate = 0;
+        this.prevTranslate = 0;
+        this.animationID = 0;
+        this.isMobile = window.innerWidth <= 749;
+        
+        this.dots = [];
+        this.touchStartX = 0;
+        this.touchEndX = 0;}
+      
+      connectedCallback() {
+        this.setupDots();
+        this.setupEventListeners();
+        this.updateCarousel();
+        this.updateArrowVisibility();
+        
+        if (this.enableLightbox) {
+          this.setupLightbox();
+        }
+        
+        window.addEventListener('resize', this.handleResize.bind(this));
+      }
+      
+      setupDots() {
+        let dotsNeeded;
+        
+        if (this.isMobile) {
+          dotsNeeded = this.cardsCount;
+        } else {
+          const maxVisibleCards = Math.min(this.cardsPerView, this.cardsCount);
+          dotsNeeded = Math.max(1, this.cardsCount - maxVisibleCards + 1);
+        }
+        
+        for (let i = 0; i < dotsNeeded; i++) {
+          const dot = document.createElement('button');
+          dot.classList.add('ai-carousel-dot-{{ ai_gen_id }}');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.dataset.index = i;
+          dot.addEventListener('click', () => {
+            this.goToSlide(parseInt(dot.dataset.index, 10));
+          });
+          
+          this.dotsContainer.appendChild(dot);
+          this.dots.push(dot);
+        }
+        
+        this.updateActiveDot();
+      }
+      
+      setupEventListeners() {
+        this.prevButton.addEventListener('click', this.prevSlide.bind(this));
+        this.nextButton.addEventListener('click', this.nextSlide.bind(this));
+        this.track.addEventListener('touchstart', this.touchStart.bind(this), { passive: true });
+        this.track.addEventListener('touchmove', this.touchMove.bind(this), { passive: false });
+        this.track.addEventListener('touchend', this.touchEnd.bind(this));
+        
+        this.track.addEventListener('mousedown', this.touchStart.bind(this));
+        this.track.addEventListener('mousemove', this.touchMove.bind(this));
+        this.track.addEventListener('mouseup', this.touchEnd.bind(this));
+        this.track.addEventListener('mouseleave', this.touchEnd.bind(this));
+        
+        this.track.addEventListener('contextmenu', e => {
+          if (e.target.closest('.ai-carousel-track-{{ ai_gen_id }}')) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        });
+      }
+      
+      setupLightbox() {
+        const lightbox = this.querySelector('.ai-lightbox-{{ ai_gen_id }}');
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxClose = lightbox.querySelector('.ai-lightbox-close-{{ ai_gen_id }}');
+        
+        this.querySelectorAll('[data-lightbox="true"]').forEach(item => {
+          item.style.cursor = 'pointer';
+          item.addEventListener('click', () => {
+            const img = item.querySelector('img');
+            if (img) {
+              lightboxImg.src = img.src;
+              lightboxImg.alt = img.alt;
+              lightbox.classList.add('active');
+              document.body.style.overflow = 'hidden';
+            }
+          });
+        });
+        
+        lightboxClose.addEventListener('click', () => {
+          lightbox.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+        
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox) {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        });
+      }
+      
+      handleResize() {
+        const wasMobile = this.isMobile;
+        this.isMobile = window.innerWidth <= 749;
+        
+        if (wasMobile !== this.isMobile) {
+          this.dotsContainer.innerHTML = '';
+          this.dots = [];
+          this.setupDots();
+          this.currentIndex = 0;
+          this.updateCarousel();
+          this.updateArrowVisibility();
+        }
+      }
+      
+      getCardWidth() {
+        const card = this.cards[0];
+        return card.offsetWidth;
+      }
+      
+      getVisibleCards() {
+        return this.isMobile ? 1.25 : this.cardsPerView;
+      }
+      
+      getMaxIndex() {
+        if (this.isMobile) {
+          return Math.max(0, this.cardsCount - 1);
+        } else {
+          return Math.max(0, this.cardsCount - this.cardsPerView);
+        }
+      }
+      
+      updateArrowVisibility() {
+        const maxIndex = this.getMaxIndex();
+        
+        if (this.currentIndex <= 0) {
+          this.prevButton.classList.add('hidden');
+        } else {
+          this.prevButton.classList.remove('hidden');
+        }
+        
+        if (this.currentIndex >= maxIndex) {
+          this.nextButton.classList.add('hidden');
+        } else {
+          this.nextButton.classList.remove('hidden');
+        }
+        if (maxIndex === 0) {
+          this.prevButton.classList.add('hidden');
+          this.nextButton.classList.add('hidden');
+        }
+      }
+      
+      updateCarousel() {
+        const cardWidth = this.getCardWidth();
+        const translateX = -this.currentIndex * cardWidth;
+        
+        this.track.style.transform = `translateX(${translateX}px)`;
+        this.updateActiveDot();this.updateArrowVisibility();
+      }
+      
+      updateActiveDot() {
+        let activeIndex;
+        
+        if (this.isMobile) {
+          activeIndex = this.currentIndex;
+        } else {
+          activeIndex = this.currentIndex;
+        }
+        
+        this.dots.forEach((dot, index) => {
+          if (index === activeIndex) {
+            dot.classList.add('active');
+            dot.setAttribute('aria-current', 'true');
+          } else {
+            dot.classList.remove('active');
+            dot.removeAttribute('aria-current');
+          }
+        });
+      }
+      
+      prevSlide() {
+        if (this.currentIndex > 0) {
+          this.currentIndex = Math.max(0, this.currentIndex - 1);
+          this.updateCarousel();
+        }
+      }
+      
+      nextSlide() {
+        const maxIndex = this.getMaxIndex();
+        if (this.currentIndex < maxIndex) {
+          this.currentIndex = Math.min(maxIndex, this.currentIndex + 1);
+          this.updateCarousel();
+        }
+      }
+      
+      goToSlide(dotIndex) {
+        this.currentIndex = Math.min(this.getMaxIndex(), dotIndex);
+        this.updateCarousel();
+      }
+      
+      touchStart(e) {
+        this.isDragging = true;
+        this.startPos = this.getPositionX(e);
+        this.animationID = requestAnimationFrame(this.animation.bind(this));this.track.style.cursor = 'grabbing';
+        this.track.style.transition = 'none';
+      }
+      
+      touchMove(e) {
+        if (!this.isDragging) return;
+        
+        if (e.type === 'touchmove') {
+          e.preventDefault();
+        }
+        
+        const currentPosition = this.getPositionX(e);
+        this.currentTranslate = this.prevTranslate + currentPosition - this.startPos;
+      }
+      
+      touchEnd() {
+        this.isDragging = false;
+        cancelAnimationFrame(this.animationID);
+        const cardWidth = this.getCardWidth();
+        const movedBy = this.currentTranslate - this.prevTranslate;
+        
+        if (movedBy < -cardWidth * 0.2) {
+          this.nextSlide();
+        } 
+        else if (movedBy > cardWidth * 0.2) {
+          this.prevSlide();
+        } 
+        else {
+          this.updateCarousel();
+        }
+        
+        this.track.style.cursor = '';
+        this.track.style.transition = 'transform 0.5s ease';this.prevTranslate = this.currentTranslate;
+      }
+      
+      getPositionX(e) {
+        return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+      }
+      
+      animation() {
+        if (this.isDragging) {
+          const cardWidth = this.getCardWidth();
+          const maxTranslate = 0;
+          const minTranslate = -this.getMaxIndex() * cardWidth;
+          
+          if (this.currentTranslate > maxTranslate) {
+            this.currentTranslate = maxTranslate + (this.currentTranslate - maxTranslate) * 0.3;
+          } else if (this.currentTranslate < minTranslate) {
+            this.currentTranslate = minTranslate + (this.currentTranslate - minTranslate) * 0.3;
+          }
+          
+          this.track.style.transform = `translateX(${this.currentTranslate}px)`;
+          this.animationID = requestAnimationFrame(this.animation.bind(this));
+        }
+      }
+    }
+    
+    customElements.define('card-carousel-{{ ai_gen_id }}', CardCarousel{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Card Carousel",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "range",
+      "id": "cards_count",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "label": "Number of cards"
+    },
+    {
+      "type": "range",
+      "id": "cards_per_view",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "label": "Cards per view (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "default": 16,
+      "label": "Space between cards"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait (3:4)"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape (16:9)"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lightbox",
+      "label": "Enable image lightbox",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "color",
+      "id": "carousel_bg_color",
+      "label": "Carousel background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 8,
+      "label": "Card corner radius"
+    },
+    {
+      "type": "range",
+      "id": "carousel_padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "default": 20,
+      "label": "Carousel padding"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "default": 18,
+      "label": "Headline font size"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "label": "Text font size"
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg_color",
+      "label": "Arrow background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_1_headline",
+      "label": "Headline",
+      "default": "Card 1 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_text",
+      "label": "Text",
+      "default": "This is the description for card 1. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_2_headline",
+      "label": "Headline",
+      "default": "Card 2 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_text",
+      "label": "Text",
+      "default": "This is the description for card 2. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_3_headline",
+      "label": "Headline",
+      "default": "Card 3 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_3_text",
+      "label": "Text",
+      "default": "This is the description for card 3. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_4_headline",
+      "label": "Headline",
+      "default": "Card 4 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_4_text",
+      "label": "Text",
+      "default": "This is the description for card 4. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_5_headline",
+      "label": "Headline",
+      "default": "Card 5 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_5_text",
+      "label": "Text",
+      "default": "This is the description for card 5. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_6_headline",
+      "label": "Headline",
+      "default": "Card 6 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_6_text",
+      "label": "Text",
+      "default": "This is the description for card 6. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_7_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_7_headline",
+      "label": "Headline",
+      "default": "Card 7 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_7_text",
+      "label": "Text",
+      "default": "This is the description for card 7. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_8_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_8_headline",
+      "label": "Headline",
+      "default": "Card 8 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_8_text",
+      "label": "Text",
+      "default": "This is the description for card 8. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_9_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_9_headline",
+      "label": "Headline",
+      "default": "Card 9 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_9_text",
+      "label": "Text",
+      "default": "This is the description for card 9. Add your content here."
+    },
+    {
+      "type": "header",
+      "content": "Card 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_10_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_10_headline",
+      "label": "Headline",
+      "default": "Card 10 Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "card_10_text",
+      "label": "Text",
+      "default": "This is the description for card 10. Add your content here."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Card Carousel"
+    }
+  ]
+}
+{% endschema %}

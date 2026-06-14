@@ -1,0 +1,773 @@
+{% doc %}
+  @prompt
+    review box that has the name , date, review rating , reivew text , review title..
+    
+    must be compact and all fonts, colors and sizes are controlable
+    
+    if field left empty automaticly delete
+    
+    
+    mobile & desktop optimized
+    
+    
+    option to add date of yesterday and every next day it changes to the date of previus date, Use yesterday's date is not working , maybe becuase it beign treated as empty, add profile image beside name , circle , add custom languge for yesterdays date "maybe i dont want english" and change "Review date" field lable text to "Review date/side text"
+    , for the field "Custom yesterday text" it should just give me ablie to select the language of the date ... like German, arabic , netherlands, sweden, frensh, spainsh ) and i want to add another field "country falg" where a custoemr can pick a country flag and be displany beside the name of reivewer, arabic date should be sun calnder not moon calendar , and also i need size control for image of country flag, nice! now just change the layout , make it compact ... no need to but stars in 1 row alone , but it uder the date, can we add show option for the card ?
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-review-box-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.padding }}px;
+    max-width: 100%;
+    {% if block.settings.show_shadow %}
+      box-shadow: {{ block.settings.shadow_horizontal }}px {{ block.settings.shadow_vertical }}px {{ block.settings.shadow_blur }}px {{ block.settings.shadow_spread }}px {{ block.settings.shadow_color }};
+    {% endif %}
+  }
+
+  .ai-review-box-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: {{ block.settings.spacing }}px;
+    flex-wrap: wrap;
+  }
+
+  .ai-review-box-name-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-review-box-profile-image-{{ ai_gen_id }} {
+    width: {{ block.settings.profile_image_size }}px;
+    height: {{ block.settings.profile_image_size }}px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .ai-review-box-profile-placeholder-{{ ai_gen_id }} {
+    width: {{ block.settings.profile_image_size }}px;
+    height: {{ block.settings.profile_image_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.profile_placeholder_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ai-review-box-profile-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    fill: {{ block.settings.profile_placeholder_icon_color }};
+  }
+
+  .ai-review-box-flag-{{ ai_gen_id }} {
+    width: {{ block.settings.flag_width }}px;
+    height: {{ block.settings.flag_height }}px;
+    border-radius: {{ block.settings.flag_border_radius }}px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .ai-review-box-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.name_font_size }}px;
+    color: {{ block.settings.name_color }};
+    font-weight: {{ block.settings.name_font_weight }};
+    margin: 0;
+    min-width: 0;
+  }
+
+  .ai-review-box-date-rating-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .ai-review-box-date-{{ ai_gen_id }} {
+    font-size: {{ block.settings.date_font_size }}px;
+    color: {{ block.settings.date_color }};
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  .ai-review-box-rating-{{ ai_gen_id }} {
+    display: flex;
+    gap: 4px;
+  }
+
+  .ai-review-box-star-{{ ai_gen_id }} {
+    width: {{ block.settings.star_size }}px;
+    height: {{ block.settings.star_size }}px;
+    fill: {{ block.settings.star_color }};
+  }
+
+  .ai-review-box-star-empty-{{ ai_gen_id }} {
+    fill: {{ block.settings.star_empty_color }};
+  }
+
+  .ai-review-box-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_font_size }}px;
+    color: {{ block.settings.title_color }};
+    font-weight: {{ block.settings.title_font_weight }};
+    margin: 0 0 {{ block.settings.spacing }}px 0;
+  }
+
+  .ai-review-box-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_font_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-review-box-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding | times: 0.75 }}px;
+    }
+
+    .ai-review-box-profile-image-{{ ai_gen_id }},
+    .ai-review-box-profile-placeholder-{{ ai_gen_id }} {
+      width: {{ block.settings.profile_image_size | times: 0.85 }}px;
+      height: {{ block.settings.profile_image_size | times: 0.85 }}px;
+    }
+
+    .ai-review-box-flag-{{ ai_gen_id }} {
+      width: {{ block.settings.flag_width | times: 0.85 }}px;
+      height: {{ block.settings.flag_height | times: 0.85 }}px;
+    }
+
+    .ai-review-box-name-{{ ai_gen_id }} {
+      font-size: {{ block.settings.name_font_size | times: 0.9 }}px;
+    }
+
+    .ai-review-box-date-{{ ai_gen_id }} {
+      font-size: {{ block.settings.date_font_size | times: 0.9 }}px;
+    }
+
+    .ai-review-box-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | times: 0.9 }}px;
+    }
+
+    .ai-review-box-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_font_size | times: 0.9 }}px;
+    }
+
+    .ai-review-box-star-{{ ai_gen_id }} {
+      width: {{ block.settings.star_size | times: 0.85 }}px;
+      height: {{ block.settings.star_size | times: 0.85 }}px;
+    }
+  }
+{% endstyle %}
+
+<review-box-{{ ai_gen_id }} class="ai-review-box-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.reviewer_name != blank or block.settings.review_date != blank or block.settings.use_yesterday_date or block.settings.profile_image != blank or block.settings.country_flag != blank or block.settings.rating > 0 %}
+    <div class="ai-review-box-header-{{ ai_gen_id }}">
+      {% if block.settings.reviewer_name != blank or block.settings.profile_image != blank or block.settings.country_flag != blank %}
+        <div class="ai-review-box-name-wrapper-{{ ai_gen_id }}">
+          {% if block.settings.profile_image != blank %}
+            <img 
+              src="{{ block.settings.profile_image | image_url: width: 200 }}" 
+              alt="{{ block.settings.reviewer_name | escape }}"
+              class="ai-review-box-profile-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="200"
+              height="200"
+            >
+          {% elsif block.settings.show_profile_placeholder %}
+            <div class="ai-review-box-profile-placeholder-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+          {% endif %}
+          {% if block.settings.reviewer_name != blank %}
+            <div class="ai-review-box-name-{{ ai_gen_id }}">{{ block.settings.reviewer_name }}</div>
+          {% endif %}
+          {% if block.settings.country_flag != blank %}
+            <img 
+              src="{{ block.settings.country_flag | image_url: width: 200 }}" 
+              alt="Country flag"
+              class="ai-review-box-flag-{{ ai_gen_id }}"
+              loading="lazy"
+              width="200"
+              height="200"
+            >
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if block.settings.review_date != blank or block.settings.use_yesterday_date or block.settings.rating > 0 %}
+        <div class="ai-review-box-date-rating-wrapper-{{ ai_gen_id }}">
+          {% if block.settings.review_date != blank or block.settings.use_yesterday_date %}
+            <div 
+              class="ai-review-box-date-{{ ai_gen_id }}" 
+              data-review-date="{{ block.settings.review_date }}" 
+              data-use-yesterday="{{ block.settings.use_yesterday_date }}"
+              data-date-language="{{ block.settings.date_language }}"
+            ></div>
+          {% endif %}
+          {% if block.settings.rating > 0 %}
+            <div class="ai-review-box-rating-{{ ai_gen_id }}">
+              {% for i in (1..5) %}
+                {% if i <= block.settings.rating %}
+                  <svg class="ai-review-box-star-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                {% else %}
+                  <svg class="ai-review-box-star-{{ ai_gen_id }} ai-review-box-star-empty-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if block.settings.review_title != blank %}
+    <h3 class="ai-review-box-title-{{ ai_gen_id }}">{{ block.settings.review_title }}</h3>
+  {% endif %}
+
+  {% if block.settings.review_text != blank %}
+    <div class="ai-review-box-text-{{ ai_gen_id }}">{{ block.settings.review_text }}</div>
+  {% endif %}
+</review-box-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ReviewBox{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.updateDate();
+      }
+
+      updateDate() {
+        const dateElement = this.querySelector('[data-review-date]');
+        if (!dateElement) return;
+
+        const useYesterday = dateElement.getAttribute('data-use-yesterday') === 'true';
+        const reviewDate = dateElement.getAttribute('data-review-date');
+        const dateLanguage = dateElement.getAttribute('data-date-language');
+        
+        if (useYesterday) {
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          
+          const options = { year: 'numeric', month: 'long', day: 'numeric', calendar: 'gregory' };
+          let locale = 'en-US';
+          
+          switch(dateLanguage) {
+            case 'german':
+              locale = 'de-DE';
+              break;
+            case 'arabic':
+              locale = 'ar-SA';
+              break;
+            case 'dutch':
+              locale = 'nl-NL';
+              break;
+            case 'swedish':
+              locale = 'sv-SE';
+              break;
+            case 'french':
+              locale = 'fr-FR';
+              break;
+            case 'spanish':
+              locale = 'es-ES';
+              break;
+            case 'italian':
+              locale = 'it-IT';
+              break;
+            case 'portuguese':
+              locale = 'pt-PT';
+              break;
+            case 'russian':
+              locale = 'ru-RU';
+              break;
+            case 'japanese':
+              locale = 'ja-JP';
+              break;
+            case 'chinese':
+              locale = 'zh-CN';
+              break;
+            default:
+              locale = 'en-US';
+          }
+          
+          dateElement.textContent = yesterday.toLocaleDateString(locale, options);
+        } else if (reviewDate) {
+          dateElement.textContent = reviewDate;
+        }
+      }
+    }
+
+    customElements.define('review-box-{{ ai_gen_id }}', ReviewBox{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Review box",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Review content"
+    },
+    {
+      "type": "text",
+      "id": "reviewer_name",
+      "label": "Reviewer name"
+    },
+    {
+      "type": "image_picker",
+      "id": "profile_image",
+      "label": "Profile image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_profile_placeholder",
+      "label": "Show placeholder if no image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "country_flag",
+      "label": "Country flag"
+    },
+    {
+      "type": "text",
+      "id": "review_date",
+      "label": "Review date/side text",
+      "info": "Only used when 'Use yesterday's date' is disabled"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_yesterday_date",
+      "label": "Use yesterday's date",
+      "info": "Automatically updates to show yesterday's date each day",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "date_language",
+      "label": "Date language",
+      "info": "Language for yesterday's date format (Arabic uses Gregorian calendar)",
+      "options": [
+        {
+          "value": "english",
+          "label": "English"
+        },
+        {
+          "value": "german",
+          "label": "German"
+        },
+        {
+          "value": "arabic",
+          "label": "Arabic"
+        },
+        {
+          "value": "dutch",
+          "label": "Dutch"
+        },
+        {
+          "value": "swedish",
+          "label": "Swedish"
+        },
+        {
+          "value": "french",
+          "label": "French"
+        },
+        {
+          "value": "spanish",
+          "label": "Spanish"
+        },
+        {
+          "value": "italian",
+          "label": "Italian"
+        },
+        {
+          "value": "portuguese",
+          "label": "Portuguese"
+        },
+        {
+          "value": "russian",
+          "label": "Russian"
+        },
+        {
+          "value": "japanese",
+          "label": "Japanese"
+        },
+        {
+          "value": "chinese",
+          "label": "Chinese"
+        }
+      ],
+      "default": "english"
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "label": "Rating",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "review_title",
+      "label": "Review title"
+    },
+    {
+      "type": "textarea",
+      "id": "review_text",
+      "label": "Review text"
+    },
+    {
+      "type": "header",
+      "content": "Profile image"
+    },
+    {
+      "type": "range",
+      "id": "profile_image_size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Size",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "profile_placeholder_color",
+      "label": "Placeholder background",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "profile_placeholder_icon_color",
+      "label": "Placeholder icon",
+      "default": "#999999"
+    },
+    {
+      "type": "header",
+      "content": "Country flag"
+    },
+    {
+      "type": "range",
+      "id": "flag_width",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Width",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "flag_height",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Height",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "flag_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Box style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 4,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Element spacing",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Shadow"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shadow",
+      "label": "Show shadow",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "shadow_horizontal",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "shadow_vertical",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Blur",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "shadow_spread",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Spread",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow color",
+      "default": "#00000026"
+    },
+    {
+      "type": "header",
+      "content": "Reviewer name"
+    },
+    {
+      "type": "range",
+      "id": "name_font_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "name_font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Date"
+    },
+    {
+      "type": "range",
+      "id": "date_font_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "date_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Rating stars"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Star size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#ffc107"
+    },
+    {
+      "type": "color",
+      "id": "star_empty_color",
+      "label": "Empty star color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "header",
+      "content": "Review title"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Review text"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color",
+      "default": "#333333"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review box"
+    }
+  ]
+}
+{% endschema %}

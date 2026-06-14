@@ -1,0 +1,663 @@
+{% doc %}
+  @prompt
+    Create a modern testimonial card layout for an e-commerce website. The layout should include:
+    
+    Three testimonial cards side-by-side (responsive for mobile view)
+    
+    Each card should have:
+    
+    A real customer photo at the top
+    
+    A customer name with last initial (e.g., Lucy D.)
+    
+    A green “✅ Verified Buyer” badge
+    
+    A 5-star rating using star icons
+    
+    A bold testimonial title (e.g., “SO WORTH IT”)
+    
+    A short paragraph review beneath the title
+    
+    The card should have a soft beige background (#FFF8F4), rounded corners, and subtle shadow
+    
+    Font styling should be clean and readable, modern sans-serif (like Poppins)
+    
+    Use a consistent and balanced white space layout, give me ability to change image from the reviewer image "as of now" to the image of the review which is normally bigger and its landscape or portriat , make it the first row, give me ability to hide and show the profile image as well
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-testimonials-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.gap }}px;
+    margin: {{ block.settings.margin }}px 0;
+  }
+  
+  @media screen and (max-width: 749px) {
+    .ai-testimonials-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    }
+  }
+  
+  .ai-testimonial-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    box-shadow: 0 {{ block.settings.shadow_y_offset }}px {{ block.settings.shadow_blur }}px rgba(0, 0, 0, {{ block.settings.shadow_opacity | divided_by: 100.0 }});
+    padding: {{ block.settings.padding }}px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .ai-testimonial-review-image-container-{{ ai_gen_id }} {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: {{ block.settings.image_aspect_ratio }}%;
+  }
+  
+  .ai-testimonial-review-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .ai-testimonial-review-image-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;}
+  
+  .ai-testimonial-review-image-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+  }
+  
+  .ai-testimonial-header-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .ai-testimonial-image-container-{{ ai_gen_id }} {
+    width: {{ block.settings.profile_image_size }}px;
+    height: {{ block.settings.profile_image_size }}px;
+    border-radius:50%;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+  
+  .ai-testimonial-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .ai-testimonial-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    border-radius: 50%;
+  }
+  
+  .ai-testimonial-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+  }
+  
+  .ai-testimonial-info-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ai-testimonial-name-{{ ai_gen_id }} {
+    font-weight: 600;
+    font-size: {{ block.settings.name_font_size }}px;
+    color: {{ block.settings.name_color }};
+    margin: 0 0 5px;
+  }
+  
+  .ai-testimonial-verified-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    font-size: {{ block.settings.badge_font_size }}px;
+    color: {{ block.settings.badge_color }};
+    background-color: {{ block.settings.badge_background }};
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 5px;
+  }
+  
+  .ai-testimonial-verified-{{ ai_gen_id }} svg {
+    margin-right: 4px;
+  }
+  
+  .ai-testimonial-rating-{{ ai_gen_id }} {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  
+  .ai-testimonial-star-{{ ai_gen_id }} {
+    color: {{ block.settings.star_color }};
+    margin-right: 2px;
+  }
+  
+  .ai-testimonial-title-{{ ai_gen_id }} {
+    font-weight: 700;
+    font-size: {{ block.settings.title_font_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 10px;
+  }
+  
+  .ai-testimonial-content-{{ ai_gen_id }} {
+    font-size: {{ block.settings.content_font_size }}px;
+    line-height: 1.5;
+    color: {{ block.settings.content_color }};
+    flex-grow: 1;
+  }
+{% endstyle %}
+
+<div class="ai-testimonials-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% for i in (1..3) %}
+    {% assign testimonial_enabled = 'testimonial_' | append: i | append: '_enabled' %}
+    {% assign testimonial_review_image = 'testimonial_' | append: i | append: '_review_image' %}
+    {% assign testimonial_profile_image = 'testimonial_' | append: i | append: '_profile_image' %}
+    {% assign testimonial_name = 'testimonial_' | append: i | append: '_name' %}
+    {% assign testimonial_verified = 'testimonial_' | append: i | append: '_verified' %}
+    {% assign testimonial_rating = 'testimonial_' | append: i | append: '_rating' %}
+    {% assign testimonial_title = 'testimonial_' | append: i | append: '_title' %}
+    {% assign testimonial_content = 'testimonial_' | append: i | append: '_content' %}
+    
+    {% if block.settings[testimonial_enabled] %}
+      <div class="ai-testimonial-card-{{ ai_gen_id }}">
+        {% if block.settings.show_review_image %}
+          <div class="ai-testimonial-review-image-container-{{ ai_gen_id }}">
+            {% if block.settings[testimonial_review_image] %}
+              <img 
+                src="{{ block.settings[testimonial_review_image] | image_url: width: 600 }}" 
+                alt="Review image from {{ block.settings[testimonial_name] }}"
+                class="ai-testimonial-review-image-{{ ai_gen_id }}"
+                width="600"
+                height="400"
+                loading="lazy"
+              >
+            {% else %}
+              <div class="ai-testimonial-review-image-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}<div class="ai-testimonial-header-{{ ai_gen_id }}">
+          {% if block.settings.show_profile_image %}
+            <div class="ai-testimonial-image-container-{{ ai_gen_id }}">
+              {% if block.settings[testimonial_profile_image] %}
+                <img 
+                  src="{{ block.settings[testimonial_profile_image] | image_url: width: 200 }}" 
+                  alt="{{ block.settings[testimonial_name] }}"
+                  class="ai-testimonial-image-{{ ai_gen_id }}"
+                  width="200"
+                  height="200"
+                  loading="lazy"
+                >
+              {% else %}
+                <div class="ai-testimonial-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+          <div class="ai-testimonial-info-{{ ai_gen_id }}">
+            <h3 class="ai-testimonial-name-{{ ai_gen_id }}">{{ block.settings[testimonial_name] }}</h3>
+            {% if block.settings[testimonial_verified] %}
+              <span class="ai-testimonial-verified-{{ ai_gen_id }}">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.5 8.25L2.25 6L1.5 6.75L4.5 9.75L10.5 3.75L9.75 3L4.5 8.25Z" fill="currentColor"/>
+                </svg>
+                Verified Buyer
+              </span>
+            {% endif %}
+          </div>
+        </div>
+        
+        <div class="ai-testimonial-rating-{{ ai_gen_id }}">
+          {% assign rating = block.settings[testimonial_rating] | default: 5 %}
+          {% for i in (1..5) %}
+            <span class="ai-testimonial-star-{{ ai_gen_id }}">
+              {% if i <= rating %}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/>
+                </svg>
+              {% else %}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" stroke-width="1"/>
+                </svg>
+              {% endif %}
+            </span>
+          {% endfor %}
+        </div>
+        
+        <h4 class="ai-testimonial-title-{{ ai_gen_id }}">{{ block.settings[testimonial_title] }}</h4>
+        <div class="ai-testimonial-content-{{ ai_gen_id }}">{{ block.settings[testimonial_content] }}</div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": null,
+  "class": "testimonials-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_review_image",
+      "label": "Show review image",
+      "default": true,
+      "info": "Display a larger image at the top of each testimonial"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_profile_image",
+      "label": "Show profile image",
+      "default": true,
+      "info": "Display customer profile photo"
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Image aspect ratio",
+      "default": 75,
+      "info": "Percentage height relative to width (75% = 4:3 ratio)"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical margin",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Card Style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFF8F4"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "shadow_y_offset",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Shadow vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow blur",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "shadow_opacity",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": "Shadow opacity",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Profile Photo"
+    },
+    {
+      "type": "range",
+      "id": "profile_image_size",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Profile photo size",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "name_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Name font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Name color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge font size",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge text color",
+      "default": "#2E7D32"
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge background",
+      "default": "#E8F5E9"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFC107"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "content_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Content font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "content_color",
+      "label": "Content color",
+      "default": "#444444"
+    },
+    {
+      "type": "header",
+      "content": "Testimonial1"
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_1_enabled",
+      "label": "Enable testimonial",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_1_review_image",
+      "label": "Review image"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_1_profile_image",
+      "label": "Profile photo"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_name",
+      "label": "Customer name",
+      "default": "Lucy D."
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_1_verified",
+      "label": "Show verified buyer badge",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "testimonial_1_rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Rating",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_title",
+      "label": "Title",
+      "default": "SO WORTH IT"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_1_content",
+      "label": "Content",
+      "default": "I absolutely love this product! The quality is exceptional and it arrived much faster than expected. Will definitely be ordering more in the future."
+    },
+    {
+      "type": "header",
+      "content": "Testimonial 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_2_enabled",
+      "label": "Enable testimonial",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_2_review_image",
+      "label": "Review image"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_2_profile_image",
+      "label": "Profile photo"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_name",
+      "label": "Customer name",
+      "default": "Mark S."
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_2_verified",
+      "label": "Show verified buyer badge",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "testimonial_2_rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Rating",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_title",
+      "label": "Title",
+      "default": "EXCEEDED EXPECTATIONS"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_2_content",
+      "label": "Content",
+      "default": "This product has completely transformed my daily routine. The attention to detail is impressive and the customer service was top-notch. Highly recommend!"
+    },
+    {
+      "type": "header",
+      "content": "Testimonial 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_3_enabled",
+      "label": "Enable testimonial",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_3_review_image",
+      "label": "Review image"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_3_profile_image",
+      "label": "Profile photo"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_name",
+      "label": "Customer name",
+      "default": "Sarah J."
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_3_verified",
+      "label": "Show verified buyer badge",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "testimonial_3_rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Rating",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_title",
+      "label": "Title",
+      "default": "BEST PURCHASE EVER"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_3_content",
+      "label": "Content",
+      "default": "I've been searching for something like this for years. The quality is outstanding and it's exactly as described. Will definitely be a repeat customer!"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials"
+    }
+  ]
+}
+{% endschema %}

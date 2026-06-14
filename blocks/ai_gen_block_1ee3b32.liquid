@@ -1,0 +1,456 @@
+{% doc %}
+  @prompt
+    Create a small countdown timer for urgency , make it like "apple.com" style , super simple and narrow and minimal, i want abilite to conotrol allignment, and timer should be set to midnight for example and when time hits zero, it restarts for next midnight ...
+    
+    i want to be able to add text before and after the numbers "timer", i want ability to change color or each text and number
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .countdown-timer-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: {{ block.settings.layout_direction }};
+    align-items: center;
+    justify-content: {{ block.settings.alignment }};
+    gap: {{ block.settings.spacing }}px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .countdown-timer__text-before-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    color: {{ block.settings.text_before_color }};
+  }
+  
+  .countdown-timer__text-after-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    color: {{ block.settings.text_after_color }};
+  }
+
+  .countdown-timer__digits-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.digit_spacing }}px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .countdown-timer__unit-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .countdown-timer__digit-{{ ai_gen_id }} {
+    font-size: {{ block.settings.digit_size }}px;
+    font-weight: {{ block.settings.digit_weight }};
+    min-width: {{ block.settings.digit_size | times: 0.6 }}px;
+    text-align: center;
+    color: {{ block.settings.digit_color }};
+  }
+
+  .countdown-timer__label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+    color: {{ block.settings.label_color }};
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .countdown-timer__separator-{{ ai_gen_id }} {
+    font-size: {{ block.settings.digit_size }}px;
+    font-weight: {{ block.settings.digit_weight }};
+    color: {{ block.settings.separator_color }};
+    margin: 0 {{ block.settings.separator_spacing }}px;
+    align-self: flex-start;
+    line-height: {{ block.settings.digit_size }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .countdown-timer-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: {{ block.settings.spacing | divided_by: 2 }}px;
+    }
+    
+    .countdown-timer__digit-{{ ai_gen_id }} {
+      font-size: {{ block.settings.digit_size | times: 0.8 }}px;
+      min-width: {{ block.settings.digit_size | times: 0.5 }}px;
+    }
+    
+    .countdown-timer__label-{{ ai_gen_id }} {
+      font-size: {{ block.settings.label_size | times: 0.8 }}px;
+    }
+    
+    .countdown-timer__separator-{{ ai_gen_id }} {
+      font-size: {{ block.settings.digit_size | times: 0.8 }}px;
+      line-height: {{ block.settings.digit_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<countdown-timer-{{ ai_gen_id }}
+  class="countdown-timer-{{ ai_gen_id }}"
+  data-show-labels="{{ block.settings.show_labels }}"
+  data-show-seconds="{{ block.settings.show_seconds }}"
+  data-separator="{{ block.settings.separator }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.text_before != blank %}
+    <div class="countdown-timer__text-{{ ai_gen_id }} countdown-timer__text-before-{{ ai_gen_id }}">
+      {{ block.settings.text_before }}
+    </div>
+  {% endif %}
+  
+  <div class="countdown-timer__digits-{{ ai_gen_id }}">
+    <div class="countdown-timer__unit-{{ ai_gen_id }}">
+      <div class="countdown-timer__digit-{{ ai_gen_id }}" data-hours>00</div>
+      {% if block.settings.show_labels %}
+        <div class="countdown-timer__label-{{ ai_gen_id }}">{{ block.settings.hours_label }}</div>
+      {% endif %}
+    </div>
+    
+    <div class="countdown-timer__separator-{{ ai_gen_id }}">{{ block.settings.separator }}</div>
+    
+    <div class="countdown-timer__unit-{{ ai_gen_id }}">
+      <div class="countdown-timer__digit-{{ ai_gen_id }}" data-minutes>00</div>
+      {% if block.settings.show_labels %}
+        <div class="countdown-timer__label-{{ ai_gen_id }}">{{ block.settings.minutes_label }}</div>
+      {% endif %}
+    </div>
+    
+    {% if block.settings.show_seconds %}
+      <div class="countdown-timer__separator-{{ ai_gen_id }}">{{ block.settings.separator }}</div>
+      
+      <div class="countdown-timer__unit-{{ ai_gen_id }}">
+        <div class="countdown-timer__digit-{{ ai_gen_id }}" data-seconds>00</div>
+        {% if block.settings.show_labels %}
+          <div class="countdown-timer__label-{{ ai_gen_id }}">{{ block.settings.seconds_label }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+  
+  {% if block.settings.text_after != blank %}
+    <div class="countdown-timer__text-{{ ai_gen_id }} countdown-timer__text-after-{{ ai_gen_id }}">
+      {{ block.settings.text_after }}
+    </div>
+  {% endif %}
+</countdown-timer-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CountdownTimer extends HTMLElement {
+      constructor() {
+        super();
+        this.hoursElement = this.querySelector('[data-hours]');
+        this.minutesElement = this.querySelector('[data-minutes]');
+        this.secondsElement = this.querySelector('[data-seconds]');
+        this.showSeconds = this.dataset.showSeconds === 'true';
+        this.interval = null;
+      }
+      
+      connectedCallback() {
+        this.startCountdown();
+        this.interval = setInterval(() => this.startCountdown(), 1000);
+      }
+      
+      disconnectedCallback() {
+        if (this.interval) {
+          clearInterval(this.interval);
+        }
+      }
+      
+      startCountdown() {
+        const now = new Date();
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0);
+        
+        const diff = midnight - now;
+        
+        if (diff <= 0) {
+          // If we've reached midnight, reset to the next day
+          const nextMidnight = new Date();
+          nextMidnight.setDate(nextMidnight.getDate() + 1);
+          nextMidnight.setHours(0, 0, 0, 0);
+          this.updateCountdown(nextMidnight - now);
+        } else {
+          this.updateCountdown(diff);
+        }
+      }
+      
+      updateCountdown(timeRemaining) {
+        const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+        
+        this.hoursElement.textContent = this.formatNumber(hours);
+        this.minutesElement.textContent = this.formatNumber(minutes);
+        
+        if (this.showSeconds && this.secondsElement) {
+          this.secondsElement.textContent = this.formatNumber(seconds);
+        }
+      }
+      
+      formatNumber(number) {
+        return number < 10 ? `0${number}` : number;
+      }
+    }
+    
+    customElements.define('countdown-timer-{{ ai_gen_id }}', CountdownTimer);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Countdown Timer",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "text_before",
+      "label": "Text before timer",
+      "default": "Offer ends in:"
+    },
+    {
+      "type": "text",
+      "id": "text_after",
+      "label": "Text after timer",
+      "default": "Don't miss out!"
+    },
+    {
+      "type": "header",
+      "content": "Timer Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_seconds",
+      "label": "Show seconds",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_labels",
+      "label": "Show labels under numbers",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "hours_label",
+      "label": "Hours label",
+      "default": "hrs"
+    },
+    {
+      "type": "text",
+      "id": "minutes_label",
+      "label": "Minutes label",
+      "default": "min"
+    },
+    {
+      "type": "text",
+      "id": "seconds_label",
+      "label": "Seconds label",
+      "default": "sec"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Time separator",
+      "default": ":"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_direction",
+      "label": "Layout direction",
+      "options": [
+        {
+          "value": "row",
+          "label": "Horizontal"
+        },
+        {
+          "value": "column",
+          "label": "Vertical"
+        }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Spacing between elements",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "digit_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Spacing between digit units",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "separator_spacing",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Separator spacing",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "digit_size",
+      "min": 16,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Digit size",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "digit_weight",
+      "label": "Digit weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Label size",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_before_color",
+      "label": "Text before color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_after_color",
+      "label": "Text after color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "digit_color",
+      "label": "Digits color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Labels color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator color",
+      "default": "#666666"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Timer"
+    }
+  ]
+}
+{% endschema %}

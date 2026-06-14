@@ -1,0 +1,302 @@
+{% doc %}
+  @prompt
+    3 icons + text  beside each other , writen in small 
+    
+    "Free Shipping , Made in USA, Vegan", i want ability to upload icon image, icon for free shipping is missing
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-features-container-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: {{ block.settings.gap }}px;
+    padding: {{ block.settings.padding }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;}
+
+  .ai-feature-item-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;}
+
+  .ai-feature-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .ai-feature-icon-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .ai-feature-icon-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;}
+
+  .ai-feature-icon-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: {{ block.settings.icon_color }};
+  }
+
+  .ai-feature-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    color: {{ block.settings.text_color }};
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-features-container-{{ ai_gen_id }} {
+      flex-direction: {{ block.settings.mobile_layout }};{% if block.settings.mobile_layout == 'column' %}gap: {{ block.settings.gap | divided_by: 2 }}px;
+      {% endif %}
+    }
+    .ai-feature-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | minus: 1 }}px;
+    }
+    
+    .ai-feature-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | minus: 4 }}px;
+      height: {{ block.settings.icon_size | minus: 4 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-features-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-feature-item-{{ ai_gen_id }}">
+    <div class="ai-feature-icon-{{ ai_gen_id }}">
+      {% if block.settings.icon_1 %}
+        <img src="{{ block.settings.icon_1 | image_url: width: block.settings.icon_size }}" alt="" loading="lazy" width="{{ block.settings.icon_size }}" height="{{ block.settings.icon_size }}">
+      {% else %}
+        <div class="ai-feature-icon-placeholder-{{ ai_gen_id }}">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+          </svg>
+        </div>
+      {% endif %}
+    </div>
+    <p class="ai-feature-text-{{ ai_gen_id }}">{{ block.settings.text_1 }}</p>
+  </div>
+  <div class="ai-feature-item-{{ ai_gen_id }}">
+    <div class="ai-feature-icon-{{ ai_gen_id }}">
+      {% if block.settings.icon_2 %}
+        <img src="{{ block.settings.icon_2 | image_url: width: block.settings.icon_size }}" alt="" loading="lazy" width="{{ block.settings.icon_size }}" height="{{ block.settings.icon_size }}">
+      {% else %}
+        <div class="ai-feature-icon-placeholder-{{ ai_gen_id }}">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+      {% endif %}
+    </div>
+    <p class="ai-feature-text-{{ ai_gen_id }}">{{ block.settings.text_2 }}</p>
+  </div>
+  <div class="ai-feature-item-{{ ai_gen_id }}">
+    <div class="ai-feature-icon-{{ ai_gen_id }}">
+      {% if block.settings.icon_3 %}
+        <img src="{{ block.settings.icon_3 | image_url: width: block.settings.icon_size }}" alt="" loading="lazy" width="{{ block.settings.icon_size }}" height="{{ block.settings.icon_size }}">
+      {% else %}
+        <div class="ai-feature-icon-placeholder-{{ ai_gen_id }}">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9zM5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25zM12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5z"/>
+          </svg>
+        </div>
+      {% endif %}
+    </div>
+    <p class="ai-feature-text-{{ ai_gen_id }}">{{ block.settings.text_3 }}</p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Feature Icons",
+  "tag": null,
+  "class": "feature-icons-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Feature1"
+    },
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "Text",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_1",
+      "label": "Custom icon"
+    },
+    {
+      "type": "header",
+      "content": "Feature 2"
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "Text",
+      "default": "Made in USA"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_2",
+      "label": "Custom icon"
+    },
+    {
+      "type": "header",
+      "content": "Feature 3"
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "Text",
+      "default": "Vegan"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_3",
+      "label": "Custom icon"
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Space between items",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Default icon color",
+      "default": "#000000",
+      "info": "Used for placeholder icons when no custom icon is uploaded"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Layout on mobile",
+      "options": [
+        {
+          "value": "row",
+          "label": "Horizontal"
+        },
+        {
+          "value": "column",
+          "label": "Vertical"
+        }
+      ],
+      "default": "row"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Icons"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,398 @@
+{% doc %}
+  @prompt
+    Component Name: MoneyBackGuaranteeBadge
+    
+    Design Description:
+    
+    Layout: Horizontal card with rounded corners and light border.
+    
+    Left Section: Circular badge containing:
+    
+    Text around the edge: MONEY BACK GUARANTEE (repeated top and bottom)
+    
+    Centered large number: 90
+    
+    Below the number: DAY
+    
+    Right Section: Guarantee copy with editable bold headline and regular description:
+    
+    Bold Text: Try it risk-free for 90 days.
+    
+    Regular Text: If you are not totally in love with the product we will refund you 100%.
+    
+    Editable Fields (via Shopify Customizer / metafields):
+    
+    Number of days (default: 90)
+    
+    Bold headline text (default: Try it risk-free for 90 days.)
+    
+    Guarantee paragraph (default: If you are not totally in love with the product we will refund you 100%.)
+    
+    Font size, color, and padding
+    
+    Circle text (optional — can rotate with money-back guarantee or be customized)
+    
+    Option to hide/show the whole section
+    
+    Mobile Responsiveness:
+    
+    Badge moves to top, text below it centered or justified.
+    
+    Entire section stacks vertically with adequate spacing.
+    
+    Styling Notes:
+    
+    Use clean, modern sans-serif font.
+    
+    Circle badge should maintain proportions across devices.
+    
+    Add subtle hover effect if placed near purchase CTA (optional)., on mobile met is also in one row same as on desktop
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .money-back-badge-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    padding: {{ block.settings.padding }}px;
+    border: 1px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    background-color: {{ block.settings.background_color }};
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  .money-back-badge__circle-{{ ai_gen_id }} {
+    position: relative;
+    width: {{ block.settings.circle_size }}px;
+    height: {{ block.settings.circle_size }}px;
+    min-width: {{ block.settings.circle_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.circle_color }};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: {{ block.settings.circle_text_color }};
+    font-weight: bold;
+    overflow: hidden;
+  }
+
+  .money-back-badge__days-{{ ai_gen_id }} {
+    font-size: calc({{ block.settings.circle_size }}px * 0.35);
+    line-height: 1;
+    margin-bottom: -5px;
+    z-index: 1;
+  }
+
+  .money-back-badge__day-text-{{ ai_gen_id }} {
+    font-size: calc({{ block.settings.circle_size }}px * 0.12);
+    text-transform: uppercase;
+    z-index: 1;
+  }
+
+  .money-back-badge__rotating-text-{{ ai_gen_id }} {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: rotate-{{ ai_gen_id }} 20s linear infinite;
+  }
+
+  .money-back-badge__text-path-{{ ai_gen_id }} {
+    fill: none;
+  }
+
+  .money-back-badge__text-{{ ai_gen_id }} {
+    font-size: calc({{ block.settings.circle_size }}px * 0.07);
+    fill: {{ block.settings.circle_text_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .money-back-badge__content-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
+  .money-back-badge__headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_font_size }}px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .money-back-badge__description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_font_size }}px;
+    margin: 0;
+    color: {{ block.settings.text_color }};
+  }
+
+  @keyframes rotate-{{ ai_gen_id }} {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .money-back-badge-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_mobile }}px;
+    }
+    
+    .money-back-badge__circle-{{ ai_gen_id }} {
+      width: {{ block.settings.circle_size_mobile }}px;
+      height: {{ block.settings.circle_size_mobile }}px;
+      min-width: {{ block.settings.circle_size_mobile }}px;
+    }
+    
+    .money-back-badge__days-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.circle_size_mobile }}px * 0.35);
+    }
+    
+    .money-back-badge__day-text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.circle_size_mobile }}px * 0.12);
+    }
+    
+    .money-back-badge__text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.circle_size_mobile }}px * 0.07);
+    }
+    
+    .money-back-badge__headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_font_size_mobile }}px;
+    }
+    
+    .money-back-badge__description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_font_size_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+{% if block.settings.show_badge %}
+  <div class="money-back-badge-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+    <div class="money-back-badge__circle-{{ ai_gen_id }}">
+      <div class="money-back-badge__days-{{ ai_gen_id }}">{{ block.settings.days_number }}</div>
+      <div class="money-back-badge__day-text-{{ ai_gen_id }}">{{ block.settings.day_text }}</div><svg class="money-back-badge__rotating-text-{{ ai_gen_id }}" viewBox="0 0 100 100">
+        <path 
+          id="circle-path-{{ ai_gen_id }}" 
+          class="money-back-badge__text-path-{{ ai_gen_id }}" 
+          d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
+        ></path>
+        <text class="money-back-badge__text-{{ ai_gen_id }}">
+          <textPath xlink:href="#circle-path-{{ ai_gen_id }}">
+            {{ block.settings.circle_text }} {{ block.settings.circle_text }}
+          </textPath>
+        </text>
+      </svg>
+    </div>
+    
+    <div class="money-back-badge__content-{{ ai_gen_id }}">
+      <h3 class="money-back-badge__headline-{{ ai_gen_id }}">
+        {{ block.settings.headline | replace: '[days]', block.settings.days_number }}
+      </h3>
+      <p class="money-back-badge__description-{{ ai_gen_id }}">
+        {{ block.settings.description | replace: '[days]', block.settings.days_number }}
+      </p>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Money Back Guarantee",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Display Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show guarantee badge",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Guarantee Details"
+    },
+    {
+      "type": "range",
+      "id": "days_number",
+      "min": 30,
+      "max": 90,
+      "step": 30,
+      "unit": "d",
+      "label": "Guarantee days",
+      "default": 90
+    },
+    {
+      "type": "text",
+      "id": "day_text",
+      "label": "Day text",
+      "default": "DAY"
+    },
+    {
+      "type": "text",
+      "id": "circle_text",
+      "label": "Circle rotating text",
+      "default": "MONEY BACK GUARANTEE"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline text",
+      "default": "Try it risk-free for [days] days."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "If you are not totally in love with the product we will refund you 100%."
+    },
+    {
+      "type": "header",
+      "content": "Desktop Style"
+    },
+    {
+      "type": "range",
+      "id": "circle_size",
+      "min": 80,
+      "max": 160,
+      "step": 10,
+      "unit": "px",
+      "label": "Circle size",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline font size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Description font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Mobile Style"
+    },
+    {
+      "type": "range",
+      "id": "circle_size_mobile",
+      "min": 60,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Circle size (mobile)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline font size (mobile)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "description_font_size_mobile",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Description font size (mobile)",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "General Style"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#E6E6E6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "circle_color",
+      "label": "Circle background color",
+      "default": "#000F9F"
+    },
+    {
+      "type": "color",
+      "id": "circle_text_color",
+      "label": "Circle text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Money Back Guarantee"
+    }
+  ]
+}
+{% endschema %}

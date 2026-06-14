@@ -1,0 +1,2016 @@
+{% doc %}
+  @prompt
+    I'd like your help designing a clean and modern "Trust Badge Bar" for our product pages. This section should visually highlight 4–5 key selling points in a horizontal layout (like icons + short text).
+    
+    Content to include:
+    
+    :blue_heart: Dedicated Support
+    
+    :tools: 1-Year Warranty
+    
+    :lock: Secure Checkout
+    
+    :repeat: 60-Day Returns
+    
+    :truck: Free Tracked Shipping
+    
+    Style Preferences:
+    
+    Rounded pill-style containers for each item
+    
+    Light background (white or light gray)
+    
+    Minimal icon next to each text (solid, clean line icons)
+    
+    Font consistent with our brand (e.g., Inter or similar)
+    
+    Responsive layout (mobile friendly)
+    
+    This section should blend well with our product detail page and feel premium but not distracting.
+    
+    Let me know if you need references or if you can mock this up for both desktop and mobile views.
+    
+    Thanks!, i want ability to add my icons "upload image" and i want abilite to add up to 20 items
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .trust-badge-bar-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.vertical_padding }}px 0;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.container_border_radius }}px;
+  }
+
+  .trust-badge-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: {{ block.settings.badge_spacing }}px;
+    padding: 0 20px;
+  }
+
+  .trust-badge-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    padding: {{ block.settings.badge_padding }}px {{ block.settings.badge_padding | times: 1.5 }}px;
+    background-color: {{ block.settings.badge_background_color }};
+    border-radius: {{ block.settings.badge_border_radius }}px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .trust-badge-item-{{ ai_gen_id }}:hover {
+    transform: translateY(-2px);
+  }
+
+  .trust-badge-icon-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    margin-right: 8px;
+    color: {{ block.settings.icon_color }};
+  }
+
+  .trust-badge-icon-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .trust-badge-icon-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .trust-badge-icon-placeholder-{{ ai_gen_id }} svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
+  }
+
+  .trust-badge-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    color: {{ block.settings.text_color }};
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 749px) {
+    .trust-badge-container-{{ ai_gen_id }} {
+      {% if block.settings.mobile_layout == 'vertical' %}
+        flex-direction: column;
+        align-items: center;
+      {% else %}
+        justify-content: center;
+      {% endif %}
+      gap: {{ block.settings.mobile_badge_spacing }}px;
+    }
+
+    .trust-badge-item-{{ ai_gen_id }} {
+      padding: {{ block.settings.badge_padding | times: 0.8 }}px {{ block.settings.badge_padding | times: 1.2 }}px;
+    }
+
+    .trust-badge-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.9 }}px;
+      height: {{ block.settings.icon_size | times: 0.9 }}px;
+    }
+
+    .trust-badge-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="trust-badge-bar-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="trust-badge-container-{{ ai_gen_id }}">
+    {% for i in (1..20) %}
+      {% liquid
+        assign badge_text_key = 'badge' | append: i | append: '_text'
+        assign badge_icon_key = 'badge' | append: i | append: '_icon'
+        assign badge_custom_icon_key = 'badge' | append: i | append: '_custom_icon'
+        assign badge_icon_type_key = 'badge' | append: i | append: '_icon_type'
+
+        assign badge_text = block.settings[badge_text_key]
+        assign badge_icon = block.settings[badge_icon_key]
+        assign badge_custom_icon = block.settings[badge_custom_icon_key]
+        assign badge_icon_type = block.settings[badge_icon_type_key]
+      %}
+
+      {% if badge_text != blank %}
+        <div class="trust-badge-item-{{ ai_gen_id }}">
+          <div class="trust-badge-icon-{{ ai_gen_id }}">
+            {% if badge_icon_type == 'custom' and badge_custom_icon != blank %}
+              <img
+                src="{{ badge_custom_icon | image_url: width: 48 }}"
+                alt="{{ badge_text | escape }}"
+                loading="lazy"
+                width="48"
+                height="48"
+              >
+            {% elsif badge_icon_type == 'custom' and badge_custom_icon == blank %}
+              <div class="trust-badge-icon-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% else %}
+              {% case badge_icon %}
+                {% when 'support' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1-9-9 9 9 0 0 1 9-9 9 9 0 0 1 9 9 9 9 0 0 1-9 9Z"></path><path d="M12 7v2"></path><path d="M12 15h.01"></path></svg>
+                {% when 'warranty' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                {% when 'secure' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                {% when 'returns' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg>
+                {% when 'shipping' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path><path d="M12 3v6"></path></svg>
+                {% when 'shield' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                {% when 'heart' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                {% when 'star' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon></svg>
+                {% when 'phone' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                {% when 'clock' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline></svg>
+                {% when 'gift' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,12 20,22 4,22 4,12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                {% else %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1-9-9 9 9 0 0 1 9-9 9 9 0 0 1 9 9 9 9 0 0 1-9 9Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              {% endcase %}
+            {% endif %}
+          </div>
+          <div class="trust-badge-text-{{ ai_gen_id }}">{{ badge_text }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Badge Bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "badge_spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Badge spacing",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "badge_padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge padding",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "Horizontal scroll"
+        },
+        {
+          "value": "vertical",
+          "label": "Vertical stack"
+        }
+      ],
+      "default": "horizontal"
+    },
+    {
+      "type": "range",
+      "id": "mobile_badge_spacing",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile badge spacing",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "badge_background_color",
+      "label": "Badge background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "container_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Container border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "badge_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Badge border radius",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#000f9f"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Badge 1"
+    },
+    {
+      "type": "text",
+      "id": "badge1_text",
+      "label": "Text",
+      "default": "Dedicated Support"
+    },
+    {
+      "type": "select",
+      "id": "badge1_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge1_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge1_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 2"
+    },
+    {
+      "type": "text",
+      "id": "badge2_text",
+      "label": "Text",
+      "default": "1-Year Warranty"
+    },
+    {
+      "type": "select",
+      "id": "badge2_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge2_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "warranty"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge2_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 3"
+    },
+    {
+      "type": "text",
+      "id": "badge3_text",
+      "label": "Text",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "select",
+      "id": "badge3_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge3_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "secure"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge3_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 4"
+    },
+    {
+      "type": "text",
+      "id": "badge4_text",
+      "label": "Text",
+      "default": "60-Day Returns"
+    },
+    {
+      "type": "select",
+      "id": "badge4_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge4_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "returns"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge4_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 5"
+    },
+    {
+      "type": "text",
+      "id": "badge5_text",
+      "label": "Text",
+      "default": "Free Tracked Shipping"
+    },
+    {
+      "type": "select",
+      "id": "badge5_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge5_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "shipping"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge5_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 6"
+    },
+    {
+      "type": "text",
+      "id": "badge6_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge6_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge6_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge6_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 7"
+    },
+    {
+      "type": "text",
+      "id": "badge7_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge7_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge7_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge7_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 8"
+    },
+    {
+      "type": "text",
+      "id": "badge8_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge8_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge8_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge8_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 9"
+    },
+    {
+      "type": "text",
+      "id": "badge9_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge9_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge9_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge9_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 10"
+    },
+    {
+      "type": "text",
+      "id": "badge10_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge10_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge10_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge10_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 11"
+    },
+    {
+      "type": "text",
+      "id": "badge11_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge11_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge11_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge11_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 12"
+    },
+    {
+      "type": "text",
+      "id": "badge12_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge12_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge12_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge12_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 13"
+    },
+    {
+      "type": "text",
+      "id": "badge13_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge13_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge13_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge13_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 14"
+    },
+    {
+      "type": "text",
+      "id": "badge14_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge14_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge14_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge14_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 15"
+    },
+    {
+      "type": "text",
+      "id": "badge15_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge15_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge15_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge15_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 16"
+    },
+    {
+      "type": "text",
+      "id": "badge16_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge16_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge16_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge16_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 17"
+    },
+    {
+      "type": "text",
+      "id": "badge17_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge17_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge17_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge17_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 18"
+    },
+    {
+      "type": "text",
+      "id": "badge18_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge18_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge18_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge18_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 19"
+    },
+    {
+      "type": "text",
+      "id": "badge19_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge19_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge19_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge19_custom_icon",
+      "label": "Custom icon image"
+    },
+    {
+      "type": "header",
+      "content": "Badge 20"
+    },
+    {
+      "type": "text",
+      "id": "badge20_text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "badge20_icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Preset icon"
+        },
+        {
+          "value": "custom",
+          "label": "Custom image"
+        }
+      ],
+      "default": "preset"
+    },
+    {
+      "type": "select",
+      "id": "badge20_icon",
+      "label": "Preset icon",
+      "options": [
+        {
+          "value": "support",
+          "label": "Support"
+        },
+        {
+          "value": "warranty",
+          "label": "Warranty"
+        },
+        {
+          "value": "secure",
+          "label": "Secure checkout"
+        },
+        {
+          "value": "returns",
+          "label": "Returns"
+        },
+        {
+          "value": "shipping",
+          "label": "Shipping"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "phone",
+          "label": "Phone"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge20_custom_icon",
+      "label": "Custom icon image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Badge Bar"
+    }
+  ]
+}
+{% endschema %}

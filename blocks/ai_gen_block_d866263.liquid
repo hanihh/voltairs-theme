@@ -1,0 +1,481 @@
+{% doc %}
+  @prompt
+    create like this one
+    
+    <!-- OFFER TIMER -->
+    <div class="offer-timer">
+      <span class="lang-en">Offer ends in</span>
+      <span class="lang-ar">العرض ينتهي خلال</span>
+      <span class="lang-de">Angebot endet in</span>
+      <span id="countdown-timer" class="timer-value">09:22:38</span>
+    </div>
+    
+    <!-- STOCK PROGRESS BAR -->
+    <div class="stock-bar">
+      <!-- Sold stock -->
+      <div id="progress-bar" class="sold-bar">
+        <span class="percent">74%</span>
+        <span class="lang-en">Sold</span>
+        <span class="lang-ar">تم بيعه</span>
+        <span class="lang-de">Verkauft</span>
+      </div>
+      <!-- Remaining stock -->
+      <div class="remaining-bar">
+        <span class="percent">26%</span>
+        <span class="lang-en">Left</span>
+        <span class="lang-ar">متبقي</span>
+        <span class="lang-de">Verbleibend</span>
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const timerEl = document.getElementById('countdown-timer');
+        let secs = 9*3600 + 22*60 + 38;
+    
+        function fmt(n){ return n.toString().padStart(2,'0'); }
+    
+        function tick() {
+          const h = Math.floor(secs/3600);
+          const m = Math.floor((secs%3600)/60);
+          const s = secs % 60;
+          timerEl.textContent = `${fmt(h)}:${fmt(m)}:${fmt(s)}`;
+          if (secs>0) secs--;
+        }
+    
+        setInterval(tick, 1000);
+      });
+    </script>
+    
+    <style>
+      /* basic timer styling */
+      .offer-timer {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        color: #000;
+        background: #f5f5f5;
+        padding: 6px 12px;
+        border-radius: 6px;
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+        margin-bottom: 4px;
+      }
+      .timer-value {
+        color: #d62828;
+      }
+    
+      /* stock bar container */
+      .stock-bar {
+        display: flex;
+        width: 100%;
+        height: 16px;
+        border: 1px solid #000;
+        border-radius: 4px;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
+      .sold-bar {
+        background: #000;
+        color: #fff;
+        display:, i want ability to add text after the timer in the same row
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-offer-timer-{{ ai_gen_id }} {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: {{ block.settings.timer_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.timer_text_color }};
+    background: {{ block.settings.timer_background_color }};
+    padding: {{ block.settings.timer_padding }}px 12px;
+    border-radius: {{ block.settings.timer_border_radius }}px;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .ai-timer-value-{{ ai_gen_id }} {
+    color: {{ block.settings.countdown_color }};
+    font-weight: 700;
+  }
+  
+  .ai-after-timer-text-{{ ai_gen_id }} {
+    color: {{ block.settings.after_timer_text_color }};
+  }
+
+  .ai-stock-bar-{{ ai_gen_id }} {
+    display: flex;
+    width: 100%;
+    height: {{ block.settings.progress_bar_height }}px;
+    border: {{ block.settings.progress_bar_border_width }}px solid {{ block.settings.progress_bar_border_color }};
+    border-radius: {{ block.settings.progress_bar_border_radius }}px;
+    overflow: hidden;
+    box-sizing: border-box;
+    font-size: {{ block.settings.progress_bar_font_size }}px;
+    font-weight: 600;
+  }
+
+  .ai-sold-bar-{{ ai_gen_id }} {
+    background: {{ block.settings.sold_bar_color }};
+    color: {{ block.settings.sold_text_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: width 0.3s ease;
+    width: {{ block.settings.sold_percentage }}%;
+  }
+
+  .ai-remaining-bar-{{ ai_gen_id }} {
+    background: {{ block.settings.remaining_bar_color }};
+    color: {{ block.settings.remaining_text_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-grow: 1;
+  }
+
+  .ai-percent-{{ ai_gen_id }} {
+    font-weight: 700;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-offer-timer-{{ ai_gen_id }} {
+      font-size: {{ block.settings.timer_font_size | times: 0.9 }}px;
+    }
+    
+    .ai-stock-bar-{{ ai_gen_id }} {
+      font-size: {{ block.settings.progress_bar_font_size | times: 0.8 }}px;
+      height: {{ block.settings.progress_bar_height | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<offer-timer-{{ ai_gen_id }}
+  class="ai-offer-timer-container-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-offer-timer-{{ ai_gen_id }}">
+    {{ block.settings.timer_text }}
+    <span id="ai-countdown-timer-{{ ai_gen_id }}" class="ai-timer-value-{{ ai_gen_id }}">
+      {% assign hours = block.settings.countdown_hours %}
+      {% assign minutes = block.settings.countdown_minutes %}
+      {% assign seconds = block.settings.countdown_seconds %}
+      {% if hours < 10 %}0{% endif %}{{ hours }}:{% if minutes < 10 %}0{% endif %}{{ minutes }}:{% if seconds < 10 %}0{% endif %}{{ seconds }}
+    </span>
+    {% if block.settings.after_timer_text != blank %}
+      <span class="ai-after-timer-text-{{ ai_gen_id }}">{{ block.settings.after_timer_text }}</span>
+    {% endif %}
+  </div>
+
+  <div class="ai-stock-bar-{{ ai_gen_id }}">
+    <div class="ai-sold-bar-{{ ai_gen_id }}">
+      <span class="ai-percent-{{ ai_gen_id }}">{{ block.settings.sold_percentage }}%</span>
+      <span>{{ block.settings.sold_text }}</span>
+    </div>
+    <div class="ai-remaining-bar-{{ ai_gen_id }}">
+      <span class="ai-percent-{{ ai_gen_id }}">{{ 100 | minus: block.settings.sold_percentage }}%</span>
+      <span>{{ block.settings.remaining_text }}</span>
+    </div>
+  </div>
+</offer-timer-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class OfferTimer{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.timerEl = null;
+        this.totalSeconds = 0;
+        this.intervalId = null;
+      }
+
+      connectedCallback() {
+        this.timerEl = this.querySelector('#ai-countdown-timer-{{ ai_gen_id }}');
+        if (!this.timerEl) return;
+
+        const hours = {{ block.settings.countdown_hours }};
+        const minutes = {{ block.settings.countdown_minutes }};
+        const seconds = {{ block.settings.countdown_seconds }};
+        
+        this.totalSeconds = hours * 3600 + minutes * 60 + seconds;
+        this.startTimer();
+      }
+
+      disconnectedCallback() {
+        if (this.intervalId) {
+          clearInterval(this.intervalId);
+        }
+      }
+
+      formatNumber(num) {
+        return num.toString().padStart(2, '0');
+      }
+
+      updateDisplay() {
+        const hours = Math.floor(this.totalSeconds / 3600);
+        const minutes = Math.floor((this.totalSeconds % 3600) / 60);
+        const seconds = this.totalSeconds % 60;
+        
+        this.timerEl.textContent = `${this.formatNumber(hours)}:${this.formatNumber(minutes)}:${this.formatNumber(seconds)}`;
+      }
+
+      tick() {
+        this.updateDisplay();
+        if (this.totalSeconds > 0) {
+          this.totalSeconds--;
+        } else {
+          clearInterval(this.intervalId);
+          {% if block.settings.show_expired_message %}
+            this.timerEl.textContent = '{{ block.settings.expired_message }}';
+          {% endif %}
+        }
+      }
+
+      startTimer() {
+        this.updateDisplay();
+        this.intervalId = setInterval(() => this.tick(), 1000);
+      }
+    }
+
+    customElements.define('offer-timer-{{ ai_gen_id }}', OfferTimer{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Offer Timer & Stock Bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Timer Settings"
+    },
+    {
+      "type": "text",
+      "id": "timer_text",
+      "label": "Timer text",
+      "default": "Offer ends in"
+    },
+    {
+      "type": "text",
+      "id": "after_timer_text",
+      "label": "Text after timer",
+      "default": "Don't miss out!"
+    },
+    {
+      "type": "range",
+      "id": "countdown_hours",
+      "min": 0,
+      "max": 23,
+      "step": 1,
+      "label": "Hours",
+      "default": 9
+    },
+    {
+      "type": "range",
+      "id": "countdown_minutes",
+      "min": 0,
+      "max": 59,
+      "step": 1,
+      "label": "Minutes",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "countdown_seconds",
+      "min": 0,
+      "max": 59,
+      "step": 1,
+      "label": "Seconds",
+      "default": 38
+    },
+    {
+      "type": "checkbox",
+      "id": "show_expired_message",
+      "label": "Show expired message",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "expired_message",
+      "label": "Expired message",
+      "default": "Offer expired"
+    },
+    {
+      "type": "header",
+      "content": "Stock Progress Bar"
+    },
+    {
+      "type": "range",
+      "id": "sold_percentage",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Sold percentage",
+      "default": 74
+    },
+    {
+      "type": "text",
+      "id": "sold_text",
+      "label": "Sold text",
+      "default": "Sold"
+    },
+    {
+      "type": "text",
+      "id": "remaining_text",
+      "label": "Remaining text",
+      "default": "Left"
+    },
+    {
+      "type": "header",
+      "content": "Timer Style"
+    },
+    {
+      "type": "color",
+      "id": "timer_background_color",
+      "label": "Timer background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "timer_text_color",
+      "label": "Timer text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "countdown_color",
+      "label": "Countdown color",
+      "default": "#d62828"
+    },
+    {
+      "type": "color",
+      "id": "after_timer_text_color",
+      "label": "After timer text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "timer_font_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Timer font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "timer_padding",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Timer padding",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "timer_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Timer border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Progress Bar Style"
+    },
+    {
+      "type": "color",
+      "id": "sold_bar_color",
+      "label": "Sold bar color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "sold_text_color",
+      "label": "Sold text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "remaining_bar_color",
+      "label": "Remaining bar color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "remaining_text_color",
+      "label": "Remaining text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "progress_bar_border_color",
+      "label": "Progress bar border color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "progress_bar_height",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Progress bar height",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "progress_bar_font_size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Progress bar font size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "progress_bar_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Progress bar border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "progress_bar_border_radius",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "label": "Progress bar border radius",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Offer Timer & Stock Bar"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,210 @@
+{% doc %}
+  @prompt
+    i need 1 line with Star counter 5 out of 5 and text beside it
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-star-rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.spacing }}px;
+    margin: {{ block.settings.margin_top }}px 0 {{ block.settings.margin_bottom }}px;
+  }
+
+  .ai-star-rating__stars-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+  }
+
+  .ai-star-rating__star-{{ ai_gen_id }} {
+    color: {{ block.settings.star_color }};
+    width: {{ block.settings.star_size }}px;
+    height: {{ block.settings.star_size }}px;
+  }
+
+  .ai-star-rating__text-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-star-rating-{{ ai_gen_id }} {
+      flex-direction: {{ block.settings.mobile_layout }};
+      {% if block.settings.mobile_layout == 'column' %}
+      align-items: flex-start;
+      gap: 8px;
+      {% endif %}
+    }
+  }
+{% endstyle %}
+
+
+{% assign link_value = block.settings.link_value %}
+{% if link_value != blank and link_value != '#' %}
+  <a href="{{ link_value }}" class="ai-star-rating-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+{% else %}
+  <div class="ai-star-rating-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+{% endif %}
+    <div class="ai-star-rating__stars-{{ ai_gen_id }}">
+      {% for i in (1..5) %}
+        <svg class="ai-star-rating__star-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/>
+        </svg>
+      {% endfor %}
+    </div>
+    {% if block.settings.rating_text != blank %}
+      <div class="ai-star-rating__text-{{ ai_gen_id }}">{{ block.settings.rating_text }}</div>
+    {% endif %}
+{% if link_value != blank and link_value != '#' %}
+  </a>
+{% else %}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Star Rating",
+  "tag": null,
+  "class": "star-rating-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Link"
+    },
+    {
+      "type": "text",
+      "id": "link_value",
+      "label": "Link value (URL or ID)",
+      "default": "#"
+    },
+    {
+      "type": "header",
+      "content": "Rating"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "Based on 100+ reviews"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Star size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Spacing between stars and text",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Horizontal"
+        },
+        {
+          "value": "column",
+          "label": "Vertical"
+        }
+      ],
+      "default": "row"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Star Rating"
+    }
+  ]
+}
+{% endschema %}
