@@ -47,9 +47,9 @@
         "ai_gen_block_8b68917_b6Bc8k": {
           "type": "ai_gen_block_8b68917",
           "settings": {
-            "column_1_content": "<p><strong>Free</strong> Shipping</p>",
-            "column_2_content": "<p><strong>4x Free </strong>Gifts</p>",
-            "column_3_content": "<p>(4.8 ★) Rating</p>",
+            "column_1_content": "<p><strong>Free</strong> <strong>Shipping</strong></p>",
+            "column_2_content": "<p><strong>30-Day Guarantee</strong></p>",
+            "column_3_content": "<p><strong>2 Bags + Free Pump</strong></p>",
             "divider_text": "|",
             "background_color": "#f3f3f3",
             "text_color": "#000000",
@@ -79,7 +79,7 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-cae25dfa-a3e1-4115-b96a-f752034e569c",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -194,6 +194,7 @@
             "ai_gen_block_1fa692c_3iR7Wr": {
               "type": "ai_gen_block_1fa692c",
               "name": "Star Rating",
+              "disabled": true,
               "settings": {
                 "link_value": "#reviews",
                 "rating_text": "(4.8) Backed by 30,000+ happy client",
@@ -275,6 +276,7 @@
             },
             "ai_gen_block_f53cbe8_Bme4iq": {
               "type": "ai_gen_block_f53cbe8",
+              "disabled": true,
               "settings": {
                 "heading": "Anniversary Sale",
                 "message": "4x FREE Gifts <em>(Worth $39)</em>",
@@ -439,7 +441,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>90-days unconditional money back guarantee</p>",
+                "text": "<p>30-day unconditional money-back guarantee</p>",
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
@@ -538,6 +540,7 @@
             },
             "ai_gen_block_818fa93_hpJmti": {
               "type": "ai_gen_block_818fa93",
+              "disabled": true,
               "settings": {
                 "reviewer_name": "Jason X",
                 "show_profile_placeholder": true,
@@ -606,7 +609,7 @@
         "equal_columns": false,
         "limit_details_width": false,
         "gap": 48,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-cae25dfa-a3e1-4115-b96a-f752034e569c",
         "padding-block-start": 2,
         "padding-block-end": 10
       }
