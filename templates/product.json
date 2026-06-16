@@ -51,9 +51,9 @@
             "column_2_content": "<p><strong>30-Day Guarantee</strong></p>",
             "column_3_content": "<p><strong>2 Bags + Free Pump</strong></p>",
             "divider_text": "|",
-            "background_color": "#f3f3f3",
-            "text_color": "#000000",
-            "divider_color": "#000000",
+            "background_color": "#687C9F",
+            "text_color": "#EFEEEB",
+            "divider_color": "#EFEEEB",
             "font_size": 14,
             "mobile_font_size": 12,
             "padding": 10,
@@ -304,6 +304,7 @@
             },
             "ai_gen_block_58dd79b_a67fU9": {
               "type": "ai_gen_block_58dd79b",
+              "disabled": true,
               "settings": {
                 "columns_desktop": "4",
                 "columns_mobile": "4",
