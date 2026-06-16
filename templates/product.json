@@ -56,7 +56,7 @@
             "divider_color": "#efeeeb",
             "font_size": 14,
             "mobile_font_size": 12,
-            "padding": 10,
+            "padding": 11,
             "column_spacing": 10,
             "hide_dividers_on_mobile": false
           },
@@ -780,7 +780,7 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "gluten_free",
+                        "icon": "check_box",
                         "width": 40,
                         "link": "",
                         "open_in_new_tab": false
@@ -791,7 +791,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Benefit 1</p>",
+                        "text": "<p>60% More Space</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -862,7 +862,7 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "plant",
+                        "icon": "plane",
                         "width": 40,
                         "link": "",
                         "open_in_new_tab": false
@@ -873,7 +873,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Benefit 2</p>",
+                        "text": "<p>Saves $112+ Per Flight</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -989,7 +989,7 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "perfume",
+                        "icon": "lightning_bolt",
                         "width": 40,
                         "link": "",
                         "open_in_new_tab": false
@@ -1000,7 +1000,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Benefit 3</p>",
+                        "text": "<p>Free 30W Pump Included</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -1071,7 +1071,7 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "snowflake",
+                        "icon": "lock",
                         "width": 40,
                         "link": "",
                         "open_in_new_tab": false
@@ -1082,7 +1082,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Benefit 4</p>",
+                        "text": "<p>Airtight Seal. Stays Compressed</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -1198,7 +1198,7 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "perfume",
+                        "icon": "return",
                         "width": 40,
                         "link": "",
                         "open_in_new_tab": false
@@ -1209,7 +1209,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Benefit 3</p>",
+                        "text": "<p>30 day guarantee</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -1280,7 +1280,7 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "snowflake",
+                        "icon": "truck",
                         "width": 40,
                         "link": "",
                         "open_in_new_tab": false
@@ -1291,7 +1291,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Benefit 4</p>",
+                        "text": "<p>Free Shipping</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",

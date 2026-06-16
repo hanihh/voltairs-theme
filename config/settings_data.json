@@ -532,7 +532,7 @@
         "settings": {
           "background": "#efeeeb",
           "foreground_heading": "#03275b",
-          "foreground": "#03275b",
+          "foreground": "#000000",
           "primary": "#687c9f",
           "primary_hover": "#4d5d78",
           "border": "#e6e6e6",
