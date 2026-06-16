@@ -1550,8 +1550,8 @@
             "accordion_row_VyFryh": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "Details",
-                "open_by_default": false,
+                "heading": "The Problem",
+                "open_by_default": true,
                 "icon": "none",
                 "width": 20
               },
@@ -1559,7 +1559,7 @@
                 "text_McjMWz": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Cordless leg massager with 3 compression levels, built-in heat, and auto shut-off. Designed to relieve soreness, swelling, and tension in the calves anytime, anywhere.</p>",
+                    "text": "<p>Every time you check a bag, you hand the airline $56+ each way — that's $112 per flight, before overweight penalties, delays, or the 45 minutes you'll never get back waiting at baggage claim.</p><p>And it adds up fast:<br/>• $50–$75 overweight penalties<br/>• $30–$60 carry-on fees on budget airlines<br/>• 26 million bags mishandled every year<br/>• $400–$800+ per year for a family of 4</p><p>You've tried rolling. You've tried packing cubes. You've tried sitting on your suitcase. None of it works because none of it solves the real problem: your clothes take up too much space.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -1589,689 +1589,16 @@
             "accordion_row_DUeX4N": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "NAME HERE - Duplicate",
+                "heading": "The Solution",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
               },
               "blocks": {
-                "group_prfrnL": {
-                  "type": "group",
-                  "name": "6x benefits",
-                  "settings": {
-                    "link": "",
-                    "open_in_new_tab": false,
-                    "content_direction": "row",
-                    "vertical_on_mobile": false,
-                    "horizontal_alignment": "center",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "flex-start",
-                    "vertical_alignment_flex_direction_column": "center",
-                    "gap": 7,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "custom_height": 100,
-                    "inherit_color_scheme": true,
-                    "color_scheme": "",
-                    "background_media": "none",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "toggle_overlay": false,
-                    "overlay_color": "#00000026",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "group_frNKiJ": {
-                      "type": "group",
-                      "name": "t:names.group",
-                      "settings": {
-                        "link": "",
-                        "open_in_new_tab": false,
-                        "content_direction": "row",
-                        "vertical_on_mobile": false,
-                        "horizontal_alignment": "center",
-                        "vertical_alignment": "flex-start",
-                        "align_baseline": false,
-                        "horizontal_alignment_flex_direction_column": "flex-start",
-                        "vertical_alignment_flex_direction_column": "flex-start",
-                        "gap": 10,
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "height": "fit",
-                        "custom_height": 100,
-                        "inherit_color_scheme": true,
-                        "color_scheme": "",
-                        "background_media": "none",
-                        "video_position": "cover",
-                        "background_image_position": "cover",
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_radius": 13,
-                        "toggle_overlay": false,
-                        "overlay_color": "#0000000a",
-                        "overlay_style": "solid",
-                        "gradient_direction": "to top",
-                        "padding-block-start": 5,
-                        "padding-block-end": 5,
-                        "padding-inline-start": 5,
-                        "padding-inline-end": 5
-                      },
-                      "blocks": {
-                        "group_6KyrFc": {
-                          "type": "group",
-                          "name": "t:names.group",
-                          "settings": {
-                            "link": "",
-                            "open_in_new_tab": false,
-                            "content_direction": "column",
-                            "vertical_on_mobile": false,
-                            "horizontal_alignment": "center",
-                            "vertical_alignment": "center",
-                            "align_baseline": false,
-                            "horizontal_alignment_flex_direction_column": "center",
-                            "vertical_alignment_flex_direction_column": "center",
-                            "gap": 12,
-                            "width": "fill",
-                            "custom_width": 100,
-                            "width_mobile": "fill",
-                            "custom_width_mobile": 100,
-                            "height": "fit",
-                            "custom_height": 100,
-                            "inherit_color_scheme": true,
-                            "color_scheme": "",
-                            "background_media": "none",
-                            "video_position": "cover",
-                            "background_image_position": "cover",
-                            "border": "none",
-                            "border_width": 1,
-                            "border_opacity": 100,
-                            "border_radius": 0,
-                            "toggle_overlay": false,
-                            "overlay_color": "#00000026",
-                            "overlay_style": "solid",
-                            "gradient_direction": "to top",
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {
-                            "icon_TFptYF": {
-                              "type": "icon",
-                              "name": "t:names.icon",
-                              "settings": {
-                                "icon": "gluten_free",
-                                "width": 40,
-                                "link": "",
-                                "open_in_new_tab": false
-                              },
-                              "blocks": {}
-                            },
-                            "text_F98VFb": {
-                              "type": "text",
-                              "name": "t:names.text",
-                              "settings": {
-                                "text": "<p>Benefit 1</p>",
-                                "width": "fit-content",
-                                "max_width": "normal",
-                                "alignment": "left",
-                                "type_preset": "rte",
-                                "font": "var(--font-body--family)",
-                                "font_size": "1rem",
-                                "line_height": "normal",
-                                "letter_spacing": "normal",
-                                "case": "none",
-                                "wrap": "pretty",
-                                "color": "var(--color-foreground)",
-                                "background": false,
-                                "background_color": "#00000026",
-                                "corner_radius": 0,
-                                "padding-block-start": 0,
-                                "padding-block-end": 0,
-                                "padding-inline-start": 0,
-                                "padding-inline-end": 0
-                              },
-                              "blocks": {}
-                            }
-                          },
-                          "block_order": [
-                            "icon_TFptYF",
-                            "text_F98VFb"
-                          ]
-                        },
-                        "group_NqwJ6h": {
-                          "type": "group",
-                          "name": "t:names.group",
-                          "settings": {
-                            "link": "",
-                            "open_in_new_tab": false,
-                            "content_direction": "column",
-                            "vertical_on_mobile": false,
-                            "horizontal_alignment": "center",
-                            "vertical_alignment": "center",
-                            "align_baseline": false,
-                            "horizontal_alignment_flex_direction_column": "center",
-                            "vertical_alignment_flex_direction_column": "center",
-                            "gap": 12,
-                            "width": "fill",
-                            "custom_width": 100,
-                            "width_mobile": "fill",
-                            "custom_width_mobile": 100,
-                            "height": "fit",
-                            "custom_height": 100,
-                            "inherit_color_scheme": true,
-                            "color_scheme": "",
-                            "background_media": "none",
-                            "video_position": "cover",
-                            "background_image_position": "cover",
-                            "border": "none",
-                            "border_width": 1,
-                            "border_opacity": 100,
-                            "border_radius": 0,
-                            "toggle_overlay": false,
-                            "overlay_color": "#00000026",
-                            "overlay_style": "solid",
-                            "gradient_direction": "to top",
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {
-                            "icon_Txf33W": {
-                              "type": "icon",
-                              "name": "t:names.icon",
-                              "settings": {
-                                "icon": "plant",
-                                "width": 40,
-                                "link": "",
-                                "open_in_new_tab": false
-                              },
-                              "blocks": {}
-                            },
-                            "text_Lprx4d": {
-                              "type": "text",
-                              "name": "t:names.text",
-                              "settings": {
-                                "text": "<p>Benefit 2</p>",
-                                "width": "fit-content",
-                                "max_width": "normal",
-                                "alignment": "left",
-                                "type_preset": "rte",
-                                "font": "var(--font-body--family)",
-                                "font_size": "1rem",
-                                "line_height": "normal",
-                                "letter_spacing": "normal",
-                                "case": "none",
-                                "wrap": "pretty",
-                                "color": "var(--color-foreground)",
-                                "background": false,
-                                "background_color": "#00000026",
-                                "corner_radius": 0,
-                                "padding-block-start": 0,
-                                "padding-block-end": 0,
-                                "padding-inline-start": 0,
-                                "padding-inline-end": 0
-                              },
-                              "blocks": {}
-                            }
-                          },
-                          "block_order": [
-                            "icon_Txf33W",
-                            "text_Lprx4d"
-                          ]
-                        }
-                      },
-                      "block_order": [
-                        "group_6KyrFc",
-                        "group_NqwJ6h"
-                      ]
-                    },
-                    "group_zarEMy": {
-                      "type": "group",
-                      "name": "t:names.group",
-                      "settings": {
-                        "link": "",
-                        "open_in_new_tab": false,
-                        "content_direction": "row",
-                        "vertical_on_mobile": false,
-                        "horizontal_alignment": "center",
-                        "vertical_alignment": "flex-start",
-                        "align_baseline": false,
-                        "horizontal_alignment_flex_direction_column": "flex-start",
-                        "vertical_alignment_flex_direction_column": "flex-start",
-                        "gap": 10,
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "height": "fit",
-                        "custom_height": 100,
-                        "inherit_color_scheme": true,
-                        "color_scheme": "",
-                        "background_media": "none",
-                        "video_position": "cover",
-                        "background_image_position": "cover",
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_radius": 13,
-                        "toggle_overlay": false,
-                        "overlay_color": "#0000000a",
-                        "overlay_style": "solid",
-                        "gradient_direction": "to top",
-                        "padding-block-start": 5,
-                        "padding-block-end": 5,
-                        "padding-inline-start": 5,
-                        "padding-inline-end": 5
-                      },
-                      "blocks": {
-                        "group_cHkeke": {
-                          "type": "group",
-                          "name": "t:names.group",
-                          "settings": {
-                            "link": "",
-                            "open_in_new_tab": false,
-                            "content_direction": "column",
-                            "vertical_on_mobile": false,
-                            "horizontal_alignment": "center",
-                            "vertical_alignment": "center",
-                            "align_baseline": false,
-                            "horizontal_alignment_flex_direction_column": "center",
-                            "vertical_alignment_flex_direction_column": "center",
-                            "gap": 12,
-                            "width": "fill",
-                            "custom_width": 100,
-                            "width_mobile": "fill",
-                            "custom_width_mobile": 100,
-                            "height": "fit",
-                            "custom_height": 100,
-                            "inherit_color_scheme": true,
-                            "color_scheme": "",
-                            "background_media": "none",
-                            "video_position": "cover",
-                            "background_image_position": "cover",
-                            "border": "none",
-                            "border_width": 1,
-                            "border_opacity": 100,
-                            "border_radius": 0,
-                            "toggle_overlay": false,
-                            "overlay_color": "#00000026",
-                            "overlay_style": "solid",
-                            "gradient_direction": "to top",
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {
-                            "icon_7jXFbm": {
-                              "type": "icon",
-                              "name": "t:names.icon",
-                              "settings": {
-                                "icon": "perfume",
-                                "width": 40,
-                                "link": "",
-                                "open_in_new_tab": false
-                              },
-                              "blocks": {}
-                            },
-                            "text_bqKXUW": {
-                              "type": "text",
-                              "name": "t:names.text",
-                              "settings": {
-                                "text": "<p>Benefit 3</p>",
-                                "width": "fit-content",
-                                "max_width": "normal",
-                                "alignment": "left",
-                                "type_preset": "rte",
-                                "font": "var(--font-body--family)",
-                                "font_size": "1rem",
-                                "line_height": "normal",
-                                "letter_spacing": "normal",
-                                "case": "none",
-                                "wrap": "pretty",
-                                "color": "var(--color-foreground)",
-                                "background": false,
-                                "background_color": "#00000026",
-                                "corner_radius": 0,
-                                "padding-block-start": 0,
-                                "padding-block-end": 0,
-                                "padding-inline-start": 0,
-                                "padding-inline-end": 0
-                              },
-                              "blocks": {}
-                            }
-                          },
-                          "block_order": [
-                            "icon_7jXFbm",
-                            "text_bqKXUW"
-                          ]
-                        },
-                        "group_fAwxFT": {
-                          "type": "group",
-                          "name": "t:names.group",
-                          "settings": {
-                            "link": "",
-                            "open_in_new_tab": false,
-                            "content_direction": "column",
-                            "vertical_on_mobile": false,
-                            "horizontal_alignment": "center",
-                            "vertical_alignment": "center",
-                            "align_baseline": false,
-                            "horizontal_alignment_flex_direction_column": "center",
-                            "vertical_alignment_flex_direction_column": "center",
-                            "gap": 12,
-                            "width": "fill",
-                            "custom_width": 100,
-                            "width_mobile": "fill",
-                            "custom_width_mobile": 100,
-                            "height": "fit",
-                            "custom_height": 100,
-                            "inherit_color_scheme": true,
-                            "color_scheme": "",
-                            "background_media": "none",
-                            "video_position": "cover",
-                            "background_image_position": "cover",
-                            "border": "none",
-                            "border_width": 1,
-                            "border_opacity": 100,
-                            "border_radius": 0,
-                            "toggle_overlay": false,
-                            "overlay_color": "#00000026",
-                            "overlay_style": "solid",
-                            "gradient_direction": "to top",
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {
-                            "icon_bWG4JL": {
-                              "type": "icon",
-                              "name": "t:names.icon",
-                              "settings": {
-                                "icon": "snowflake",
-                                "width": 40,
-                                "link": "",
-                                "open_in_new_tab": false
-                              },
-                              "blocks": {}
-                            },
-                            "text_pNW646": {
-                              "type": "text",
-                              "name": "t:names.text",
-                              "settings": {
-                                "text": "<p>Benefit 4</p>",
-                                "width": "fit-content",
-                                "max_width": "normal",
-                                "alignment": "left",
-                                "type_preset": "rte",
-                                "font": "var(--font-body--family)",
-                                "font_size": "1rem",
-                                "line_height": "normal",
-                                "letter_spacing": "normal",
-                                "case": "none",
-                                "wrap": "pretty",
-                                "color": "var(--color-foreground)",
-                                "background": false,
-                                "background_color": "#00000026",
-                                "corner_radius": 0,
-                                "padding-block-start": 0,
-                                "padding-block-end": 0,
-                                "padding-inline-start": 0,
-                                "padding-inline-end": 0
-                              },
-                              "blocks": {}
-                            }
-                          },
-                          "block_order": [
-                            "icon_bWG4JL",
-                            "text_pNW646"
-                          ]
-                        }
-                      },
-                      "block_order": [
-                        "group_cHkeke",
-                        "group_fAwxFT"
-                      ]
-                    },
-                    "group_PL93PG": {
-                      "type": "group",
-                      "name": "t:names.group",
-                      "settings": {
-                        "link": "",
-                        "open_in_new_tab": false,
-                        "content_direction": "row",
-                        "vertical_on_mobile": false,
-                        "horizontal_alignment": "center",
-                        "vertical_alignment": "flex-start",
-                        "align_baseline": false,
-                        "horizontal_alignment_flex_direction_column": "flex-start",
-                        "vertical_alignment_flex_direction_column": "flex-start",
-                        "gap": 10,
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "height": "fit",
-                        "custom_height": 100,
-                        "inherit_color_scheme": true,
-                        "color_scheme": "",
-                        "background_media": "none",
-                        "video_position": "cover",
-                        "background_image_position": "cover",
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_radius": 13,
-                        "toggle_overlay": false,
-                        "overlay_color": "#0000000a",
-                        "overlay_style": "solid",
-                        "gradient_direction": "to top",
-                        "padding-block-start": 5,
-                        "padding-block-end": 5,
-                        "padding-inline-start": 5,
-                        "padding-inline-end": 5
-                      },
-                      "blocks": {
-                        "group_GwmaXD": {
-                          "type": "group",
-                          "name": "t:names.group",
-                          "settings": {
-                            "link": "",
-                            "open_in_new_tab": false,
-                            "content_direction": "column",
-                            "vertical_on_mobile": false,
-                            "horizontal_alignment": "center",
-                            "vertical_alignment": "center",
-                            "align_baseline": false,
-                            "horizontal_alignment_flex_direction_column": "center",
-                            "vertical_alignment_flex_direction_column": "center",
-                            "gap": 12,
-                            "width": "fill",
-                            "custom_width": 100,
-                            "width_mobile": "fill",
-                            "custom_width_mobile": 100,
-                            "height": "fit",
-                            "custom_height": 100,
-                            "inherit_color_scheme": true,
-                            "color_scheme": "",
-                            "background_media": "none",
-                            "video_position": "cover",
-                            "background_image_position": "cover",
-                            "border": "none",
-                            "border_width": 1,
-                            "border_opacity": 100,
-                            "border_radius": 0,
-                            "toggle_overlay": false,
-                            "overlay_color": "#00000026",
-                            "overlay_style": "solid",
-                            "gradient_direction": "to top",
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {
-                            "icon_aDhhd4": {
-                              "type": "icon",
-                              "name": "t:names.icon",
-                              "settings": {
-                                "icon": "perfume",
-                                "width": 40,
-                                "link": "",
-                                "open_in_new_tab": false
-                              },
-                              "blocks": {}
-                            },
-                            "text_HApbfa": {
-                              "type": "text",
-                              "name": "t:names.text",
-                              "settings": {
-                                "text": "<p>Benefit 3</p>",
-                                "width": "fit-content",
-                                "max_width": "normal",
-                                "alignment": "left",
-                                "type_preset": "rte",
-                                "font": "var(--font-body--family)",
-                                "font_size": "1rem",
-                                "line_height": "normal",
-                                "letter_spacing": "normal",
-                                "case": "none",
-                                "wrap": "pretty",
-                                "color": "var(--color-foreground)",
-                                "background": false,
-                                "background_color": "#00000026",
-                                "corner_radius": 0,
-                                "padding-block-start": 0,
-                                "padding-block-end": 0,
-                                "padding-inline-start": 0,
-                                "padding-inline-end": 0
-                              },
-                              "blocks": {}
-                            }
-                          },
-                          "block_order": [
-                            "icon_aDhhd4",
-                            "text_HApbfa"
-                          ]
-                        },
-                        "group_kyfTdT": {
-                          "type": "group",
-                          "name": "t:names.group",
-                          "settings": {
-                            "link": "",
-                            "open_in_new_tab": false,
-                            "content_direction": "column",
-                            "vertical_on_mobile": false,
-                            "horizontal_alignment": "center",
-                            "vertical_alignment": "center",
-                            "align_baseline": false,
-                            "horizontal_alignment_flex_direction_column": "center",
-                            "vertical_alignment_flex_direction_column": "center",
-                            "gap": 12,
-                            "width": "fill",
-                            "custom_width": 100,
-                            "width_mobile": "fill",
-                            "custom_width_mobile": 100,
-                            "height": "fit",
-                            "custom_height": 100,
-                            "inherit_color_scheme": true,
-                            "color_scheme": "",
-                            "background_media": "none",
-                            "video_position": "cover",
-                            "background_image_position": "cover",
-                            "border": "none",
-                            "border_width": 1,
-                            "border_opacity": 100,
-                            "border_radius": 0,
-                            "toggle_overlay": false,
-                            "overlay_color": "#00000026",
-                            "overlay_style": "solid",
-                            "gradient_direction": "to top",
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {
-                            "icon_JrYPgn": {
-                              "type": "icon",
-                              "name": "t:names.icon",
-                              "settings": {
-                                "icon": "snowflake",
-                                "width": 40,
-                                "link": "",
-                                "open_in_new_tab": false
-                              },
-                              "blocks": {}
-                            },
-                            "text_px6P8p": {
-                              "type": "text",
-                              "name": "t:names.text",
-                              "settings": {
-                                "text": "<p>Benefit 4</p>",
-                                "width": "fit-content",
-                                "max_width": "normal",
-                                "alignment": "left",
-                                "type_preset": "rte",
-                                "font": "var(--font-body--family)",
-                                "font_size": "1rem",
-                                "line_height": "normal",
-                                "letter_spacing": "normal",
-                                "case": "none",
-                                "wrap": "pretty",
-                                "color": "var(--color-foreground)",
-                                "background": false,
-                                "background_color": "#00000026",
-                                "corner_radius": 0,
-                                "padding-block-start": 0,
-                                "padding-block-end": 0,
-                                "padding-inline-start": 0,
-                                "padding-inline-end": 0
-                              },
-                              "blocks": {}
-                            }
-                          },
-                          "block_order": [
-                            "icon_JrYPgn",
-                            "text_px6P8p"
-                          ]
-                        }
-                      },
-                      "block_order": [
-                        "group_GwmaXD",
-                        "group_kyfTdT"
-                      ]
-                    }
-                  },
-                  "block_order": [
-                    "group_frNKiJ",
-                    "group_zarEMy",
-                    "group_PL93PG"
-                  ]
-                },
                 "text_gVNPUh": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Cordless leg massager with <strong>3 compression levels</strong>, built-in heat, and auto shut-off. </p><p>Designed to <strong>relieve soreness, swelling</strong>, and tension in the calves anytime, anywhere.</p><ul><li>Bullet</li><li>23</li><li>45</li><li>45</li></ul>",
+                    "text": "<p>Voltairs compresses your clothes to 40% of their original size — so the space problem is gone before you even get to the airport.</p><p>• Fit 10 days of clothes in a single carry-on<br/>• No checked luggage needed<br/>• No baggage claim. No overweight fees. No waiting.</p><p>One kit. Two bags. Zero baggage fees. It pays for itself on the very first flight.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -2295,14 +1622,13 @@
                 }
               },
               "block_order": [
-                "group_prfrnL",
                 "text_gVNPUh"
               ]
             },
             "accordion_row_xAtTAH": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "Why It’s Effective",
+                "heading": "What's in the Kit",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -2311,7 +1637,7 @@
                 "text_9gAcB8": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Inspired by hospital-grade DVT sleeves and lymphatic massage therapy, this device combines compression + heat to mimic real muscle recovery protocols but in a portable, wearable form.</p>",
+                    "text": "<ul><li>2× Vacuum Travel Bags (18.5\" × 11.8\" × 5.9\") — fits any carry-on or backpack, holds 8–10 days of clothes each</li><li>1× Free 30W Multi-Function Air Pump — deflates bags in seconds, doubles as a reading light and emergency torch<br/></li></ul>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -2341,7 +1667,7 @@
             "accordion_row_9i7Yj6": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "How To Use",
+                "heading": "How It Works",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -2350,7 +1676,7 @@
                 "text_wrXDgQ": {
                   "type": "text",
                   "settings": {
-                    "text": "<ol><li>Wrap the massagers around your calves and secure with the Velcro straps</li><li>Press the power button to turn on the device</li><li>Select your desired <strong>compression level</strong> (Low, Medium, High)</li><li>Turn on the optional <strong>heat function</strong> for added relief</li><li>Sit back and relax for <strong>15–20 minutes</strong> as it cycles through massage waves</li><li>Device shuts off automatically when the session ends</li><li>Recharge after use with the included USB cable</li></ol>",
+                    "text": "<p><strong>Step 1 — Pack</strong><br/>Fill the bag with clothes. Up to 18–22 lbs capacity per bag.</p><p><strong>Step 2 — Compress</strong><br/>Connect the pump. Watch your clothes shrink to less than half their size in seconds.</p><p><strong>Step 3 — Go</strong><br/>Drop it in your carry-on. Skip check-in. Skip baggage claim. Keep your $112.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -2380,7 +1706,7 @@
             "accordion_row_TknqMr": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "What’s Included",
+                "heading": "Voltairs vs. The Rest",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
