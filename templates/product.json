@@ -485,6 +485,7 @@
               "blocks": {
                 "accordion_row_cVn3ay": {
                   "type": "_accordion-row",
+                  "disabled": true,
                   "settings": {
                     "heading": "Free Delivery within 3-4 Days",
                     "open_by_default": false,
