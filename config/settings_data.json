@@ -40,6 +40,22 @@
     "variant_button_radius": 100,
     "variant_button_width": "default-width-buttons",
     "content_for_index": [],
+    "blocks": {
+      "12075128526103414267": {
+        "type": "shopify://apps/bundlex/blocks/volume-discount-embed/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
+        "disabled": false,
+        "settings": {
+          "hide_quantity": true,
+          "custom_placement_selector": "",
+          "add_to_cart_button_selector": "",
+          "quantity_container_selector": "",
+          "quantity_input_selector": "",
+          "variants_container_selector": "",
+          "product_form_selector": "",
+          "custom_css": ""
+        }
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -512,16 +528,16 @@
       "scheme-cae25dfa-a3e1-4115-b96a-f752034e569c": {
         "settings": {
           "background": "#efeeeb",
-          "foreground_heading": "#03275B",
-          "foreground": "#03275B",
-          "primary": "#687C9F",
-          "primary_hover": "#4D5D78",
+          "foreground_heading": "#03275b",
+          "foreground": "#03275b",
+          "primary": "#687c9f",
+          "primary_hover": "#4d5d78",
           "border": "#e6e6e6",
           "shadow": "#000000",
-          "primary_button_background": "#03275B",
-          "primary_button_text": "#EFEEEB",
-          "primary_button_border": "#03275B",
-          "primary_button_hover_background": "#687C9F",
+          "primary_button_background": "#03275b",
+          "primary_button_text": "#efeeeb",
+          "primary_button_border": "#03275b",
+          "primary_button_hover_background": "#687c9f",
           "primary_button_hover_text": "#ffffff",
           "primary_button_hover_border": "#000000",
           "secondary_button_background": "#efefef",
@@ -530,11 +546,11 @@
           "secondary_button_hover_background": "#dedede",
           "secondary_button_hover_text": "#000000",
           "secondary_button_hover_border": "#000000",
-          "input_background": "#EFEEEB",
+          "input_background": "#efeeeb",
           "input_text_color": "#000000",
           "input_border_color": "#00000014",
           "input_hover_background": "#f5f5f5",
-          "variant_background_color": "#EFEEEB",
+          "variant_background_color": "#efeeeb",
           "variant_text_color": "#000000",
           "variant_border_color": "#e6e6e6",
           "variant_hover_background_color": "#f5f5f5",
