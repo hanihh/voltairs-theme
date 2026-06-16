@@ -1559,7 +1559,7 @@
                 "text_McjMWz": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Every time you check a bag, you hand the airline $56+ each way — that's $112 per flight, before overweight penalties, delays, or the 45 minutes you'll never get back waiting at baggage claim.</p><p>And it adds up fast:<br/>• $50–$75 overweight penalties<br/>• $30–$60 carry-on fees on budget airlines<br/>• 26 million bags mishandled every year<br/>• $400–$800+ per year for a family of 4</p><p>You've tried rolling. You've tried packing cubes. You've tried sitting on your suitcase. None of it works because none of it solves the real problem: your clothes take up too much space.</p>",
+                    "text": "<p>Every time you check a bag, you hand the airline $56+ each way — that's $112 per flight, before overweight penalties, delays, or the 45 minutes you'll never get back waiting at baggage claim.</p><p>And it adds up fast:</p><ul><li>$50–$75 overweight penalties</li><li>$30–$60 carry-on fees on budget airlines</li><li>26 million bags mishandled every year</li><li>$400–$800+ per year for a family of 4</li></ul><p>You've tried rolling. You've tried packing cubes. You've tried sitting on your suitcase. None of it works because none of it solves the real problem: your clothes take up too much space.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -1598,7 +1598,7 @@
                 "text_gVNPUh": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Voltairs compresses your clothes to 40% of their original size — so the space problem is gone before you even get to the airport.</p><p>• Fit 10 days of clothes in a single carry-on<br/>• No checked luggage needed<br/>• No baggage claim. No overweight fees. No waiting.</p><p>One kit. Two bags. Zero baggage fees. It pays for itself on the very first flight.</p>",
+                    "text": "<p>Voltairs compresses your clothes to 40% of their original size — so the space problem is gone before you even get to the airport.</p><ul><li>Fit 10 days of clothes in a single carry-on</li><li>No checked luggage needed</li><li>No baggage claim. No overweight fees. No waiting.</li></ul><p>One kit. Two bags. Zero baggage fees. It pays for itself on the very first flight.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
