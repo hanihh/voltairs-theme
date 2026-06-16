@@ -780,8 +780,9 @@
                       "type": "icon",
                       "name": "t:names.icon",
                       "settings": {
-                        "icon": "check_box",
-                        "width": 40,
+                        "icon": "star",
+                        "image_upload": "shopify://shop_images/free-stack-icon-965-thumb.png",
+                        "width": 46,
                         "link": "",
                         "open_in_new_tab": false
                       },
@@ -1000,7 +1001,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Free 30W Pump Included</p>",
+                        "text": "<p>Free 30W Pump Included.  </p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -1209,7 +1210,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>30 day guarantee</p>",
+                        "text": "<p>30-Day Guarantee</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
