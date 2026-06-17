@@ -669,7 +669,15 @@
         "pickup_point_method_definition": "Ship to pickup point",
         "retail_method_definition": "Retail shipping",
         "none_method_definition": "No shipping",
-        "subscription_pickup_information": "This will be the pickup location for all future orders in your subscription."
+        "subscription_pickup_information": "This will be the pickup location for all future orders in your subscription.",
+        "ship_to_address": "Ship to address",
+        "pick_up_from_store": "Pick up from store",
+        "company_location_no_address_banner": "Orders shipped to locations without an address are submitted for review.",
+        "pickup_point_map_title": "Map with pickup location",
+        "digital_product": "Digital product"
+      },
+      "customer_account": {
+        "not_user_label": "Not {{ first_name }}?"
       }
     }
   }
