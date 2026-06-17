@@ -398,7 +398,14 @@
             "external_delivery_promise_error": "An external error occurred while retrieving the delivery date.",
             "options_instructions_invalid": "The instructions provided don't match the expected pattern.",
             "destination_address_required": "A destination address is required to continue.",
-            "pickup_points_unavailable": "Pickup points are currently unavailable."
+            "pickup_points_unavailable": "Pickup points are currently unavailable.",
+            "local_pickup_delivery_line_detail_changed": "To continue, the current delivery strategy for local pickup must be changed.",
+            "local_pickup_no_delivery_strategy_available": "No available delivery strategy was found for local pickup.",
+            "origin_location_id_required": "An origin location ID is required when the RETAIL delivery method is requested.",
+            "invalid_origin_location_id": "No location matching the origin location ID could be found.",
+            "origin_location_id_not_allowed": "The requested delivery methods don't support an origin location ID.",
+            "auto_fulfill_not_allowed": "This session isn't authorized to override the fulfillment behavior.",
+            "auto_fulfill_required": "Auto-fulfillment is required when the RETAIL delivery method is requested."
           }
         }
       }
