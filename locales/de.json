@@ -449,7 +449,13 @@
             "subscription_terms_not_accepted": "The subscription terms weren't accepted.",
             "missing_session_id": "The credit card session information is missing.",
             "gateway_not_supported": "The payment gateway doesn't support saving the payment method.",
-            "credit_card_last_name_required": "\"Last name\" can't be null."
+            "credit_card_last_name_required": "\"Last name\" can't be null.",
+            "credit_card_update_failed": "The credit card update failed.",
+            "invalid_address_type": "The address type provided is invalid for this payment method.",
+            "missing_retail_attributions": "Retail attributions are required for manually entered credit card payments.",
+            "unexpected_retail_attributions": "Unexpected retail attributions were provided for the credit card payment.",
+            "invalid_card_source": "This session doesn't have permission to use this card source.",
+            "wallet_content_missing": "The wallet content is missing."
           }
         }
       }
