@@ -647,7 +647,15 @@
         "storefront_link": "Merchant website",
         "suburb_label": "Suburb",
         "subdistrict_label": "Subdistrict",
-        "optional_subdistrict_label": "Subdistrict (optional)"
+        "optional_subdistrict_label": "Subdistrict (optional)",
+        "optional_street_name_label": "Street (optional)"
+      },
+      "delivery_options": {
+        "ship": "Ship",
+        "pick_up": "Pick up",
+        "pick_up_in_two_hours": "Usually ready in 2 hours",
+        "pick_up_in_four_hours": "Usually ready in 4 hours",
+        "pick_up_immediately": "Ready for pickup now"
       }
     }
   }
