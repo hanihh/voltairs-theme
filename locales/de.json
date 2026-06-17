@@ -556,6 +556,16 @@
           "range_start": "Range start",
           "in_range": "In range",
           "range_end": "Range end"
+        },
+        "list_formatter": {
+          "and": {
+            "lastWordConnector": "{{previousWords}} and {{lastWord}}",
+            "twoWordConnector": "{{firstWord}} and {{secondWord}}"
+          },
+          "or": {
+            "lastWordConnector": "{{previousWords}} or {{lastWord}}",
+            "twoWordConnector": "{{firstWord}} or {{secondWord}}"
+          }
         }
       }
     }
