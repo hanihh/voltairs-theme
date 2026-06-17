@@ -412,7 +412,15 @@
             "must_fulfill_from_same_location_constraint_not_satisfied": "The fulfillment constraints weren't satisfied because the items can't be fulfilled from the same location.",
             "delivery_strategy_conditions_not_satisfied": "Delivery strategies are available for this location, but their conditions weren't met.",
             "out_of_stock_at_origin_location": "Out of stock at origin location.",
-            "invalid_signature": "Invalid discount signature."
+            "invalid_signature": "Invalid discount signature.",
+            "selected_pickup_option_no_longer_available": "Your previously selected pickup option is no longer available.",
+            "mixed_destination_countries": "Delivery isn't available because the delivery items span multiple countries."
+          },
+          "discount": {
+            "discounts_not_allowed_for_b2b": "Discounts aren't allowed for B2B stores.",
+            "custom_discount_not_honoured": "The custom discount provided wasn't honored.",
+            "unsupported_expectation": "The discount line provided included an expectation that couldn't be interpreted by the policy.",
+            "additional_requested_discount_code_discarded": "{{code}} is valid but not applicable. Check the discount conditions."
           }
         }
       }
