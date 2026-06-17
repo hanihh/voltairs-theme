@@ -662,7 +662,14 @@
         "pick_up_in_two_to_four_days": "Usually ready in 2-4 days",
         "pick_up_in_five_or_more_days": "Usually ready in 5+ days",
         "pick_up_in_zero_to_two_hours": "Ready for pickup in 2 hours",
-        "pick_up_in_two_to_four_hours": "Ready for pickup in 4 hours"
+        "pick_up_in_two_to_four_hours": "Ready for pickup in 4 hours",
+        "free_total_label": "Free",
+        "shipping_address": "Shipping address",
+        "pick_up_locations": "Pickup location",
+        "pickup_point_method_definition": "Ship to pickup point",
+        "retail_method_definition": "Retail shipping",
+        "none_method_definition": "No shipping",
+        "subscription_pickup_information": "This will be the pickup location for all future orders in your subscription."
       }
     }
   }
