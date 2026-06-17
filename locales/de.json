@@ -320,7 +320,14 @@
         "submit_for_review_notice_label": "You won't be charged until your order is reviewed.",
         "continue_to_payment_plans_button_label": "Continue to payment plans",
         "back_button_label": "Back",
-        "choose_delivery_strategy": "Choose delivery method"
+        "choose_delivery_strategy": "Choose delivery method",
+        "autocomplete_zero_item": "No options available",
+        "autocomplete_powered_by_google": "Powered by {{brandName}}",
+        "submit": "Submit",
+        "processing": "Processing...",
+        "remove_item": "Remove {{ label }}",
+        "remove_tag": "Remove tag",
+        "confirm_order_button_label": "Confirm order"
       }
     }
   }
