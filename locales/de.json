@@ -640,7 +640,14 @@
         "optional_zip_code_label": "ZIP code (optional)",
         "optional_postal_code_label": "Postal code (optional)",
         "optional_postcode_label": "Postcode (optional)",
-        "optional_pincode_label": "PIN code (optional)"
+        "optional_pincode_label": "PIN code (optional)",
+        "email_rollup_accessibility_label": "Email options",
+        "phone_rollup_accessibility_label": "Phone options",
+        "phone_country_code_label": "Phone number country code",
+        "storefront_link": "Merchant website",
+        "suburb_label": "Suburb",
+        "subdistrict_label": "Subdistrict",
+        "optional_subdistrict_label": "Subdistrict (optional)"
       }
     }
   }
