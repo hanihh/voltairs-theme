@@ -368,7 +368,15 @@
             "quantity_increment_not_met": "The quantity of some items doesn't meet the order requirements.",
             "quantity_rules_not_met": "The quantity of some items doesn't meet the order requirements.",
             "bundle_requires_components": "This merchandise line item bundle has no components.",
-            "title_too_long": "The merchandise line item title is too long."
+            "title_too_long": "The merchandise line item title is too long.",
+            "title_empty": "The merchandise line item title is empty.",
+            "mixed_currencies": "Checkout contains line items with different currencies.",
+            "product_not_published_in_buyer_location": "This product is not available in the current buyer location.",
+            "combined_listing_parent_not_purchasable": "The parent product of a combined listing can't be purchased directly."
+          },
+          "buyer_identity": {
+            "business_customer_does_not_match_company": "The business contact doesn't have access to this company.",
+            "customer_account_required": "You need to log in to continue."
           }
         }
       }
