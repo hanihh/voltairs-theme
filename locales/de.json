@@ -589,7 +589,14 @@
         "email_label": "Email",
         "email_placeholder": "Email",
         "email_or_phone_label": "Email or mobile phone number",
-        "email_or_phone_placeholder": "Email or mobile phone number"
+        "email_or_phone_placeholder": "Email or mobile phone number",
+        "stored_addresses_label": "Saved addresses",
+        "new_address_label": "Use a new address",
+        "first_name_label": "First name",
+        "optional_first_name_label": "First name (optional)",
+        "last_name_label": "Last name",
+        "company_label": "Company",
+        "optional_company_label": "Company (optional)"
       }
     }
   }
