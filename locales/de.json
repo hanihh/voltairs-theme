@@ -159,8 +159,8 @@
     "search_results_view_all": "View all",
     "search_results_view_all_button": "View all",
     "search_results_resource_products_count": {
-      "one": "{{ count }} Produkt",
-      "other": "{{ count }} Produkte"
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
     },
     "grid_view": {
       "default_view": "Default",
