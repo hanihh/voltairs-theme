@@ -434,7 +434,13 @@
             "tax_exemption_not_supported": "Tax exemptions aren't supported in the current negotiation session.",
             "delivery_tax_exemption_not_supported": "Tax exemptions for delivery lines aren't currently supported.",
             "proposed_allocations_required": "The \"proposed allocations\" field is missing.",
-            "merchandise_terms_must_be_defined": "The merchandise line item terms must be defined."
+            "merchandise_terms_must_be_defined": "The merchandise line item terms must be defined.",
+            "delivery_terms_must_be_defined": "The delivery terms must be defined.",
+            "merchandise_discount_terms_must_be_defined": "The merchandise discount terms must be defined.",
+            "delivery_discount_terms_must_be_defined": "The delivery discount terms must be defined.",
+            "allocated_required": "The \"allocated\" field is missing.",
+            "value_required": "The \"value\" field is missing.",
+            "line_splits_not_supported": "The \"merchandise lines\" field must be split so that each line contains a single line component."
           }
         }
       }
