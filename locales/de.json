@@ -572,6 +572,14 @@
             "one": "Cluster with {{number}} marker",
             "other": "Cluster with {{number}} markers"
           }
+        },
+        "sheet": {
+          "expand": "Expand"
+        },
+        "dropzone": {
+          "add_file": "Add file",
+          "invalid_file_type": "File type not supported",
+          "dragged_over": "Drop file to upload"
         }
       }
     }
