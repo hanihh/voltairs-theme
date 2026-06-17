@@ -245,12 +245,12 @@
   },
   "products": {
     "product": {
-      "add_to_cart": "In den Warenkorb legen",
-      "added_to_cart": "Zum Warenkorb hinzugefügt",
-      "adding_to_cart": "Wird hinzugefügt...",
-      "add_to_cart_error": "Fehler beim Hinzufügen zum Warenkorb",
-      "sold_out": "Ausverkauft",
-      "unavailable": "Nicht verfügbar"
+      "add_to_cart": "Add to cart",
+      "added_to_cart": "Added to cart",
+      "adding_to_cart": "Adding to cart...",
+      "add_to_cart_error": "Couldn't add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable"
     }
   },
   "fields": {
