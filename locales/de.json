@@ -304,7 +304,14 @@
         "back_to_contact_information": "Back to contact information",
         "back_to_shipping_method": "Back to shipping method",
         "back_to_payment_method": "Back to payment method",
-        "choose_shipping_method": "Choose shipping method"
+        "choose_shipping_method": "Choose shipping method",
+        "choose_payment_method": "Choose payment method",
+        "choose_billing_address": "Choose billing address",
+        "contact_us_html": "Contact us for more information",
+        "autocomplete_title": "Suggestions",
+        "autocomplete_single_item": "1 option available",
+        "autocomplete_multi_item": "{{number}} options available",
+        "autocomplete_selection": "{{number}} of {{total}}"
       }
     }
   }
