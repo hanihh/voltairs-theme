@@ -462,7 +462,14 @@
             "saved_payment_methods_not_enabled": "Saved payment methods aren't enabled for this store.",
             "store_credit_not_enabled": "Store credit isn't enabled for this store.",
             "store_credit_account_not_found": "The store credit account couldn't be found.",
-            "store_credit_account_mismatch": "The store credit account doesn't match the buyer's identity."
+            "store_credit_account_mismatch": "The store credit account doesn't match the buyer's identity.",
+            "store_credit_mismatched_currency": "The store credit account currency doesn't match the checkout currency.",
+            "store_credit_insufficient_funds": "The store credit account doesn't have sufficient funds.",
+            "store_credit_buying_gift_card": "You can't use store credit to buy a gift card.",
+            "gift_cards_not_allowed_for_b2b": "Gift cards aren't allowed for B2B stores.",
+            "method_required": "A payment method must be proposed.",
+            "paypal_express_address_invalid": "PayPal returned an invalid address.",
+            "saved_payment_methods_cvv_verification_disabled": "The selected payment method requires CVV verification, which isn't enabled for this store. Choose a different payment method."
           }
         }
       }
