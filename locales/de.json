@@ -500,7 +500,15 @@
           "captcha": {
             "metadata_missing": "Completing a captcha validation is required in this checkout.",
             "metadata_mismatch": "The captcha provider and type provided don't match the expected values.",
-            "token_missing": "A captcha token must be provided to complete the checkout."
+            "token_missing": "A captcha token must be provided to complete the checkout.",
+            "job_enqueue_failed": "The captcha validation job couldn't be added to the queue.",
+            "job_already_queued": "The captcha validation for this token has already been added to the queue.",
+            "token_expired": "The captcha token provided has expired. Complete a new captcha validation to continue with checkout.",
+            "token_invalid": "The captcha token provided is invalid. Complete a new captcha validation to continue with checkout.",
+            "token_not_valid_for_session": "The captcha token provided can't be used in this checkout."
+          },
+          "fx_reconciliation_override": {
+            "shop_currency_mismatch": "The amount received must be in the store currency."
           }
         }
       }
