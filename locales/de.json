@@ -549,6 +549,13 @@
             "october": "October",
             "december": "December"
           }
+        },
+        "datepicker": {
+          "show_previous_month": "Show previous month, {{month}} {{year}}",
+          "show_next_month": "Show next month, {{month}} {{year}}",
+          "range_start": "Range start",
+          "in_range": "In range",
+          "range_end": "Range end"
         }
       }
     }
