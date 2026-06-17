@@ -427,7 +427,14 @@
             "mixed_destination_countries": "Discounts aren't available because the delivery items span multiple countries."
           },
           "tax": {
-            "new_tax_must_be_accepted": "The taxes associated with your order have changed. Review them and try again."
+            "new_tax_must_be_accepted": "The taxes associated with your order have changed. Review them and try again.",
+            "unresolvable_tax_terms": "The proposed terms are incompatible with the current negotiation context.",
+            "delivery_price_is_abstract": "The associated delivery price is abstract.",
+            "tax_inclusivity_mismatch": "Renegotiate with the concrete value totalTaxAndDutyAmount or totalAmountIncludedInTarget.",
+            "tax_exemption_not_supported": "Tax exemptions aren't supported in the current negotiation session.",
+            "delivery_tax_exemption_not_supported": "Tax exemptions for delivery lines aren't currently supported.",
+            "proposed_allocations_required": "The \"proposed allocations\" field is missing.",
+            "merchandise_terms_must_be_defined": "The merchandise line item terms must be defined."
           }
         }
       }
