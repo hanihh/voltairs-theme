@@ -383,7 +383,14 @@
             "email_domain_is_invalid": "The provided domain can't be resolved.",
             "missing_contact_method": "A valid contact method is missing.",
             "checkout_completion_target_is_missing": "The checkout completion target is missing.",
-            "invalid_customer_profile": "An invalid customer profile was provided."
+            "invalid_customer_profile": "An invalid customer profile was provided.",
+            "customer_profile_access_restricted": "Checkout doesn't have permission to access the customer profile.",
+            "checkout_completion_target_is_invalid_proc": "Invalid checkout completion target.",
+            "company_location_required": "The customer must select a company location to continue.",
+            "lost_access_to_company": "The customer has lost access to all companies.",
+            "company_purchase_permission_required": "The customer doesn't have permission to place company orders.",
+            "personal_order_not_allowed": "Personal orders aren't allowed for this store.",
+            "buyer_identity_presentment_currency_does_not_match": "Something went wrong while processing your order. Please try again in a few minutes."
           }
         }
       }
