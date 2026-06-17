@@ -611,7 +611,14 @@
         "state_placeholder": "State",
         "prefecture_label": "Prefecture",
         "prefecture_placeholder": "Prefecture",
-        "state_and_territory_label": "State/Territory"
+        "state_and_territory_label": "State/Territory",
+        "state_and_territory_placeholder": "State/Territory",
+        "phone_label": "Phone",
+        "optional_phone_label": "Phone (optional)",
+        "phone_placeholder": "Phone",
+        "phone_tooltip": "In case we need to contact you about your order",
+        "zip_code_label": "ZIP code",
+        "zip_code_placeholder": "ZIP code"
       }
     }
   }
