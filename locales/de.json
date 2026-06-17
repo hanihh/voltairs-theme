@@ -327,7 +327,15 @@
         "processing": "Processing...",
         "remove_item": "Remove {{ label }}",
         "remove_tag": "Remove tag",
-        "confirm_order_button_label": "Confirm order"
+        "confirm_order_button_label": "Confirm order",
+        "forwarding_indicator": {
+          "new_window": "Opens a new window.",
+          "external": "Opens external website."
+        },
+        "qr_code": "QR code",
+        "loading": "Loading...",
+        "remove_chip": "Remove item",
+        "finalize_order_accessibility_label": "Finalize order"
       }
     }
   }
