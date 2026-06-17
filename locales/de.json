@@ -163,21 +163,21 @@
       "other": "{{ count }} Produkte"
     },
     "grid_view": {
-      "default_view": "Standard",
-      "grid_fieldset": "Spaltenraster",
-      "single_item": "Einzeln",
-      "zoom_out": "Herauszoomen"
+      "default_view": "Default",
+      "grid_fieldset": "Grid",
+      "single_item": "Single",
+      "zoom_out": "Zoom out"
     },
     "recently_viewed_products": "Recently viewed",
     "unavailable": "Unavailable",
     "collection_placeholder": "Collection title",
     "product_card_placeholder": "Product title",
-    "product_count": "Produktanzahl",
+    "product_count": "Product count",
     "item_count": {
-      "one": "{{ count }} Artikel",
-      "other": "{{ count }} Artikel"
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
     },
-    "errors": "Fehler",
+    "errors": "Errors",
     "price_from": "From {{ price }}",
     "search": "Search",
     "search_results_no_results_check_spelling": "No results found for \"{{ terms }}\". Check the spelling or use a different word or phrase.",
@@ -205,7 +205,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy_without_discounts": "Taxes and shipping calculated at checkout.",
     "taxes_included_shipping_at_checkout_with_policy_without_discounts_html": "Taxes included. <a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
     "taxes_included_shipping_at_checkout_without_policy_without_discounts": "Taxes included. Shipping calculated at checkout.",
-    "wrong_password": "Falsches Passwort",
+    "wrong_password": "Wrong password",
     "view_more_details": "View more details",
     "inventory_low_stock": "Low stock",
     "inventory_in_stock": "In stock",
@@ -215,8 +215,8 @@
     "placeholder_image": "Placeholder image",
     "shipping_policy": "Shipping calculated at checkout.",
     "inventory_low_stock_show_count": {
-      "one": "{{ count }} übrig",
-      "other": "{{ count }} übrig"
+      "one": "{{ count }} in stock",
+      "other": "{{ count }} in stock"
     },
     "powered_by": "This shop will be powered by",
     "store_owner_link_html": "Are you the store owner? <a href=\"{{ link }}\">Log in here</a>",
