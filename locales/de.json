@@ -482,7 +482,16 @@
             "unresolvable_target_merchandise_lines": "The proposed sale attributions are incompatible with the current negotiation context."
           },
           "non_negotiable": {
-            "missing_non_negotiable_terms": "The buyer's proposal must include non-negotiable terms."
+            "missing_non_negotiable_terms": "The buyer's proposal must include non-negotiable terms.",
+            "invalid_signature": "The signature for {{target_terms}} is invalid."
+          },
+          "inventory": {
+            "missing_quantity_value": "The quantity field is missing from the buyer's inventory lines.",
+            "changing_behavior_not_allowed": "This customer doesn't have permission to change the inventory behavior.",
+            "only_one_inventory_behavior_allowed": "Only one inventory behavior is currently allowed per checkout."
+          },
+          "optional_duties": {
+            "optional_duties_not_permitted": "Declining duties isn't permitted."
           }
         }
       }
