@@ -347,7 +347,14 @@
             "merchandise_not_found": "Product not found.",
             "merchandise_variant_not_found": "Product variant not found.",
             "merchandise_not_applicable": "This product variant can't be purchased.",
-            "bundle_products_not_supported_for_b2b": "Bundled products can't be added to B2B orders for this location."
+            "bundle_products_not_supported_for_b2b": "Bundled products can't be added to B2B orders for this location.",
+            "gift_card_quantity_mismatch": "When entering gift card codes, the line item quantity and the number of gift card codes must match.",
+            "gift_card_not_supported": "Gift cards are not supported in this checkout.",
+            "gift_card_not_unique": "The gift card with code {{code}} appears more than once in this checkout. Codes are formatted before comparison.",
+            "gift_card_used": "The gift card code {{code}} is already assigned to a gift card. Codes are formatted before comparison.",
+            "gift_card_invalid": "The gift card code {{code}} is invalid.",
+            "gift_card_code_changed": "The gift card code {{proposed_code}} was changed to {{formatted_code}} to match the formatting rules.",
+            "gift_card_with_attributes_not_supported": "Gift cards with custom attributes are not supported in this checkout."
           }
         }
       }
