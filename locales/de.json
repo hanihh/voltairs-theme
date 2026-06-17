@@ -455,7 +455,14 @@
             "missing_retail_attributions": "Retail attributions are required for manually entered credit card payments.",
             "unexpected_retail_attributions": "Unexpected retail attributions were provided for the credit card payment.",
             "invalid_card_source": "This session doesn't have permission to use this card source.",
-            "wallet_content_missing": "The wallet content is missing."
+            "wallet_content_missing": "The wallet content is missing.",
+            "payment_instrument_not_found": "The payment method couldn't be found.",
+            "unauthorized_capture_method": "Configuring the payment capture method isn't allowed.",
+            "saved_payment_methods_not_allowed": "Saved payment methods aren't allowed.",
+            "saved_payment_methods_not_enabled": "Saved payment methods aren't enabled for this store.",
+            "store_credit_not_enabled": "Store credit isn't enabled for this store.",
+            "store_credit_account_not_found": "The store credit account couldn't be found.",
+            "store_credit_account_mismatch": "The store credit account doesn't match the buyer's identity."
           }
         }
       }
