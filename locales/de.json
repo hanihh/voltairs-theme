@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "blocks": {
     "load_video": "Video laden: {{ description }}",
@@ -19,48 +28,48 @@
     }
   },
   "accessibility": {
-    "play_model": "3D-Modell abspielen",
-    "play_video": "Video abspielen",
-    "unit_price": "Grundpreis",
-    "country_results_count": "{{ count }} Ergebnisse",
-    "slideshow_pause": "Slideshow pausieren",
-    "slideshow_play": "Slideshow abspielen",
-    "remove_item": "Entferne {{ title}}",
-    "skip_to_text": "Direkt zum Inhalt",
-    "skip_to_product_info": "Zu Produktinformationen springen",
-    "skip_to_results_list": "Zur Ergebnisliste springen",
-    "new_window": "Wird in einem neuen Fenster geöffnet.",
-    "slideshow_next": "Nächste Folie",
-    "slideshow_previous": "Vorherige Folie",
-    "close_dialog": "Dialogfeld schließen",
-    "reset_search": "Suche zurücksetzen",
-    "search_results_count": "{{ count }} Suchergebnisse für „{{ query }}“ gefunden",
-    "search_results_no_results": "Keine Ergebnisse für „{{ query }}“ gefunden",
-    "filters": "Filter",
-    "account": "Kontomenü öffnen",
-    "cart": "Warenkorb",
-    "cart_count": "Artikel im Warenkorb insgesamt",
+    "play_model": "Play 3D Viewer",
+    "play_video": "Play video",
+    "unit_price": "Unit price",
+    "country_results_count": "{{ count }} results",
+    "slideshow_pause": "Pause slideshow",
+    "slideshow_play": "Play slideshow",
+    "remove_item": "Remove {{ title }}",
+    "skip_to_text": "Skip to content",
+    "skip_to_product_info": "Skip to product information",
+    "skip_to_results_list": "Skip to results list",
+    "new_window": "Opens in a new window.",
+    "slideshow_next": "Next slide",
+    "slideshow_previous": "Previous slide",
+    "close_dialog": "Close dialog",
+    "reset_search": "Reset search",
+    "search_results_count": "{{ count }} search results for \"{{ query }}\"",
+    "search_results_no_results": "No results found for \"{{ query }}\"",
+    "filters": "Filters",
+    "account": "Open account menu",
+    "cart": "Cart",
+    "cart_count": "Total items in cart",
     "filter_count": {
-      "one": "{{ count }} Filter angewandt",
-      "other": "{{ count }} Filter angewandt"
+      "one": "{{ count }} filter applied",
+      "other": "{{ count }} filters applied"
     },
-    "menu": "Menü",
-    "country_region": "Land/Region",
-    "slide_status": "Folie {{ index }} von {{ length }}",
-    "scroll_to": "Zu {{ title }} scrollen",
-    "discount": "Rabattcode anwenden",
-    "loading_product_recommendations": "Produktempfehlungen werden geladen",
-    "discount_applied": "Angewendeter Rabattcode: {{ code }}",
-    "open_cart_drawer": "Warenkorb öffnen",
-    "inventory_status": "Inventarstatus",
-    "pause_video": "Video pausieren",
-    "find_country": "Land finden",
-    "localization_region_and_language": "Region- und Sprachauswahl öffnen",
-    "open_search_modal": "Suche öffnen",
-    "decrease_quantity": "Menge verringern",
-    "increase_quantity": "Menge erhöhen",
-    "quantity": "Anzahl",
-    "rating": "Die Bewertung für dieses Produkts lautet {{ rating }} von 5 Sternen"
+    "menu": "Menu",
+    "country_region": "Country/Region",
+    "slide_status": "Slide {{ index }} of {{ length }}",
+    "scroll_to": "Scroll to {{ title }}",
+    "discount": "Apply discount code",
+    "loading_product_recommendations": "Loading product recommendations",
+    "discount_applied": "Discount code applied: {{ code }}",
+    "open_cart_drawer": "Open cart",
+    "inventory_status": "Inventory status",
+    "pause_video": "Pause video",
+    "find_country": "Find country",
+    "localization_region_and_language": "Open region and language selector",
+    "open_search_modal": "Open search",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "quantity": "Quantity",
+    "rating": "This product has a rating of {{ rating }} out of 5 stars"
   },
   "actions": {
     "add_to_cart": "In den Warenkorb legen",
