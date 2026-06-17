@@ -581,6 +581,15 @@
           "invalid_file_type": "File type not supported",
           "dragged_over": "Drop file to upload"
         }
+      },
+      "contact": {
+        "address_title": "Address",
+        "delivery_option_title": "Delivery method",
+        "contact_method_title": "Contact",
+        "email_label": "Email",
+        "email_placeholder": "Email",
+        "email_or_phone_label": "Email or mobile phone number",
+        "email_or_phone_placeholder": "Email or mobile phone number"
       }
     }
   }
