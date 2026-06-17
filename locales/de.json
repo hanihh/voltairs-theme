@@ -238,10 +238,10 @@
     }
   },
   "placeholders": {
-    "password": "Passwort",
-    "search": "Suchen",
-    "product_title": "Produkttitel",
-    "collection_title": "Kollektionstitel"
+    "password": "Password",
+    "search": "Search",
+    "product_title": "Product title",
+    "collection_title": "Collection title"
   },
   "products": {
     "product": {
