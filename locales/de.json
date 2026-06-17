@@ -441,6 +441,15 @@
             "allocated_required": "The \"allocated\" field is missing.",
             "value_required": "The \"value\" field is missing.",
             "line_splits_not_supported": "The \"merchandise lines\" field must be split so that each line contains a single line component."
+          },
+          "payment": {
+            "manual_payments_not_allowed_for_b2b": "Manual payments aren't allowed for B2B stores.",
+            "positive_amount_expected": "The amount to be paid must be greater than 0.",
+            "total_amount_mismatch": "The total amount to be paid doesn't match the sum of the payments.",
+            "subscription_terms_not_accepted": "The subscription terms weren't accepted.",
+            "missing_session_id": "The credit card session information is missing.",
+            "gateway_not_supported": "The payment gateway doesn't support saving the payment method.",
+            "credit_card_last_name_required": "\"Last name\" can't be null."
           }
         }
       }
