@@ -391,6 +391,14 @@
             "company_purchase_permission_required": "The customer doesn't have permission to place company orders.",
             "personal_order_not_allowed": "Personal orders aren't allowed for this store.",
             "buyer_identity_presentment_currency_does_not_match": "Something went wrong while processing your order. Please try again in a few minutes."
+          },
+          "delivery": {
+            "only_one_delivery_line_allowed": "The cart can only have one delivery line.",
+            "wrong_number_of_delivery_lines": "A delivery line must be specified for each merchandise group.",
+            "external_delivery_promise_error": "An external error occurred while retrieving the delivery date.",
+            "options_instructions_invalid": "The instructions provided don't match the expected pattern.",
+            "destination_address_required": "A destination address is required to continue.",
+            "pickup_points_unavailable": "Pickup points are currently unavailable."
           }
         }
       }
