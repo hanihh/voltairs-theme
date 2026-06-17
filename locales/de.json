@@ -566,6 +566,12 @@
             "lastWordConnector": "{{previousWords}} or {{lastWord}}",
             "twoWordConnector": "{{firstWord}} or {{secondWord}}"
           }
+        },
+        "map": {
+          "cluster_title": {
+            "one": "Cluster with {{number}} marker",
+            "other": "Cluster with {{number}} markers"
+          }
         }
       }
     }
