@@ -361,7 +361,14 @@
             "selling_plan_not_supported_b2b": "Subscriptions are not supported in B2B checkout.",
             "price_mismatch": "The previously proposed price for this merchandise line item was invalid and has been updated.",
             "inventory_not_found": "No inventory was found for this merchandise line item.",
-            "product_not_published": "Product is not published."
+            "product_not_published": "Product is not published.",
+            "duplicated_stable_id": "This merchandise line item has the same stable ID as another line item.",
+            "minimum_quantity_not_met": "The quantity of some items doesn't meet the minimum required.",
+            "maximum_quantity_exceeded": "The quantity of some items exceeds the maximum allowed.",
+            "quantity_increment_not_met": "The quantity of some items doesn't meet the order requirements.",
+            "quantity_rules_not_met": "The quantity of some items doesn't meet the order requirements.",
+            "bundle_requires_components": "This merchandise line item bundle has no components.",
+            "title_too_long": "The merchandise line item title is too long."
           }
         }
       }
