@@ -470,6 +470,19 @@
             "method_required": "A payment method must be proposed.",
             "paypal_express_address_invalid": "PayPal returned an invalid address.",
             "saved_payment_methods_cvv_verification_disabled": "The selected payment method requires CVV verification, which isn't enabled for this store. Choose a different payment method."
+          },
+          "tip": {
+            "tips_not_allowed_for_deferred_purchase_options": "Tips aren't yet supported for deferred purchase options."
+          },
+          "sale_attribution": {
+            "draft_order_not_exist": "This draft order doesn't exist in the current store.",
+            "staff_member_not_exist": "This staff member doesn't exist in the current store.",
+            "location_not_exist": "This location doesn't exist in the current store.",
+            "point_of_sale_device_not_exist": "This point of sale device doesn't exist in the current store.",
+            "unresolvable_target_merchandise_lines": "The proposed sale attributions are incompatible with the current negotiation context."
+          },
+          "non_negotiable": {
+            "missing_non_negotiable_terms": "The buyer's proposal must include non-negotiable terms."
           }
         }
       }
