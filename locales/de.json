@@ -260,20 +260,20 @@
     "article": {
       "comment_author_separator": "•",
       "comments_heading": {
-        "one": "{{ count }} Kommentar",
-        "other": "{{ count }} Kommentare"
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
       }
     },
     "comment_form": {
-      "email": "E-Mail",
-      "error": "Kommentar konnte nicht gepostet werden. Bitte beachte Folgendes:",
-      "heading": "Hinterlasse einen Kommentar",
-      "message": "Nachricht",
-      "moderated": "Bitte beachte, dass Kommentare vor der Veröffentlichung freigegeben werden müssen.",
+      "email": "Email",
+      "error": "Comment couldn't be posted. Please note the following:",
+      "heading": "Leave a comment",
+      "message": "Comment",
+      "moderated": "Please note, comments need to be approved before they are published.",
       "name": "Name",
-      "post": "Kommentar posten",
-      "success_moderated": "Kommentar gepostet, Moderation ausstehend",
-      "success": "Kommentar gepostet"
+      "post": "Post comment",
+      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
+      "success": "Your comment was posted successfully! Thank you!"
     }
   }
 }
