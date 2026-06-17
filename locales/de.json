@@ -405,7 +405,14 @@
             "invalid_origin_location_id": "No location matching the origin location ID could be found.",
             "origin_location_id_not_allowed": "The requested delivery methods don't support an origin location ID.",
             "auto_fulfill_not_allowed": "This session isn't authorized to override the fulfillment behavior.",
-            "auto_fulfill_required": "Auto-fulfillment is required when the RETAIL delivery method is requested."
+            "auto_fulfill_required": "Auto-fulfillment is required when the RETAIL delivery method is requested.",
+            "prefetch_shipping_rates_used": "Prefetched shipping rates can't include return costs.",
+            "fulfillment_constraints_not_satisfied": "One or more fulfillment constraints weren't satisfied.",
+            "must_fulfill_from_constraint_not_satisfied": "The fulfillment constraints weren't satisfied because the items can't be fulfilled from the required locations.",
+            "must_fulfill_from_same_location_constraint_not_satisfied": "The fulfillment constraints weren't satisfied because the items can't be fulfilled from the same location.",
+            "delivery_strategy_conditions_not_satisfied": "Delivery strategies are available for this location, but their conditions weren't met.",
+            "out_of_stock_at_origin_location": "Out of stock at origin location.",
+            "invalid_signature": "Invalid discount signature."
           }
         }
       }
