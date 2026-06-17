@@ -17,7 +17,7 @@
       "success": "Thanks for subscribing"
     },
     "filter": "Filter",
-    "payment_methods": "Zahlungsmethoden",
+    "payment_methods": "Payment methods",
     "contact_form": {
       "name": "Name",
       "email": "Email",
