@@ -618,7 +618,14 @@
         "phone_placeholder": "Phone",
         "phone_tooltip": "In case we need to contact you about your order",
         "zip_code_label": "ZIP code",
-        "zip_code_placeholder": "ZIP code"
+        "zip_code_placeholder": "ZIP code",
+        "postal_code_label": "Postal code",
+        "postal_code_placeholder": "Postal code",
+        "postcode_label": "Postcode",
+        "postcode_placeholder": "Postcode",
+        "pincode_label": "PIN code",
+        "pincode_placeholder": "PIN code",
+        "region_none": "None selected"
       }
     }
   }
