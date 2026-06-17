@@ -603,7 +603,12 @@
         "city_label": "City",
         "country_label": "Country/Region",
         "country_code": "Country/Region code",
-        "province_label": "State/Province"
+        "province_label": "State/Province",
+        "province_placeholder": "State/Province",
+        "county_label": "County",
+        "county_placeholder": "County",
+        "state_label": "State",
+        "state_placeholder": "State"
       }
     }
   }
