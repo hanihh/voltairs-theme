@@ -311,7 +311,16 @@
         "autocomplete_title": "Suggestions",
         "autocomplete_single_item": "1 option available",
         "autocomplete_multi_item": "{{number}} options available",
-        "autocomplete_selection": "{{number}} of {{total}}"
+        "autocomplete_selection": "{{number}} of {{total}}",
+        "autocomplete_close": "Close suggestions",
+        "tooltip_accessibility_label": "More information",
+        "full_price": "Full price:",
+        "submit_order_button_label": "Submit order",
+        "submit_for_review_button_label": "Submit for review",
+        "submit_for_review_notice_label": "You won't be charged until your order is reviewed.",
+        "continue_to_payment_plans_button_label": "Continue to payment plans",
+        "back_button_label": "Back",
+        "choose_delivery_strategy": "Choose delivery method"
       }
     }
   }
