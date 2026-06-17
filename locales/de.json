@@ -608,7 +608,10 @@
         "county_label": "County",
         "county_placeholder": "County",
         "state_label": "State",
-        "state_placeholder": "State"
+        "state_placeholder": "State",
+        "prefecture_label": "Prefecture",
+        "prefecture_placeholder": "Prefecture",
+        "state_and_territory_label": "State/Territory"
       }
     }
   }
