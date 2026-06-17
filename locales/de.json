@@ -529,6 +529,14 @@
             "friday": "Friday",
             "saturday": "Saturday",
             "sunday": "Sunday"
+          },
+          "weekdays_abbreviation": {
+            "monday": "Mon",
+            "tuesday": "Tue",
+            "wednesday": "Wed",
+            "thursday": "Thu",
+            "friday": "Fri",
+            "saturday": "Sat"
           }
         }
       }
