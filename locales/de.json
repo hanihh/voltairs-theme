@@ -492,6 +492,15 @@
           },
           "optional_duties": {
             "optional_duties_not_permitted": "Declining duties isn't permitted."
+          },
+          "attribution": {
+            "retail_attribution_not_allowed": "Retail attribution isn't allowed in this checkout.",
+            "retail_attribution_required": "Retail attribution is required in this checkout."
+          },
+          "captcha": {
+            "metadata_missing": "Completing a captcha validation is required in this checkout.",
+            "metadata_mismatch": "The captcha provider and type provided don't match the expected values.",
+            "token_missing": "A captcha token must be provided to complete the checkout."
           }
         }
       }
