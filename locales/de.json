@@ -340,7 +340,15 @@
         "errors": {
           "session_identifier_not_unique_error": "Something went wrong with your order. Please try checking out again.",
           "line_item_limit_reached": "The maximum number of line items has been reached.",
-          "only_empty_terms_accepted": "Only empty values are accepted for this term."
+          "only_empty_terms_accepted": "Only empty values are accepted for this term.",
+          "session_is_already_finished": "This checkout session is already finished.",
+          "merchandise": {
+            "only_value_constraint": "Only exact values are allowed in the merchandise line item input.",
+            "merchandise_not_found": "Product not found.",
+            "merchandise_variant_not_found": "Product variant not found.",
+            "merchandise_not_applicable": "This product variant can't be purchased.",
+            "bundle_products_not_supported_for_b2b": "Bundled products can't be added to B2B orders for this location."
+          }
         }
       }
     }
