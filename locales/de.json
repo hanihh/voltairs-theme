@@ -625,7 +625,22 @@
         "postcode_placeholder": "Postcode",
         "pincode_label": "PIN code",
         "pincode_placeholder": "PIN code",
-        "region_none": "None selected"
+        "region_none": "None selected",
+        "civic_number_warning": "If available, add a house number.",
+        "optional_last_name_label": "Last name (optional)",
+        "different_shipping_address_label": "Ship to a different address",
+        "different_shipping_address_text": "Use a one-time address for this order",
+        "change_company_location_link_label": "Change company location",
+        "change_location_link_label": "Change location",
+        "ship_to_company": "Ship to {{companyName}}",
+        "shipping_used_as_billing_notice": "This will also be used as your billing address for this order.",
+        "company_attention_label": "Company/Attention",
+        "optional_company_attention_label": "Company/Attention (optional)",
+        "available_addresses_label": "Available addresses",
+        "optional_zip_code_label": "ZIP code (optional)",
+        "optional_postal_code_label": "Postal code (optional)",
+        "optional_postcode_label": "Postcode (optional)",
+        "optional_pincode_label": "PIN code (optional)"
       }
     }
   }
