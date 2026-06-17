@@ -509,7 +509,16 @@
           },
           "fx_reconciliation_override": {
             "shop_currency_mismatch": "The amount received must be in the store currency."
+          },
+          "checkout_source": {
+            "revoked": "This checkout is no longer available."
           }
+        },
+        "stepper": {
+          "increase": "Increase {{type}}",
+          "decrease": "Decrease {{type}}",
+          "minimum_reached": "Minimum of {{value}} reached",
+          "maximum_reached": "Maximum of {{value}} reached"
         }
       }
     }
