@@ -290,7 +290,14 @@
         "complete_purchase_button_label": "Complete purchase",
         "pay_now_button_label": "Pay now",
         "authenticate_purchase_button_label": "Authenticate purchase",
-        "edit_link_label": "Edit"
+        "edit_link_label": "Edit",
+        "all_rights_reserved": "© {{ shop_name }}. All rights reserved.",
+        "print_policies_link_label": "Print",
+        "cart": "Cart",
+        "close_modal_label": "Close",
+        "close_notice_label": "Close",
+        "expand_notice_label": "Show more",
+        "continue_to_shipping_method": "Continue to shipping method"
       }
     }
   }
