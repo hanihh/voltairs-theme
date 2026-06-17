@@ -330,12 +330,18 @@
         "confirm_order_button_label": "Confirm order",
         "forwarding_indicator": {
           "new_window": "Opens a new window.",
-          "external": "Opens external website."
+          "external": "Opens external website.",
+          "external_and_new_window": "Opens external website in a new window."
         },
         "qr_code": "QR code",
         "loading": "Loading...",
         "remove_chip": "Remove item",
-        "finalize_order_accessibility_label": "Finalize order"
+        "finalize_order_accessibility_label": "Finalize order",
+        "errors": {
+          "session_identifier_not_unique_error": "Something went wrong with your order. Please try checking out again.",
+          "line_item_limit_reached": "The maximum number of line items has been reached.",
+          "only_empty_terms_accepted": "Only empty values are accepted for this term."
+        }
       }
     }
   }
