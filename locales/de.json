@@ -677,7 +677,14 @@
         "digital_product": "Digital product"
       },
       "customer_account": {
-        "not_user_label": "Not {{ first_name }}?"
+        "not_user_label": "Not {{ first_name }}?",
+        "have_an_account_label": "Have an account?",
+        "sign_in_link_label": "Log in",
+        "sign_out_link_label": "Log out",
+        "save_my_information_label": "Save my information for a faster checkout next time",
+        "incomplete_address": "The selected address is incomplete. {{ update_address_link }} or choose a different address.",
+        "invalid_address": "The selected address is invalid. {{ update_address_link }} or choose a different address.",
+        "rollup_label": "Account"
       }
     }
   }
