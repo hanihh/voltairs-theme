@@ -596,7 +596,14 @@
         "optional_first_name_label": "First name (optional)",
         "last_name_label": "Last name",
         "company_label": "Company",
-        "optional_company_label": "Company (optional)"
+        "optional_company_label": "Company (optional)",
+        "address1_label": "Address",
+        "address2_label": "Apartment, suite, etc.",
+        "optional_address2_label": "Apartment, suite, etc. (optional)",
+        "city_label": "City",
+        "country_label": "Country/Region",
+        "country_code": "Country/Region code",
+        "province_label": "State/Province"
       }
     }
   }
