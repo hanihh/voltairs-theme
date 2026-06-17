@@ -376,7 +376,14 @@
           },
           "buyer_identity": {
             "business_customer_does_not_match_company": "The business contact doesn't have access to this company.",
-            "customer_account_required": "You need to log in to continue."
+            "customer_account_required": "You need to log in to continue.",
+            "contact_info_does_not_match_customer_account": "The contact information must match the account you're logged into.",
+            "phone_number_does_not_match_expected_pattern": "The phone number provided doesn't match the expected pattern.",
+            "email_required": "An email is required when the merchandise line item is purchased as part of a subscription.",
+            "email_domain_is_invalid": "The provided domain can't be resolved.",
+            "missing_contact_method": "A valid contact method is missing.",
+            "checkout_completion_target_is_missing": "The checkout completion target is missing.",
+            "invalid_customer_profile": "An invalid customer profile was provided."
           }
         }
       }
