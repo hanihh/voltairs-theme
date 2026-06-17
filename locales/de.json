@@ -420,7 +420,14 @@
             "discounts_not_allowed_for_b2b": "Discounts aren't allowed for B2B stores.",
             "custom_discount_not_honoured": "The custom discount provided wasn't honored.",
             "unsupported_expectation": "The discount line provided included an expectation that couldn't be interpreted by the policy.",
-            "additional_requested_discount_code_discarded": "{{code}} is valid but not applicable. Check the discount conditions."
+            "additional_requested_discount_code_discarded": "{{code}} is valid but not applicable. Check the discount conditions.",
+            "allocations_mismatch": "Your discount code has changed. Review your cart and try again.",
+            "discount_title_too_long": "The discount title can't exceed 255 characters.",
+            "additional_requested_discount_discarded": "Your discount is valid but not applicable. Check the discount conditions.",
+            "mixed_destination_countries": "Discounts aren't available because the delivery items span multiple countries."
+          },
+          "tax": {
+            "new_tax_must_be_accepted": "The taxes associated with your order have changed. Review them and try again."
           }
         }
       }
