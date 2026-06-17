@@ -297,7 +297,14 @@
         "close_modal_label": "Close",
         "close_notice_label": "Close",
         "expand_notice_label": "Show more",
-        "continue_to_shipping_method": "Continue to shipping method"
+        "continue_to_shipping_method": "Continue to shipping method",
+        "continue_to_payment_method": "Continue to payment method",
+        "continue_to_review": "Continue to review",
+        "back_to_cart": "Back to cart",
+        "back_to_contact_information": "Back to contact information",
+        "back_to_shipping_method": "Back to shipping method",
+        "back_to_payment_method": "Back to payment method",
+        "choose_shipping_method": "Choose shipping method"
       }
     }
   }
