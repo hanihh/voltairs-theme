@@ -9,22 +9,22 @@
  */
 {
   "blocks": {
-    "load_video": "Video laden: {{ description }}",
-    "sold_out": "Ausverkauft",
+    "load_video": "Load video: {{ description }}",
+    "sold_out": "Sold out",
     "email_signup": {
-      "label": "E-Mail",
-      "placeholder": "E-Mail-Adresse",
-      "success": "Danke für deine Anmeldung!"
+      "label": "Email",
+      "placeholder": "Email",
+      "success": "Thanks for subscribing"
     },
-    "filter": "Filtern",
+    "filter": "Filter",
     "payment_methods": "Zahlungsmethoden",
     "contact_form": {
       "name": "Name",
-      "email": "E-Mail-Adresse",
-      "phone": "Telefonnummer",
-      "comment": "Kommentar",
-      "post_success": "Danke, dass du uns kontaktiert hast. Wir werden uns so schnell wie möglich bei dir melden.",
-      "error_heading": "Bitte passe Folgendes an:"
+      "email": "Email",
+      "phone": "Phone number",
+      "comment": "Comment",
+      "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
+      "error_heading": "Please adjust the following:"
     }
   },
   "accessibility": {
