@@ -354,7 +354,14 @@
             "gift_card_used": "The gift card code {{code}} is already assigned to a gift card. Codes are formatted before comparison.",
             "gift_card_invalid": "The gift card code {{code}} is invalid.",
             "gift_card_code_changed": "The gift card code {{proposed_code}} was changed to {{formatted_code}} to match the formatting rules.",
-            "gift_card_with_attributes_not_supported": "Gift cards with custom attributes are not supported in this checkout."
+            "gift_card_with_attributes_not_supported": "Gift cards with custom attributes are not supported in this checkout.",
+            "gift_card_with_components_not_supported": "Gift cards with components are not supported in this checkout.",
+            "selling_plan_mismatch": "The subscription was updated.",
+            "selling_plan_not_supported": "Subscriptions are not supported.",
+            "selling_plan_not_supported_b2b": "Subscriptions are not supported in B2B checkout.",
+            "price_mismatch": "The previously proposed price for this merchandise line item was invalid and has been updated.",
+            "inventory_not_found": "No inventory was found for this merchandise line item.",
+            "product_not_published": "Product is not published."
           }
         }
       }
