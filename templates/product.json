@@ -1712,6 +1712,139 @@
                 "width": 20
               },
               "blocks": {
+                "ai_gen_block_85cf3a6_CBnHay": {
+                  "type": "ai_gen_block_85cf3a6",
+                  "name": "Compare The Difference",
+                  "settings": {
+                    "main_title": "",
+                    "subtitle": "",
+                    "show_image_row": true,
+                    "product_1_image": "shopify://shop_images/10.png",
+                    "product_1_name": "Voltairs Travel vacuum bag kit",
+                    "product_1_highlight": true,
+                    "product_1_show_rating": true,
+                    "product_1_rating_count": "33,818",
+                    "reviews_text": "reviews",
+                    "product_2_name": "Pitbull Gold Pro GX5",
+                    "product_2_highlight": false,
+                    "product_2_show_rating": false,
+                    "product_2_rating_count": "",
+                    "product_3_name": "Remington® Balder Boss",
+                    "product_3_highlight": false,
+                    "product_3_show_rating": false,
+                    "product_3_rating_count": "",
+                    "row_1_feature": "Warranty",
+                    "row_1_col_1_type": "warranty",
+                    "row_1_col_1": "Lifetime",
+                    "row_1_col_1_original": "",
+                    "row_1_col_1_free_text": "",
+                    "row_1_col_2_type": "warranty",
+                    "row_1_col_2": "1-Year",
+                    "row_1_col_2_original": "",
+                    "row_1_col_2_free_text": "",
+                    "row_1_col_3_type": "warranty",
+                    "row_1_col_3": "5-Year",
+                    "row_1_col_3_original": "",
+                    "row_1_col_3_free_text": "",
+                    "row_2_feature": "Free Shipping",
+                    "row_2_col_1_type": "check",
+                    "row_2_col_1": "",
+                    "row_2_col_1_original": "",
+                    "row_2_col_1_free_text": "",
+                    "row_2_col_2_type": "check",
+                    "row_2_col_2": "",
+                    "row_2_col_2_original": "",
+                    "row_2_col_2_free_text": "",
+                    "row_2_col_3_type": "cross",
+                    "row_2_col_3": "",
+                    "row_2_col_3_original": "",
+                    "row_2_col_3_free_text": "",
+                    "row_3_feature": "Hair Clipper",
+                    "row_3_col_1_type": "free",
+                    "row_3_col_1": "",
+                    "row_3_col_1_original": "$19.95",
+                    "row_3_col_1_free_text": "FREE",
+                    "row_3_col_2_type": "cross",
+                    "row_3_col_2": "",
+                    "row_3_col_2_original": "",
+                    "row_3_col_2_free_text": "",
+                    "row_3_col_3_type": "cross",
+                    "row_3_col_3": "",
+                    "row_3_col_3_original": "",
+                    "row_3_col_3_free_text": "",
+                    "row_4_feature": "Nose Trimmer",
+                    "row_4_col_1_type": "free",
+                    "row_4_col_1": "",
+                    "row_4_col_1_original": "$19.95",
+                    "row_4_col_1_free_text": "FREE",
+                    "row_4_col_2_type": "cross",
+                    "row_4_col_2": "",
+                    "row_4_col_2_original": "",
+                    "row_4_col_2_free_text": "",
+                    "row_4_col_3_type": "cross",
+                    "row_4_col_3": "",
+                    "row_4_col_3_original": "",
+                    "row_4_col_3_free_text": "",
+                    "row_5_feature": "Exfoliate Brush",
+                    "row_5_col_1_type": "free",
+                    "row_5_col_1": "",
+                    "row_5_col_1_original": "$19.95",
+                    "row_5_col_1_free_text": "FREE",
+                    "row_5_col_2_type": "cross",
+                    "row_5_col_2": "",
+                    "row_5_col_2_original": "",
+                    "row_5_col_2_free_text": "",
+                    "row_5_col_3_type": "cross",
+                    "row_5_col_3": "",
+                    "row_5_col_3_original": "",
+                    "row_5_col_3_free_text": "",
+                    "row_6_feature": "Replacement Blade Price",
+                    "row_6_col_1_type": "price",
+                    "row_6_col_1": "$17.95",
+                    "row_6_col_1_original": "",
+                    "row_6_col_1_free_text": "",
+                    "row_6_col_2_type": "price",
+                    "row_6_col_2": "$31.49",
+                    "row_6_col_2_original": "",
+                    "row_6_col_2_free_text": "",
+                    "row_6_col_3_type": "price",
+                    "row_6_col_3": "$20.99",
+                    "row_6_col_3_original": "",
+                    "row_6_col_3_free_text": "",
+                    "table_bg_color": "#ffffff",
+                    "table_border_color": "#e6e6e6",
+                    "table_border_width": 1,
+                    "table_border_radius": 8,
+                    "table_shadow_x": 0,
+                    "table_shadow_y": 4,
+                    "table_shadow_blur": 12,
+                    "table_shadow_color": "rgba(0, 0, 0, 0.1)",
+                    "section_bg_color": "#ffffff",
+                    "title_color": "#000000",
+                    "subtitle_color": "#666666",
+                    "highlighted_column_bg": "#fff8f0",
+                    "highlight_border_color": "#ff0000",
+                    "header_bg_color": "#f8f9fa",
+                    "image_row_bg_color": "#ffffff",
+                    "product_name_color": "#000000",
+                    "star_color": "#ffd700",
+                    "reviews_text_color": "#666666",
+                    "feature_label_color": "#333333",
+                    "feature_bg_color": "#f8f9fa",
+                    "cell_border_color": "#e6e6e6",
+                    "warranty_highlight_color": "#0066cc",
+                    "check_color": "#28a745",
+                    "cross_color": "#dc3545",
+                    "price_highlight_color": "#ff0000",
+                    "original_price_color": "#999999",
+                    "free_text_color": "#ff0000",
+                    "title_font_size": 32,
+                    "subtitle_font_size": 16,
+                    "product_name_size": 16,
+                    "cell_font_size": 14
+                  },
+                  "blocks": {}
+                },
                 "text_wHXLCf": {
                   "type": "text",
                   "settings": {
@@ -1739,6 +1872,7 @@
                 }
               },
               "block_order": [
+                "ai_gen_block_85cf3a6_CBnHay",
                 "text_wHXLCf"
               ]
             }
@@ -1783,6 +1917,98 @@
         "gradient_direction": "to top",
         "padding-block-start": 48,
         "padding-block-end": 48
+      }
+    },
+    "marquee_z9PeaH": {
+      "type": "marquee",
+      "blocks": {
+        "text_7Efz7p": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Free Shipping</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_R478xH": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "box",
+            "width": 24,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_JmdT7y": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>30-Day Money Back Guarantee</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_EQr69T": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "check_box",
+            "width": 24,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_7Efz7p",
+        "icon_R478xH",
+        "text_JmdT7y",
+        "icon_EQr69T"
+      ],
+      "name": "t:names.marquee_section",
+      "settings": {
+        "movement_direction": "normal",
+        "color_scheme": "scheme-3",
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "gap_between_elements": 24
       }
     },
     "section_DnnPda": {
@@ -1926,6 +2152,7 @@
         "video_DfbkbN",
         "group_PYJFen"
       ],
+      "disabled": true,
       "name": "Video + Main USP Headline",
       "settings": {
         "content_direction": "row",
@@ -2094,6 +2321,7 @@
         "image_mEGanN",
         "group_Depx9m"
       ],
+      "disabled": true,
       "name": "t:names.image_with_text",
       "settings": {
         "content_direction": "row",
@@ -2710,6 +2938,7 @@
         "image_z6iWec",
         "group_i6QDhH"
       ],
+      "disabled": true,
       "name": "t:names.image_with_text",
       "settings": {
         "content_direction": "row",
@@ -2737,98 +2966,6 @@
         "gradient_direction": "to top",
         "padding-block-start": 40,
         "padding-block-end": 40
-      }
-    },
-    "marquee_z9PeaH": {
-      "type": "marquee",
-      "blocks": {
-        "text_7Efz7p": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Free Shipping</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "tight",
-            "letter_spacing": "tight",
-            "case": "none",
-            "wrap": "nowrap",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_R478xH": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "box",
-            "width": 24,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_JmdT7y": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>90-Day Money Back Guarantee</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_EQr69T": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "check_box",
-            "width": 24,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_7Efz7p",
-        "icon_R478xH",
-        "text_JmdT7y",
-        "icon_EQr69T"
-      ],
-      "name": "t:names.marquee_section",
-      "settings": {
-        "movement_direction": "normal",
-        "color_scheme": "scheme-3",
-        "padding-block-start": 24,
-        "padding-block-end": 24,
-        "gap_between_elements": 24
       }
     },
     "section_qD6gpd": {
@@ -2872,6 +3009,7 @@
         "text_Dee8Md",
         "custom_liquid_zDcLi6"
       ],
+      "disabled": true,
       "name": "Product Reviews",
       "settings": {
         "content_direction": "column",
@@ -2903,6 +3041,7 @@
     },
     "section_YpXqKA": {
       "type": "section",
+      "disabled": true,
       "name": "Reviews  Highlights",
       "settings": {
         "content_direction": "column",
@@ -4078,6 +4217,7 @@
       "block_order": [
         "group_pp4Qg4"
       ],
+      "disabled": true,
       "name": "Reviews  Highlights",
       "settings": {
         "content_direction": "column",
@@ -4923,6 +5063,7 @@
       "blocks": {
         "text_VHEHH4": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "<p><strong>Final CTA </strong></p>",
             "width": "100%",
@@ -4962,7 +5103,7 @@
         "button_WDFMge": {
           "type": "button",
           "settings": {
-            "label": "Try it 90-Days Risk Free – SAVE 40%",
+            "label": "",
             "link": "#productinfo",
             "open_in_new_tab": false,
             "style_class": "button",
@@ -4979,6 +5120,7 @@
         "ai_gen_block_17c9414_W7J7Q4",
         "button_WDFMge"
       ],
+      "disabled": true,
       "name": "t:names.pull_quote",
       "settings": {
         "content_direction": "column",
@@ -5017,10 +5159,10 @@
     "section_yyEKWp",
     "section_aJHpjg",
     "section_7YAPWW",
+    "marquee_z9PeaH",
     "section_DnnPda",
     "section_JLR6Kz",
     "section_6b33EU",
-    "marquee_z9PeaH",
     "section_qD6gpd",
     "section_YpXqKA",
     "section_DMWDF8",
