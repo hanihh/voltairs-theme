@@ -209,7 +209,7 @@
                     "text_002": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>30-day money-back guarantee</p>",
+                        "text": "<p>100-day money-back guarantee</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2115,7 +2115,7 @@
                         "text_067": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>30-day guarantee</p>",
+                            "text": "<p>100-day guarantee</p>",
                             "width": "fit-content",
                             "max_width": "normal",
                             "alignment": "left",
@@ -4021,7 +4021,7 @@
             "row_6_comp2_type": "x",
             "row_6_comp2_value": "",
             "row_7_enabled": true,
-            "row_7_label": "30-day money-back guarantee",
+            "row_7_label": "100-day money-back guarantee",
             "row_7_brand_context": "",
             "row_7_brand_type": "check",
             "row_7_brand_value": "",
@@ -4586,7 +4586,7 @@
         "ai_gen_block_3d8ff6a_152": {
           "type": "ai_gen_block_3d8ff6a",
           "settings": {
-            "quote_text": "<p><em>I built Voltairs after one too many $60 baggage fees. We're a new brand — no thousands of reviews yet, just a kit I use on every trip and a 30-day guarantee that makes trying it risk-free. If it doesn't earn its place in your carry-on, send it back and I'll refund you myself.</em></p>",
+            "quote_text": "<p><em>I built Voltairs after one too many $60 baggage fees. We're a new brand — no thousands of reviews yet, just a kit I use on every trip and a 100-day guarantee that makes trying it risk-free. If it doesn't earn its place in your carry-on, send it back and I'll refund you myself.</em></p>",
             "alignment": "left",
             "width_type": "auto",
             "max_width": 1200,
@@ -5019,7 +5019,7 @@
                         "text_157": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>30-day money-back guarantee</p>",
+                            "text": "<p>100-day money-back guarantee</p>",
                             "width": "fit-content",
                             "max_width": "normal",
                             "alignment": "left",
@@ -5399,7 +5399,7 @@
                 "text_180": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Every kit comes with a 30-day money-back guarantee. If it doesn't save you space and money on your next trip, return it for a full refund — no questions asked.</p>",
+                    "text": "<p>Every kit comes with a 100-day money-back guarantee. If it doesn't save you space and money on your next trip, return it for a full refund — no questions asked.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
