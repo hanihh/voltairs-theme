@@ -417,7 +417,7 @@
         "image_016": {
           "type": "image",
           "settings": {
-            "image": "shopify://shopify/files/1.png",
+            "image": "shopify://shop_images/1.png",
             "link": "",
             "image_ratio": "adapt",
             "width": "fill",
@@ -1056,7 +1056,7 @@
         "image_040": {
           "type": "image",
           "settings": {
-            "image": "shopify://shopify/files/8.png",
+            "image": "shopify://shop_images/8.png",
             "link": "",
             "image_ratio": "square",
             "width": "fill",
@@ -1115,7 +1115,7 @@
         "image_062": {
           "type": "image",
           "settings": {
-            "image": "shopify://shopify/files/3.png",
+            "image": "shopify://shop_images/3.png",
             "link": "",
             "image_ratio": "square",
             "width": "fill",
@@ -2455,7 +2455,7 @@
         "image_087": {
           "type": "image",
           "settings": {
-            "image": "shopify://shopify/files/4.png",
+            "image": "shopify://shop_images/4.png",
             "link": "",
             "image_ratio": "square",
             "width": "fill",
@@ -2514,7 +2514,7 @@
         "image_109": {
           "type": "image",
           "settings": {
-            "image": "shopify://shopify/files/6.png",
+            "image": "shopify://shop_images/6.png",
             "link": "",
             "image_ratio": "square",
             "width": "fill",
@@ -3839,7 +3839,7 @@
         "image_133": {
           "type": "image",
           "settings": {
-            "image": "shopify://shopify/files/5.png",
+            "image": "shopify://shop_images/5.png",
             "link": "",
             "image_ratio": "square",
             "width": "fill",
@@ -4754,7 +4754,7 @@
                 "image_154": {
                   "type": "image",
                   "settings": {
-                    "image": "shopify://shopify/files/1.png",
+                    "image": "shopify://shop_images/1.png",
                     "link": "",
                     "image_ratio": "adapt",
                     "width": "fill",
