@@ -311,8 +311,8 @@
         "voltairs_compare_slider_014": {
           "type": "voltairs-compare-slider",
           "settings": {
-            "before_image": "shopify://shop_images/voltairs-before-pile.png",
-            "after_image": "shopify://shop_images/voltairs-after-packed.png",
+            "before_image": "shopify://shop_images/14.png",
+            "after_image": "shopify://shop_images/voltairs-after-packed_f82489dd-d8bc-4b8a-b1ad-63adecb3e517.png",
             "before_label": "10 days of clothes",
             "after_label": "One Voltairs carry-on",
             "start_position": 50,
