@@ -17,7 +17,9 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(160deg, {{ block.settings.background_color }} 0%, {{ block.settings.background_color | color_darken: 8 }} 100%);
+    /* vertical gradient: the top edge stays exactly background_color so it
+       merges seamlessly with the transparent-header band above */
+    background: linear-gradient(180deg, {{ block.settings.background_color }} 0%, {{ block.settings.background_color | color_darken: 8 }} 100%);
     color: {{ block.settings.text_color }};
     width: 100%;
   }
@@ -224,7 +226,9 @@
       });
     }
 
-    /* same choreography and cycle as the approved demo */
+    /* same choreography as the approved demo, played once: the headline
+       rests on its finished state so it doesn't compete with the stats
+       marquee scrolling below */
     function cycle() {
       timers.forEach(clearTimeout);
       timers = [];
@@ -251,7 +255,12 @@
         root.classList.add('vh-stamped');
       }, 2250));
 
-      timers.push(setTimeout(cycle, 8200));
+      timers.push(setTimeout(function () {
+        /* rest: restore plain text so selection and find-in-page behave normally */
+        line.classList.remove('vh-squash');
+        line.textContent = text;
+        root.classList.remove('vh-anim', 'vh-stamped');
+      }, 3600));
     }
 
     /* start only when the webfont is in and the hero is on screen,
