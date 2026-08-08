@@ -96,8 +96,12 @@ class MarqueeComponent extends Component {
 
   #calculateSpeed() {
     const speedFactor = Number(this.getAttribute('data-speed-factor'));
-    const marqueeWidth = this.offsetWidth;
-    const speed = Math.ceil(marqueeWidth / speedFactor / 2);
+    // One animation loop travels the width of a full content copy, so the
+    // duration must scale with the content width, not the viewport width;
+    // otherwise narrow screens get the same distance in a fraction of the
+    // time and the marquee races on mobile.
+    const contentWidth = this.refs.content.offsetWidth || this.offsetWidth;
+    const speed = Math.ceil(contentWidth / speedFactor / 2);
     return speed;
   }
 
