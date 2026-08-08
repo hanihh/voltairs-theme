@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "section_hero": {
@@ -59,7 +68,6 @@
     },
     "section_stats_marquee": {
       "type": "marquee",
-      "name": "Baggage-fee stats",
       "blocks": {
         "text_002": {
           "type": "text",
@@ -216,6 +224,7 @@
         "text_008",
         "icon_009"
       ],
+      "name": "Baggage-fee stats",
       "settings": {
         "movement_direction": "normal",
         "color_scheme": "scheme-3",
@@ -250,6 +259,7 @@
         },
         "text_012": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Same Clothes. Half the Space.</strong></h2>",
             "width": "100%",
@@ -271,8 +281,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "text_013": {
           "type": "text",
@@ -408,6 +417,7 @@
             },
             "text_025": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>Three Steps. Sixty Percent Smaller.</strong></h2>",
                 "width": "100%",
@@ -429,8 +439,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "group_026": {
               "type": "group",
@@ -485,6 +494,7 @@
                 },
                 "text_016": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h3><strong>Pack it</strong></h3>",
                     "width": "100%",
@@ -506,8 +516,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "text_017": {
                   "type": "text",
@@ -594,6 +603,7 @@
                 },
                 "text_019": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h3><strong>Pump it</strong></h3>",
                     "width": "100%",
@@ -615,8 +625,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "text_020": {
                   "type": "text",
@@ -703,6 +712,7 @@
                 },
                 "text_022": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h3><strong>Go</strong></h3>",
                     "width": "100%",
@@ -724,8 +734,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "text_023": {
                   "type": "text",
@@ -771,7 +780,7 @@
         "image_030": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/8.png",
+            "image": "shopify://shop_images/10_1.png",
             "link": "",
             "image_ratio": "square",
             "width": "fill",
@@ -902,6 +911,7 @@
             },
             "text_032": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>Pack 10 Days of Clothes in a Carry-On</strong></h2>",
                 "width": "100%",
@@ -923,8 +933,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "text_033": {
               "type": "text",
@@ -954,9 +963,6 @@
             "voltairs_chips_034": {
               "type": "voltairs-chips",
               "settings": {
-                "cell_background": "#f4f4f4",
-                "corner_radius": 13,
-                "cell_min_height": 95,
                 "icon_1": "shirt",
                 "label_1": "22 lb per bag",
                 "icon_2": "box",
@@ -964,12 +970,16 @@
                 "icon_3": "plane",
                 "label_3": "Fits any carry-on",
                 "icon_4": "check_box",
-                "label_4": "No checked bag"
+                "label_4": "No checked bag",
+                "cell_background": "#f4f4f4",
+                "corner_radius": 13,
+                "cell_min_height": 95
               },
               "blocks": {}
             },
             "text_035": {
               "type": "text",
+              "name": "Detail",
               "settings": {
                 "text": "<p>Each bag swallows jeans, tees, a sweater, underwear, and socks, then compresses to roughly 3 inches thick. Two bags come in every kit: around 10 days of mixed outfits inside a standard carry-on or backpack.</p>",
                 "width": "100%",
@@ -991,8 +1001,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "Detail"
+              "blocks": {}
             }
           },
           "block_order": [
@@ -1093,6 +1102,7 @@
             },
             "text_039": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>Skip the Fees. Skip the Lines.</strong></h2>",
                 "width": "100%",
@@ -1114,8 +1124,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "text_040": {
               "type": "text",
@@ -1145,9 +1154,6 @@
             "voltairs_chips_041": {
               "type": "voltairs-chips",
               "settings": {
-                "cell_background": "#f4f4f4",
-                "corner_radius": 13,
-                "cell_min_height": 95,
                 "icon_1": "price_tag",
                 "label_1": "$112 back per trip",
                 "icon_2": "stopwatch",
@@ -1155,12 +1161,16 @@
                 "icon_3": "check_box",
                 "label_3": "No carousel wait",
                 "icon_4": "return",
-                "label_4": "100-day guarantee"
+                "label_4": "100-day guarantee",
+                "cell_background": "#f4f4f4",
+                "corner_radius": 13,
+                "cell_min_height": 95
               },
               "blocks": {}
             },
             "text_042": {
               "type": "text",
+              "name": "Detail",
               "settings": {
                 "text": "<p>Checked bags cost money and time: the drop-off line before security, the wait at the carousel after landing, and $56+ each way in fees. Voltairs removes all three. The kit costs $89.99 once and pays for itself on the first round trip.</p>",
                 "width": "100%",
@@ -1182,8 +1192,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "Detail"
+              "blocks": {}
             },
             "button_043": {
               "type": "button",
@@ -1343,6 +1352,7 @@
             },
             "text_047": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>Compress in Seconds. No Rolling, No Kneeling.</strong></h2>",
                 "width": "100%",
@@ -1364,8 +1374,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "text_048": {
               "type": "text",
@@ -1395,9 +1404,6 @@
             "voltairs_chips_049": {
               "type": "voltairs-chips",
               "settings": {
-                "cell_background": "#f4f4f4",
-                "corner_radius": 13,
-                "cell_min_height": 95,
                 "icon_1": "lightning_bolt",
                 "label_1": "30W motor",
                 "icon_2": "stopwatch",
@@ -1405,12 +1411,16 @@
                 "icon_3": "recycle",
                 "label_3": "USB-C rechargeable",
                 "icon_4": "eye",
-                "label_4": "Built-in LED light"
+                "label_4": "Built-in LED light",
+                "cell_background": "#f4f4f4",
+                "corner_radius": 13,
+                "cell_min_height": 95
               },
               "blocks": {}
             },
             "text_050": {
               "type": "text",
+              "name": "Detail",
               "settings": {
                 "text": "<p>The pump ships with multiple nozzles, so it inflates air mattresses, pool floats, and camping gear as easily as it deflates your Voltairs bags. The built-in LED works as a reading light or emergency torch.</p>",
                 "width": "100%",
@@ -1432,8 +1442,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "Detail"
+              "blocks": {}
             }
           },
           "block_order": [
@@ -1534,6 +1543,7 @@
             },
             "text_054": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>Airtight Means Airtight</strong></h2>",
                 "width": "100%",
@@ -1555,8 +1565,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "text_055": {
               "type": "text",
@@ -1586,9 +1595,6 @@
             "voltairs_chips_056": {
               "type": "voltairs-chips",
               "settings": {
-                "cell_background": "#f4f4f4",
-                "corner_radius": 13,
-                "cell_min_height": 95,
                 "icon_1": "lock",
                 "label_1": "Airtight zipper",
                 "icon_2": "washing",
@@ -1596,12 +1602,16 @@
                 "icon_3": "perfume",
                 "label_3": "Odor-proof",
                 "icon_4": "shirt",
-                "label_4": "Anti-rip nylon"
+                "label_4": "Anti-rip nylon",
+                "cell_background": "#f4f4f4",
+                "corner_radius": 13,
+                "cell_min_height": 95
               },
               "blocks": {}
             },
             "text_057": {
               "type": "text",
+              "name": "Detail",
               "settings": {
                 "text": "<p>Most compression bags fail at the seal. They slowly leak and your clothes expand mid-trip. The Voltairs D-ring zipper glides shut and stays airtight, so what you compress at home is exactly what you unpack at the hotel.</p>",
                 "width": "100%",
@@ -1623,8 +1633,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "Detail"
+              "blocks": {}
             }
           },
           "block_order": [
@@ -1709,6 +1718,7 @@
         },
         "text_061": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Voltairs vs. the Usual Fixes</strong></h2>",
             "width": "100%",
@@ -1730,8 +1740,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "text_062": {
           "type": "text",
@@ -1767,90 +1776,90 @@
             "competitor_2_name": "Roll-Up Bags",
             "row_1_enabled": true,
             "row_1_label": "Organizes your luggage",
-            "row_1_brand_context": "",
             "row_1_brand_type": "check",
             "row_1_brand_value": "",
+            "row_1_brand_context": "",
             "row_1_comp1_type": "check",
             "row_1_comp1_value": "",
             "row_1_comp2_type": "check",
             "row_1_comp2_value": "",
             "row_2_enabled": true,
             "row_2_label": "Shrinks clothes up to 60%",
-            "row_2_brand_context": "",
             "row_2_brand_type": "check",
             "row_2_brand_value": "",
+            "row_2_brand_context": "",
             "row_2_comp1_type": "x",
             "row_2_comp1_value": "",
             "row_2_comp2_type": "text",
             "row_2_comp2_value": "Partially",
             "row_3_enabled": true,
             "row_3_label": "Powered compression, no rolling or kneeling",
-            "row_3_brand_context": "",
             "row_3_brand_type": "check",
             "row_3_brand_value": "",
+            "row_3_brand_context": "",
             "row_3_comp1_type": "x",
             "row_3_comp1_value": "",
             "row_3_comp2_type": "x",
             "row_3_comp2_value": "",
             "row_4_enabled": true,
             "row_4_label": "Stays compressed the whole trip",
-            "row_4_brand_context": "",
             "row_4_brand_type": "check",
             "row_4_brand_value": "",
+            "row_4_brand_context": "",
             "row_4_comp1_type": "x",
             "row_4_comp1_value": "",
             "row_4_comp2_type": "text",
             "row_4_comp2_value": "Leaks air",
             "row_5_enabled": true,
             "row_5_label": "IPX8 water-proof & odor-proof",
-            "row_5_brand_context": "",
             "row_5_brand_type": "check",
             "row_5_brand_value": "",
+            "row_5_brand_context": "",
             "row_5_comp1_type": "x",
             "row_5_comp1_value": "",
             "row_5_comp2_type": "x",
             "row_5_comp2_value": "",
             "row_6_enabled": true,
             "row_6_label": "Pump included (USB-C + LED light)",
-            "row_6_brand_context": "",
             "row_6_brand_type": "check",
             "row_6_brand_value": "",
+            "row_6_brand_context": "",
             "row_6_comp1_type": "x",
             "row_6_comp1_value": "",
             "row_6_comp2_type": "x",
             "row_6_comp2_value": "",
             "row_7_enabled": true,
             "row_7_label": "100-day money-back guarantee",
-            "row_7_brand_context": "",
             "row_7_brand_type": "check",
             "row_7_brand_value": "",
+            "row_7_brand_context": "",
             "row_7_comp1_type": "text",
             "row_7_comp1_value": "–",
             "row_7_comp2_type": "text",
             "row_7_comp2_value": "–",
             "row_8_enabled": false,
             "row_8_label": "",
-            "row_8_brand_context": "",
             "row_8_brand_type": "text",
             "row_8_brand_value": "",
+            "row_8_brand_context": "",
             "row_8_comp1_type": "text",
             "row_8_comp1_value": "",
             "row_8_comp2_type": "text",
             "row_8_comp2_value": "",
             "row_9_enabled": false,
             "row_9_label": "",
-            "row_9_brand_context": "",
             "row_9_brand_type": "text",
             "row_9_brand_value": "",
+            "row_9_brand_context": "",
             "row_9_comp1_type": "text",
             "row_9_comp1_value": "",
             "row_9_comp2_type": "text",
             "row_9_comp2_value": "",
             "row_10_enabled": false,
             "row_10_label": "",
-            "row_10_brand_context": "",
             "row_10_brand_type": "text",
             "row_10_brand_value": "",
+            "row_10_brand_context": "",
             "row_10_comp1_type": "text",
             "row_10_comp1_value": "",
             "row_10_comp2_type": "text",
@@ -1952,6 +1961,7 @@
         },
         "text_066": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>See What You Save</strong></h2>",
             "width": "100%",
@@ -1973,8 +1983,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "voltairs_savings_calc_067": {
           "type": "voltairs-savings-calc",
@@ -2031,6 +2040,7 @@
       "blocks": {
         "text_068": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h3><strong>What early users tell us</strong></h3>",
             "width": "100%",
@@ -2052,12 +2062,27 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "voltairs_quote_marquee_069": {
           "type": "voltairs-quote-marquee",
           "settings": {
+            "quote_1": "I got 12 days of clothes into a backpack. My friends thought I checked a bag.",
+            "attr_1": "",
+            "quote_2": "The pump is weirdly satisfying. The bag just flattens in front of you.",
+            "attr_2": "",
+            "quote_3": "First trip in years with zero baggage fees.",
+            "attr_3": "",
+            "quote_4": "It stayed compressed the whole trip, even after security opened my bag.",
+            "attr_4": "",
+            "quote_5": "Two weeks of kids' clothes in one carry-on. I did not think that was possible.",
+            "attr_5": "",
+            "quote_6": "The zipper actually glides. No fighting, no re-sealing.",
+            "attr_6": "",
+            "quote_7": "I use the pump light more than my phone torch when camping.",
+            "attr_7": "",
+            "quote_8": "Straight past bag drop, straight past the carousel. That is the whole point.",
+            "attr_8": "",
             "two_rows": true,
             "speed": 45,
             "bubble_background": "#ffffff",
@@ -2104,6 +2129,7 @@
       "blocks": {
         "group_087": {
           "type": "group",
+          "name": "Offer card",
           "settings": {
             "link": "",
             "open_in_new_tab": false,
@@ -2267,6 +2293,7 @@
                 },
                 "text_079": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h2><strong>Everything You Need to Never Check a Bag</strong></h2>",
                     "width": "100%",
@@ -2288,11 +2315,11 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "text_080": {
                   "type": "text",
+                  "name": "Detail",
                   "settings": {
                     "text": "<p>Version 2: rebuilt around everything the first kit taught us.</p>",
                     "width": "100%",
@@ -2314,8 +2341,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "Detail"
+                  "blocks": {}
                 },
                 "text_081": {
                   "type": "text",
@@ -2344,6 +2370,7 @@
                 },
                 "text_082": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h3><strong>$89.99.</strong> One kit, zero baggage fees.</h3>",
                     "width": "100%",
@@ -2365,8 +2392,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "button_083": {
                   "type": "button",
@@ -2601,8 +2627,7 @@
           "block_order": [
             "group_085",
             "group_086"
-          ],
-          "name": "Offer card"
+          ]
         }
       },
       "block_order": [
@@ -2642,6 +2667,7 @@
       "blocks": {
         "text_106": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h3>Frequently asked questions</h3>",
             "width": "fit-content",
@@ -2663,8 +2689,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "accordion_107": {
           "type": "accordion",
@@ -3088,6 +3113,7 @@
       "blocks": {
         "text_108": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h3><strong>Travel Lighter for Less</strong></h3>",
             "width": "100%",
@@ -3109,8 +3135,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "text_109": {
           "type": "text",
@@ -3140,8 +3165,23 @@
         "email_signup_110": {
           "type": "email-signup",
           "settings": {
+            "width": "fill",
+            "custom_width": 100,
             "inherit_color_scheme": false,
-            "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c"
+            "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
+            "border_style": "all",
+            "border_width": 1,
+            "border_radius": 100,
+            "input_type_preset": "paragraph",
+            "style_class": "button",
+            "display_type": "text",
+            "label": "Sign up",
+            "integrated_button": false,
+            "button_type_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         }
