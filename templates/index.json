@@ -302,12 +302,12 @@
         "voltairs_compare_slider_014": {
           "type": "voltairs-compare-slider",
           "settings": {
-            "before_image": "shopify://shop_images/3.png",
-            "after_image": "shopify://shop_images/4.png",
+            "before_image": "shopify://shop_images/voltairs-before-pile.png",
+            "after_image": "shopify://shop_images/voltairs-after-packed.png",
             "before_label": "10 days of clothes",
             "after_label": "One Voltairs carry-on",
             "start_position": 50,
-            "aspect": "4 / 3",
+            "aspect": "16 / 9",
             "max_width": 1000,
             "corner_radius": 25,
             "handle_color": "#03275b",
