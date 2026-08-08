@@ -1,0 +1,227 @@
+{% doc %}
+  Voltairs benefit chips: four uniform icon + label cells in a grid.
+  Replaces nested group/icon/text stacks so every cell renders the
+  same size regardless of icon shape or label length.
+{% enddoc %}
+{% assign vch_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .vch-{{ vch_id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+  @media (max-width: 749px) {
+    .vch-{{ vch_id }} { grid-template-columns: repeat(2, 1fr); }
+  }
+  .vch-{{ vch_id }} .vch-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: {{ block.settings.cell_min_height }}px;
+    padding: 12px 10px;
+    background: {{ block.settings.cell_background }};
+    border-radius: {{ block.settings.corner_radius }}px;
+    text-align: center;
+  }
+  .vch-{{ vch_id }} .vch-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .vch-{{ vch_id }} .vch-icon svg,
+  .vch-{{ vch_id }} .vch-icon img {
+    width: 30px !important;
+    height: 30px !important;
+    object-fit: contain;
+  }
+  .vch-{{ vch_id }} .vch-label {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+{% endstyle %}
+
+<div class="vch-{{ vch_id }}" {{ block.shopify_attributes }}>
+  {% for i in (1..4) %}
+    {% assign icon_key = 'icon_' | append: i %}
+    {% assign label_key = 'label_' | append: i %}
+    {% assign chip_icon = block.settings[icon_key] %}
+    {% assign chip_label = block.settings[label_key] %}
+    {% if chip_label != blank %}
+      <div class="vch-cell">
+        <span class="vch-icon">
+          {% render 'icon-or-image', icon: chip_icon, width: 30 %}
+        </span>
+        <p class="vch-label">{{ chip_label }}</p>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Voltairs chips",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon_1",
+      "label": "Icon 1",
+      "options": [
+        { "value": "box", "label": "Box" },
+        { "value": "check_box", "label": "Check box" },
+        { "value": "eye", "label": "Eye" },
+        { "value": "fire", "label": "Fire" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "lightning_bolt", "label": "Lightning bolt" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "map_pin", "label": "Map pin" },
+        { "value": "perfume", "label": "Perfume" },
+        { "value": "plane", "label": "Plane" },
+        { "value": "price_tag", "label": "Price tag" },
+        { "value": "recycle", "label": "Recycle" },
+        { "value": "return", "label": "Return" },
+        { "value": "ruler", "label": "Ruler" },
+        { "value": "shirt", "label": "Shirt" },
+        { "value": "star", "label": "Star" },
+        { "value": "stopwatch", "label": "Stopwatch" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "washing", "label": "Washing" }
+      ],
+      "default": "check_box"
+    },
+    { "type": "text", "id": "label_1", "label": "Label 1", "default": "Benefit 1" },
+    {
+      "type": "select",
+      "id": "icon_2",
+      "label": "Icon 2",
+      "options": [
+        { "value": "box", "label": "Box" },
+        { "value": "check_box", "label": "Check box" },
+        { "value": "eye", "label": "Eye" },
+        { "value": "fire", "label": "Fire" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "lightning_bolt", "label": "Lightning bolt" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "map_pin", "label": "Map pin" },
+        { "value": "perfume", "label": "Perfume" },
+        { "value": "plane", "label": "Plane" },
+        { "value": "price_tag", "label": "Price tag" },
+        { "value": "recycle", "label": "Recycle" },
+        { "value": "return", "label": "Return" },
+        { "value": "ruler", "label": "Ruler" },
+        { "value": "shirt", "label": "Shirt" },
+        { "value": "star", "label": "Star" },
+        { "value": "stopwatch", "label": "Stopwatch" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "washing", "label": "Washing" }
+      ],
+      "default": "check_box"
+    },
+    { "type": "text", "id": "label_2", "label": "Label 2", "default": "Benefit 2" },
+    {
+      "type": "select",
+      "id": "icon_3",
+      "label": "Icon 3",
+      "options": [
+        { "value": "box", "label": "Box" },
+        { "value": "check_box", "label": "Check box" },
+        { "value": "eye", "label": "Eye" },
+        { "value": "fire", "label": "Fire" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "lightning_bolt", "label": "Lightning bolt" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "map_pin", "label": "Map pin" },
+        { "value": "perfume", "label": "Perfume" },
+        { "value": "plane", "label": "Plane" },
+        { "value": "price_tag", "label": "Price tag" },
+        { "value": "recycle", "label": "Recycle" },
+        { "value": "return", "label": "Return" },
+        { "value": "ruler", "label": "Ruler" },
+        { "value": "shirt", "label": "Shirt" },
+        { "value": "star", "label": "Star" },
+        { "value": "stopwatch", "label": "Stopwatch" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "washing", "label": "Washing" }
+      ],
+      "default": "check_box"
+    },
+    { "type": "text", "id": "label_3", "label": "Label 3", "default": "Benefit 3" },
+    {
+      "type": "select",
+      "id": "icon_4",
+      "label": "Icon 4",
+      "options": [
+        { "value": "box", "label": "Box" },
+        { "value": "check_box", "label": "Check box" },
+        { "value": "eye", "label": "Eye" },
+        { "value": "fire", "label": "Fire" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "lightning_bolt", "label": "Lightning bolt" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "map_pin", "label": "Map pin" },
+        { "value": "perfume", "label": "Perfume" },
+        { "value": "plane", "label": "Plane" },
+        { "value": "price_tag", "label": "Price tag" },
+        { "value": "recycle", "label": "Recycle" },
+        { "value": "return", "label": "Return" },
+        { "value": "ruler", "label": "Ruler" },
+        { "value": "shirt", "label": "Shirt" },
+        { "value": "star", "label": "Star" },
+        { "value": "stopwatch", "label": "Stopwatch" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "washing", "label": "Washing" }
+      ],
+      "default": "check_box"
+    },
+    { "type": "text", "id": "label_4", "label": "Label 4", "default": "Benefit 4" },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "cell_background",
+      "label": "Cell background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 13,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "cell_min_height",
+      "label": "Cell height",
+      "min": 70,
+      "max": 140,
+      "step": 5,
+      "default": 95,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Voltairs chips",
+      "category": "t:categories.custom"
+    }
+  ]
+}
+{% endschema %}

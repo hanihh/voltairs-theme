@@ -1,0 +1,307 @@
+{% doc %}
+  Voltairs hero banner — value-led, no offer. Navy canvas with a repeating
+  pattern derived from the Voltairs web-and-sphere logo mark, a rotating
+  use-case line, and a soft scroll CTA.
+{% enddoc %}
+{% assign vh_id = block.id | replace: '_', '' | downcase %}
+{% assign rot_items = block.settings.rotate_items | strip | newline_to_br | split: '<br />' %}
+
+{% style %}
+  .vh-{{ vh_id }} {
+    position: relative;
+    overflow: hidden;
+    min-height: {{ block.settings.min_height }}svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    width: 100%;
+  }
+  .vh-{{ vh_id }} .vh-pattern {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='9' fill='%23efeeeb'/%3E%3Cpath d='M96 60Q73.9 65.7 85.5 85.5Q65.7 73.9 60 96Q54.3 73.9 34.5 85.5Q46.1 65.7 24 60Q46.1 54.3 34.5 34.5Q54.3 46.1 60 24Q65.7 46.1 85.5 34.5Q73.9 54.3 96 60Z' fill='none' stroke='%23efeeeb' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M91.1 91.1L99.6 99.6M28.9 91.1L20.4 99.6M28.9 28.9L20.4 20.4M91.1 28.9L99.6 20.4' stroke='%23efeeeb' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: {{ block.settings.pattern_size }}px;
+    opacity: {{ block.settings.pattern_opacity | divided_by: 100.0 }};
+    animation: vh-drift-{{ vh_id }} 90s linear infinite;
+  }
+  .vh-{{ vh_id }} .vh-pattern--fine {
+    background-size: {{ block.settings.pattern_size | divided_by: 2 }}px;
+    opacity: {{ block.settings.pattern_opacity | divided_by: 100.0 | times: 0.5 }};
+    animation: vh-drift2-{{ vh_id }} 70s linear infinite;
+  }
+  @keyframes vh-drift-{{ vh_id }} {
+    to { background-position: {{ block.settings.pattern_size }}px {{ block.settings.pattern_size }}px; }
+  }
+  @keyframes vh-drift2-{{ vh_id }} {
+    to { background-position: -{{ block.settings.pattern_size }}px {{ block.settings.pattern_size | divided_by: 2 }}px; }
+  }
+  .vh-{{ vh_id }} .vh-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(60% 50% at 50% 45%, rgba(255, 255, 255, 0.08), transparent 70%);
+  }
+  .vh-{{ vh_id }} .vh-inner {
+    position: relative;
+    max-width: 46rem;
+    padding: 4rem 1.5rem 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .vh-{{ vh_id }} .vh-eyebrow {
+    margin: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .vh-{{ vh_id }} .vh-heading {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: clamp(2.1rem, 5.5vw, 3.75rem);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  .vh-{{ vh_id }} .vh-rotline {
+    margin: 0;
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+    opacity: 0.92;
+    min-height: 1.6em;
+  }
+  .vh-{{ vh_id }} .vh-rot {
+    display: inline-block;
+    color: {{ block.settings.accent_color }};
+    font-weight: 600;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .vh-{{ vh_id }} .vh-rot.is-out {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  .vh-{{ vh_id }} .vh-ticks {
+    margin: 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+  .vh-{{ vh_id }} .vh-cta {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border: 1.5px solid {{ block.settings.text_color | color_modify: 'alpha', 0.45 }};
+    border-radius: 999px;
+    color: {{ block.settings.text_color }};
+    text-decoration: none;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+  }
+  .vh-{{ vh_id }} .vh-cta:hover {
+    border-color: {{ block.settings.text_color }};
+    background-color: rgba(255, 255, 255, 0.06);
+    transform: translateY(2px);
+  }
+  .vh-{{ vh_id }} .vh-cta .vh-arrow {
+    display: inline-block;
+    animation: vh-bob-{{ vh_id }} 2.2s ease-in-out infinite;
+  }
+  @keyframes vh-bob-{{ vh_id }} {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vh-{{ vh_id }} .vh-pattern,
+    .vh-{{ vh_id }} .vh-pattern--fine,
+    .vh-{{ vh_id }} .vh-cta .vh-arrow {
+      animation: none;
+    }
+  }
+{% endstyle %}
+
+<div class="vh-{{ vh_id }}" {{ block.shopify_attributes }}>
+  <div class="vh-pattern"></div>
+  <div class="vh-pattern vh-pattern--fine"></div>
+  <div class="vh-glow"></div>
+  <div class="vh-inner">
+    {% if block.settings.eyebrow != blank %}
+      <p class="vh-eyebrow">{{ block.settings.eyebrow }}</p>
+    {% endif %}
+    <h1 class="vh-heading">
+      {{ block.settings.heading_1 }}
+      {% if block.settings.heading_2 != blank %}<br>{{ block.settings.heading_2 }}{% endif %}
+    </h1>
+    {% if rot_items.size > 0 and rot_items[0] != blank %}
+      <p class="vh-rotline">
+        {{ block.settings.rotate_prefix }}
+        <span class="vh-rot" id="vh-rot-{{ vh_id }}" data-items="{{ rot_items | join: '|' | escape }}">{{ rot_items[0] | strip }}</span>
+      </p>
+    {% endif %}
+    {% if block.settings.ticks != blank %}
+      <p class="vh-ticks">{{ block.settings.ticks }}</p>
+    {% endif %}
+    {% if block.settings.cta_label != blank and block.settings.cta_link != blank %}
+      <a class="vh-cta" href="{{ block.settings.cta_link }}">
+        {{ block.settings.cta_label }}
+        <span class="vh-arrow" aria-hidden="true">&darr;</span>
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var el = document.getElementById('vh-rot-{{ vh_id }}');
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var items = el.getAttribute('data-items').split('|').map(function (s) { return s.trim(); }).filter(Boolean);
+    if (items.length < 2) return;
+    var i = 0;
+    setInterval(function () {
+      el.classList.add('is-out');
+      setTimeout(function () {
+        i = (i + 1) % items.length;
+        el.textContent = items[i];
+        el.classList.remove('is-out');
+      }, 360);
+    }, {{ block.settings.rotate_speed | times: 1000 }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Voltairs hero",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "More Space, Less Stress"
+    },
+    {
+      "type": "text",
+      "id": "heading_1",
+      "label": "Heading line 1",
+      "default": "10 Days of Clothes."
+    },
+    {
+      "type": "text",
+      "id": "heading_2",
+      "label": "Heading line 2",
+      "default": "One Carry-On."
+    },
+    {
+      "type": "header",
+      "content": "Rotating use cases"
+    },
+    {
+      "type": "text",
+      "id": "rotate_prefix",
+      "label": "Prefix",
+      "default": "Packed for"
+    },
+    {
+      "type": "textarea",
+      "id": "rotate_items",
+      "label": "Use cases (one per line)",
+      "default": "two weeks in Europe\nfamily vacations\nbusiness trips\nfestival weekends\ncarry-on-only travel"
+    },
+    {
+      "type": "range",
+      "id": "rotate_speed",
+      "label": "Seconds per word",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "ticks",
+      "label": "Value ticks",
+      "default": "60% smaller · airtight & waterproof · zero checked bags"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "See it in action"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#03275b"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#efeeeb"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#fdc656"
+    },
+    {
+      "type": "range",
+      "id": "pattern_opacity",
+      "label": "Pattern opacity",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "pattern_size",
+      "label": "Pattern size",
+      "min": 120,
+      "max": 360,
+      "step": 20,
+      "default": 220,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height",
+      "min": 50,
+      "max": 90,
+      "step": 5,
+      "default": 70,
+      "unit": "svh"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Voltairs hero",
+      "category": "t:categories.banners"
+    }
+  ]
+}
+{% endschema %}

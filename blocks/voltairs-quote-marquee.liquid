@@ -1,0 +1,181 @@
+{% doc %}
+  Voltairs floating quote bubbles: up to 8 quotes drifting horizontally in
+  two rows (no stars, no ratings). Pause on hover; static wrap when the
+  visitor prefers reduced motion.
+{% enddoc %}
+{% assign vqm_id = block.id | replace: '_', '' | downcase %}
+
+{% capture bubbles_a %}
+  {% for i in (1..4) %}
+    {% assign qkey = 'quote_' | append: i %}
+    {% assign akey = 'attr_' | append: i %}
+    {% assign q = block.settings[qkey] %}
+    {% if q != blank %}
+      <div class="vqm-bubble">
+        <p class="vqm-quote">&ldquo;{{ q }}&rdquo;</p>
+        {% if block.settings[akey] != blank %}<p class="vqm-attr">{{ block.settings[akey] }}</p>{% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+{% capture bubbles_b %}
+  {% for i in (5..8) %}
+    {% assign qkey = 'quote_' | append: i %}
+    {% assign akey = 'attr_' | append: i %}
+    {% assign q = block.settings[qkey] %}
+    {% if q != blank %}
+      <div class="vqm-bubble">
+        <p class="vqm-quote">&ldquo;{{ q }}&rdquo;</p>
+        {% if block.settings[akey] != blank %}<p class="vqm-attr">{{ block.settings[akey] }}</p>{% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+{% style %}
+  .vqm-{{ vqm_id }} {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-block: 6px;
+  }
+  .vqm-{{ vqm_id }} .vqm-row {
+    display: flex;
+    width: max-content;
+  }
+  .vqm-{{ vqm_id }} .vqm-track {
+    display: flex;
+    gap: 18px;
+    padding-inline: 9px;
+    animation: vqm-slide-{{ vqm_id }} {{ block.settings.speed }}s linear infinite;
+  }
+  .vqm-{{ vqm_id }} .vqm-row--reverse .vqm-track {
+    animation-direction: reverse;
+    animation-duration: {{ block.settings.speed | plus: 7 }}s;
+  }
+  .vqm-{{ vqm_id }}:hover .vqm-track { animation-play-state: paused; }
+  @keyframes vqm-slide-{{ vqm_id }} {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+  .vqm-{{ vqm_id }} .vqm-bubble {
+    flex: 0 0 auto;
+    max-width: 340px;
+    background: {{ block.settings.bubble_background }};
+    border: 1px solid rgba(3, 39, 91, 0.1);
+    border-radius: 18px;
+    padding: 14px 18px;
+    box-shadow: 0 4px 14px rgba(3, 39, 91, 0.07);
+    animation: vqm-bob-{{ vqm_id }} 4s ease-in-out infinite;
+  }
+  .vqm-{{ vqm_id }} .vqm-bubble:nth-child(even) {
+    animation-delay: 2s;
+  }
+  @keyframes vqm-bob-{{ vqm_id }} {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  .vqm-{{ vqm_id }} .vqm-quote {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: {{ block.settings.quote_color }};
+  }
+  .vqm-{{ vqm_id }} .vqm-attr {
+    margin: 6px 0 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    opacity: 0.55;
+    color: {{ block.settings.quote_color }};
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vqm-{{ vqm_id }} { overflow: visible; }
+    .vqm-{{ vqm_id }} .vqm-row { width: 100%; }
+    .vqm-{{ vqm_id }} .vqm-track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .vqm-{{ vqm_id }} .vqm-track[data-clone],
+    .vqm-{{ vqm_id }} .vqm-bubble { animation: none; }
+    .vqm-{{ vqm_id }} .vqm-track[data-clone] { display: none; }
+  }
+{% endstyle %}
+
+<div class="vqm-{{ vqm_id }}" {{ block.shopify_attributes }}>
+  <div class="vqm-row">
+    <div class="vqm-track">{{ bubbles_a }}{{ bubbles_b }}</div>
+    <div class="vqm-track" data-clone aria-hidden="true">{{ bubbles_a }}{{ bubbles_b }}</div>
+  </div>
+  {% if block.settings.two_rows %}
+    <div class="vqm-row vqm-row--reverse">
+      <div class="vqm-track">{{ bubbles_b }}{{ bubbles_a }}</div>
+      <div class="vqm-track" data-clone aria-hidden="true">{{ bubbles_b }}{{ bubbles_a }}</div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Floating quotes",
+  "tag": null,
+  "settings": [
+    { "type": "textarea", "id": "quote_1", "label": "Quote 1", "default": "I got 12 days of clothes into a backpack. My friends thought I checked a bag." },
+    { "type": "text", "id": "attr_1", "label": "Attribution 1" },
+    { "type": "textarea", "id": "quote_2", "label": "Quote 2", "default": "The pump is weirdly satisfying. The bag just flattens in front of you." },
+    { "type": "text", "id": "attr_2", "label": "Attribution 2" },
+    { "type": "textarea", "id": "quote_3", "label": "Quote 3", "default": "First trip in years with zero baggage fees." },
+    { "type": "text", "id": "attr_3", "label": "Attribution 3" },
+    { "type": "textarea", "id": "quote_4", "label": "Quote 4", "default": "It stayed compressed the whole trip, even after security opened my bag." },
+    { "type": "text", "id": "attr_4", "label": "Attribution 4" },
+    { "type": "textarea", "id": "quote_5", "label": "Quote 5", "default": "Two weeks of kids' clothes in one carry-on. I did not think that was possible." },
+    { "type": "text", "id": "attr_5", "label": "Attribution 5" },
+    { "type": "textarea", "id": "quote_6", "label": "Quote 6", "default": "The zipper actually glides. No fighting, no re-sealing." },
+    { "type": "text", "id": "attr_6", "label": "Attribution 6" },
+    { "type": "textarea", "id": "quote_7", "label": "Quote 7", "default": "I use the pump light more than my phone torch when camping." },
+    { "type": "text", "id": "attr_7", "label": "Attribution 7" },
+    { "type": "textarea", "id": "quote_8", "label": "Quote 8", "default": "Straight past bag drop, straight past the carousel. That is the whole point." },
+    { "type": "text", "id": "attr_8", "label": "Attribution 8" },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "checkbox",
+      "id": "two_rows",
+      "label": "Show two rows",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll duration",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "default": 45,
+      "unit": "s"
+    },
+    {
+      "type": "color",
+      "id": "bubble_background",
+      "label": "Bubble background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote text",
+      "default": "#03275b"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating quotes",
+      "category": "t:categories.custom"
+    }
+  ]
+}
+{% endschema %}

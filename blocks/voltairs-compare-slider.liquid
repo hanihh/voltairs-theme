@@ -1,0 +1,274 @@
+{% doc %}
+  Voltairs before/after comparison slider — draggable divider that wipes
+  between the bulky clothes pile and the compressed Voltairs bag.
+{% enddoc %}
+{% assign vcs_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .vcs-{{ vcs_id }} {
+    width: 100%;
+    max-width: {{ block.settings.max_width }}px;
+    margin-inline: auto;
+    --pos: {{ block.settings.start_position }}%;
+  }
+  .vcs-{{ vcs_id }} .vcs-frame {
+    position: relative;
+    aspect-ratio: {{ block.settings.aspect }};
+    border-radius: {{ block.settings.corner_radius }}px;
+    overflow: hidden;
+    background: #e8e8e8;
+  }
+  .vcs-{{ vcs_id }} .vcs-frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .vcs-{{ vcs_id }} .vcs-before {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+    will-change: clip-path;
+  }
+  .vcs-{{ vcs_id }} .vcs-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 3px;
+    transform: translateX(-50%);
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+  }
+  .vcs-{{ vcs_id }} .vcs-grip {
+    position: absolute;
+    top: 50%;
+    left: var(--pos);
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: {{ block.settings.handle_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+  }
+  .vcs-{{ vcs_id }} .vcs-range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    touch-action: pan-y;
+  }
+  .vcs-{{ vcs_id }} .vcs-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 46px;
+    height: 900px;
+  }
+  .vcs-{{ vcs_id }} .vcs-range::-moz-range-thumb {
+    width: 46px;
+    height: 900px;
+    border: none;
+  }
+  .vcs-{{ vcs_id }} .vcs-tag {
+    position: absolute;
+    top: 14px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(3, 39, 91, 0.78);
+    color: #ffffff;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .vcs-{{ vcs_id }} .vcs-tag--before { left: 14px; }
+  .vcs-{{ vcs_id }} .vcs-tag--after { right: 14px; }
+  @media (max-width: 749px) {
+    .vcs-{{ vcs_id }} .vcs-tag { font-size: 0.7rem; top: 10px; }
+    .vcs-{{ vcs_id }} .vcs-tag--before { left: 10px; }
+    .vcs-{{ vcs_id }} .vcs-tag--after { right: 10px; }
+  }
+{% endstyle %}
+
+<div class="vcs-{{ vcs_id }}" id="vcs-{{ vcs_id }}" {{ block.shopify_attributes }}>
+  <div class="vcs-frame">
+    {% if block.settings.after_image != blank %}
+      {{ block.settings.after_image | image_url: width: 1800 | image_tag: loading: 'lazy', alt: block.settings.after_label }}
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag }}
+    {% endif %}
+    <div class="vcs-before">
+      {% if block.settings.before_image != blank %}
+        {{ block.settings.before_image | image_url: width: 1800 | image_tag: loading: 'lazy', alt: block.settings.before_label }}
+      {% else %}
+        {{ 'lifestyle-2' | placeholder_svg_tag }}
+      {% endif %}
+    </div>
+    <div class="vcs-line"></div>
+    <div class="vcs-grip" aria-hidden="true">
+      <svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 1L1 7l6 6M15 1l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    {% if block.settings.before_label != blank %}
+      <span class="vcs-tag vcs-tag--before">{{ block.settings.before_label }}</span>
+    {% endif %}
+    {% if block.settings.after_label != blank %}
+      <span class="vcs-tag vcs-tag--after">{{ block.settings.after_label }}</span>
+    {% endif %}
+    <input
+      class="vcs-range"
+      type="range"
+      min="0"
+      max="100"
+      step="0.1"
+      value="{{ block.settings.start_position }}"
+      aria-label="Drag to compare before and after"
+    >
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('vcs-{{ vcs_id }}');
+    if (!root) return;
+    var range = root.querySelector('.vcs-range');
+    var set = function (v) { root.style.setProperty('--pos', v + '%'); };
+    range.addEventListener('input', function () { set(range.value); });
+
+    {% if block.settings.sweep_on_view %}
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+      var swept = false;
+      var io = new IntersectionObserver(function (entries) {
+        if (swept || !entries[0].isIntersecting) return;
+        swept = true;
+        io.disconnect();
+        var start = {{ block.settings.start_position }};
+        var keyframes = [start, 82, 18, start];
+        var seg = 0, t0 = null, dur = 700;
+        var ease = function (t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; };
+        var step = function (ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min((ts - t0) / dur, 1);
+          var from = keyframes[seg], to = keyframes[seg + 1];
+          var v = from + (to - from) * ease(p);
+          set(v);
+          range.value = v;
+          if (p >= 1) {
+            seg += 1;
+            t0 = null;
+            if (seg >= keyframes.length - 1) return;
+          }
+          requestAnimationFrame(step);
+        };
+        setTimeout(function () { requestAnimationFrame(step); }, 350);
+      }, { threshold: 0.45 });
+      io.observe(root);
+    }
+    {% endif %}
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Before/after slider",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Before image (the pile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "After image (packed)"
+    },
+    {
+      "type": "text",
+      "id": "before_label",
+      "label": "Before label",
+      "default": "10 days of clothes"
+    },
+    {
+      "type": "text",
+      "id": "after_label",
+      "label": "After label",
+      "default": "One Voltairs carry-on"
+    },
+    {
+      "type": "range",
+      "id": "start_position",
+      "label": "Start position",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "default": 50,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "aspect",
+      "label": "Aspect ratio",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 3", "label": "Landscape 4:3" },
+        { "value": "16 / 9", "label": "Wide 16:9" }
+      ],
+      "default": "4 / 3"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width",
+      "min": 600,
+      "max": 1200,
+      "step": 50,
+      "default": 1000,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "default": 25,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "handle_color",
+      "label": "Handle color",
+      "default": "#03275b"
+    },
+    {
+      "type": "checkbox",
+      "id": "sweep_on_view",
+      "label": "Sweep once when scrolled into view",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before/after slider",
+      "category": "t:categories.custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,278 @@
+{% doc %}
+  Voltairs savings calculator: pick who travels and how often, watch the
+  yearly baggage-fee savings count up. Replaces a static stats row.
+{% enddoc %}
+{% assign vsc_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .vsc-{{ vsc_id }} {
+    width: 100%;
+    max-width: 900px;
+    margin-inline: auto;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    border-radius: 25px;
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  @media (max-width: 749px) {
+    .vsc-{{ vsc_id }} { grid-template-columns: 1fr; text-align: center; }
+  }
+  .vsc-{{ vsc_id }} .vsc-label {
+    margin: 0 0 0.6rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .vsc-{{ vsc_id }} .vsc-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 749px) {
+    .vsc-{{ vsc_id }} .vsc-pills { justify-content: center; }
+  }
+  .vsc-{{ vsc_id }} .vsc-pill {
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    background: transparent;
+    color: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .vsc-{{ vsc_id }} .vsc-pill[aria-pressed="true"] {
+    background: {{ block.settings.accent_color }};
+    border-color: {{ block.settings.accent_color }};
+    color: {{ block.settings.background_color }};
+    font-weight: 600;
+  }
+  .vsc-{{ vsc_id }} .vsc-trips {
+    margin-top: 1.4rem;
+  }
+  .vsc-{{ vsc_id }} .vsc-trips-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .vsc-{{ vsc_id }} input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+    outline-offset: 4px;
+  }
+  .vsc-{{ vsc_id }} input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: {{ block.settings.accent_color }};
+    cursor: grab;
+    border: none;
+  }
+  .vsc-{{ vsc_id }} input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: {{ block.settings.accent_color }};
+    cursor: grab;
+    border: none;
+  }
+  .vsc-{{ vsc_id }} .vsc-trips-count {
+    min-width: 7.5rem;
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+  .vsc-{{ vsc_id }} .vsc-result .vsc-amount {
+    font-size: clamp(2.75rem, 7vw, 4.25rem);
+    font-weight: 700;
+    line-height: 1;
+    color: {{ block.settings.accent_color }};
+    font-variant-numeric: tabular-nums;
+  }
+  .vsc-{{ vsc_id }} .vsc-result .vsc-caption {
+    margin: 0.4rem 0 0;
+    font-size: 1rem;
+    opacity: 0.85;
+  }
+  .vsc-{{ vsc_id }} .vsc-result .vsc-footnote {
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+{% endstyle %}
+
+<div class="vsc-{{ vsc_id }}" id="vsc-{{ vsc_id }}" {{ block.shopify_attributes }}>
+  <div class="vsc-controls">
+    <p class="vsc-label">{{ block.settings.who_label }}</p>
+    <div class="vsc-pills" role="group" aria-label="{{ block.settings.who_label }}">
+      <button type="button" class="vsc-pill" data-travelers="1" aria-pressed="true">Solo</button>
+      <button type="button" class="vsc-pill" data-travelers="2" aria-pressed="false">Couple</button>
+      <button type="button" class="vsc-pill" data-travelers="4" aria-pressed="false">Family of 4</button>
+    </div>
+    <div class="vsc-trips">
+      <p class="vsc-label">{{ block.settings.trips_label }}</p>
+      <div class="vsc-trips-row">
+        <input type="range" min="1" max="10" step="1" value="{{ block.settings.default_trips }}" aria-label="{{ block.settings.trips_label }}">
+        <span class="vsc-trips-count"><span data-trips>{{ block.settings.default_trips }}</span> round trips</span>
+      </div>
+    </div>
+  </div>
+  <div class="vsc-result" aria-live="polite">
+    <div class="vsc-amount" data-amount>$0</div>
+    <p class="vsc-caption">{{ block.settings.caption }}</p>
+    <p class="vsc-footnote">{{ block.settings.footnote }}</p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('vsc-{{ vsc_id }}');
+    if (!root) return;
+    var fee = {{ block.settings.fee_per_trip }};
+    var travelers = 1;
+    var range = root.querySelector('input[type="range"]');
+    var amountEl = root.querySelector('[data-amount]');
+    var tripsEl = root.querySelector('[data-trips]');
+    var pills = root.querySelectorAll('.vsc-pill');
+    var shown = 0;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var target = function () { return travelers * parseInt(range.value, 10) * fee; };
+
+    var renderNow = function (v) {
+      amountEl.textContent = '$' + Math.round(v).toLocaleString('en-US') + '+';
+    };
+
+    var raf = null;
+    var animateTo = function (to) {
+      if (reduced) { shown = to; renderNow(to); return; }
+      if (raf) cancelAnimationFrame(raf);
+      var from = shown, t0 = null, dur = 450;
+      var step = function (ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1);
+        var e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+        shown = from + (to - from) * e;
+        renderNow(shown);
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    };
+
+    var update = function () {
+      tripsEl.textContent = range.value;
+      animateTo(target());
+    };
+
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        pills.forEach(function (p) { p.setAttribute('aria-pressed', 'false'); });
+        pill.setAttribute('aria-pressed', 'true');
+        travelers = parseInt(pill.getAttribute('data-travelers'), 10);
+        update();
+      });
+    });
+    range.addEventListener('input', update);
+
+    if ('IntersectionObserver' in window && !reduced) {
+      renderNow(0);
+      var io = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        io.disconnect();
+        update();
+      }, { threshold: 0.4 });
+      io.observe(root);
+    } else {
+      update();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Savings calculator",
+  "tag": null,
+  "settings": [
+    {
+      "type": "range",
+      "id": "fee_per_trip",
+      "label": "Baggage fees per round trip ($)",
+      "min": 56,
+      "max": 200,
+      "step": 1,
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "default_trips",
+      "label": "Default round trips per year",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "who_label",
+      "label": "Travelers label",
+      "default": "Who's traveling?"
+    },
+    {
+      "type": "text",
+      "id": "trips_label",
+      "label": "Trips label",
+      "default": "Round trips per year"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "kept per year by skipping checked bags"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Based on $56 checked-bag fees each way. The kit is $89.99, once."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#03275b"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#efeeeb"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#fdc656"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Savings calculator",
+      "category": "t:categories.custom"
+    }
+  ]
+}
+{% endschema %}
