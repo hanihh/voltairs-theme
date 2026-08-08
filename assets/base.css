@@ -4163,3 +4163,14 @@ text-component {
   transform: none;
   box-shadow: none;
 }
+
+/* Homepage benefit sections: block order alternates image left/right for the
+   desktop zigzag, so image-first sections would stack image-on-top on mobile
+   while the others stack text-on-top. Keep mobile consistent: badge, heading
+   and copy first, image below. */
+@media screen and (max-width: 749px) {
+  .shopify-section[id$="__section_benefit_space"] .section-content-wrapper > .image-block,
+  .shopify-section[id$="__section_benefit_pump"] .section-content-wrapper > .image-block {
+    order: 1;
+  }
+}
