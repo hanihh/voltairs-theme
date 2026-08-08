@@ -18,8 +18,8 @@
             "background_color": "#03275b",
             "text_color": "#efeeeb",
             "accent_color": "#fdc656",
-            "pattern_opacity": 7,
-            "pattern_size": 220,
+            "pattern_style": "dots",
+            "pattern_opacity": 10,
             "min_height": 70
           },
           "blocks": {}

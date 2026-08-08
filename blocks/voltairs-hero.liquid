@@ -23,21 +23,21 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='9' fill='%23efeeeb'/%3E%3Cpath d='M96 60Q73.9 65.7 85.5 85.5Q65.7 73.9 60 96Q54.3 73.9 34.5 85.5Q46.1 65.7 24 60Q46.1 54.3 34.5 34.5Q54.3 46.1 60 24Q65.7 46.1 85.5 34.5Q73.9 54.3 96 60Z' fill='none' stroke='%23efeeeb' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M91.1 91.1L99.6 99.6M28.9 91.1L20.4 99.6M28.9 28.9L20.4 20.4M91.1 28.9L99.6 20.4' stroke='%23efeeeb' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-size: {{ block.settings.pattern_size }}px;
+    {% case block.settings.pattern_style %}
+      {% when 'dots' %}
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Ccircle cx='13' cy='13' r='1.6' fill='%23efeeeb'/%3E%3C/svg%3E");
+    background-size: 26px 26px;
+    animation: vh-drift-{{ vh_id }} 60s linear infinite;
+      {% when 'lines' %}
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M-3 17L17 -3' stroke='%23efeeeb' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 14px 14px;
+      {% else %}
+    background-image: none;
+    {% endcase %}
     opacity: {{ block.settings.pattern_opacity | divided_by: 100.0 }};
-    animation: vh-drift-{{ vh_id }} 90s linear infinite;
-  }
-  .vh-{{ vh_id }} .vh-pattern--fine {
-    background-size: {{ block.settings.pattern_size | divided_by: 2 }}px;
-    opacity: {{ block.settings.pattern_opacity | divided_by: 100.0 | times: 0.5 }};
-    animation: vh-drift2-{{ vh_id }} 70s linear infinite;
   }
   @keyframes vh-drift-{{ vh_id }} {
-    to { background-position: {{ block.settings.pattern_size }}px {{ block.settings.pattern_size }}px; }
-  }
-  @keyframes vh-drift2-{{ vh_id }} {
-    to { background-position: -{{ block.settings.pattern_size }}px {{ block.settings.pattern_size | divided_by: 2 }}px; }
+    to { background-position: 26px 52px; }
   }
   .vh-{{ vh_id }} .vh-glow {
     position: absolute;
@@ -121,7 +121,6 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .vh-{{ vh_id }} .vh-pattern,
-    .vh-{{ vh_id }} .vh-pattern--fine,
     .vh-{{ vh_id }} .vh-cta .vh-arrow {
       animation: none;
     }
@@ -130,7 +129,6 @@
 
 <div class="vh-{{ vh_id }}" {{ block.shopify_attributes }}>
   <div class="vh-pattern"></div>
-  <div class="vh-pattern vh-pattern--fine"></div>
   <div class="vh-glow"></div>
   <div class="vh-inner">
     {% if block.settings.eyebrow != blank %}
@@ -268,23 +266,24 @@
       "default": "#fdc656"
     },
     {
+      "type": "select",
+      "id": "pattern_style",
+      "label": "Pattern",
+      "options": [
+        { "value": "dots", "label": "Dot grid" },
+        { "value": "lines", "label": "Diagonal lines" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "dots"
+    },
+    {
       "type": "range",
       "id": "pattern_opacity",
       "label": "Pattern opacity",
       "min": 0,
       "max": 30,
       "step": 1,
-      "default": 7
-    },
-    {
-      "type": "range",
-      "id": "pattern_size",
-      "label": "Pattern size",
-      "min": 120,
-      "max": 360,
-      "step": 20,
-      "default": 220,
-      "unit": "px"
+      "default": 10
     },
     {
       "type": "range",
