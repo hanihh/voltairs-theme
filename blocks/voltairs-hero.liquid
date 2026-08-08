@@ -1,10 +1,12 @@
 {% doc %}
-  Voltairs hero banner — value-led, no offer. Navy canvas with a repeating
-  pattern derived from the Voltairs web-and-sphere logo mark, a rotating
-  use-case line, and a soft scroll CTA.
+  Voltairs kinetic hero — the headline gets vacuum-packed. Line 1 renders
+  spread out, compresses letter by letter while an amber gauge fills, then
+  line 2 stamps in. Plays once per page load; the server-rendered markup is
+  the finished state, so no-JS, crawlers, and reduced-motion visitors see a
+  complete hero. Rotating-use-case and pattern settings are kept in the
+  schema for template compatibility but are not rendered by this design.
 {% enddoc %}
 {% assign vh_id = block.id | replace: '_', '' | downcase %}
-{% assign rot_items = block.settings.rotate_items | strip | newline_to_br | split: '<br />' %}
 
 {% style %}
   .vh-{{ vh_id }} {
@@ -15,100 +17,141 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: {{ block.settings.background_color }};
+    background: linear-gradient(160deg, {{ block.settings.background_color }} 0%, {{ block.settings.background_color | color_darken: 8 }} 100%);
     color: {{ block.settings.text_color }};
     width: 100%;
   }
-  .vh-{{ vh_id }} .vh-pattern {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    {% case block.settings.pattern_style %}
-      {% when 'dots' %}
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Ccircle cx='13' cy='13' r='1.6' fill='%23efeeeb'/%3E%3C/svg%3E");
-    background-size: 26px 26px;
-    animation: vh-drift-{{ vh_id }} 60s linear infinite;
-      {% when 'lines' %}
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M-3 17L17 -3' stroke='%23efeeeb' stroke-width='1'/%3E%3C/svg%3E");
-    background-size: 14px 14px;
-      {% else %}
-    background-image: none;
-    {% endcase %}
-    opacity: {{ block.settings.pattern_opacity | divided_by: 100.0 }};
-  }
-  @keyframes vh-drift-{{ vh_id }} {
-    to { background-position: 26px 52px; }
-  }
-  .vh-{{ vh_id }} .vh-glow {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(60% 50% at 50% 45%, rgba(255, 255, 255, 0.08), transparent 70%);
-  }
   .vh-{{ vh_id }} .vh-inner {
     position: relative;
-    max-width: 46rem;
-    padding: 4rem 1.5rem 4.5rem;
+    max-width: 60rem;
+    padding: 4rem 1.25rem 4.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
   }
   .vh-{{ vh_id }} .vh-eyebrow {
-    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 1.4rem;
     font-size: 0.8rem;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    opacity: 0.75;
+    color: {{ block.settings.text_color | color_modify: 'alpha', 0.75 }};
+  }
+  .vh-{{ vh_id }} .vh-eyebrow::before {
+    content: '';
+    width: 26px;
+    height: 2px;
+    border-radius: 2px;
+    background: {{ block.settings.accent_color }};
   }
   .vh-{{ vh_id }} .vh-heading {
     margin: 0;
     font-family: var(--font-body--family);
     font-weight: 700;
-    font-size: clamp(2.1rem, 5.5vw, 3.75rem);
     line-height: 1.08;
-    text-wrap: balance;
   }
-  .vh-{{ vh_id }} .vh-rotline {
-    margin: 0;
-    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
-    opacity: 0.92;
-    min-height: 1.6em;
+  .vh-{{ vh_id }} .vh-l1,
+  .vh-{{ vh_id }} .vh-l2 {
+    display: block;
+    font-size: clamp(1.4rem, 5.2vw, 4rem);
+    white-space: nowrap;
   }
-  .vh-{{ vh_id }} .vh-rot {
-    display: inline-block;
+  .vh-{{ vh_id }} .vh-l2 {
     color: {{ block.settings.accent_color }};
-    font-weight: 600;
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    margin-top: 0.1em;
   }
-  .vh-{{ vh_id }} .vh-rot.is-out {
+  .vh-{{ vh_id }} .vh-l1 .ch {
+    display: inline-block;
+    transform: translateX(calc(var(--sp) * 1px));
+    transition: transform 1.35s cubic-bezier(0.75, 0, 0.15, 1);
+    transition-delay: calc(var(--d) * 1ms);
+  }
+  .vh-{{ vh_id }}.vh-anim.vh-spread .vh-l1 .ch {
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
+  .vh-{{ vh_id }} .vh-l1.vh-squash {
+    animation: vh-squash-{{ vh_id }} 0.5s cubic-bezier(0.4, 0, 0.2, 1) 1;
+  }
+  @keyframes vh-squash-{{ vh_id }} {
+    0% { transform: scaleY(1); }
+    45% { transform: scaleY(0.9); }
+    100% { transform: scaleY(1); }
+  }
+  .vh-{{ vh_id }}.vh-anim .vh-l2 {
     opacity: 0;
-    transform: translateY(0.35em);
+    transform: scale(1.22);
+  }
+  .vh-{{ vh_id }}.vh-anim.vh-stamped .vh-l2 {
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1), opacity 0.3s ease;
+  }
+  .vh-{{ vh_id }} .vh-gauge {
+    width: min(320px, 60%);
+    height: 3px;
+    border-radius: 3px;
+    background: {{ block.settings.text_color | color_modify: 'alpha', 0.18 }};
+    margin-top: 2.1rem;
+    overflow: hidden;
+  }
+  .vh-{{ vh_id }} .vh-gauge i {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: {{ block.settings.accent_color }};
+  }
+  .vh-{{ vh_id }}.vh-anim .vh-gauge i {
+    transform: translateX(-101%);
+  }
+  .vh-{{ vh_id }}.vh-anim.vh-compressing .vh-gauge i {
+    transition: transform 1.5s cubic-bezier(0.75, 0, 0.15, 1);
+    transform: translateX(0);
+  }
+  .vh-{{ vh_id }}.vh-anim.vh-stamped .vh-gauge i {
+    transform: translateX(0);
+  }
+  .vh-{{ vh_id }} .vh-sub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.6rem;
+  }
+  .vh-{{ vh_id }}.vh-anim .vh-sub {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .vh-{{ vh_id }}.vh-anim.vh-stamped .vh-sub {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
   }
   .vh-{{ vh_id }} .vh-ticks {
-    margin: 0;
+    margin: 0 0 1.4rem;
     font-size: 0.85rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
-    opacity: 0.65;
+    color: {{ block.settings.text_color | color_modify: 'alpha', 0.74 }};
   }
   .vh-{{ vh_id }} .vh-cta {
-    margin-top: 0.75rem;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.85rem 1.75rem;
-    border: 1.5px solid {{ block.settings.text_color | color_modify: 'alpha', 0.45 }};
     border-radius: 999px;
-    color: {{ block.settings.text_color }};
+    background: {{ block.settings.accent_color }};
+    border: 1.5px solid {{ block.settings.accent_color }};
+    color: {{ block.settings.background_color }};
     text-decoration: none;
     font-size: 0.95rem;
+    font-weight: 700;
     letter-spacing: 0.04em;
-    transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+    transition: background-color 0.25s ease, transform 0.25s ease;
   }
   .vh-{{ vh_id }} .vh-cta:hover {
-    border-color: {{ block.settings.text_color }};
-    background-color: rgba(255, 255, 255, 0.06);
+    background: {{ block.settings.accent_color | color_lighten: 8 }};
     transform: translateY(2px);
   }
   .vh-{{ vh_id }} .vh-cta .vh-arrow {
@@ -120,57 +163,89 @@
     50% { transform: translateY(4px); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .vh-{{ vh_id }} .vh-pattern,
-    .vh-{{ vh_id }} .vh-cta .vh-arrow {
-      animation: none;
-    }
+    .vh-{{ vh_id }} .vh-cta .vh-arrow { animation: none; }
+    .vh-{{ vh_id }} .vh-l1 .ch { transition: none; }
   }
 {% endstyle %}
 
-<div class="vh-{{ vh_id }}" {{ block.shopify_attributes }}>
-  <div class="vh-pattern"></div>
-  <div class="vh-glow"></div>
+<div class="vh-{{ vh_id }}" id="vh-{{ vh_id }}" {{ block.shopify_attributes }}>
   <div class="vh-inner">
     {% if block.settings.eyebrow != blank %}
       <p class="vh-eyebrow">{{ block.settings.eyebrow }}</p>
     {% endif %}
-    <h1 class="vh-heading">
-      {{ block.settings.heading_1 }}
-      {% if block.settings.heading_2 != blank %}<br>{{ block.settings.heading_2 }}{% endif %}
+    <h1 class="vh-heading" aria-label="{{ block.settings.heading_1 | escape }} {{ block.settings.heading_2 | escape }}">
+      <span class="vh-l1" id="vh-l1-{{ vh_id }}" aria-hidden="true">{{ block.settings.heading_1 }}</span>
+      {% if block.settings.heading_2 != blank %}
+        <span class="vh-l2" aria-hidden="true">{{ block.settings.heading_2 }}</span>
+      {% endif %}
     </h1>
-    {% if rot_items.size > 0 and rot_items[0] != blank %}
-      <p class="vh-rotline">
-        {{ block.settings.rotate_prefix }}
-        <span class="vh-rot" id="vh-rot-{{ vh_id }}" data-items="{{ rot_items | join: '|' | escape }}">{{ rot_items[0] | strip }}</span>
-      </p>
-    {% endif %}
-    {% if block.settings.ticks != blank %}
-      <p class="vh-ticks">{{ block.settings.ticks }}</p>
-    {% endif %}
-    {% if block.settings.cta_label != blank and block.settings.cta_link != blank %}
-      <a class="vh-cta" href="{{ block.settings.cta_link }}">
-        {{ block.settings.cta_label }}
-        <span class="vh-arrow" aria-hidden="true">&darr;</span>
-      </a>
-    {% endif %}
+    <div class="vh-gauge" aria-hidden="true"><i></i></div>
+    <div class="vh-sub">
+      {% if block.settings.ticks != blank %}
+        <p class="vh-ticks">{{ block.settings.ticks }}</p>
+      {% endif %}
+      {% if block.settings.cta_label != blank and block.settings.cta_link != blank %}
+        <a class="vh-cta" href="{{ block.settings.cta_link }}">
+          {{ block.settings.cta_label }}
+          <span class="vh-arrow" aria-hidden="true">&darr;</span>
+        </a>
+      {% endif %}
+    </div>
   </div>
 </div>
 
 <script>
   (function () {
-    var el = document.getElementById('vh-rot-{{ vh_id }}');
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var items = el.getAttribute('data-items').split('|').map(function (s) { return s.trim(); }).filter(Boolean);
-    if (items.length < 2) return;
-    var i = 0;
-    setInterval(function () {
-      el.classList.add('is-out');
-      setTimeout(function () {
-        i = (i + 1) % items.length;
-        el.textContent = items[i];
-        el.classList.remove('is-out');
-      }, 360);
-    }, {{ block.settings.rotate_speed | times: 1000 }});
+    var root = document.getElementById('vh-{{ vh_id }}');
+    var line = document.getElementById('vh-l1-{{ vh_id }}');
+    if (!root || !line) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var text = line.textContent;
+    var chars = Array.prototype.slice.call(text);
+    var mid = (chars.length - 1) / 2;
+    line.textContent = '';
+    chars.forEach(function (c, i) {
+      var s = document.createElement('span');
+      s.className = 'ch';
+      if (c === ' ') {
+        s.innerHTML = '&nbsp;';
+      } else {
+        s.textContent = c;
+      }
+      s.style.setProperty('--sp', ((i - mid) * 16).toFixed(1));
+      s.style.setProperty('--d', String(Math.round(Math.abs(i - mid) * 26)));
+      s.style.transform = 'translateX(calc(var(--sp) * 1px))';
+      line.appendChild(s);
+    });
+
+    /* the classes below run the sequence once; the markup's default state is the finished hero */
+    root.classList.add('vh-anim', 'vh-spread');
+    void root.offsetWidth;
+
+    setTimeout(function () {
+      root.classList.remove('vh-spread');
+      root.classList.add('vh-compressing');
+      line.querySelectorAll('.ch').forEach(function (s) {
+        s.style.transform = 'translateX(0)';
+      });
+    }, 600);
+
+    setTimeout(function () {
+      line.classList.add('vh-squash');
+    }, 1950);
+
+    setTimeout(function () {
+      root.classList.remove('vh-compressing');
+      root.classList.add('vh-stamped');
+    }, 2150);
+
+    setTimeout(function () {
+      /* restore plain text so selection and find-in-page behave normally */
+      line.classList.remove('vh-squash');
+      line.textContent = text;
+      root.classList.remove('vh-anim', 'vh-stamped');
+    }, 3400);
   })();
 </script>
 
@@ -183,7 +258,7 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "More Space, Less Stress"
+      "default": "Still checking a bag?"
     },
     {
       "type": "text",
@@ -194,12 +269,12 @@
     {
       "type": "text",
       "id": "heading_2",
-      "label": "Heading line 2",
+      "label": "Heading line 2 (stamps in)",
       "default": "One Carry-On."
     },
     {
       "type": "header",
-      "content": "Rotating use cases"
+      "content": "Rotating use cases (not used by this design)"
     },
     {
       "type": "text",
@@ -268,7 +343,7 @@
     {
       "type": "select",
       "id": "pattern_style",
-      "label": "Pattern",
+      "label": "Pattern (not used by this design)",
       "options": [
         { "value": "dots", "label": "Dot grid" },
         { "value": "lines", "label": "Diagonal lines" },
