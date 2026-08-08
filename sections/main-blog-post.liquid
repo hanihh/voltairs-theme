@@ -97,7 +97,10 @@
 
   .blog-post-comments-pagination .current,
   .blog-post-comments-pagination a {
-    display: block;
+    display: grid;
+    place-content: center;
+    min-width: var(--minimum-touch-target);
+    min-height: var(--minimum-touch-target);
     padding: var(--padding-2xs) var(--padding-xs);
   }
 

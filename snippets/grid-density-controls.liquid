@@ -166,6 +166,10 @@
     padding: var(--padding-2xs);
     border-radius: var(--style-border-radius-xs);
     transition: background-color var(--animation-speed) ease, color var(--animation-speed) ease;
+    min-width: var(--minimum-touch-target);
+    min-height: var(--minimum-touch-target);
+    display: grid;
+    place-content: center;
   }
 
   .column-options__option:hover .column-picker {

@@ -22,7 +22,6 @@
     flex-direction: column;
     align-items: center;
     gap: var(--gap-lg);
-    text-wrap: nowrap;
     border-top: var(--border-width) solid var(--color-border);
     color: var(--color-foreground-muted);
 
@@ -32,6 +31,7 @@
       gap: var(--gap-md);
       align-items: center;
       text-align: left;
+      text-wrap: nowrap;
     }
   }
 
@@ -63,7 +63,8 @@
     }
   }
 
-  .footer-utilities__group:empty {
+  .footer-utilities__group:empty,
+  .footer-utilities__group--right:not(:has(a)) {
     @media screen and (max-width: 749px) {
       display: none;
     }

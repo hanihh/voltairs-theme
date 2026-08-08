@@ -98,9 +98,15 @@
   .vcs-{{ vcs_id }} .vcs-tag--before { left: 14px; }
   .vcs-{{ vcs_id }} .vcs-tag--after { right: 14px; }
   @media (max-width: 749px) {
-    .vcs-{{ vcs_id }} .vcs-tag { font-size: 0.7rem; top: 10px; }
+    .vcs-{{ vcs_id }} .vcs-tag {
+      font-size: 0.7rem;
+      top: 10px;
+      max-width: calc(100% - 20px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .vcs-{{ vcs_id }} .vcs-tag--before { left: 10px; }
-    .vcs-{{ vcs_id }} .vcs-tag--after { right: 10px; }
+    .vcs-{{ vcs_id }} .vcs-tag--after { right: 10px; top: auto; bottom: 10px; }
   }
 {% endstyle %}
 

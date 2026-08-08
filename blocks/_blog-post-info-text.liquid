@@ -41,8 +41,14 @@
     white-space: nowrap;
   }
   .blog-post-details > span {
-    text-overflow: clip;
+    text-overflow: ellipsis;
     overflow: hidden;
+  }
+  @media screen and (max-width: 749px) {
+    .blog-post-details {
+      white-space: normal;
+      flex-wrap: wrap;
+    }
   }
 {% endstylesheet %}
 

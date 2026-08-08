@@ -114,6 +114,8 @@
     align-items: center;
     gap: var(--gap-2xl);
     padding: var(--cart-drawer-summary-padding);
+    /* keep checkout above the iOS home indicator */
+    padding-bottom: calc(var(--cart-drawer-summary-padding) + env(safe-area-inset-bottom, 0px));
     margin-top: auto;
     background-color: var(--color-background);
     /* stylelint-disable-next-line color-named */
@@ -143,11 +145,12 @@
   .cart-drawer__items {
     display: flex;
     flex-direction: column;
-    padding-inline: var(--cart-drawer-padding);
+    /* --cart-drawer-padding is a two-value block/inline pair; use the inline value only */
+    padding-inline: var(--padding-xl);
     overflow-y: auto;
 
     @media screen and (min-width: 750px) {
-      padding-inline: var(--cart-drawer-padding-desktop);
+      padding-inline: var(--padding-2xl);
     }
   }
 

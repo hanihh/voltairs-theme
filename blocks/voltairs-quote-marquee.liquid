@@ -55,14 +55,20 @@
     animation-direction: reverse;
     animation-duration: {{ block.settings.speed | plus: 7 }}s;
   }
-  .vqm-{{ vqm_id }}:hover .vqm-track { animation-play-state: paused; }
+  .vqm-{{ vqm_id }}:hover .vqm-track,
+  .vqm-{{ vqm_id }}:active .vqm-track,
+  .vqm-{{ vqm_id }}:focus-within .vqm-track { animation-play-state: paused; }
+  @media (max-width: 749px) {
+    .vqm-{{ vqm_id }} .vqm-track { animation-duration: {{ block.settings.speed | plus: 15 }}s; }
+    .vqm-{{ vqm_id }} .vqm-row--reverse .vqm-track { animation-duration: {{ block.settings.speed | plus: 22 }}s; }
+  }
   @keyframes vqm-slide-{{ vqm_id }} {
     from { transform: translateX(-50%); }
     to { transform: translateX(0); }
   }
   .vqm-{{ vqm_id }} .vqm-bubble {
     flex: 0 0 auto;
-    max-width: 340px;
+    max-width: min(340px, calc(100vw - 32px));
     background: {{ block.settings.bubble_background }};
     border: 1px solid rgba(3, 39, 91, 0.1);
     border-radius: 18px;
@@ -91,7 +97,6 @@
     color: {{ block.settings.quote_color }};
   }
   @media (prefers-reduced-motion: reduce) {
-    .vqm-{{ vqm_id }} { overflow: visible; }
     .vqm-{{ vqm_id }} .vqm-row { width: 100%; }
     .vqm-{{ vqm_id }} .vqm-track {
       animation: none;

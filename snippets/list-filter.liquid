@@ -453,6 +453,10 @@
     --pill-label-border-radius: var(--style-border-radius-md);
     --pill-label-border-width: var(--variant-picker-button-border-width);
     --pill-label-height: var(--button-size-md);
+
+    @media screen and (max-width: 749px) {
+      --pill-label-height: var(--minimum-touch-target);
+    }
     --pill-label-focus-outline-color: var(--color-foreground);
     --pill-label-color: var(--color-foreground);
     --pill-label-background-color: var(--color-background);
@@ -555,8 +559,8 @@
   }
 
   .facets__inputs-list--swatches {
-    --variant-picker-swatch-width: 32px;
-    --variant-picker-swatch-height: 32px;
+    --variant-picker-swatch-width: 44px;
+    --variant-picker-swatch-height: 44px;
 
     @media screen and (min-width: 750px) {
       --variant-picker-swatch-width: 26px;
@@ -700,7 +704,7 @@
 
   .facets__inputs-wrapper .facets__inputs-list--images {
     display: grid;
-    grid-template-columns: repeat(var(--image-columns), 125px);
+    grid-template-columns: repeat(var(--image-columns), minmax(0, 125px));
     gap: var(--gap-sm);
   }
 

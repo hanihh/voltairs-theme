@@ -37,6 +37,16 @@
     height: var(--icon-size-lg);
   }
 
+  /* 44px tap target around the 24px icon, without changing visual spacing */
+  .social-icons__icon-wrapper > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--minimum-touch-target);
+    min-height: var(--minimum-touch-target);
+    margin: calc((var(--minimum-touch-target) - var(--icon-size-lg)) / -2);
+  }
+
   .social-icons__icon {
     display: flex;
     fill: currentColor;

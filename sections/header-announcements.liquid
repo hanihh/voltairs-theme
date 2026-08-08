@@ -56,9 +56,14 @@
   .announcement-bar__slides {
     display: grid;
     grid: [stack] auto / [stack] auto;
-    width: calc(100% - var(--button-size) * 2);
+    width: 100%;
     max-width: 680px;
     margin-inline: auto;
+  }
+
+  /* only reserve room for the arrows when they are rendered (2+ announcements) */
+  .announcement-bar__slider:has(slideshow-arrows) .announcement-bar__slides {
+    width: calc(100% - var(--button-size) * 2);
   }
 
   .announcement-bar__slides > * {

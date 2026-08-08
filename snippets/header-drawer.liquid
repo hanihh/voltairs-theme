@@ -1030,7 +1030,7 @@
     padding: 0;
     margin-block: auto var(--padding-sm);
     margin-inline-start: var(--padding-xl);
-    background-color: rgb(var(--color-foreground) 0.03);
+    background-color: rgb(from var(--color-foreground) r g b / 3%);
   }
 
   .menu-drawer__account {
@@ -1039,8 +1039,8 @@
     gap: var(--gap-xs);
     text-decoration: none;
     height: 44px;
-    font-size: 1.4rem;
-    color: rgb(var(--color-foreground));
+    font-size: var(--font-size--sm);
+    color: var(--color-foreground);
   }
 
   .menu-drawer__account svg {
@@ -1049,7 +1049,7 @@
   }
 
   .menu-drawer__account shop-user-avatar {
-    --shop-avatar-size: 2.4rem;
+    --shop-avatar-size: 1.5rem;
 
     margin-right: 0.55rem;
     margin-left: -0.45rem;

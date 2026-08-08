@@ -211,12 +211,14 @@
     margin-left: 0;
   }
 
-  :not(:is(dialog)) > predictive-search-component.predictive-search--floating {
-    width: min(40dvw, 650px);
-    position: absolute;
-    top: var(--search-top, unset);
-    right: var(--search-right, unset);
-    left: var(--search-left, unset);
+  @media screen and (min-width: 750px) {
+    :not(:is(dialog)) > predictive-search-component.predictive-search--floating {
+      width: min(40dvw, 650px);
+      position: absolute;
+      top: var(--search-top, unset);
+      right: var(--search-right, unset);
+      left: var(--search-left, unset);
+    }
   }
 
   .predictive-search-form {

@@ -256,8 +256,8 @@
   }
 
   .ai-video-slider-{{ ai_gen_id }}__arrow {
-    width: {{ block.settings.arrow_size }}px;
-    height: {{ block.settings.arrow_size }}px;
+    width: max({{ block.settings.arrow_size }}px, 44px);
+    height: max({{ block.settings.arrow_size }}px, 44px);
     border: none;
     background: transparent;
     cursor: pointer;
@@ -278,8 +278,8 @@
   }
 
   .ai-video-slider-{{ ai_gen_id }}__arrow svg {
-    width: 100%;
-    height: 100%;
+    width: {{ block.settings.arrow_size }}px;
+    height: {{ block.settings.arrow_size }}px;
     fill: {{ block.settings.arrow_color }};
   }
 
@@ -326,15 +326,15 @@
 
   .ai-video-slider-popup-{{ ai_gen_id }}__close {
     position: absolute;
-    top: -40px;
+    top: -48px;
     right: 0;
     background: transparent;
     border: none;
     color: white;
     font-size: 32px;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;

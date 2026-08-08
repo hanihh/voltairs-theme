@@ -24,7 +24,12 @@ html {
   /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: rgb(from var(--color-foreground) r g b / 40%) var(--color-background);
-  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 html[scroll-lock] {
@@ -198,7 +203,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.rte {
   overflow-wrap: break-word;
 }
 
@@ -1355,7 +1361,7 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
 
 .show-more__label {
   text-align: start;
-  font-size: var(--font-size--body-md);
+  font-size: var(--font-size--md);
   font-family: var(--font-paragraph--family);
 }
 
@@ -2348,6 +2354,9 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 .shopify-policy__container {
   padding-block: var(--padding-xl);
+  padding-inline: var(--page-margin, 1rem);
+  max-width: var(--normal-content-width, 42rem);
+  margin-inline: auto;
 }
 
 .checkbox {
@@ -3772,7 +3781,7 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
     grid-template-columns: var(--resource-list-columns-mobile);
   }
 
-  @container resource-list(min-width: 450px) and (max-width: 749px) {
+  @container resource-list (min-width: 450px) and (max-width: 749px) {
     --resource-list-columns-per-row: 3;
 
     grid-template-columns: repeat(var(--resource-list-columns-per-row), 1fr);

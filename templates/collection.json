@@ -253,8 +253,8 @@
                 "gradient_direction": "to top",
                 "padding-block-start": 24,
                 "padding-block-end": 24,
-                "padding-inline-start": 24,
-                "padding-inline-end": 24
+                "padding-inline-start": 12,
+                "padding-inline-end": 12
               },
               "blocks": {
                 "product_title_NzQUxN": {

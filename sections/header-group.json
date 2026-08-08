@@ -20,7 +20,7 @@
             "text": "Free US Shipping · 30-Day Money-Back Guarantee · 2 Bags + Multi-Function Pump Included",
             "link": "",
             "font": "var(--font-primary--family)",
-            "font_size": "var(--font-size--body-md)",
+            "font_size": "var(--font-size--md)",
             "weight": "",
             "letter_spacing": "normal",
             "case": "none"

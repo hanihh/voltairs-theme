@@ -151,6 +151,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: var(--minimum-touch-target);
   }
 
   .cart-discount__summary:hover {
@@ -203,8 +204,20 @@
     pointer-events: all;
     cursor: pointer;
     height: 100%;
+    position: relative;
 
     --close-icon-opacity: 0.4;
+  }
+
+  /* expand the tiny remove icon to a 44px hit area without growing the pill */
+  .cart-discount__pill-remove::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: var(--minimum-touch-target);
+    height: var(--minimum-touch-target);
   }
 
   .cart-discount__error {

@@ -311,7 +311,7 @@
     font-weight: 700;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 749px) {
     .ai-comparison-banner-{{ ai_gen_id }} {
       padding: 30px 0;
     }
@@ -355,7 +355,7 @@
 
   @media screen and (max-width: 480px) {
     .ai-comparison-banner__table-{{ ai_gen_id }} {
-      min-width: 400px;
+      min-width: 360px;
     }
 
     .ai-comparison-banner__title-{{ ai_gen_id }} {
@@ -377,14 +377,16 @@
 
 <div class="ai-comparison-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
   <div class="ai-comparison-banner__container-{{ ai_gen_id }}">
-    <div class="ai-comparison-banner__header-{{ ai_gen_id }}">
-      {% if block.settings.main_title != blank %}
-        <h2 class="ai-comparison-banner__title-{{ ai_gen_id }}">{{ block.settings.main_title }}</h2>
-      {% endif %}
-      {% if block.settings.subtitle != blank %}
-        <p class="ai-comparison-banner__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
-      {% endif %}
-    </div>
+    {% if block.settings.main_title != blank or block.settings.subtitle != blank %}
+      <div class="ai-comparison-banner__header-{{ ai_gen_id }}">
+        {% if block.settings.main_title != blank %}
+          <h2 class="ai-comparison-banner__title-{{ ai_gen_id }}">{{ block.settings.main_title }}</h2>
+        {% endif %}
+        {% if block.settings.subtitle != blank %}
+          <p class="ai-comparison-banner__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
 
     <div class="ai-comparison-banner__table-wrapper-{{ ai_gen_id }}">
       <table class="ai-comparison-banner__table-{{ ai_gen_id }}">

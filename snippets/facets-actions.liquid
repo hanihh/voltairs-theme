@@ -69,6 +69,15 @@
     padding-block-end: var(--padding-md);
     padding-inline: var(--padding-lg);
     margin-top: auto;
+    flex-wrap: wrap;
+  }
+
+  /* small phones: let the two buttons share the row instead of overflowing the drawer */
+  @media screen and (max-width: 480px) {
+    .facets__actions {
+      --facets-clear-all-min-width: 0;
+      --facets-see-results-min-width: 0;
+    }
   }
 
   .facets:not(.facets--drawer) .facets__actions {

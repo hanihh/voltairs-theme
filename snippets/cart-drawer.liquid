@@ -89,7 +89,6 @@
           <div
             class="cart-drawer__content motion-reduce"
             aria-label="{{ 'accessibility.cart' | t }}"
-            style="--header-height: 60px;"
           >
             <scroll-hint
               class="cart-drawer__items"
@@ -136,7 +135,7 @@
     justify-content: space-between;
     width: 100%;
     padding: var(--cart-drawer-padding);
-    border-bottom: var(--style-border-width) solid none;
+    border-bottom: var(--style-border-width) solid var(--color-border);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -156,7 +155,8 @@
   }
 
   .cart-drawer__content {
-    height: calc(100% - var(--header-height));
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
   }

@@ -58,7 +58,7 @@
             "mobile_font_size": 12,
             "padding": 11,
             "column_spacing": 10,
-            "hide_dividers_on_mobile": false
+            "hide_dividers_on_mobile": true
           },
           "blocks": {}
         }
@@ -320,7 +320,7 @@
               "disabled": true,
               "settings": {
                 "columns_desktop": "4",
-                "columns_mobile": "4",
+                "columns_mobile": "2",
                 "card_gap": 4,
                 "card_gap_mobile": 4,
                 "card_background": "#f2f2f2",
@@ -335,7 +335,7 @@
                 "free_text_size": 13,
                 "image_aspect_ratio": "1/1",
                 "title_color": "#000000",
-                "title_size": 10,
+                "title_size": 12,
                 "title_weight": "500",
                 "title_padding_vertical": 4,
                 "title_padding_horizontal": 12,
@@ -666,7 +666,7 @@
             "link": "",
             "open_in_new_tab": false,
             "content_direction": "row",
-            "vertical_on_mobile": false,
+            "vertical_on_mobile": true,
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "align_baseline": false,
@@ -1405,7 +1405,7 @@
             "title_color": "#000000",
             "alignment": "center",
             "desktop_columns": "4.25",
-            "mobile_columns": "4.25",
+            "mobile_columns": "2.25",
             "element_padding_vertical": 0,
             "element_padding_horizontal": 0,
             "card_gap": 0,

@@ -97,7 +97,7 @@
     --quick-add-top: calc(var(--quick-add-offset) + var(--padding-block-start));
     --quick-add-right: calc(var(--quick-add-offset) + var(--padding-inline-end));
     --quick-add-bottom: calc(var(--quick-add-offset) + var(--padding-block-end));
-    --quick-add-left: calc(var(--quick-add-offset) + var(--padding-inline-end));
+    --quick-add-left: calc(var(--quick-add-offset) + var(--padding-inline-start));
 
     position: absolute;
     display: var(--quick-add-mobile-display, none);
@@ -132,6 +132,9 @@
     display: grid;
     padding: var(--padding-xs);
     align-items: center;
+    justify-items: center;
+    min-width: var(--minimum-touch-target);
+    min-height: var(--minimum-touch-target);
     background-color: var(--color-background);
     color: var(--color-foreground);
     border-color: transparent;

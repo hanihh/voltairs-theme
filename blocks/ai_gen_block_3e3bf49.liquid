@@ -167,8 +167,21 @@
     }
 
     .ai-comparison-table__header-{{ ai_gen_id }} th {
-      font-size: 11px;
+      font-size: 12px;
       padding: 10px 4px;
+    }
+
+    .ai-comparison-table__header-{{ ai_gen_id }} th:first-child {
+      width: 38%;
+    }
+
+    .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(2) {
+      width: 24%;
+    }
+
+    .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(3),
+    .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(4) {
+      width: 19%;
     }
 
     .ai-comparison-table__body-{{ ai_gen_id }} td {
@@ -176,7 +189,7 @@
     }
 
     .ai-comparison-table__label-{{ ai_gen_id }} {
-      font-size: 11px;
+      font-size: 12px;
       gap: 4px;
     }
 
@@ -190,11 +203,11 @@
     }
 
     .ai-comparison-table__competitor-cell-{{ ai_gen_id }} {
-      font-size: 11px;
+      font-size: 12px;
     }
 
     .ai-comparison-table__value-context-{{ ai_gen_id }} {
-      font-size: 9px;
+      font-size: 11px;
       margin-top: 1px;
     }
 
