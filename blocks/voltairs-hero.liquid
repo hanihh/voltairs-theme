@@ -56,6 +56,7 @@
   .vh-{{ vh_id }} .vh-l2 {
     display: block;
     font-size: clamp(1.4rem, 5.2vw, 4rem);
+    letter-spacing: -0.015em;
     white-space: nowrap;
   }
   .vh-{{ vh_id }} .vh-l2 {
@@ -202,50 +203,76 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var text = line.textContent;
-    var chars = Array.prototype.slice.call(text);
-    var mid = (chars.length - 1) / 2;
-    line.textContent = '';
-    chars.forEach(function (c, i) {
-      var s = document.createElement('span');
-      s.className = 'ch';
-      if (c === ' ') {
-        s.innerHTML = '&nbsp;';
-      } else {
-        s.textContent = c;
-      }
-      s.style.setProperty('--sp', ((i - mid) * 16).toFixed(1));
-      s.style.setProperty('--d', String(Math.round(Math.abs(i - mid) * 26)));
-      s.style.transform = 'translateX(calc(var(--sp) * 1px))';
-      line.appendChild(s);
-    });
+    var timers = [];
 
-    /* the classes below run the sequence once; the markup's default state is the finished hero */
-    root.classList.add('vh-anim', 'vh-spread');
-    void root.offsetWidth;
-
-    setTimeout(function () {
-      root.classList.remove('vh-spread');
-      root.classList.add('vh-compressing');
-      line.querySelectorAll('.ch').forEach(function (s) {
-        s.style.transform = 'translateX(0)';
+    function split() {
+      var chars = Array.prototype.slice.call(text);
+      var mid = (chars.length - 1) / 2;
+      line.textContent = '';
+      chars.forEach(function (c, i) {
+        var s = document.createElement('span');
+        s.className = 'ch';
+        if (c === ' ') {
+          s.innerHTML = '&nbsp;';
+        } else {
+          s.textContent = c;
+        }
+        s.style.setProperty('--sp', ((i - mid) * 16).toFixed(1));
+        s.style.setProperty('--d', String(Math.round(Math.abs(i - mid) * 26)));
+        s.style.transform = 'translateX(calc(var(--sp) * 1px))';
+        line.appendChild(s);
       });
-    }, 600);
+    }
 
-    setTimeout(function () {
-      line.classList.add('vh-squash');
-    }, 1950);
-
-    setTimeout(function () {
-      root.classList.remove('vh-compressing');
-      root.classList.add('vh-stamped');
-    }, 2150);
-
-    setTimeout(function () {
-      /* restore plain text so selection and find-in-page behave normally */
+    /* same choreography and cycle as the approved demo */
+    function cycle() {
+      timers.forEach(clearTimeout);
+      timers = [];
+      split();
       line.classList.remove('vh-squash');
-      line.textContent = text;
-      root.classList.remove('vh-anim', 'vh-stamped');
-    }, 3400);
+      root.className = root.className.replace(/\bvh-(compressing|stamped)\b/g, '');
+      root.classList.add('vh-anim', 'vh-spread');
+      void root.offsetWidth;
+
+      timers.push(setTimeout(function () {
+        root.classList.remove('vh-spread');
+        root.classList.add('vh-compressing');
+        line.querySelectorAll('.ch').forEach(function (s) {
+          s.style.transform = 'translateX(0)';
+        });
+      }, 700));
+
+      timers.push(setTimeout(function () {
+        line.classList.add('vh-squash');
+      }, 2050));
+
+      timers.push(setTimeout(function () {
+        root.classList.remove('vh-compressing');
+        root.classList.add('vh-stamped');
+      }, 2250));
+
+      timers.push(setTimeout(cycle, 8200));
+    }
+
+    /* start only when the webfont is in and the hero is on screen,
+       so the first spread state is what the visitor actually sees */
+    function start() {
+      if (!('IntersectionObserver' in window)) { cycle(); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.disconnect();
+          cycle();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(start);
+    } else {
+      start();
+    }
   })();
 </script>
 
