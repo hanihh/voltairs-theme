@@ -3141,7 +3141,7 @@
           "type": "email-signup",
           "settings": {
             "inherit_color_scheme": false,
-            "color_scheme": "scheme-1"
+            "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c"
           },
           "blocks": {}
         }
