@@ -3336,7 +3336,7 @@
                     "background_color": "#f4f4f4",
                     "text_alignment": "left",
                     "padding": 20,
-                    "border_radius": 13
+                    "border_radius": 12
                   },
                   "blocks": {}
                 },
@@ -3349,7 +3349,7 @@
                     "background_color": "#f4f4f4",
                     "text_alignment": "left",
                     "padding": 20,
-                    "border_radius": 13
+                    "border_radius": 12
                   },
                   "blocks": {}
                 }
@@ -3406,7 +3406,7 @@
                     "background_color": "#f4f4f4",
                     "text_alignment": "left",
                     "padding": 20,
-                    "border_radius": 13
+                    "border_radius": 12
                   },
                   "blocks": {}
                 },
@@ -3419,7 +3419,7 @@
                     "background_color": "#f4f4f4",
                     "text_alignment": "left",
                     "padding": 20,
-                    "border_radius": 13
+                    "border_radius": 12
                   },
                   "blocks": {}
                 }
