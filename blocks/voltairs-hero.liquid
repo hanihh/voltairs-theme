@@ -157,6 +157,22 @@
     background: {{ block.settings.accent_color | color_lighten: 8 }};
     transform: translateY(2px);
   }
+  .vh-{{ vh_id }} .vh-ctas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .vh-{{ vh_id }} .vh-cta--ghost {
+    background: transparent;
+    border-color: {{ block.settings.text_color | color_modify: 'alpha', 0.45 }};
+    color: {{ block.settings.text_color }};
+  }
+  .vh-{{ vh_id }} .vh-cta--ghost:hover {
+    background: {{ block.settings.text_color | color_modify: 'alpha', 0.08 }};
+    border-color: {{ block.settings.text_color | color_modify: 'alpha', 0.7 }};
+  }
   .vh-{{ vh_id }} .vh-cta .vh-arrow {
     display: inline-block;
     animation: vh-bob-{{ vh_id }} 2.2s ease-in-out infinite;
@@ -164,6 +180,22 @@
   @keyframes vh-bob-{{ vh_id }} {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(4px); }
+  }
+  @media (max-width: 749px) {
+    /* content-driven height: the svh minimum centers a short text block
+       inside a tall empty box on phones */
+    .vh-{{ vh_id }} {
+      min-height: 0;
+    }
+    .vh-{{ vh_id }} .vh-inner {
+      padding: 2.75rem 1.25rem 3rem;
+    }
+    .vh-{{ vh_id }} .vh-gauge {
+      margin-top: 1.6rem;
+    }
+    .vh-{{ vh_id }} .vh-sub {
+      margin-top: 1.3rem;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     .vh-{{ vh_id }} .vh-cta .vh-arrow { animation: none; }
@@ -187,12 +219,19 @@
       {% if block.settings.ticks != blank %}
         <p class="vh-ticks">{{ block.settings.ticks }}</p>
       {% endif %}
-      {% if block.settings.cta_label != blank and block.settings.cta_link != blank %}
-        <a class="vh-cta" href="{{ block.settings.cta_link }}">
-          {{ block.settings.cta_label }}
-          <span class="vh-arrow" aria-hidden="true">&darr;</span>
-        </a>
-      {% endif %}
+      <div class="vh-ctas">
+        {% if block.settings.cta_label != blank and block.settings.cta_link != blank %}
+          <a class="vh-cta" href="{{ block.settings.cta_link }}">
+            {{ block.settings.cta_label }}
+          </a>
+        {% endif %}
+        {% if block.settings.cta2_label != blank and block.settings.cta2_link != blank %}
+          <a class="vh-cta vh-cta--ghost" href="{{ block.settings.cta2_link }}">
+            {{ block.settings.cta2_label }}
+            <span class="vh-arrow" aria-hidden="true">&darr;</span>
+          </a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>
@@ -346,13 +385,24 @@
     {
       "type": "text",
       "id": "cta_label",
-      "label": "CTA label",
-      "default": "See it in action"
+      "label": "Primary CTA label",
+      "default": "Get the Voltairs Kit"
     },
     {
       "type": "url",
       "id": "cta_link",
-      "label": "CTA link"
+      "label": "Primary CTA link"
+    },
+    {
+      "type": "text",
+      "id": "cta2_label",
+      "label": "Secondary CTA label",
+      "default": "See it in action"
+    },
+    {
+      "type": "url",
+      "id": "cta2_link",
+      "label": "Secondary CTA link"
     },
     {
       "type": "header",
