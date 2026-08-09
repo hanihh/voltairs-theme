@@ -74,7 +74,7 @@
         "text_002": {
           "type": "text",
           "settings": {
-            "text": "<p>Checked bags cost $56+ each way</p>",
+            "text": "<p>Checked bags cost $45 to $50 each way</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -110,7 +110,7 @@
         "text_004": {
           "type": "text",
           "settings": {
-            "text": "<p>$112 back in your pocket every round trip</p>",
+            "text": "<p>$90 back in your pocket every round trip</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -1131,7 +1131,7 @@
             "text_040": {
               "type": "text",
               "settings": {
-                "text": "<p><em>No bag-drop queue, no carousel wait, no $56 fee each way. Walk on, walk off, and keep your $112 every round trip.</em></p>",
+                "text": "<p><em>No bag-drop queue, no carousel wait, no $45 fee each way. Walk on, walk off, and keep that money every round trip.</em></p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -1157,7 +1157,7 @@
               "type": "voltairs-chips",
               "settings": {
                 "icon_1": "price_tag",
-                "label_1": "$112 back per trip",
+                "label_1": "$90 back per trip",
                 "icon_2": "stopwatch",
                 "label_2": "No bag-drop line",
                 "icon_3": "check_box",
@@ -1990,12 +1990,12 @@
         "voltairs_savings_calc_067": {
           "type": "voltairs-savings-calc",
           "settings": {
-            "fee_per_trip": 112,
+            "fee_per_trip": 90,
             "default_trips": 4,
             "who_label": "Who's traveling?",
             "trips_label": "Round trips per year",
             "caption": "kept per year by skipping checked bags",
-            "footnote": "Based on $56 checked-bag fees each way. The kit is $89.99, once.",
+            "footnote": "Based on $45 checked-bag fees each way, the standard prepaid rate on major US airlines. The kit is $89.99, once.",
             "background_color": "#03275b",
             "text_color": "#efeeeb",
             "accent_color": "#fdc656"

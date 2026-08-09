@@ -201,7 +201,7 @@
               "type": "text",
               "name": "Short Description",
               "settings": {
-                "text": "<p>Checked baggage fees cost you <strong>$112+ per flight</strong>, and rolling, packing cubes, or sitting on your suitcase never actually solve the problem. Voltairs compresses your clothes to <strong>40% of their original size</strong>, so you can fit up to 10 days' worth of clothes in a single carry-on and skip checked bags for good. </p><p>The kit includes <strong>2 vacuum travel bags (18.5\" × 11.8\" × 5.9\") </strong>and a <strong>free 30W multi-function air pump</strong>: one kit, pays for itself on the first flight. <strong>Free US shipping included.</strong></p>",
+                "text": "<p>Checked baggage fees cost you <strong>$90 to $100 per round trip</strong>, and rolling, packing cubes, or sitting on your suitcase never actually solve the problem. Voltairs compresses your clothes to <strong>40% of their original size</strong>, so you can fit up to 10 days' worth of clothes in a single carry-on and skip checked bags for good. </p><p>The kit includes <strong>2 vacuum travel bags (18.5\" × 11.8\" × 5.9\") </strong>and a <strong>free 30W multi-function air pump</strong>: one kit, pays for itself on the first flight. <strong>Free US shipping included.</strong></p>",
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "left",
@@ -705,7 +705,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Saves $112+ Per Flight</p>",
+                        "text": "<p>Saves $90+ Per Round Trip</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -1390,7 +1390,7 @@
                 "text_McjMWz": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Every time you check a bag, you hand the airline $56+ each way. That's $112 per flight, before overweight penalties, delays, or the 45 minutes you'll never get back waiting at baggage claim.</p><p>And it adds up fast:</p><ul><li>$50–$75 overweight penalties</li><li>$30–$60 carry-on fees on budget airlines</li><li>26 million bags mishandled every year</li><li>$400–$800+ per year for a family of 4</li></ul><p>You've tried rolling. You've tried packing cubes. You've tried sitting on your suitcase. None of it works because none of it solves the real problem: your clothes take up too much space.</p>",
+                    "text": "<p>Every time you check a bag, you hand the airline $45 to $50 each way. That's $90 to $100 per round trip, before overweight penalties, delays, or the 45 minutes you'll never get back waiting at baggage claim.</p><p>And it adds up fast:</p><ul><li>$50–$75 overweight penalties</li><li>$30–$60 carry-on fees on budget airlines</li><li>26 million bags mishandled every year</li><li>$400–$800+ per year for a family of 4</li></ul><p>You've tried rolling. You've tried packing cubes. You've tried sitting on your suitcase. None of it works because none of it solves the real problem: your clothes take up too much space.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -1507,7 +1507,7 @@
                 "text_wrXDgQ": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>Step 1: Pack</strong><br/>Fill the bag with clothes. Up to 18–22 lbs capacity per bag.</p><p><strong>Step 2: Compress</strong><br/>Connect the pump. Watch your clothes shrink to less than half their size in seconds.</p><p><strong>Step 3: Go</strong><br/>Drop it in your carry-on. Skip check-in. Skip baggage claim. Keep your $112.</p>",
+                    "text": "<p><strong>Step 1: Pack</strong><br/>Fill the bag with clothes. Up to 18–22 lbs capacity per bag.</p><p><strong>Step 2: Compress</strong><br/>Connect the pump. Watch your clothes shrink to less than half their size in seconds.</p><p><strong>Step 3: Go</strong><br/>Drop it in your carry-on. Skip check-in. Skip baggage claim. Keep the fee.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
