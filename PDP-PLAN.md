@@ -99,7 +99,56 @@ or API change.
 
 ---
 
-## 3. Offer assessment
+## 3. Product story: V1 and V2
+
+Decided 2026-08-09.
+
+**What exists.** Two products in Shopify: the live kit (25 in stock, $89.99) and
+`Voltairs Travel Vacuum Bag Kit - V1` (`gid://shopify/Product/15646101733716`), which is **DRAFT,
+never published, 0 inventory, 0 sales**. V1 carries the exact same 8 images as V2, the same price,
+and the pre-fix description: the $112 fee math, em dashes, the fake Jake M. / Sarah K. / Marco D.
+testimonials, the 30-day guarantee, and the invented "Aerless" and "Ekster" competitors.
+
+**Decision: do not publish the V1 page.** Reasons, in order of weight:
+
+1. Publishing it republishes the fake reviews and the wrong fee math that commits `34757d7` through
+   `42ba362` just removed. The testimonials are an FTC violation, not a style problem.
+2. Two live pages with identical images, identical price, and near-identical copy is duplicate
+   content. Google picks one canonical, and it may well pick the out-of-stock one. Real harm to a
+   store that has never ranked.
+3. The usual reasons to keep a legacy product page do not apply here. No backlinks, no rankings, no
+   install base, no owners needing support docs. Nothing to preserve.
+4. It creates a dead end: a page a visitor can read but not buy from.
+5. There are no V1 photos. V1 reuses V2's images, so "similar page, different images" has no assets
+   behind it.
+
+V1 stays in draft. If the URL is ever wanted, 301 it to the live product.
+
+**Decision: tell the improvement story on the live page, framed against the generic bag.**
+Since V1 was never sold to anyone, a "we fixed what was wrong with V1" narrative would be invented
+product history, the same category of manufactured credibility as the testimonials just removed, and
+against the fabrication rule in `PRODUCT.md`. The improvements themselves are real relative to the
+standard vacuum bag every competitor sells, so that is the honest and strategically stronger
+comparison: it differentiates against rivals instead of against your own past self.
+
+Shipped as `section_Rv2Chg1` ("What we changed in this version"), inline rather than in an accordion,
+placed after Product details. Three changes, each stated as a traveler benefit:
+- D-ring on both sides of the zipper, so it seals in one pass instead of fighting back
+- Sized to lie flat in a carry-on or backpack at 18.5 x 11.8 x 5.9 in
+- Heavier water-resistant laminate that holds compression overnight
+
+**Deliberately left out: "we made the instructions more visible."**
+Pre-purchase, it answers a question no one asked and plants the doubt that the kit is fiddly, which
+works directly against the "compresses in seconds" pitch. The improvement is worth keeping in the
+box; the claim costs more than it earns on the sales page. Put it in the FAQ under "how do I use
+it" instead.
+
+**Open:** "improved material" currently reads as a generic claim. It needs a real spec to persuade
+(laminate type and thickness, e.g. 0.1mm PA+PE versus the standard 0.08mm). If the supplier sheet
+has those numbers, put them in. If V1 was in fact sold through another channel such as Amazon or
+TikTok Shop, then explicit V1-to-V2 language becomes honest and this section can be reworded.
+
+## 4. Offer assessment
 
 The offer *structure* is right: 2 bags + free 30W pump + 100-day guarantee + free US shipping, with
 savings math that pays the kit back in one round trip. What is missing is proof, not structure.
@@ -116,7 +165,7 @@ Recommended offer shape:
 - Enable Shop Pay installments so the sticker reads as $22.50 x 4.
 - Add the two-kit family bundle at $149 to $159 as the only upsell.
 
-## 4. Where each change lives
+## 5. Where each change lives
 
 - **Theme repo** (`templates/product.json`, auto-syncs to the live theme from `main`): 2.2 template
   toggles, 2.3 FAQ section, 2.4 accordion restructure, 2.9 empty section.

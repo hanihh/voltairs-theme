@@ -1667,6 +1667,93 @@
         "padding-block-end": 24,
         "gap_between_elements": 24
       }
+    },
+    "section_Rv2Chg1": {
+      "type": "section",
+      "blocks": {
+        "text_v2chg_head": {
+          "type": "text",
+          "name": "What we changed",
+          "settings": {
+            "text": "<h3><strong>What we changed in this version</strong></h3>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_v2chg_body": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Most vacuum bags on the market are built to one generic pattern. Three things about that pattern were worth fixing, so this version changes them.</p><p><strong>A D-ring on both sides of the zipper.</strong> A vacuum bag has to zip shut against the air pushing back at it, and on a standard bag you end up wrestling the slider one-handed while the other hand holds the bag still. Two fixed anchor points means you pull straight through and it seals in one pass.</p><p><strong>Sized to the carry-on, not to the shelf.</strong> At 18.5 by 11.8 by 5.9 inches, the bag lies flat in a standard carry-on or a backpack instead of making you fold it around the corners to get the lid shut.</p><p><strong>Heavier, water-resistant material.</strong> A thicker laminate holds the compression for the length of the trip instead of creeping back open overnight, and it keeps a damp towel from reaching everything else you packed.</p>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_v2chg_head",
+        "text_v2chg_body"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
     }
   },
   "order": [
@@ -1676,6 +1763,7 @@
     "section_yyEKWp",
     "section_aJHpjg",
     "section_7YAPWW",
+    "section_Rv2Chg1",
     "marquee_z9PeaH"
   ]
 }
