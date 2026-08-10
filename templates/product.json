@@ -271,7 +271,7 @@
               "blocks": {
                 "quantity": {
                   "type": "quantity",
-                  "disabled": true,
+                  "disabled": false,
                   "static": true,
                   "settings": {},
                   "blocks": {}
@@ -1874,7 +1874,7 @@
         "text_fndr_body": {
           "type": "text",
           "settings": {
-            "text": "<p>I have three kids and we fly several times a year. Getting everyone’s clothes on the plane used to take three checked bags, and twice the airline lost one and handed it back days later. That is what actually started this kit. It was never really about the fee. It was about our clothes being in a different country from us.</p><p>On our last trip all five of us fit into a single checked bag, with everything else carried on. I am not going to claim we went carry-on only, we still checked one. But we travelled light, nothing went missing, and we came home around $250 better off.</p><p>If it does not do the same for you, send it back inside 100 days and I will refund it.</p><p><em>Hani, founder</em></p>",
+            "text": "<p>I have three kids and we fly several times a year. Getting everyone’s clothes on the plane used to take three checked bags, and twice the airline lost one and handed it back days later. That is what actually started this kit. It was never really about the fee. It was about our clothes being in a different country from us.</p><p>On our last trip two kits covered all five of us: four bags, everything compressed down into one checked bag with the rest carried on. I am not going to claim we went carry-on only, we still checked one. But we travelled light, nothing went missing, and we came home around $250 better off. The second and third checked bags are the expensive ones, which is where most of that came from.</p><p>One kit is plenty for one or two people. For a family, plan on two.</p><p>If it does not do the same for you, send it back inside 100 days and I will refund it.</p><p><em>Hani, founder</em></p>",
             "width": "100%",
             "max_width": "none",
             "alignment": "left",
