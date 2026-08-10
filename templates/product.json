@@ -61,7 +61,8 @@
         "gradient_direction": "to top",
         "padding-block-start": 0,
         "padding-block-end": 2
-      }
+      },
+      "disabled": true
     },
     "main": {
       "type": "product-information",
@@ -424,7 +425,7 @@
         "equal_columns": true,
         "limit_details_width": false,
         "gap": 20,
-        "color_scheme": "scheme-cae25dfa-a3e1-4115-b96a-f752034e569c",
+        "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
         "padding-block-start": 7,
         "padding-block-end": 10
       }
