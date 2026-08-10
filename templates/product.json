@@ -665,7 +665,7 @@
             "kit_lead": {
               "type": "text",
               "settings": {
-                "text": "<p><em>Everything in the kit exists to do one thing: get ten days of clothes into a carry-on so you never pay to check a bag again.</em></p>",
+                "text": "<p><em>Everything in the kit exists to do one thing: get ten days of clothes into a carry-on so you can skip the checked bag.</em></p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -2819,7 +2819,7 @@
         "pcta_button": {
           "type": "button",
           "settings": {
-            "label": "Get Voltairs for $89.99",
+            "label": "Get the Voltairs Kit",
             "link": "#productinfo",
             "open_in_new_tab": false,
             "style_class": "button",

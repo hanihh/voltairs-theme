@@ -21,7 +21,7 @@
             "rotate_prefix": "Packed for",
             "rotate_items": "two weeks in Europe\nfamily vacations\nbusiness trips\nfestival weekends\ncarry-on-only travel",
             "rotate_speed": 3,
-            "ticks": "60% smaller · airtight & waterproof · zero checked bags",
+            "ticks": "up to 60% smaller · airtight & waterproof · skip the checked bag",
             "cta_label": "Get the Voltairs Kit",
             "cta_link": "#offer",
             "background_color": "#03275b",
@@ -2297,7 +2297,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2><strong>Everything You Need to Never Check a Bag</strong></h2>",
+                    "text": "<h2><strong>Everything You Need to Travel Carry-On Only</strong></h2>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
