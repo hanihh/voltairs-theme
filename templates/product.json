@@ -564,63 +564,21 @@
       "type": "section",
       "name": "The complete kit",
       "blocks": {
-        "kit_eyebrow": {
-          "type": "ai_gen_block_17c9414",
-          "name": "Custom Text",
+        "pdp_img": {
+          "type": "image",
           "settings": {
-            "text": "<p><strong>THE COMPLETE KIT</strong></p>",
-            "text_color": "#03275b",
-            "background_color": "#e8edf5",
-            "text_alignment": "center",
-            "padding": 10,
-            "border_radius": 10
-          },
-          "blocks": {}
-        },
-        "kit_heading": {
-          "type": "text",
-          "settings": {
-            "text": "<h2><strong>Two Bags, One Pump, Zero Baggage Fees</strong></h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {},
-          "name": "t:names.heading"
-        },
-        "kit_lead": {
-          "type": "text",
-          "settings": {
-            "text": "<p><em>Everything in the kit exists to do one thing: get ten days of clothes into a carry-on so you never pay to check a bag again.</em></p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "image": "shopify://shop_images/2.png",
+            "link": "",
+            "image_ratio": "square",
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 25,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -628,261 +586,20 @@
           },
           "blocks": {}
         },
-        "kit_chips_1": {
-          "type": "voltairs-chips",
-          "settings": {
-            "icon_1": "shirt",
-            "label_1": "22 lb per bag",
-            "icon_2": "box",
-            "label_2": "Up to 60% smaller",
-            "icon_3": "plane",
-            "label_3": "Fits any carry-on",
-            "icon_4": "check_box",
-            "label_4": "No checked bag",
-            "cell_background": "#f4f4f4",
-            "corner_radius": 13,
-            "cell_min_height": 95
-          },
-          "blocks": {}
-        },
-        "kit_chips_2": {
-          "type": "voltairs-chips",
-          "settings": {
-            "icon_1": "lightning_bolt",
-            "label_1": "Free 30W pump",
-            "icon_2": "stopwatch",
-            "label_2": "Seconds per bag",
-            "icon_3": "return",
-            "label_3": "100-day guarantee",
-            "icon_4": "truck",
-            "label_4": "Free US shipping",
-            "cell_background": "#f4f4f4",
-            "corner_radius": 13,
-            "cell_min_height": 95
-          },
-          "blocks": {}
-        },
-        "kit_detail": {
-          "type": "text",
-          "settings": {
-            "text": "<p>$89.99 once, with free US shipping. One round trip of checked-bag fees runs $90 to $100, so the kit clears its own cost on the first trip and every flight after that is money you keep.</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "0.875rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "kit_eyebrow",
-        "kit_heading",
-        "kit_lead",
-        "kit_chips_1",
-        "kit_chips_2",
-        "kit_detail"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 20,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
-      }
-    },
-    "section_pdp_problem": {
-      "type": "section",
-      "name": "The real cost",
-      "blocks": {
-        "prob_eyebrow": {
-          "type": "ai_gen_block_17c9414",
-          "name": "Custom Text",
-          "settings": {
-            "text": "<p><strong>THE REAL COST</strong></p>",
-            "text_color": "#03275b",
-            "background_color": "#e8edf5",
-            "text_alignment": "left",
-            "padding": 10,
-            "border_radius": 10
-          },
-          "blocks": {}
-        },
-        "prob_heading": {
-          "type": "text",
-          "settings": {
-            "text": "<h2><strong>What a Checked Bag Actually Costs You</strong></h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {},
-          "name": "t:names.heading"
-        },
-        "prob_body": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Every time you check a bag you hand the airline $45 to $50 each way. That is $90 to $100 per round trip, before overweight penalties, before delays, and before the 45 minutes at the carousel you never get back.</p><p>It adds up faster than most people count:</p><ul><li>$50 to $75 in overweight penalties when a case goes over</li><li>$30 to $60 for a carry-on on budget airlines</li><li>26 million bags mishandled every year</li><li>$700 or more a year for a family of four flying twice</li></ul><p>You have tried rolling. You have tried packing cubes. You have tried sitting on the lid. None of it works, because none of it touches the actual problem: your clothes take up more room than your suitcase has.</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "prob_eyebrow",
-        "prob_heading",
-        "prob_body"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-cae25dfa-a3e1-4115-b96a-f752034e569c",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
-      }
-    },
-    "section_pdp_how": {
-      "type": "section",
-      "name": "How it works",
-      "blocks": {
-        "how_eyebrow": {
-          "type": "ai_gen_block_17c9414",
-          "name": "Custom Text",
-          "settings": {
-            "text": "<p><strong>HOW IT WORKS</strong></p>",
-            "text_color": "#03275b",
-            "background_color": "#e8edf5",
-            "text_alignment": "center",
-            "padding": 10,
-            "border_radius": 10
-          },
-          "blocks": {}
-        },
-        "how_heading": {
-          "type": "text",
-          "settings": {
-            "text": "<h2><strong>Three Steps. Sixty Percent Smaller.</strong></h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {},
-          "name": "t:names.heading"
-        },
-        "how_row": {
+        "pdp_txt": {
           "type": "group",
           "settings": {
             "link": "",
             "open_in_new_tab": false,
-            "content_direction": "row",
-            "vertical_on_mobile": true,
+            "content_direction": "column",
+            "vertical_on_mobile": false,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
-            "gap": 16,
-            "width": "fill",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "custom",
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
@@ -907,67 +624,153 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "how_step_1": {
+            "kit_eyebrow": {
               "type": "ai_gen_block_17c9414",
               "name": "Custom Text",
               "settings": {
-                "text": "<p><strong>1. Pack it</strong><br/>Fold up to 22 lb of clothes into the bag, about 10 days of outfits.</p>",
+                "text": "<p><strong>THE COMPLETE KIT</strong></p>",
                 "text_color": "#03275b",
-                "background_color": "#f4f4f4",
+                "background_color": "#e8edf5",
                 "text_alignment": "left",
-                "padding": 20,
-                "border_radius": 12
+                "padding": 10,
+                "border_radius": 10
               },
               "blocks": {}
             },
-            "how_step_2": {
-              "type": "ai_gen_block_17c9414",
-              "name": "Custom Text",
+            "kit_heading": {
+              "type": "text",
               "settings": {
-                "text": "<p><strong>2. Pump it</strong><br/>Connect the 30W pump and watch everything shrink in seconds. No rolling, no kneeling, no sitting on your suitcase.</p>",
-                "text_color": "#03275b",
-                "background_color": "#f4f4f4",
-                "text_alignment": "left",
-                "padding": 20,
-                "border_radius": 12
+                "text": "<h2><strong>Two Bags, One Pump, Zero Baggage Fees</strong></h2>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "h5",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground-heading)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {},
+              "name": "t:names.heading"
+            },
+            "kit_lead": {
+              "type": "text",
+              "settings": {
+                "text": "<p><em>Everything in the kit exists to do one thing: get ten days of clothes into a carry-on so you never pay to check a bag again.</em></p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
-            "how_step_3": {
-              "type": "ai_gen_block_17c9414",
-              "name": "Custom Text",
+            "kit_chips_1": {
+              "type": "voltairs-chips",
               "settings": {
-                "text": "<p><strong>3. Go</strong><br/>Drop it in your carry-on and walk straight past the baggage counter.</p>",
-                "text_color": "#03275b",
-                "background_color": "#f4f4f4",
-                "text_alignment": "left",
-                "padding": 20,
-                "border_radius": 12
+                "icon_1": "shirt",
+                "label_1": "22 lb per bag",
+                "icon_2": "box",
+                "label_2": "Up to 60% smaller",
+                "icon_3": "plane",
+                "label_3": "Fits any carry-on",
+                "icon_4": "check_box",
+                "label_4": "No checked bag",
+                "cell_background": "#f4f4f4",
+                "corner_radius": 13,
+                "cell_min_height": 95
+              },
+              "blocks": {}
+            },
+            "kit_chips_2": {
+              "type": "voltairs-chips",
+              "settings": {
+                "icon_1": "lightning_bolt",
+                "label_1": "Free 30W pump",
+                "icon_2": "stopwatch",
+                "label_2": "Seconds per bag",
+                "icon_3": "return",
+                "label_3": "100-day guarantee",
+                "icon_4": "truck",
+                "label_4": "Free US shipping",
+                "cell_background": "#f4f4f4",
+                "corner_radius": 13,
+                "cell_min_height": 95
+              },
+              "blocks": {}
+            },
+            "kit_detail": {
+              "type": "text",
+              "settings": {
+                "text": "<p>$89.99 once, with free US shipping. One round trip of checked-bag fees runs $90 to $100, so the kit clears its own cost on the first trip and every flight after that is money you keep.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "how_step_1",
-            "how_step_2",
-            "how_step_3"
+            "kit_eyebrow",
+            "kit_heading",
+            "kit_lead",
+            "kit_chips_1",
+            "kit_chips_2",
+            "kit_detail"
           ]
         }
       },
       "block_order": [
-        "how_eyebrow",
-        "how_heading",
-        "how_row"
+        "pdp_img",
+        "pdp_txt"
       ],
       "settings": {
-        "content_direction": "column",
+        "content_direction": "row",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
+        "gap": 20,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
@@ -983,92 +786,159 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 20,
+        "padding-block-end": 20
       }
     },
-    "section_Wy2Bag1": {
+    "section_pdp_problem": {
       "type": "section",
+      "name": "The real cost",
       "blocks": {
-        "text_2bag_head": {
-          "type": "text",
+        "pdp_txt": {
+          "type": "group",
           "settings": {
-            "text": "<h2><strong>Why Two Bags, Not One</strong></h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "content_direction": "column",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "custom",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {
+            "prob_eyebrow": {
+              "type": "ai_gen_block_17c9414",
+              "name": "Custom Text",
+              "settings": {
+                "text": "<p><strong>THE REAL COST</strong></p>",
+                "text_color": "#03275b",
+                "background_color": "#e8edf5",
+                "text_alignment": "left",
+                "padding": 10,
+                "border_radius": 10
+              },
+              "blocks": {}
+            },
+            "prob_heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2><strong>What a Checked Bag Actually Costs You</strong></h2>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "h5",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground-heading)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {},
+              "name": "t:names.heading"
+            },
+            "prob_body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Every time you check a bag you hand the airline $45 to $50 each way. That is $90 to $100 per round trip, before overweight penalties, before delays, and before the 45 minutes at the carousel you never get back.</p><p>It adds up faster than most people count:</p><ul><li>$50 to $75 in overweight penalties when a case goes over</li><li>$30 to $60 for a carry-on on budget airlines</li><li>26 million bags mishandled every year</li><li>$700 or more a year for a family of four flying twice</li></ul><p>You have tried rolling. You have tried packing cubes. You have tried sitting on the lid. None of it works, because none of it touches the actual problem: your clothes take up more room than your suitcase has.</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "prob_eyebrow",
+            "prob_heading",
+            "prob_body"
+          ]
         },
-        "text_2bag_body": {
-          "type": "text",
+        "pdp_img": {
+          "type": "image",
           "settings": {
-            "text": "<p>Every other kit in this category sells you a single bag. The second one is not a bonus, it is the part that makes the system work on a real trip.</p><p><strong>One for clean, one for worn.</strong> Packing falls apart around day three, when yesterday’s clothes go back in with the fresh ones and the whole case starts to smell like the trip. Give the second bag to your laundry. Zipped shut it keeps the odor in, so what is still in the first bag smells like it did when you left.</p><p><strong>Five days, one carry-on, room to spare.</strong> A solo wardrobe for a five-day trip compresses into a single bag and leaves the other one free for the way home. No checked bag, no baggage claim, no fee.</p><p><strong>Or a much lighter trip for the family.</strong> Two bags hold roughly what a full checked bag holds, so one kit takes a serious bite out of what you would otherwise check. For four or five people, plan on two kits: that is what it took on our own last trip, and the quantity selector above is there for exactly that.</p><p><strong>$89.99, once.</strong> One round trip of checked-bag fees runs $90 to $100. The kit clears its own cost on the first trip, and every flight after that is money you keep.</p>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "image": "shopify://shop_images/9.png",
+            "link": "",
+            "image_ratio": "square",
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 25,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "twobag_eyebrow": {
-          "type": "ai_gen_block_17c9414",
-          "name": "Custom Text",
-          "settings": {
-            "text": "<p><strong>WHY TWO BAGS</strong></p>",
-            "text_color": "#03275b",
-            "background_color": "#e8edf5",
-            "text_alignment": "left",
-            "padding": 10,
-            "border_radius": 10
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "twobag_eyebrow",
-        "text_2bag_head",
-        "text_2bag_body"
+        "pdp_txt",
+        "pdp_img"
       ],
       "settings": {
-        "content_direction": "column",
+        "content_direction": "row",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
+        "gap": 20,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
@@ -1084,8 +954,644 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 20,
+        "padding-block-end": 20
+      }
+    },
+    "section_pdp_how": {
+      "type": "section",
+      "name": "How it works",
+      "blocks": {
+        "pdp_img": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/10.png",
+            "link": "",
+            "image_ratio": "square",
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 25,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "pdp_txt": {
+          "type": "group",
+          "settings": {
+            "link": "",
+            "open_in_new_tab": false,
+            "content_direction": "column",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "width": "custom",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "how_eyebrow": {
+              "type": "ai_gen_block_17c9414",
+              "name": "Custom Text",
+              "settings": {
+                "text": "<p><strong>HOW IT WORKS</strong></p>",
+                "text_color": "#03275b",
+                "background_color": "#e8edf5",
+                "text_alignment": "center",
+                "padding": 10,
+                "border_radius": 10
+              },
+              "blocks": {}
+            },
+            "how_heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2><strong>Three Steps. Sixty Percent Smaller.</strong></h2>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "h5",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground-heading)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {},
+              "name": "t:names.heading"
+            },
+            "how_step_1": {
+              "type": "group",
+              "settings": {
+                "link": "",
+                "open_in_new_tab": false,
+                "content_direction": "column",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "flex-start",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 10,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "how_step_1_num": {
+                  "type": "ai_gen_block_17c9414",
+                  "name": "Custom Text",
+                  "settings": {
+                    "text": "<p><strong>1</strong></p>",
+                    "text_color": "#03275b",
+                    "background_color": "#e8edf5",
+                    "text_alignment": "center",
+                    "padding": 10,
+                    "border_radius": 10
+                  },
+                  "blocks": {}
+                },
+                "how_step_1_title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3><strong>Pack it</strong></h3>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "h6",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground-heading)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "how_step_1_body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Fold up to 22 lb of clothes into the bag, about 10 days of outfits.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "how_step_1_num",
+                "how_step_1_title",
+                "how_step_1_body"
+              ]
+            },
+            "how_step_2": {
+              "type": "group",
+              "settings": {
+                "link": "",
+                "open_in_new_tab": false,
+                "content_direction": "column",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "flex-start",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 10,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "how_step_2_num": {
+                  "type": "ai_gen_block_17c9414",
+                  "name": "Custom Text",
+                  "settings": {
+                    "text": "<p><strong>2</strong></p>",
+                    "text_color": "#03275b",
+                    "background_color": "#e8edf5",
+                    "text_alignment": "center",
+                    "padding": 10,
+                    "border_radius": 10
+                  },
+                  "blocks": {}
+                },
+                "how_step_2_title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3><strong>Pump it</strong></h3>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "h6",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground-heading)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "how_step_2_body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Connect the 30W pump and watch everything shrink in seconds. No rolling, no kneeling, no sitting on your suitcase.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "how_step_2_num",
+                "how_step_2_title",
+                "how_step_2_body"
+              ]
+            },
+            "how_step_3": {
+              "type": "group",
+              "settings": {
+                "link": "",
+                "open_in_new_tab": false,
+                "content_direction": "column",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "flex-start",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 10,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "how_step_3_num": {
+                  "type": "ai_gen_block_17c9414",
+                  "name": "Custom Text",
+                  "settings": {
+                    "text": "<p><strong>3</strong></p>",
+                    "text_color": "#03275b",
+                    "background_color": "#e8edf5",
+                    "text_alignment": "center",
+                    "padding": 10,
+                    "border_radius": 10
+                  },
+                  "blocks": {}
+                },
+                "how_step_3_title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3><strong>Go</strong></h3>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "h6",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground-heading)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "how_step_3_body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Drop it in your carry-on and walk straight past the baggage counter.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "how_step_3_num",
+                "how_step_3_title",
+                "how_step_3_body"
+              ]
+            }
+          },
+          "block_order": [
+            "how_eyebrow",
+            "how_heading",
+            "how_step_1",
+            "how_step_2",
+            "how_step_3"
+          ]
+        }
+      },
+      "block_order": [
+        "pdp_img",
+        "pdp_txt"
+      ],
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 20,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 20,
+        "padding-block-end": 20
+      }
+    },
+    "section_Wy2Bag1": {
+      "type": "section",
+      "blocks": {
+        "pdp_txt": {
+          "type": "group",
+          "settings": {
+            "link": "",
+            "open_in_new_tab": false,
+            "content_direction": "column",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "custom",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "twobag_eyebrow": {
+              "type": "ai_gen_block_17c9414",
+              "name": "Custom Text",
+              "settings": {
+                "text": "<p><strong>WHY TWO BAGS</strong></p>",
+                "text_color": "#03275b",
+                "background_color": "#e8edf5",
+                "text_alignment": "left",
+                "padding": 10,
+                "border_radius": 10
+              },
+              "blocks": {}
+            },
+            "twobag_heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2><strong>Why Two Bags, Not One</strong></h2>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "h5",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground-heading)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {},
+              "name": "t:names.heading"
+            },
+            "twobag_body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Every other kit in this category sells you a single bag. The second one is not a bonus, it is the part that makes the system work on a real trip.</p><p><strong>One for clean, one for worn.</strong> Packing falls apart around day three, when yesterday’s clothes go back in with the fresh ones and the whole case starts to smell like the trip. Give the second bag to your laundry. Zipped shut it keeps the odor in, so what is still in the first bag smells like it did when you left.</p><p><strong>Five days, one carry-on, room to spare.</strong> A solo wardrobe for a five-day trip compresses into a single bag and leaves the other one free for the way home. No checked bag, no baggage claim, no fee.</p><p><strong>Or a much lighter trip for the family.</strong> Two bags hold roughly what a full checked bag holds, so one kit takes a serious bite out of what you would otherwise check. For four or five people, plan on two kits: that is what it took on our own last trip, and the quantity selector above is there for exactly that.</p><p><strong>$89.99, once.</strong> One round trip of checked-bag fees runs $90 to $100. The kit clears its own cost on the first trip, and every flight after that is money you keep.</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "twobag_eyebrow",
+            "twobag_heading",
+            "twobag_body"
+          ]
+        },
+        "pdp_img": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/8.png",
+            "link": "",
+            "image_ratio": "square",
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 25,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "pdp_txt",
+        "pdp_img"
+      ],
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 20,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-cae25dfa-a3e1-4115-b96a-f752034e569c",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 20,
+        "padding-block-end": 20
       },
       "name": "Why two bags"
     },
@@ -1122,8 +1628,8 @@
           "type": "text",
           "settings": {
             "text": "<p>Most vacuum bags on the market are built to one generic pattern. Three things about that pattern were worth fixing, so this version changes them.</p><p><strong>A D-ring on both sides of the zipper.</strong> A vacuum bag has to zip shut against the air pushing back at it, and on a standard bag you end up wrestling the slider one-handed while the other hand holds the bag still. Two fixed anchor points means you pull straight through and it seals in one pass.</p><p><strong>Sized to the carry-on, not to the shelf.</strong> At 18.5 by 11.8 by 5.9 inches, the bag lies flat in a standard carry-on or a backpack instead of making you fold it around the corners to get the lid shut.</p><p><strong>Heavier, water-resistant material.</strong> A thicker laminate holds the compression for the length of the trip instead of creeping back open overnight, and it keeps a damp towel from reaching everything else you packed.</p>",
-            "width": "100%",
-            "max_width": "none",
+            "width": "fit-content",
+            "max_width": "normal",
             "alignment": "left",
             "type_preset": "rte",
             "font": "var(--font-body--family)",
@@ -1186,8 +1692,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 36,
+        "padding-block-end": 36
       },
       "name": "What we changed"
     },
@@ -1224,8 +1730,8 @@
           "type": "text",
           "settings": {
             "text": "<p>I have three kids and we fly several times a year. Getting everyone’s clothes on the plane used to take three checked bags, and twice the airline lost one and handed it back days later. That is what actually started this kit. It was never really about the fee. It was about our clothes being in a different country from us.</p><p>On our last trip two kits covered all five of us: four bags, everything compressed down into one checked bag with the rest carried on. I am not going to claim we went carry-on only, we still checked one. But we travelled light, nothing went missing, and we came home around $250 better off. The second and third checked bags are the expensive ones, which is where most of that came from.</p><p>One kit is plenty for one or two people. For a family, plan on two.</p><p>If it does not do the same for you, send it back inside 100 days and I will refund it.</p><p><em>Hani, founder</em></p>",
-            "width": "100%",
-            "max_width": "none",
+            "width": "fit-content",
+            "max_width": "normal",
             "alignment": "left",
             "type_preset": "rte",
             "font": "var(--font-body--family)",
@@ -1288,8 +1794,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 36,
+        "padding-block-end": 36
       },
       "name": "Founder's note"
     },
