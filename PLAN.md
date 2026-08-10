@@ -12,7 +12,12 @@ Read these before touching anything. They are the difference between a change
 that ships and a change that 404s the live homepage.
 
 **Pushing to `main` deploys to the live store.** The repo is GitHub-connected to
-the published theme. There is no staging step. Shopify silently rejects
+the published theme. There is no staging step. The corollary bit us on 2026-08-10:
+local commits do nothing until they are pushed, so `git log` is not evidence that
+a change is live. Seven commits had piled up unpushed and the live product page
+was still serving pre-`b7b4745` content. Before auditing "the live page", check
+`git rev-list --left-right --count origin/main...HEAD` and confirm against the
+rendered HTML, not against the repo. Shopify silently rejects
 individual files that fail validation during sync: the rest of the theme syncs
 and a rejected `templates/index.json` takes the homepage down with no error in
 the admin UI. A rejected block file cascades, so any JSON template referencing

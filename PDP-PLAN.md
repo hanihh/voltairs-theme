@@ -27,6 +27,29 @@ Landed in commits `34757d7`, `f8008fe`, `42ba362`.
 | Two empty enabled sections (`section_akcqcb`, `section_bfpLe6`) | Disabled |
 | Buy-box accordion with an empty row | Replaced with real shipping and returns rows |
 
+### Design-system pass, 2026-08-10
+
+The PDP was carrying its own visual language while the homepage had a defined one.
+It now uses the homepage system, so the two pages read as one site.
+
+| Issue | Resolution |
+| --- | --- |
+| No colour rhythm: four body sections ran on the theme default scheme, so the page was one flat slab | Alternating cream / white with a navy marquee near the top and a navy CTA at the bottom, matching the homepage's `scheme-cae25dfa` / `scheme-fd09e12e` / `scheme-3` cadence |
+| Headings rendered black at body size (`<h3>`, `type_preset: rte`, `color: var(--color-foreground)`) | All section headings are now `<h2>` at `type_preset: h4` in navy `var(--color-foreground-heading)`, as on the homepage |
+| No eyebrow labels; the homepage leads every selling section with a navy-on-`#e8edf5` pill | Pills added to the six selling sections. Utility sections (Product details, FAQ, Trust) carry none, which is also what the homepage does |
+| No `voltairs-chips`; the PDP used a bespoke nest of uploaded PNG icons | Two chip rows (8 specs) replace it, reusing the homepage component |
+| Run-on 26-word bold SEO sentence under the buy box | Replaced by a real section: pill, `<h2>`, italic lead, chips, detail line |
+| **Page had zero `<h1>` and zero `<h2>`.** Product title was a `<p>` styled as h2; only heading on the page was one `<h3>` | Title is now `<h1>` in navy; every section contributes an `<h2>` |
+| Dead font token `var(--font-primary--family)` on the product title | Pointed at `var(--font-heading--family)`. No visual change, all four font settings resolve to Urbanist |
+| `scheme-3` set `foreground_heading: #000000`, so the homepage's closing headline rendered black on navy at roughly 1.9:1 | Fixed to `#efeeeb` in `config/settings_data.json`. Fixes the live homepage too, and lets the new PDP CTA use the same scheme |
+| Empty `blocks_MHJiUw` still rendering (item 2.9) | Removed |
+| Disabled `section_aJHpjg` "How to use": no video assets attached, hot-pink `#ea2873` borders and glow against a navy/cream/amber palette | Removed |
+| "Free Shipping" unqualified in the offers banner, against the US-only canonical claim | "Free US Shipping" |
+| Flat "60% More Space" claim, contradicting the site's own "up to 60% is the maximum we measured" | "Up to 60% smaller" |
+| "pays for itself on the first flight" in the buy box, against the per-round-trip standard | "on your first round trip" |
+| "Or one family, one carry-on" implied one kit serves a family, contradicting the founder's note two sections later | Reworded to "for four or five people, plan on two kits", consistent with the note and with the quantity selector |
+| No trust surface, no FAQ, no closing CTA; the page's only add-to-cart was above the fold | Added Trust (homepage's four cards), a 10-row FAQ, and a navy final CTA anchored to `#productinfo` |
+
 ---
 
 ## 2. Open items, in priority order
@@ -40,37 +63,38 @@ before/after loop (pile of clothes to flat bag, single take, no cuts) belongs in
 The media gallery block already supports video (`media_presentation: carousel`, `video_loop`
 available in `main > media-gallery`). This is an asset problem, not a code problem.
 
-**2.2 Mobile checkout friction**
+**2.2 Mobile checkout friction (partly closed)**
 Most traffic is phones and the page is long, so the buy button scrolls away and never comes back.
-Three separate fixes:
-- Sticky add-to-cart bar on mobile. Not present in the theme; needs building. Carried over from the
-  earlier mobile audit where it is also still open.
-- `accelerated-checkout` block is `disabled: true` in `main > product-details > buy_buttons_eYQEYi`.
-  Enabling it puts Shop Pay and PayPal express on the PDP. One-line change in the template.
-- Shop Pay installments display is off (`show_installments: false` on `price_a7krng`). At $89.99,
-  showing roughly $22.50 x 4 measurably softens the sticker.
+- `accelerated-checkout` **enabled**, so Shop Pay and PayPal express now show on the PDP.
+- `show_installments` **enabled** on `price_a7krng`. At $89.99 this reads as roughly $22.50 x 4,
+  assuming the shop is approved for Shop Pay Installments. If it is not, the line simply does not
+  render, so the change is safe either way. Worth confirming on a real device.
+- A navy final CTA now closes the page and jumps to `#productinfo`, so the buy path exists below the
+  fold even without a sticky bar.
+- **Still open:** sticky add-to-cart bar on mobile. Not present in the theme; needs building.
+  Carried over from the earlier mobile audit. This is the last real leak in the buy path.
 
-**2.3 No objection handling**
-The page answers "why buy" but never answers "what could go wrong," which is what a skeptical
-buyer actually needs. Missing, in rough order of how often they kill a sale:
-- Do clothes come out wrinkled? (the #1 objection for compression bags, currently unmentioned)
-- Does compression help with airline *weight* limits? Honest answer is no, it saves space not
-  weight. Saying so builds more trust than dodging.
-- Will TSA or airport security flag a vacuum-sealed bag?
-- How does the pump charge, is it USB-C, does it work on 220V abroad?
-- How many trips do the bags survive before the seal gives out?
+**2.3 No objection handling (closed)**
+Shipped as `section_pdp_faq`, 10 rows, placed after Product details. Covers wrinkles, the honest
+"no" on weight limits, airport screening, carry-on fit, the "up to 60%" caveat, pump charging, how
+to use it, capacity, the guarantee, and delivery timing.
 
-Best placed as a short, plainly-worded FAQ below "Product details." This outperforms adding another
-benefits block.
+Two of the originally listed objections were deliberately left out for lack of a verifiable spec,
+and both need the supplier sheet before they can ship:
+- **220V / abroad.** The FAQ says USB-C rechargeable, which is true and sufficient. It does not
+  claim dual-voltage behaviour, because nothing in the product data supports it.
+- **How many trips before the seal gives out.** No durability figure exists. The honest version of
+  this answer plants doubt without adding information, so the guarantee row carries the risk
+  instead. Add it if a cycle count ever arrives.
 
 ### P1 — Meaningful conversion and revenue lift
 
-**2.4 The best sales copy is hidden in closed accordions**
-The Problem, The Solution, What's in the Kit, and How It Works all sit behind collapsed rows in
-`section_7YAPWW`. This contradicts the "details inline, not accordions" rule in `PRODUCT.md`, and
-most visitors never open an accordion. Promote The Problem, The Solution, and How It Works to
-visible sections. Keep accordions only for genuine reference material: dimensions, shipping,
-returns, FAQ.
+**2.4 The best sales copy is hidden in closed accordions (closed)**
+The Problem and How It Works are now inline sections (`section_pdp_problem`, `section_pdp_how`),
+and The Solution is folded into `section_pdp_kit` as a heading, lead, and two chip rows.
+`section_7YAPWW` keeps only genuine reference material: What's in the kit, and Specifications.
+Shipping and returns stay in the buy-box accordion, where they help the purchase decision, rather
+than being repeated a second time further down.
 
 **2.5 No AOV lever (partly closed)**
 The `quantity` block is now **enabled**, so a family can buy two kits in one go. Still single variant,
@@ -98,8 +122,14 @@ reads as a real product. Shopify admin change.
 Against the WCAG 2.1 AA commitment in `PRODUCT.md`, and free SEO left on the table. Shopify admin
 or API change.
 
-**2.9 Empty section still rendering**
-`blocks_MHJiUw` (type `_blocks`) is enabled with zero blocks. Disable or remove.
+**2.9 Empty section still rendering (closed)**
+`blocks_MHJiUw` removed. The disabled `section_aJHpjg` "How to use" shell went with it: no video
+assets were ever attached and its hot-pink `#ea2873` borders and glow were off-palette.
+
+**2.10 Product title is not the page's `<h1>` (closed, but see 2.7)**
+The title block rendered `<p>{{ closest.product.title }}</p>`, so the page had no `<h1>` and no
+`<h2>` at all. It is now an `<h1>` in navy. This makes 2.7 more valuable, not less: the title is
+now the single strongest on-page SEO signal, so "- Updated Version" costs more than it did.
 
 ---
 
@@ -251,15 +281,40 @@ Recommended offer shape:
 
 ## 6. Where each change lives
 
-- **Theme repo** (`templates/product.json`, auto-syncs to the live theme from `main`): 2.2 template
-  toggles, 2.3 FAQ section, 2.4 accordion restructure, 2.9 empty section.
-- **Needs new code in the theme**: 2.2 sticky mobile add-to-cart bar.
+- **Theme repo** (`templates/product.json` and `config/settings_data.json`, auto-sync to the live
+  theme from `main`): the design-system pass, 2.2 template toggles, 2.3 FAQ, 2.4 restructure,
+  2.9 empty sections, 2.10 `<h1>`.
+- **Needs new code in the theme**: 2.2 sticky mobile add-to-cart bar. The only open theme item.
 - **Shopify admin or API**: 2.5 bundle variant, 2.7 title, 2.8 alt text.
-- **Asset production, not code**: 2.1 compression video.
+- **Asset production, not code**: 2.1 compression video, and a founder photo for `section_Fndr01`.
 - **Third-party app**: 2.6 reviews.
+- **Shopify admin, manual paste**: the refund policy, below.
 
-Note: the live Refund policy in Shopify admin is still out of sync (German first half, a
-`[RÜCKSENDEADRESSE EINFÜGEN]` placeholder, exposes the gmail address, excludes sale items which
-contradicts the 100-day guarantee). It needs a manual paste in Settings > Policies because the
-Shopify connection lacks the `write_legal_policies` scope. Not a PDP change, but it undercuts the
-guarantee printed on every page.
+## 7. Refund policy: blocked on a manual paste
+
+The corrected policy lives in the repo at `REFUND-POLICY.html`, which is the source of truth.
+It cannot be deployed from here: shop policies are not theme files, and this app connection lacks
+`write_legal_policies`, so `shopPolicyUpdate` returns `Access denied`. Verified again 2026-08-10.
+
+Paste it at **Settings > Policies > Refund policy**, using the editor's HTML view.
+
+What the live policy still says until then, all verified against the live page:
+
+- The **first half is in German**, on a store whose only delivery zone is the US.
+- It contacts **voltairstravel@gmail.com** three times, the account address the canonical claim set
+  rules out, instead of info@voltairs.com.
+- It contains an unfilled **`[RÜCKSENDEADRESSE EINFÜGEN]`** return-address placeholder.
+- It requires returns be **"unused, unworn, and in its original packaging"**, which directly
+  contradicts a 100-day guarantee whose whole pitch is "take it on a trip first". The PDP now says
+  "Take it on a real trip first, then decide" in the buy box, so the two documents disagree at the
+  moment of purchase.
+- It **excludes sale items**, contradicting "discounted orders are covered too" as printed in the
+  buy box, the FAQ, and the trust cards.
+- It carries a German **EU 14-day withdrawal clause**. The General profile ships US only.
+- It leaks **AI research citation links**, including `ppl-ai-file-upload.s3.amazonaws.com/...`
+  pointing at an internal `Voltairs.md`, plus termsfeed, signifyd, and shopify blog URLs. This one
+  is worth treating as urgent regardless of the rest: it is a live public link into a working file.
+
+Also found while checking: **Terms of service contains a `[LINK]` placeholder.** Same paste
+problem, lower stakes. The Contact, Privacy, and Shipping policies are clean and consistent with
+the canonical claims.
