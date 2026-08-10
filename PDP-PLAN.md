@@ -185,6 +185,23 @@ verifiable, and something a dropshipper cannot copy. Draft:
 Needs the founder's approval on wording and name before it goes live, since it is a signed public
 statement.
 
+**Also submitted as testimonials, handled the same way.** Two further quotes were proposed ("packed
+all of my kids' clothes into two of these, usually they take a full check-in bag" and "the air pump is
+much powerful, I used it for the full trip without charging it"). Same constraint: no customers, so no
+testimonials. Both were assessed as claims instead:
+
+- The family capacity point is usable and shipped, added to `section_Wy2Bag1`: two bags hold roughly
+  what a full checked bag holds, so a family's kids' clothes go in the carry-on instead of costing a
+  checked bag each way. Consistent with the existing 8-to-10-days-per-bag claim, and families are a
+  named persona in `PRODUCT.md` that the page was not serving.
+- **The pump battery claim is blocked pending a real spec.** "Used it for the full trip without
+  charging" is a performance claim, and unlike the others it cannot be derived from anything already
+  on the page: there is no battery figure anywhere in the copy or the product data. Publishing it
+  unverified risks returns and chargebacks from buyers whose pump dies mid-trip, which is worse than
+  omitting it. Needed from the supplier sheet: battery capacity in mAh and the number of bag cycles
+  per full charge, plus charge port type and input voltage. With those numbers this becomes a strong
+  FAQ answer, and it is already listed as an open objection in item 2.3.
+
 **The real fix is a review pipeline.** Install Judge.me (free tier) or similar with post-delivery
 request emails now, so genuine reviews accumulate from the first orders. Do not display a rating
 widget until real ratings exist. Once they do, "What our customers say" becomes true and can replace
