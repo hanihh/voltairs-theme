@@ -148,7 +148,49 @@ it" instead.
 has those numbers, put them in. If V1 was in fact sold through another channel such as Amazon or
 TikTok Shop, then explicit V1-to-V2 language becomes honest and this section can be reworded.
 
-## 4. Offer assessment
+## 4. Social proof: what can and cannot be said yet
+
+State as of 2026-08-10: **0 orders, ever.** Two customer records exist, both with `numberOfOrders: 0`,
+so they are signups or abandoned checkouts, not buyers. Nobody has received the kit.
+
+**A "What our customers say" section cannot ship until there are customers.** Writing one now means
+inventing a reviewer, which is what the Jake M. / Sarah K. / Marco D. block was, and that block was
+removed because fabricated reviews violate the FTC rule (16 CFR Part 465, per-violation penalties)
+and the fabrication rule in `PRODUCT.md`. Framing does not fix it: "our customers say" with zero
+customers is the same claim regardless of wording.
+
+**What shipped instead.** The trip content (five days solo in one carry-on, second bag for laundry,
+no odor once zipped, pays for itself) is all usable as product capability rather than testimony,
+because it describes what the kit does rather than who liked it. Shipped as `section_Wy2Bag1`
+("Why two bags, not one"), placed after the benefits grid and before Product details:
+
+- One clean bag, one for worn clothes, with the odor sealed in. This finally answers *why* two bags,
+  which is the main differentiator against every single-bag competitor and was previously unexplained
+  anywhere on the page.
+- A five-day solo wardrobe fits one bag and leaves the second free. Consistent with the existing
+  8-to-10-days-per-bag capacity claim, and deliberately conservative against it.
+- $89.99 once versus $90 to $100 per round trip in fees, stated inline rather than buried in an
+  accordion.
+
+**Drafted, needs sign-off: a founder's account.** The Spain trip is a real, first-hand experience and
+can be published honestly if attributed to the person who had it rather than to an anonymous
+customer. For a brand with no reviews this outperforms a testimonial, because it is specific,
+verifiable, and something a dropshipper cannot copy. Draft:
+
+> I built this kit because I got tired of paying to check a bag I did not need. Five days in Spain,
+> solo, everything in one carry-on: clothes compressed into the first bag, the second one saved for
+> what I had already worn. Zipped shut, nothing leaked. I walked past baggage claim both ways.
+> — Hani, founder
+
+Needs the founder's approval on wording and name before it goes live, since it is a signed public
+statement.
+
+**The real fix is a review pipeline.** Install Judge.me (free tier) or similar with post-delivery
+request emails now, so genuine reviews accumulate from the first orders. Do not display a rating
+widget until real ratings exist. Once they do, "What our customers say" becomes true and can replace
+or sit alongside the founder's note.
+
+## 5. Offer assessment
 
 The offer *structure* is right: 2 bags + free 30W pump + 100-day guarantee + free US shipping, with
 savings math that pays the kit back in one round trip. What is missing is proof, not structure.
@@ -165,7 +207,7 @@ Recommended offer shape:
 - Enable Shop Pay installments so the sticker reads as $22.50 x 4.
 - Add the two-kit family bundle at $149 to $159 as the only upsell.
 
-## 5. Where each change lives
+## 6. Where each change lives
 
 - **Theme repo** (`templates/product.json`, auto-syncs to the live theme from `main`): 2.2 template
   toggles, 2.3 FAQ section, 2.4 accordion restructure, 2.9 empty section.
