@@ -72,10 +72,14 @@ most visitors never open an accordion. Promote The Problem, The Solution, and Ho
 visible sections. Keep accordions only for genuine reference material: dimensions, shipping,
 returns, FAQ.
 
-**2.5 No AOV lever**
-Single variant, `quantity` block disabled, no bundle. Families are a named persona in `PRODUCT.md`
-and one kit is genuinely not enough for four people. Add a two-kit bundle around $149 to $159.
-Requires a second variant or a bundle product in Shopify, plus a variant picker on the PDP.
+**2.5 No AOV lever (partly closed)**
+The `quantity` block is now **enabled**, so a family can buy two kits in one go. Still single variant,
+still no bundle. Families are a named persona in `PRODUCT.md`
+and the founder's own family trip took two kits, which the page now states outright. A two-kit bundle
+at a real discount would convert better than asking families to raise the quantity themselves, and it
+sets the anchor honestly rather than with a struck-through price. Roughly $149 to $159 was the earlier
+suggestion, but the number is a margin decision that needs the founder's call. Requires a second
+variant or a bundle product in Shopify, plus a variant picker on the PDP.
 
 **2.6 Start collecting real reviews from day one**
 The fake testimonials are gone, which is correct, but the page now has zero social proof and the
@@ -181,16 +185,14 @@ page's credibility anchor until real reviews exist.
 
 Two details worth tightening:
 
-- **The $250 is defensible but the page cannot show its work.** A reader doing the arithmetic off the
-  page's own "$45 to $50 each way" gets $180 to $200 for two bags saved in both directions, not $250.
-  The gap is real and in the founder's favour: second and third checked bags cost far more than the
-  first, often $60 to $100 each and higher internationally. The page never says that. Naming it in
-  half a sentence ("the second and third bags are the expensive ones") both justifies the number and
-  adds a fee argument the page is currently missing.
-- **Confirm whether that trip took one kit or two.** One kit is two bags, and the page claims 8 to 10
-  days of clothes per bag, so five people on a short trip is plausible on a single kit but not obvious.
-  If it took two, saying so is better: it prevents families buying one kit and being disappointed, and
-  it makes the two-kit bundle in item 2.5 self-evident.
+- **Resolved: the $250 now shows its work.** The note names why the figure exceeds what the page's own
+  "$45 to $50 each way" implies, which is that second and third checked bags are the expensive ones.
+  That also adds a fee argument the page was missing everywhere else. Worth carrying into the fee copy
+  in `section_7YAPWW` at some point, since it currently prices only the first bag.
+- **Resolved: the trip took two kits.** The note now says so and ends with the sizing rule, "one kit
+  is plenty for one or two people, for a family plan on two." This keeps the note accurate and stops a
+  family buying one kit against a five-person story. It also makes item 2.5 urgent rather than
+  optional, and the quantity selector has been enabled so the page can actually sell two.
 
 A photo of the founder or the packed carry-on beside this note would do more for trust than any
 further copy. No such asset exists yet.
