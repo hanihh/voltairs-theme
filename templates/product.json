@@ -34,6 +34,7 @@
       "block_order": [
         "ai_gen_block_8b68917_b6Bc8k"
       ],
+      "disabled": true,
       "name": "Offers Banner",
       "settings": {
         "content_direction": "column",
@@ -61,8 +62,7 @@
         "gradient_direction": "to top",
         "padding-block-start": 0,
         "padding-block-end": 2
-      },
-      "disabled": true
+      }
     },
     "main": {
       "type": "product-information",
@@ -208,6 +208,7 @@
             },
             "price_a7krng": {
               "type": "price",
+              "disabled": true,
               "settings": {
                 "show_sale_price_first": true,
                 "show_installments": true,
@@ -241,7 +242,6 @@
               "blocks": {
                 "quantity": {
                   "type": "quantity",
-                  "disabled": false,
                   "static": true,
                   "settings": {},
                   "blocks": {}
@@ -562,7 +562,6 @@
     },
     "section_pdp_kit": {
       "type": "section",
-      "name": "The complete kit",
       "blocks": {
         "pdp_img": {
           "type": "image",
@@ -639,6 +638,7 @@
             },
             "kit_heading": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>Two Bags, One Pump, Zero Baggage Fees</strong></h2>",
                 "width": "100%",
@@ -660,8 +660,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "kit_lead": {
               "type": "text",
@@ -762,6 +761,7 @@
         "pdp_img",
         "pdp_txt"
       ],
+      "name": "The complete kit",
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
@@ -792,7 +792,6 @@
     },
     "section_pdp_problem": {
       "type": "section",
-      "name": "The real cost",
       "blocks": {
         "pdp_txt": {
           "type": "group",
@@ -847,6 +846,7 @@
             },
             "prob_heading": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>What a Checked Bag Actually Costs You</strong></h2>",
                 "width": "100%",
@@ -868,8 +868,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "prob_body": {
               "type": "text",
@@ -930,6 +929,7 @@
         "pdp_txt",
         "pdp_img"
       ],
+      "name": "The real cost",
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
@@ -960,7 +960,6 @@
     },
     "section_pdp_how": {
       "type": "section",
-      "name": "How it works",
       "blocks": {
         "pdp_img": {
           "type": "image",
@@ -1037,6 +1036,7 @@
             },
             "how_heading": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>Three Steps. Sixty Percent Smaller.</strong></h2>",
                 "width": "100%",
@@ -1058,8 +1058,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "how_step_1": {
               "type": "group",
@@ -1399,6 +1398,7 @@
         "pdp_img",
         "pdp_txt"
       ],
+      "name": "How it works",
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
@@ -1483,6 +1483,7 @@
             },
             "twobag_heading": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>Why Two Bags, Not One</strong></h2>",
                 "width": "100%",
@@ -1504,8 +1505,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "twobag_body": {
               "type": "text",
@@ -1566,6 +1566,7 @@
         "pdp_txt",
         "pdp_img"
       ],
+      "name": "Why two bags",
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
@@ -1592,8 +1593,7 @@
         "gradient_direction": "to top",
         "padding-block-start": 20,
         "padding-block-end": 20
-      },
-      "name": "Why two bags"
+      }
     },
     "section_Rv2Chg1": {
       "type": "section",
@@ -1658,8 +1658,22 @@
             "padding-inline-end": 0
           },
           "blocks": {
+            "v2chg_eyebrow": {
+              "type": "ai_gen_block_17c9414",
+              "name": "Custom Text",
+              "settings": {
+                "text": "<p><strong>VERSION 2</strong></p>",
+                "text_color": "#03275b",
+                "background_color": "#e8edf5",
+                "text_alignment": "left",
+                "padding": 10,
+                "border_radius": 10
+              },
+              "blocks": {}
+            },
             "text_v2chg_head": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>What We Changed in This Version</strong></h2>",
                 "width": "100%",
@@ -1681,8 +1695,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "text_v2chg_body": {
               "type": "text",
@@ -1708,19 +1721,6 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "v2chg_eyebrow": {
-              "type": "ai_gen_block_17c9414",
-              "name": "Custom Text",
-              "settings": {
-                "text": "<p><strong>VERSION 2</strong></p>",
-                "text_color": "#03275b",
-                "background_color": "#e8edf5",
-                "text_alignment": "left",
-                "padding": 10,
-                "border_radius": 10
-              },
-              "blocks": {}
             }
           },
           "block_order": [
@@ -1734,6 +1734,7 @@
         "pdp_img",
         "pdp_txt"
       ],
+      "name": "What we changed",
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
@@ -1760,14 +1761,27 @@
         "gradient_direction": "to top",
         "padding-block-start": 20,
         "padding-block-end": 20
-      },
-      "name": "What we changed"
+      }
     },
     "section_Fndr01": {
       "type": "section",
       "blocks": {
+        "fndr_eyebrow": {
+          "type": "ai_gen_block_17c9414",
+          "name": "Custom Text",
+          "settings": {
+            "text": "<p><strong>FROM THE FOUNDER</strong></p>",
+            "text_color": "#03275b",
+            "background_color": "#e8edf5",
+            "text_alignment": "left",
+            "padding": 10,
+            "border_radius": 10
+          },
+          "blocks": {}
+        },
         "text_fndr_head": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Why I Built This</strong></h2>",
             "width": "100%",
@@ -1789,8 +1803,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "text_fndr_body": {
           "type": "text",
@@ -1816,19 +1829,6 @@
             "padding-inline-end": 0
           },
           "blocks": {}
-        },
-        "fndr_eyebrow": {
-          "type": "ai_gen_block_17c9414",
-          "name": "Custom Text",
-          "settings": {
-            "text": "<p><strong>FROM THE FOUNDER</strong></p>",
-            "text_color": "#03275b",
-            "background_color": "#e8edf5",
-            "text_alignment": "left",
-            "padding": 10,
-            "border_radius": 10
-          },
-          "blocks": {}
         }
       },
       "block_order": [
@@ -1836,6 +1836,7 @@
         "text_fndr_head",
         "text_fndr_body"
       ],
+      "name": "Founder's note",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -1862,15 +1863,14 @@
         "gradient_direction": "to top",
         "padding-block-start": 36,
         "padding-block-end": 36
-      },
-      "name": "Founder's note"
+      }
     },
     "section_7YAPWW": {
       "type": "section",
-      "name": "Product details",
       "blocks": {
         "det_heading": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Product details</strong></h2>",
             "width": "100%",
@@ -1892,8 +1892,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "det_accordion": {
           "type": "accordion",
@@ -1917,7 +1916,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "What's in the kit",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "row_kit_t": {
@@ -1954,7 +1955,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "Specifications",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "row_specs_t": {
@@ -1998,6 +2001,7 @@
         "det_heading",
         "det_accordion"
       ],
+      "name": "Product details",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -2028,10 +2032,10 @@
     },
     "section_pdp_faq": {
       "type": "section",
-      "name": "FAQ",
       "blocks": {
         "faq_heading": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Frequently asked questions</strong></h2>",
             "width": "100%",
@@ -2053,8 +2057,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "faq_accordion": {
           "type": "accordion",
@@ -2078,7 +2081,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "Will my clothes come out wrinkled?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_wrinkle_t": {
@@ -2115,7 +2120,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "Does this help with airline weight limits?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_weight_t": {
@@ -2152,7 +2159,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "Will airport security have a problem with a sealed bag?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_security_t": {
@@ -2189,7 +2198,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "Will the compressed bag fit in my carry-on?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_fit_t": {
@@ -2226,7 +2237,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "Is it guaranteed to shrink my clothes by 60%?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_sixty_t": {
@@ -2263,7 +2276,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "Does the pump need batteries?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_pump_t": {
@@ -2300,7 +2315,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "How do I use it?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_howto_t": {
@@ -2337,7 +2354,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "How much actually fits in one bag?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_capacity_t": {
@@ -2374,7 +2393,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "What if it doesn't work for me?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_guarantee_t": {
@@ -2411,7 +2432,9 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "When will I get my order?",
-                "icon": "none"
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
               },
               "blocks": {
                 "faq_delivery_t": {
@@ -2463,6 +2486,7 @@
         "faq_heading",
         "faq_accordion"
       ],
+      "name": "FAQ",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -2493,10 +2517,10 @@
     },
     "section_pdp_trust": {
       "type": "section",
-      "name": "Trust",
       "blocks": {
         "pt_heading": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Buy With Confidence</strong></h2>",
             "width": "100%",
@@ -2518,8 +2542,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "pt_row": {
           "type": "group",
@@ -2710,6 +2733,7 @@
         "pt_heading",
         "pt_row"
       ],
+      "name": "Trust",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -2740,10 +2764,10 @@
     },
     "section_pdp_cta": {
       "type": "section",
-      "name": "Final CTA",
       "blocks": {
         "pcta_heading": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Travel With More. Check Less.</strong></h2>",
             "width": "100%",
@@ -2765,8 +2789,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "pcta_summary": {
           "type": "text",
@@ -2813,6 +2836,7 @@
         "pcta_summary",
         "pcta_button"
       ],
+      "name": "Final CTA",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
