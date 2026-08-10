@@ -172,7 +172,30 @@ because it describes what the kit does rather than who liked it. Shipped as `sec
 - $89.99 once versus $90 to $100 per round trip in fees, stated inline rather than buried in an
   accordion.
 
-**Drafted, needs sign-off: a founder's account.** The Spain trip is a real, first-hand experience and
+**Shipped: the founder's note** (`section_Fndr01`, "Why I built this", after What we changed).
+Approved 2026-08-10 and expanded with the founder's family account: three kids, three checked bags,
+two suitcases lost and returned days later, then five people's clothes in one checked bag and about
+$250 back. It keeps the admission that a checked bag was still needed, which is what makes the rest
+credible, and it closes by putting the 100-day guarantee in the founder's own voice. This is the
+page's credibility anchor until real reviews exist.
+
+Two details worth tightening:
+
+- **The $250 is defensible but the page cannot show its work.** A reader doing the arithmetic off the
+  page's own "$45 to $50 each way" gets $180 to $200 for two bags saved in both directions, not $250.
+  The gap is real and in the founder's favour: second and third checked bags cost far more than the
+  first, often $60 to $100 each and higher internationally. The page never says that. Naming it in
+  half a sentence ("the second and third bags are the expensive ones") both justifies the number and
+  adds a fee argument the page is currently missing.
+- **Confirm whether that trip took one kit or two.** One kit is two bags, and the page claims 8 to 10
+  days of clothes per bag, so five people on a short trip is plausible on a single kit but not obvious.
+  If it took two, saying so is better: it prevents families buying one kit and being disappointed, and
+  it makes the two-kit bundle in item 2.5 self-evident.
+
+A photo of the founder or the packed carry-on beside this note would do more for trust than any
+further copy. No such asset exists yet.
+
+**Superseded draft, kept for reference:** The Spain trip is a real, first-hand experience and
 can be published honestly if attributed to the person who had it rather than to an anonymous
 customer. For a brand with no reviews this outperforms a testimonial, because it is specific,
 verifiable, and something a dropshipper cannot copy. Draft:
@@ -182,8 +205,8 @@ verifiable, and something a dropshipper cannot copy. Draft:
 > what I had already worn. Zipped shut, nothing leaked. I walked past baggage claim both ways.
 > — Hani, founder
 
-Needs the founder's approval on wording and name before it goes live, since it is a signed public
-statement.
+(The solo Spain version above was folded into the family account rather than run alongside it. Its
+clean-versus-worn and odor detail now lives in `section_Wy2Bag1` as product capability.)
 
 **Also submitted as testimonials, handled the same way.** Two further quotes were proposed ("packed
 all of my kids' clothes into two of these, usually they take a full check-in bag" and "the air pump is
