@@ -96,7 +96,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
+                "text": "<p>It includes an 80+ page knowledge guide filled with professional planning methods, money-saving tips, site-specific filters, hidden-cost rules, and practical travel tricks.</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -142,6 +142,7 @@
             },
             "variant-picker": {
               "type": "variant-picker",
+              "disabled": true,
               "settings": {
                 "variant_style": "buttons",
                 "show_swatches": true,
