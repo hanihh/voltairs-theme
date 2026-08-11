@@ -20,7 +20,7 @@ Counted from the rendered copy, title excluded, one phone screen:
 | | Count |
 | --- | --- |
 | Words of copy | 174 |
-| Distinct text elements | 19 |
+| Discrete text runs | 36 |
 | Visual groups (bordered or filled boxes) | 7 |
 | Tap targets | 10 |
 | Choices the shopper is asked to make | 3 |
@@ -73,6 +73,15 @@ shopper who does not notice finds the surprise in the cart instead.
 
 `syncSelection()` in the block already knows the correct total: it swaps `data-price` for
 `data-price-with-addon` at line 1410. The arithmetic is right, it is just never shown.
+
+The fix has to close the gap without adding to it. An itemised order summary was the first draft
+of 4.1 and it was the wrong call: it cuts five elements and adds a sixth, and it makes a promise
+the theme cannot keep. The bundle discount is display only, as the comment at line 83 says, so a
+row reading **Total $161.99** looks like a receipt while being computed from the same display
+math as the card. If the automatic discount in Shopify is ever misconfigured, breaking that
+promise costs more than breaking the card's. A summary starts to earn its space at three or more
+line items, or once shipping tiers or pre-checkout tax enter the picture. At two line items it is
+overhead.
 
 ### 2.2 One card tells two different discount stories
 
@@ -144,10 +153,10 @@ Target order on mobile, at 390px:
 | # | Element | Change |
 | --- | --- | --- |
 | 1 | One-line batch status: "Sold out. The next batch arrives Aug 18 to Aug 31 and yours ships the day it lands." | replaces items 1 to 3 |
-| 2 | 1 Kit / 2 Kits cards, one discount statement each, per-kit price on both | kept, simplified |
-| 3 | Add-on: title, price, checkbox on one row. Description, providers and table behind one disclosure | collapsed |
-| 4 | Order summary: kit line, add-on line, shipping line, total. Totals to the button price | **new** |
-| 5 | CTA with the same total | kept |
+| 2 | 1 Kit / 2 Kits cards, one discount statement each, per-kit price on the bundle | kept, simplified |
+| 3 | "Free US shipping. Tracking lands in your inbox the moment it ships." | kept, shortened |
+| 4 | Add-on: title, price, checkbox on one row. Description, providers and table behind one disclosure | collapsed, **moved** to sit directly above the button |
+| 5 | CTA naming what it charges for: "Pre-order 1 Kit + planner &nbsp; $99.99" | kept, label reconciles the price |
 | 6 | One line under the button: secure checkout, 100 days, trip-first framing | merged from two |
 | 7 | Shipping and delivery / Returns and guarantee accordion | kept |
 
@@ -155,9 +164,12 @@ Removed outright: the locked radio row, the reason line as a separate paragraph,
 nudge, the duplicate guarantee line, the second delivery window, the struck-through shipping
 price.
 
-Projected effect: 174 words to roughly 95, seven visual groups to five, ten tap targets to six,
-three asked-for choices to two, and one amber element instead of four. The number of facts the
-page communicates barely changes; it stops saying each of them twice.
+Nothing is added. The price gap in 2.1 closes by moving the add-on next to the button rather than
+three elements away from it, and by letting the button say what is in the order.
+
+Projected effect: 174 words to 94, 36 text runs to 21, seven visual groups to four, ten tap
+targets to seven, three asked-for choices to two, and one amber element instead of four. The
+number of facts the page communicates does not change; it stops saying each of them twice.
 
 ---
 
@@ -165,12 +177,18 @@ page communicates barely changes; it stops saying each of them twice.
 
 ### P0, fixes a contradiction the shopper can see
 
-**4.1 Add an order summary above the button.** Four rows at most: selected kit and price, add-on
-and price when ticked, "Free US shipping $0.00", then a bolded total matching the CTA. Renders
-from values `syncSelection()` already computes, so no new pricing logic and no new source of
-truth to drift.
-*Where:* `blocks/voltairs-preorder-offers.liquid`, new markup after the ship line plus about 15
-lines in `syncSelection()`. *Effort:* small.
+**4.1 Make the button explain its own price.** Two moves, no new elements.
+
+First, move the add-on above the CTA so the ship line no longer sits between the `+ $10.00` and
+the total it changes. Adjacency does most of the work: the two numbers that have to reconcile end
+up next to each other.
+
+Second, when the add-on is billed, name it in the button: `Pre-order 1 Kit + planner  $99.99`.
+`syncSelection()` already computes `billed` at line 1409, one line below where the label is set,
+so this is a reorder of two statements plus a suffix. At 390px the label renders at 0.92rem in a
+56px flex row, which holds the extra two words.
+*Where:* `blocks/voltairs-preorder-offers.liquid`, lines 1141 to 1294 for the order, lines 1372 to
+1414 for the label. *Effort:* small.
 
 **4.2 Collapse the delivery selector when only one mode is live.** When `mode_now_enabled` is
 false, render a single status line that folds `modes_note` and the arrival window together, and
@@ -237,15 +255,18 @@ reviews is the exact pattern `PRODUCT.md` names as an anti-reference, and the sa
 math is a stronger and defensible story. Either way, one number per card.
 
 **5.2 Whether the planner should be pre-ticked.** `addon_default_checked` is `false`, which is
-the honest default and the reason the button price ever disagrees with the card price is that the
+the honest default, and the reason the button price ever disagrees with the card price is that the
 shopper ticked it themselves. Worth confirming that is intended, because with 4.1 in place a
-pre-ticked add-on becomes defensible: the summary would show it as a line the shopper can see and
-untick, rather than a $10 gap they have to work out.
+pre-ticked add-on becomes defensible: the button would name it outright, so it reads as a line the
+shopper can see and untick rather than a $10 gap they have to work out.
 
 ---
 
 ## 6. Deliberately not proposed
 
+- **An itemised order summary.** Considered and dropped, for the reasons in 2.1: it adds a group
+  to a buy box whose problem is that it has too many, and it presents display-only bundle maths as
+  a total. Revisit at three or more line items.
 - **Cutting facts.** Every claim on the screen earns its place: the sold-out state, the arrival
   window, free shipping, the guarantee, the bundle discount, the add-on price. The proposal
   removes repetitions and one contradiction, not information.
