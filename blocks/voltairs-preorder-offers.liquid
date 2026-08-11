@@ -194,6 +194,13 @@
     Each offer carries both totals so the button can switch without doing
     currency formatting in JavaScript.
   endcomment
+  comment
+    One row per line, each written as "without | with". newline_to_br keeps the
+    split off a literal newline, which a liquid tag cannot carry.
+  endcomment
+  assign details_raw = block.settings.details_rows | newline_to_br | strip_newlines
+  assign details_rows = details_raw | split: '<br />'
+
   assign o1_with_addon = o1_total | plus: addon_price
   assign o2_with_addon = o2_total | plus: addon_price
 
@@ -689,6 +696,92 @@
   .vpo-{{ vpo_id }} .vpo-addon--paid .vpo-addon-was {
     display: none;
   }
+  .vpo-{{ vpo_id }} .vpo-addon-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--vpo-ink);
+    color: var(--vpo-surface);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    vertical-align: 2px;
+    white-space: nowrap;
+  }
+
+  /* Comparison disclosure */
+  .vpo-{{ vpo_id }} .vpo-details {
+    border-top: 1px dashed color-mix(in srgb, var(--vpo-ink) 20%, transparent);
+  }
+  .vpo-{{ vpo_id }} .vpo-details-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 9px 12px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--vpo-ink);
+    cursor: pointer;
+    list-style: none;
+  }
+  .vpo-{{ vpo_id }} .vpo-details-toggle::-webkit-details-marker {
+    display: none;
+  }
+  .vpo-{{ vpo_id }} .vpo-details-toggle:focus-visible {
+    outline: 2px solid var(--vpo-ink);
+    outline-offset: -2px;
+  }
+  .vpo-{{ vpo_id }} .vpo-details-chevron {
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translate(-2px, -2px);
+    transition: transform 0.18s ease;
+  }
+  .vpo-{{ vpo_id }} .vpo-details[open] .vpo-details-chevron {
+    transform: rotate(-135deg) translate(-2px, -2px);
+  }
+  .vpo-{{ vpo_id }} .vpo-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 4px;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    table-layout: fixed;
+  }
+  .vpo-{{ vpo_id }} .vpo-details-table th {
+    padding: 6px 12px;
+    text-align: left;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vpo-muted);
+    border-bottom: 1px solid color-mix(in srgb, var(--vpo-ink) 14%, transparent);
+  }
+  .vpo-{{ vpo_id }} .vpo-details-th-with {
+    color: var(--vpo-ink);
+  }
+  .vpo-{{ vpo_id }} .vpo-details-table td {
+    padding: 7px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid color-mix(in srgb, var(--vpo-ink) 8%, transparent);
+  }
+  .vpo-{{ vpo_id }} .vpo-details-table tr:last-child td {
+    border-bottom: 0;
+  }
+  .vpo-{{ vpo_id }} .vpo-details-without {
+    color: var(--vpo-muted);
+  }
+  .vpo-{{ vpo_id }} .vpo-details-with {
+    color: var(--vpo-ink);
+    font-weight: 600;
+  }
+
   .vpo-{{ vpo_id }} .vpo-addon-link {
     display: block;
     padding: 8px 12px 10px;
@@ -1056,7 +1149,12 @@
             <span class="vpo-addon-eyebrow" data-vpo-addon-eyebrow>
               {{- addon_state_eyebrow -}}
             </span>
-            <p class="vpo-addon-title">{{ block.settings.addon_title }}</p>
+            <p class="vpo-addon-title">
+              {{ block.settings.addon_title }}
+              {%- if block.settings.addon_badge != blank -%}
+                <span class="vpo-addon-badge">{{ block.settings.addon_badge }}</span>
+              {%- endif -%}
+            </p>
             {%- if block.settings.addon_sub != blank -%}
               <p class="vpo-addon-sub">{{ block.settings.addon_sub }}</p>
             {%- endif -%}
@@ -1106,6 +1204,34 @@
             {%- endif -%}
           </span>
         </label>
+        {%- if details_rows.size > 0 and block.settings.details_label != blank -%}
+          <details class="vpo-details">
+            <summary class="vpo-details-toggle">
+              <span>{{ block.settings.details_label }}</span>
+              <span class="vpo-details-chevron" aria-hidden="true"></span>
+            </summary>
+            <table class="vpo-details-table">
+              <thead>
+                <tr>
+                  <th scope="col">{{ block.settings.details_col_without }}</th>
+                  <th scope="col" class="vpo-details-th-with">{{ block.settings.details_col_with }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for row in details_rows -%}
+                  {%- assign cells = row | split: '|' -%}
+                  {%- if cells.size > 1 -%}
+                    <tr>
+                      <td class="vpo-details-without">{{ cells[0] | strip }}</td>
+                      <td class="vpo-details-with">{{ cells[1] | strip }}</td>
+                    </tr>
+                  {%- endif -%}
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </details>
+        {%- endif -%}
+
         {%- if block.settings.addon_link != blank -%}
           <a class="vpo-addon-link" href="{{ block.settings.addon_link }}">
             {{- block.settings.addon_link_label -}}
@@ -1743,6 +1869,29 @@
     },
     { "type": "url", "id": "addon_link", "label": "Product page link" },
     { "type": "text", "id": "addon_link_label", "label": "Link label", "default": "See how the planner works" },
+    {
+      "type": "text",
+      "id": "addon_badge",
+      "label": "Badge",
+      "info": "Sits beside the title. Leave blank to hide.",
+      "default": "Exclusive"
+    },
+
+    { "type": "header", "content": "Add-on details table" },
+    {
+      "type": "paragraph",
+      "content": "A collapsed comparison under the add-on, for shoppers who do not yet know what the planner is. Check the wording against what the planner actually does before publishing."
+    },
+    { "type": "text", "id": "details_label", "label": "Toggle label", "default": "More details" },
+    { "type": "text", "id": "details_col_without", "label": "Left column", "default": "Without it" },
+    { "type": "text", "id": "details_col_with", "label": "Right column", "default": "With the planner" },
+    {
+      "type": "textarea",
+      "id": "details_rows",
+      "label": "Rows",
+      "info": "One row per line, written as: without | with",
+      "default": "Guessing what fits in one carry-on|A packing list built around your bag and trip length\nRules and fees scattered across airline sites|Baggage limits and fees surfaced before you book\nStarting the plan from scratch each trip|Reuse the same setup on the next trip in one prompt\nGeneric answers from a blank chat|Answers that already know your dates, bag and budget"
+    },
 
     { "type": "header", "content": "Call to action" },
     {
