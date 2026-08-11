@@ -1,0 +1,1735 @@
+{% doc %}
+  Voltairs pre-order offers: a delivery-mode switch (express vs pre-order),
+  two quantity offers, an add-on that is free with one of them and a paid
+  opt-in with the other, and a single add-to-cart that respects the selection.
+
+  Replaces a third-party offer app. Every price shown is derived from real
+  variant prices, so the number on the card is the number at checkout.
+
+  Delivery dates are computed from business days, server-side for the first
+  paint and again in the browser, so a cached section cannot serve a stale one.
+{% enddoc %}
+
+{% liquid
+  assign vpo_id = block.id | replace: '_', '' | downcase
+  assign vpo_product = closest.product
+  if request.visual_preview_mode and vpo_product == blank
+    assign vpo_product = collections.all.products.first
+  endif
+  assign vpo_fallback_variant = vpo_product.selected_or_first_available_variant
+%}
+
+{%- comment -%} Resolve each offer's variant, falling back to the product's default variant. {%- endcomment -%}
+{% liquid
+  comment
+    Settings arrive as strings, variant ids as integers, so coerce before comparing.
+  endcomment
+  assign o1_target = block.settings.offer_1_variant | plus: 0
+  assign o2_target = block.settings.offer_2_variant | plus: 0
+
+  assign o1_variant = vpo_fallback_variant
+  if o1_target > 0
+    for v in vpo_product.variants
+      if v.id == o1_target
+        assign o1_variant = v
+        break
+      endif
+    endfor
+  endif
+
+  assign o2_variant = vpo_fallback_variant
+  if o2_target > 0
+    for v in vpo_product.variants
+      if v.id == o2_target
+        assign o2_variant = v
+        break
+      endif
+    endfor
+  endif
+
+  assign o1_qty = block.settings.offer_1_qty | at_least: 1
+  assign o2_qty = block.settings.offer_2_qty | at_least: 1
+  assign o1_units = block.settings.offer_1_units | at_least: 1
+  assign o2_units = block.settings.offer_2_units | at_least: 1
+
+  assign o1_list = o1_variant.price | times: o1_qty
+  assign o2_list = o2_variant.price | times: o2_qty
+
+  comment
+    Bundle discount is display only. It has to be backed by a real automatic
+    discount in Shopify, otherwise checkout charges more than the card shows.
+  endcomment
+  assign bundle_pct = block.settings.offer_2_discount_percent | default: 0 | at_least: 0
+  assign o1_total = o1_list
+  comment
+    Multiply by the kept share rather than subtracting the cut. Flooring the
+    cut instead lands a cent above what Shopify's discount actually charges.
+  endcomment
+  assign keep_pct = 100 | minus: bundle_pct
+  assign o2_total = o2_list | times: keep_pct | divided_by: 100
+
+  assign o1_per_unit = o1_total | divided_by: o1_units
+  assign o2_per_unit = o2_total | divided_by: o2_units
+
+  comment
+    The anchor is the variant's own compare-at price when it carries one.
+    Failing that, fall back to what the same number of kits would cost at
+    offer 1's rate, so a bundle still shows its advantage over buying singles.
+  endcomment
+  assign o1_baseline = o1_list
+  if o1_variant.compare_at_price > o1_variant.price
+    assign o1_baseline = o1_variant.compare_at_price | times: o1_qty
+  endif
+
+  if o2_variant.compare_at_price > o2_variant.price
+    assign o2_baseline = o2_variant.compare_at_price | times: o2_qty
+  else
+    assign o2_unit_baseline = o1_baseline | divided_by: o1_units
+    assign o2_baseline = o2_unit_baseline | times: o2_units
+  endif
+
+  comment
+    Only offer 2 wears a savings chip, and it names the incremental win over
+    offer 1 rather than the shared compare-at discount, which both offers get.
+  endcomment
+  assign o2_chip = ''
+  if bundle_pct > 0
+    assign o2_chip = block.settings.offer_2_save_label | replace: '{pct}', bundle_pct
+  endif
+
+  assign default_offer = block.settings.default_offer | default: '2'
+  if default_offer == '1'
+    assign default_total = o1_total
+    assign default_title = block.settings.offer_1_title
+  else
+    assign default_total = o2_total
+    assign default_title = block.settings.offer_2_title
+  endif
+
+  assign nudge_text = block.settings.nudge_text | replace: '{pct}', bundle_pct | replace: '{bonus}', block.settings.addon_title
+
+  comment
+    Stock line reads live inventory rather than a typed-in number, and stays
+    hidden above the threshold. A count that never moves is just decoration.
+  endcomment
+  assign stock_text = ''
+  if block.settings.show_stock
+    assign stock_count = o2_variant.inventory_quantity
+    if o1_variant.inventory_quantity < stock_count
+      assign stock_count = o1_variant.inventory_quantity
+    endif
+    if o1_variant.inventory_management == 'shopify'
+      if stock_count > 0 and stock_count <= block.settings.stock_threshold
+        assign stock_text = block.settings.stock_text | replace: '{count}', stock_count
+      endif
+    endif
+  endif
+
+  comment
+    Add-on: a separate product, chargeable alongside offer 1 and thrown in
+    with offer 2. Both paths add a real line item, so the cart matches the card.
+  endcomment
+  assign addon_product = block.settings.addon_product
+  assign addon_paid = addon_product.variants.first
+  assign addon_free = nil
+
+  assign paid_target = block.settings.addon_paid_variant | plus: 0
+  if paid_target > 0
+    for v in addon_product.variants
+      if v.id == paid_target
+        assign addon_paid = v
+        break
+      endif
+    endfor
+  endif
+
+  assign free_target = block.settings.addon_free_variant | plus: 0
+  if free_target > 0
+    for v in addon_product.variants
+      if v.id == free_target
+        assign addon_free = v
+        break
+      endif
+    endfor
+  endif
+
+  assign addon_price = addon_paid.price | default: 0
+  assign addon_live = false
+  if block.settings.addon_enabled and addon_paid != blank
+    assign addon_live = true
+  endif
+
+  comment
+    Which offer carries it free. The other offer can still buy it as an extra.
+  endcomment
+  assign free_on_1 = false
+  assign free_on_2 = false
+  if block.settings.addon_enabled
+    if block.settings.addon_free_with == '1' or block.settings.addon_free_with == 'both'
+      assign free_on_1 = true
+    endif
+    if block.settings.addon_free_with == '2' or block.settings.addon_free_with == 'both'
+      assign free_on_2 = true
+    endif
+  endif
+
+  comment
+    Each offer carries both totals so the button can switch without doing
+    currency formatting in JavaScript.
+  endcomment
+  assign o1_with_addon = o1_total | plus: addon_price
+  assign o2_with_addon = o2_total | plus: addon_price
+
+  assign default_free_addon = free_on_2
+  if default_offer == '1'
+    assign default_free_addon = free_on_1
+  endif
+  if default_free_addon
+    assign addon_state_class = 'vpo-addon--free'
+    assign addon_state_price = block.settings.addon_free_word
+    assign addon_state_eyebrow = block.settings.addon_eyebrow_free
+  else
+    assign addon_state_class = 'vpo-addon--paid'
+    assign addon_state_price = addon_price | money | prepend: '+ '
+    assign addon_state_eyebrow = block.settings.addon_eyebrow_paid
+  endif
+
+  assign ship_min = block.settings.ship_min_days | at_least: 1
+  assign ship_max = block.settings.ship_max_days | at_least: ship_min
+
+  comment
+    Server-side ship window so the first paint is already correct. The script
+    recomputes it on load, which matters because Shopify caches rendered
+    sections and this value can go a day stale.
+  endcomment
+  assign cursor = 'now' | date: '%s' | plus: 0
+  assign counted = 0
+  assign ship_min_ts = 0
+  assign ship_max_ts = 0
+  assign scan_days = ship_max | times: 2 | plus: 7
+  for i in (1..scan_days)
+    assign cursor = cursor | plus: 86400
+    assign dow = cursor | date: '%w' | plus: 0
+    if dow != 0 and dow != 6
+      assign counted = counted | plus: 1
+    endif
+    if counted == ship_min and ship_min_ts == 0
+      assign ship_min_ts = cursor
+    endif
+    if counted == ship_max and ship_max_ts == 0
+      assign ship_max_ts = cursor
+      break
+    endif
+  endfor
+  assign ship_from = ship_min_ts | date: '%b %-d'
+  assign ship_to = ship_max_ts | date: '%b %-d'
+  assign ship_window_text = ship_from | append: ' to ' | append: ship_to
+%}
+
+{% style %}
+  .vpo-{{ vpo_id }} {
+    --vpo-surface: {{ block.settings.surface_color }};
+    --vpo-ink: {{ block.settings.text_color }};
+    --vpo-line: {{ block.settings.border_color }};
+    --vpo-accent: {{ block.settings.accent_color }};
+    --vpo-accent-ink: {{ block.settings.accent_text_color }};
+    --vpo-muted: {{ block.settings.muted_color }};
+    --vpo-radius: {{ block.settings.corner_radius }}px;
+    width: 100%;
+    color: var(--vpo-ink);
+    font-family: var(--font-body--family, inherit);
+    /* Sized against its own column: this block also lives in narrow desktop
+       buy boxes, where a viewport media query would never fire. */
+    container-type: inline-size;
+  }
+
+  .vpo-{{ vpo_id }} fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-inline-size: 0;
+  }
+
+  /* Delivery mode switch */
+  .vpo-{{ vpo_id }} .vpo-modes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--vpo-line);
+    border-radius: var(--vpo-radius);
+    background: var(--vpo-surface);
+    cursor: pointer;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+  }
+  /* A visible control, so a locked row reads as unavailable rather than broken. */
+  .vpo-{{ vpo_id }} .vpo-mode-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--vpo-line);
+    display: grid;
+    place-items: center;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode-dot::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--vpo-ink);
+    opacity: 0;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode:has(input:checked) .vpo-mode-dot {
+    border-color: var(--vpo-ink);
+  }
+  .vpo-{{ vpo_id }} .vpo-mode:has(input:checked) .vpo-mode-dot::after {
+    opacity: 1;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode--locked .vpo-mode-dot {
+    border-style: dashed;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode-sub {
+    font-size: 0.74rem;
+    line-height: 1.3;
+    text-align: right;
+    color: var(--vpo-muted);
+  }
+  .vpo-{{ vpo_id }} .vpo-mode--locked .vpo-mode-sub {
+    font-weight: 700;
+  }
+  .vpo-{{ vpo_id }} .vpo-modes-note {
+    margin: 0 0 14px;
+    font-size: 0.74rem;
+    line-height: 1.45;
+    color: var(--vpo-muted);
+  }
+  .vpo-{{ vpo_id }} .vpo-mode:has(input:checked) {
+    border-color: var(--vpo-ink);
+    background: color-mix(in srgb, var(--vpo-ink) 5%, var(--vpo-surface));
+  }
+  .vpo-{{ vpo_id }} .vpo-mode:has(input:focus-visible) {
+    outline: 2px solid var(--vpo-ink);
+    outline-offset: 2px;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode--locked {
+    cursor: not-allowed;
+    opacity: 0.55;
+    border-style: dashed;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode-flag {
+    position: absolute;
+    top: -9px;
+    right: 12px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--vpo-accent);
+    color: var(--vpo-accent-ink);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Offer cards */
+  .vpo-{{ vpo_id }} .vpo-offers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .vpo-{{ vpo_id }} .vpo-offer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 12px 12px;
+    border: 1.5px solid var(--vpo-line);
+    border-radius: var(--vpo-radius);
+    background: var(--vpo-surface);
+    cursor: pointer;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .vpo-{{ vpo_id }} .vpo-offer:has(input:checked) {
+    border-color: var(--vpo-ink);
+    border-width: 2px;
+    padding: 13px 11px 11px;
+    box-shadow: 0 6px 20px -12px color-mix(in srgb, var(--vpo-ink) 70%, transparent);
+  }
+  .vpo-{{ vpo_id }} .vpo-offer:has(input:focus-visible) {
+    outline: 2px solid var(--vpo-ink);
+    outline-offset: 2px;
+  }
+  .vpo-{{ vpo_id }} .vpo-offer-flag {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--vpo-accent);
+    color: var(--vpo-accent-ink);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .vpo-{{ vpo_id }} .vpo-offer-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+  }
+  .vpo-{{ vpo_id }} .vpo-offer-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    /* Keep the title intact and let the chip drop to its own line instead. */
+    white-space: nowrap;
+  }
+  .vpo-{{ vpo_id }} .vpo-offer-save {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--vpo-accent-ink);
+    background: var(--vpo-accent);
+    border-radius: 999px;
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+  .vpo-{{ vpo_id }} .vpo-offer-contents {
+    font-size: 0.76rem;
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--vpo-ink);
+  }
+  .vpo-{{ vpo_id }} .vpo-offer-sub {
+    font-size: 0.74rem;
+    line-height: 1.35;
+    color: var(--vpo-muted);
+  }
+  .vpo-{{ vpo_id }} .vpo-offer-media {
+    aspect-ratio: 1 / 1;
+    border-radius: calc(var(--vpo-radius) - 4px);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--vpo-ink) 6%, var(--vpo-surface));
+  }
+  .vpo-{{ vpo_id }} .vpo-offer-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .vpo-{{ vpo_id }} .vpo-price-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .vpo-{{ vpo_id }} .vpo-price {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  .vpo-{{ vpo_id }} .vpo-price-was {
+    font-size: 0.82rem;
+    color: var(--vpo-muted);
+    text-decoration: line-through;
+  }
+  .vpo-{{ vpo_id }} .vpo-price-unit {
+    font-size: 0.7rem;
+    color: var(--vpo-muted);
+  }
+
+  /* Upsell nudge */
+  .vpo-{{ vpo_id }} .vpo-nudge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 11px 12px;
+    border: 1.5px dashed var(--vpo-accent);
+    border-radius: var(--vpo-radius);
+    background: color-mix(in srgb, var(--vpo-accent) 10%, var(--vpo-surface));
+    color: var(--vpo-ink);
+    font-family: inherit;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+  }
+  .vpo-{{ vpo_id }} .vpo-nudge[hidden] {
+    display: none;
+  }
+  .vpo-{{ vpo_id }} .vpo-nudge-mark {
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--vpo-accent);
+    color: var(--vpo-accent-ink);
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+  .vpo-{{ vpo_id }} .vpo-nudge-text {
+    flex: 1;
+  }
+  .vpo-{{ vpo_id }} .vpo-nudge-go {
+    flex: 0 0 auto;
+    font-weight: 700;
+    text-decoration: underline;
+    white-space: nowrap;
+  }
+
+  /* Add-on */
+  .vpo-{{ vpo_id }} .vpo-addon {
+    margin-top: 12px;
+    border: 1.5px solid var(--vpo-accent);
+    border-radius: var(--vpo-radius);
+    background: color-mix(in srgb, var(--vpo-accent) 12%, var(--vpo-surface));
+    overflow: hidden;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon[hidden] {
+    display: none;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-row {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon--free .vpo-addon-row {
+    cursor: default;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon--paid .vpo-addon-row {
+    cursor: pointer;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--vpo-ink);
+    background: var(--vpo-surface);
+    display: grid;
+    place-items: center;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-check::after {
+    content: '';
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid var(--vpo-accent-ink);
+    border-bottom: 2px solid var(--vpo-accent-ink);
+    transform: rotate(-45deg) translate(1px, -1px);
+    opacity: 0;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-row:has(input:checked) .vpo-addon-check {
+    background: var(--vpo-accent);
+    border-color: var(--vpo-accent);
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-row:has(input:checked) .vpo-addon-check::after {
+    opacity: 1;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-row:has(input:focus-visible) .vpo-addon-check {
+    outline: 2px solid var(--vpo-ink);
+    outline-offset: 2px;
+  }
+  /* Free means no decision to make, so the checkbox column collapses. */
+  .vpo-{{ vpo_id }} .vpo-addon--free .vpo-addon-check {
+    display: none;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon--free .vpo-addon-row {
+    grid-template-columns: auto 1fr auto;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-media {
+    display: grid;
+    place-items: center;
+  }
+  /* Bare icon at delivery-row scale. Only an uploaded image earns a framed tile. */
+  .vpo-{{ vpo_id }} .vpo-addon-media--icon svg {
+    width: 18px;
+    height: 18px;
+    color: var(--vpo-ink);
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-media--image {
+    width: 52px;
+    height: 52px;
+    border-radius: calc(var(--vpo-radius) - 6px);
+    overflow: hidden;
+    background: var(--vpo-surface);
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-media--image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-eyebrow {
+    display: block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--vpo-muted);
+    margin: 0 0 2px;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-sub {
+    font-size: 0.74rem;
+    line-height: 1.35;
+    color: var(--vpo-muted);
+    margin: 2px 0 0;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-compat {
+    display: block;
+    margin-top: 7px;
+    font-size: 0.68rem;
+    line-height: 1.3;
+    color: var(--vpo-muted);
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-compat-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .vpo-{{ vpo_id }} .vpo-providers {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+  }
+  .vpo-{{ vpo_id }} .vpo-logo {
+    display: inline-flex;
+    align-items: center;
+    height: {{ block.settings.provider_logo_height }}px;
+  }
+  /* Height-driven so wordmarks and square icons sit on the same optical line. */
+  .vpo-{{ vpo_id }} .vpo-logo-img {
+    height: {{ block.settings.provider_logo_height }}px;
+    width: auto;
+    max-width: 96px;
+    object-fit: contain;
+    display: block;
+  }
+  .vpo-{{ vpo_id }} .vpo-logo--text {
+    color: var(--vpo-ink);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .vpo-{{ vpo_id }} .vpo-logo--more {
+    color: var(--vpo-muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .vpo-{{ vpo_id }} .vpo-shipline-was {
+    margin-right: 5px;
+    color: var(--vpo-muted);
+    text-decoration: line-through;
+    font-weight: 500;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-price {
+    text-align: right;
+    font-size: 0.86rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-was {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--vpo-muted);
+    text-decoration: line-through;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon--paid .vpo-addon-was {
+    display: none;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-link {
+    display: block;
+    padding: 8px 12px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--vpo-ink);
+    text-decoration: underline;
+  }
+
+  @container (max-width: 400px) {
+    .vpo-{{ vpo_id }} .vpo-addon-row {
+      gap: 8px;
+    }
+    /* Column counts stay as the base rules set them. The icon is small enough
+       to keep here, and dropping a column would push the price onto its own row. */
+    .vpo-{{ vpo_id }} .vpo-addon-media--image {
+      display: none;
+    }
+  }
+
+  /* Ship line */
+  .vpo-{{ vpo_id }} .vpo-shipline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: var(--vpo-radius);
+    background: color-mix(in srgb, var(--vpo-ink) 6%, var(--vpo-surface));
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  .vpo-{{ vpo_id }} .vpo-shipline-lead {
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .vpo-{{ vpo_id }} .vpo-shipline svg {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--vpo-ink);
+  }
+
+  /* Stock line */
+  .vpo-{{ vpo_id }} .vpo-stock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0 0;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  .vpo-{{ vpo_id }} .vpo-stock-dot {
+    flex: 0 0 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: {{ block.settings.stock_dot_color }};
+  }
+
+  /* CTA */
+  .vpo-{{ vpo_id }} .vpo-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 56px;
+    margin-top: 14px;
+    padding: 14px 18px;
+    border: 0;
+    border-radius: var(--vpo-radius);
+    background: var(--vpo-accent);
+    color: var(--vpo-accent-ink);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: filter 0.18s ease, transform 0.12s ease;
+  }
+  .vpo-{{ vpo_id }} .vpo-cta:hover {
+    filter: brightness(0.94);
+  }
+  .vpo-{{ vpo_id }} .vpo-cta:active {
+    transform: translateY(1px);
+  }
+  .vpo-{{ vpo_id }} .vpo-cta[aria-disabled='true'] {
+    opacity: 0.6;
+    cursor: wait;
+  }
+  .vpo-{{ vpo_id }} .vpo-cta-price {
+    font-variant-numeric: tabular-nums;
+  }
+  .vpo-{{ vpo_id }} .vpo-trust {
+    margin: 10px 0 0;
+    font-size: 0.72rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--vpo-muted);
+  }
+  .vpo-{{ vpo_id }} .vpo-error {
+    margin: 10px 0 0;
+    font-size: 0.78rem;
+    color: {{ block.settings.error_color }};
+    text-align: center;
+  }
+  .vpo-{{ vpo_id }} .vpo-error[hidden] {
+    display: none;
+  }
+
+  .vpo-{{ vpo_id }} .vpo-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @container (max-width: 400px) {
+    .vpo-{{ vpo_id }} .vpo-mode {
+      grid-template-columns: auto 1fr;
+      gap: 4px 10px;
+    }
+    .vpo-{{ vpo_id }} .vpo-mode-sub {
+      grid-column: 2;
+      text-align: left;
+    }
+    .vpo-{{ vpo_id }} .vpo-offer {
+      padding: 12px 10px 10px;
+    }
+    .vpo-{{ vpo_id }} .vpo-price {
+      font-size: 1.02rem;
+    }
+    .vpo-{{ vpo_id }} .vpo-cta {
+      font-size: 0.92rem;
+      padding: 14px 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vpo-{{ vpo_id }} * {
+      transition: none !important;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="vpo-{{ vpo_id }} vpo-root"
+  id="vpo-{{ vpo_id }}"
+  data-vpo
+  data-product-id="{{ vpo_product.id }}"
+  data-ship-min="{{ ship_min }}"
+  data-ship-max="{{ ship_max }}"
+  data-property-name="{{ block.settings.property_name | escape }}"
+  data-property-value="{{ block.settings.property_value | escape }}"
+  data-property-value-express="{{ block.settings.property_value_express | escape }}"
+  data-dispatch-property="{{ block.settings.dispatch_property_name | escape }}"
+  data-mode-pre-sub="{{ block.settings.mode_pre_sub | escape }}"
+  data-ship-text="{{ block.settings.ship_fallback_text | escape }}"
+  data-ship-text-express="{{ block.settings.mode_now_ship_text | escape }}"
+  data-cta-label-express="{{ block.settings.cta_label_express | escape }}"
+  {% if addon_live %}
+    data-addon-paid-variant="{{ addon_paid.id }}"
+    data-addon-free-variant="{{ addon_free.id | default: addon_paid.id }}"
+    data-addon-title="{{ block.settings.addon_title | escape }}"
+    data-addon-price="{{ addon_price | money | strip_html | escape }}"
+    data-addon-free-word="{{ block.settings.addon_free_word | escape }}"
+    data-addon-eyebrow-free="{{ block.settings.addon_eyebrow_free | escape }}"
+    data-addon-eyebrow-paid="{{ block.settings.addon_eyebrow_paid | escape }}"
+  {% endif %}
+  {{ block.shopify_attributes }}
+>
+  {%- if vpo_product == blank -%}
+    <p class="vpo-trust">Add this block inside a product section to see the offers.</p>
+  {%- else -%}
+    {%- comment -%} Delivery mode {%- endcomment -%}
+    <fieldset class="vpo-modes" data-vpo-modes>
+      <legend class="vpo-sr">{{ block.settings.modes_legend }}</legend>
+
+      <label class="vpo-mode{% unless block.settings.mode_now_enabled %} vpo-mode--locked{% endunless %}">
+        <input
+          class="vpo-sr"
+          type="radio"
+          name="vpo-mode-{{ vpo_id }}"
+          value="now"
+          {% unless block.settings.mode_now_enabled %}
+            disabled
+          {% endunless %}
+        >
+        <span class="vpo-mode-dot" aria-hidden="true"></span>
+        <span class="vpo-mode-name">{{ block.settings.mode_now_label }}</span>
+        <span class="vpo-mode-sub">
+          {%- if block.settings.mode_now_enabled -%}
+            {{ block.settings.mode_now_sub }}
+          {%- else -%}
+            {{ block.settings.mode_now_locked_note }}
+          {%- endif -%}
+        </span>
+      </label>
+
+      <label class="vpo-mode">
+        {%- if block.settings.mode_pre_badge != blank -%}
+          <span class="vpo-mode-flag">{{ block.settings.mode_pre_badge }}</span>
+        {%- endif -%}
+        <input
+          class="vpo-sr"
+          type="radio"
+          name="vpo-mode-{{ vpo_id }}"
+          value="preorder"
+          checked
+        >
+        <span class="vpo-mode-dot" aria-hidden="true"></span>
+        <span class="vpo-mode-name">{{ block.settings.mode_pre_label }}</span>
+        <span class="vpo-mode-sub" data-vpo-mode-sub>
+          {{- block.settings.mode_pre_sub | replace: '{ship_window}', ship_window_text -}}
+        </span>
+      </label>
+    </fieldset>
+
+    {%- if block.settings.modes_note != blank -%}
+      <p class="vpo-modes-note">{{ block.settings.modes_note }}</p>
+    {%- endif -%}
+
+    {%- comment -%} Offers {%- endcomment -%}
+    <fieldset class="vpo-offers">
+      <legend class="vpo-sr">{{ block.settings.offers_legend }}</legend>
+
+      {%- for n in (1..2) -%}
+        {% liquid
+          if n == 1
+            assign o_variant = o1_variant
+            assign o_qty = o1_qty
+            assign o_total = o1_total
+            assign o_per_unit = o1_per_unit
+            assign o_baseline = o1_baseline
+            assign o_chip = ''
+            assign o_units = o1_units
+            assign o_title = block.settings.offer_1_title
+            assign o_sub = block.settings.offer_1_sub
+            assign o_contents = block.settings.offer_1_contents
+            assign o_flag = block.settings.offer_1_flag
+            assign o_image = block.settings.offer_1_image
+            assign o_free_addon = free_on_1
+            assign o_with_addon = o1_with_addon
+          else
+            assign o_variant = o2_variant
+            assign o_qty = o2_qty
+            assign o_total = o2_total
+            assign o_per_unit = o2_per_unit
+            assign o_baseline = o2_baseline
+            assign o_chip = o2_chip
+            assign o_units = o2_units
+            assign o_title = block.settings.offer_2_title
+            assign o_sub = block.settings.offer_2_sub
+            assign o_contents = block.settings.offer_2_contents
+            assign o_flag = block.settings.offer_2_flag
+            assign o_image = block.settings.offer_2_image
+            assign o_free_addon = free_on_2
+            assign o_with_addon = o2_with_addon
+          endif
+        %}
+        <label class="vpo-offer">
+          {%- if o_flag != blank -%}
+            <span class="vpo-offer-flag">{{ o_flag }}</span>
+          {%- endif -%}
+          <input
+            class="vpo-sr"
+            type="radio"
+            name="vpo-offer-{{ vpo_id }}"
+            value="{{ n }}"
+            data-variant-id="{{ o_variant.id }}"
+            data-quantity="{{ o_qty }}"
+            data-units="{{ o_units }}"
+            data-price="{{ o_total | money | strip_html | escape }}"
+            data-price-with-addon="{{ o_with_addon | money | strip_html | escape }}"
+            data-title="{{ o_title | escape }}"
+            data-free-addon="{% if o_free_addon %}true{% else %}false{% endif %}"
+            {% assign n_key = n | append: '' %}
+            {% if default_offer == n_key %}
+              checked
+            {% endif %}
+          >
+
+          <span class="vpo-offer-head">
+            <span class="vpo-offer-name">{{ o_title }}</span>
+            {%- if o_chip != blank -%}
+              <span class="vpo-offer-save">{{ o_chip }}</span>
+            {%- endif -%}
+          </span>
+
+          {%- if o_image != blank -%}
+            <span class="vpo-offer-media">
+              {{ o_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: o_title }}
+            </span>
+          {%- endif -%}
+
+          {%- if o_contents != blank -%}
+            <span class="vpo-offer-contents">{{ o_contents }}</span>
+          {%- endif -%}
+          {%- if o_sub != blank -%}
+            <span class="vpo-offer-sub">{{ o_sub }}</span>
+          {%- endif -%}
+
+          <span class="vpo-price-row">
+            <span class="vpo-price">{{ o_total | money }}</span>
+            {%- if o_baseline > o_total -%}
+              <span class="vpo-price-was">{{ o_baseline | money }}</span>
+            {%- endif -%}
+          </span>
+          {%- if o_units > 1 -%}
+            <span class="vpo-price-unit">
+              {{- o_per_unit | money }} {{ block.settings.per_unit_word -}}
+            </span>
+          {%- endif -%}
+        </label>
+      {%- endfor -%}
+    </fieldset>
+
+    {%- comment -%}
+      Upsell nudge: spells out what offer 1 leaves behind, and switches for them.
+    {%- endcomment -%}
+    {%- if nudge_text != blank -%}
+      <button class="vpo-nudge" type="button" data-vpo-nudge hidden>
+        <span class="vpo-nudge-mark" aria-hidden="true">+</span>
+        <span class="vpo-nudge-text">{{ nudge_text }}</span>
+        <span class="vpo-nudge-go">{{ block.settings.nudge_action }}</span>
+      </button>
+    {%- endif -%}
+
+    {%- comment -%}
+      Add-on. Free with the qualifying offer, a paid opt-in with the other.
+      The checkbox only appears when it costs something.
+    {%- endcomment -%}
+    {%- if block.settings.addon_enabled -%}
+      <div class="vpo-addon {{ addon_state_class }}" data-vpo-addon>
+        <label class="vpo-addon-row">
+          <input
+            class="vpo-sr"
+            type="checkbox"
+            data-vpo-addon-toggle
+            {% if default_free_addon or block.settings.addon_default_checked %}
+              checked
+            {% endif %}
+            {% if default_free_addon %}
+              disabled
+            {% endif %}
+          >
+          <span class="vpo-addon-check" aria-hidden="true" data-vpo-addon-check></span>
+          <span
+            class="vpo-addon-media vpo-addon-media--{% if block.settings.addon_image != blank %}image{% else %}icon{% endif %}"
+          >
+            {%- render 'icon-or-image',
+              icon: block.settings.addon_icon,
+              image_upload: block.settings.addon_image,
+              width: 18
+            -%}
+          </span>
+          <span class="vpo-addon-body">
+            <span class="vpo-addon-eyebrow" data-vpo-addon-eyebrow>
+              {{- addon_state_eyebrow -}}
+            </span>
+            <p class="vpo-addon-title">{{ block.settings.addon_title }}</p>
+            {%- if block.settings.addon_sub != blank -%}
+              <p class="vpo-addon-sub">{{ block.settings.addon_sub }}</p>
+            {%- endif -%}
+            {%- capture provider_chips -%}
+              {%- for i in (1..4) -%}
+                {%- assign name_key = 'provider_' | append: i | append: '_name' -%}
+                {%- assign logo_key = 'provider_' | append: i | append: '_logo' -%}
+                {%- assign p_name = block.settings[name_key] -%}
+                {%- assign p_logo = block.settings[logo_key] -%}
+                {%- if p_name != blank -%}
+                  {%- comment -%}
+                    A logo replaces the wordmark outright. Showing both crowds the
+                    row and reads as a badge rather than a compatibility mark.
+                  {%- endcomment -%}
+                  {%- if p_logo != blank -%}
+                    <span class="vpo-logo">
+                      {{
+                        p_logo
+                        | image_url: width: 120
+                        | image_tag: loading: 'lazy', alt: p_name, class: 'vpo-logo-img'
+                      }}
+                    </span>
+                  {%- else -%}
+                    <span class="vpo-logo vpo-logo--text">{{ p_name }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {%- if provider_chips != blank -%}
+              <span class="vpo-addon-compat">
+                {%- if block.settings.providers_label != blank -%}
+                  <span class="vpo-addon-compat-label">{{ block.settings.providers_label }}</span>
+                {%- endif -%}
+                <span class="vpo-providers">
+                  {{- provider_chips -}}
+                  {%- if block.settings.providers_suffix != blank -%}
+                    <span class="vpo-logo vpo-logo--more">{{ block.settings.providers_suffix }}</span>
+                  {%- endif -%}
+                </span>
+              </span>
+            {%- endif -%}
+          </span>
+          <span class="vpo-addon-price" data-vpo-addon-price>
+            {%- if addon_live -%}
+              <span class="vpo-addon-was" data-vpo-addon-was>{{ addon_price | money }}</span>
+              <span data-vpo-addon-now>{{ addon_state_price }}</span>
+            {%- endif -%}
+          </span>
+        </label>
+        {%- if block.settings.addon_link != blank -%}
+          <a class="vpo-addon-link" href="{{ block.settings.addon_link }}">
+            {{- block.settings.addon_link_label -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Ship window {%- endcomment -%}
+    <p class="vpo-shipline">
+      {%- render 'icon-or-image', icon: block.settings.delivery_icon, width: 18 -%}
+      <span>
+        {%- if block.settings.shipping_highlight != blank -%}
+          <strong class="vpo-shipline-lead">{{ block.settings.shipping_highlight }}</strong>
+        {%- endif -%}
+        {%- if block.settings.shipping_was != blank -%}
+          <span class="vpo-shipline-was">{{ block.settings.shipping_was }}</span>
+        {%- endif -%}
+        <span data-vpo-shipline>
+          {{- block.settings.ship_fallback_text | replace: '{ship_window}', ship_window_text -}}
+        </span>
+      </span>
+    </p>
+
+    {%- if stock_text != blank -%}
+      <p class="vpo-stock">
+        <span class="vpo-stock-dot" aria-hidden="true"></span>
+        {{ stock_text }}
+      </p>
+    {%- endif -%}
+
+    {%- comment -%} CTA {%- endcomment -%}
+    <button
+      class="vpo-cta"
+      type="button"
+      data-vpo-cta
+      data-label="{{ block.settings.cta_label | escape }}"
+      data-label-busy="{{ block.settings.cta_label_busy | escape }}"
+      data-label-done="{{ block.settings.cta_label_done | escape }}"
+    >
+      <span data-vpo-cta-label>{{ block.settings.cta_label | replace: '{offer}', default_title }}</span>
+      <span class="vpo-cta-price" data-vpo-cta-price>{{ default_total | money }}</span>
+    </button>
+
+    {%- if block.settings.trust_line != blank -%}
+      <p class="vpo-trust">{{ block.settings.trust_line }}</p>
+    {%- endif -%}
+
+    <p class="vpo-error" data-vpo-error hidden role="status"></p>
+  {%- endif -%}
+</div>
+
+<script type="module">
+  import { CartAddEvent } from '@theme/events';
+
+  const root = document.getElementById('vpo-{{ vpo_id }}');
+  if (root && !root.dataset.vpoReady) {
+    root.dataset.vpoReady = 'true';
+
+    const cta = root.querySelector('[data-vpo-cta]');
+    const ctaLabel = root.querySelector('[data-vpo-cta-label]');
+    const ctaPrice = root.querySelector('[data-vpo-cta-price]');
+    const addon = root.querySelector('[data-vpo-addon]');
+    const addonToggle = root.querySelector('[data-vpo-addon-toggle]');
+    const addonNow = root.querySelector('[data-vpo-addon-now]');
+    const addonEyebrow = root.querySelector('[data-vpo-addon-eyebrow]');
+    const nudge = root.querySelector('[data-vpo-nudge]');
+    const shipline = root.querySelector('[data-vpo-shipline]');
+    const modeSub = root.querySelector('[data-vpo-mode-sub]');
+    const errorEl = root.querySelector('[data-vpo-error]');
+    const offerInputs = [...root.querySelectorAll('input[name="vpo-offer-{{ vpo_id }}"]')];
+    const modeInputs = [...root.querySelectorAll('input[name="vpo-mode-{{ vpo_id }}"]')];
+    const GENERIC_ERROR = 'That did not go through. Please try again.';
+
+    // The free offer force-ticks the add-on. Without remembering what the
+    // shopper actually chose, going 1 kit -> 2 kits -> 1 kit leaves the box
+    // ticked and silently bills them for something they never opted into.
+    let addonOptIn = addonToggle ? addonToggle.checked && !addonToggle.disabled : false;
+
+    /**
+     * Advance a date by whole business days, skipping Saturday and Sunday.
+     * @param {Date} from
+     * @param {number} days
+     * @returns {Date}
+     */
+    const addBusinessDays = (from, days) => {
+      const date = new Date(from.getTime());
+      let added = 0;
+      while (added < days) {
+        date.setDate(date.getDate() + 1);
+        const day = date.getDay();
+        if (day !== 0 && day !== 6) added += 1;
+      }
+      return date;
+    };
+
+    // Pinned to en-US so the client format matches the server-rendered one and
+    // the line does not visibly reshuffle on hydration.
+    const formatDate = (date) => date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+    const shipWindow = () => {
+      const min = Number(root.dataset.shipMin) || 6;
+      const max = Number(root.dataset.shipMax) || 12;
+      const now = new Date();
+      return `${formatDate(addBusinessDays(now, min))} to ${formatDate(addBusinessDays(now, max))}`;
+    };
+
+    const windowText = shipWindow();
+    const fillWindow = (text) => (text || '').replace('{ship_window}', windowText);
+
+    if (modeSub) modeSub.textContent = fillWindow(root.dataset.modePreSub);
+
+    const selectedOffer = () => offerInputs.find((input) => input.checked) || offerInputs[0];
+    const isExpress = () => modeInputs.find((input) => input.checked)?.value === 'now';
+
+    const syncSelection = () => {
+      const offer = selectedOffer();
+      if (!offer) return;
+      const express = isExpress();
+
+      if (ctaLabel && cta) {
+        const template = (express && root.dataset.ctaLabelExpress) || cta.dataset.label || '';
+        ctaLabel.textContent = template.replace('{offer}', offer.dataset.title || '');
+      }
+
+      if (shipline) {
+        const template = express ? root.dataset.shipTextExpress : root.dataset.shipText;
+        shipline.textContent = fillWindow(template);
+      }
+
+      // The add-on is what buys goodwill for the longer wait, so express drops it.
+      const freeAddon = offer.dataset.freeAddon === 'true';
+      if (addon) {
+        addon.hidden = express;
+        addon.classList.toggle('vpo-addon--free', freeAddon);
+        addon.classList.toggle('vpo-addon--paid', !freeAddon);
+        if (addonToggle) {
+          // Free means it always ships, so the box is checked and inert.
+          // Otherwise fall back to the shopper's own last decision.
+          addonToggle.checked = freeAddon ? true : addonOptIn;
+          addonToggle.disabled = freeAddon;
+        }
+        if (addonNow) {
+          // Prefixed when paid, so it reads as an amount added to the kit
+          // rather than the planner's standalone price.
+          addonNow.textContent = freeAddon
+            ? root.dataset.addonFreeWord || 'Free'
+            : `+ ${root.dataset.addonPrice || ''}`;
+        }
+        if (addonEyebrow) {
+          addonEyebrow.textContent = freeAddon
+            ? root.dataset.addonEyebrowFree || ''
+            : root.dataset.addonEyebrowPaid || '';
+        }
+      }
+
+      // Only a paid, ticked add-on moves the button price.
+      const billed = !express && !freeAddon && addonOptIn;
+      if (ctaPrice) {
+        ctaPrice.textContent = billed
+          ? offer.dataset.priceWithAddon || offer.dataset.price || ''
+          : offer.dataset.price || '';
+      }
+
+      // The nudge only earns its space while the smaller offer is selected.
+      if (nudge) nudge.hidden = express || offer.value === '2';
+    };
+
+    addonToggle?.addEventListener('change', () => {
+      // Only a real click counts as intent; the free state sets .checked itself.
+      if (!addonToggle.disabled) addonOptIn = addonToggle.checked;
+      syncSelection();
+    });
+
+    [...offerInputs, ...modeInputs].forEach((input) => input.addEventListener('change', syncSelection));
+    syncSelection();
+
+    nudge?.addEventListener('click', () => {
+      const upgrade = offerInputs.find((input) => input.value === '2');
+      if (!upgrade) return;
+      upgrade.checked = true;
+      upgrade.dispatchEvent(new Event('change', { bubbles: true }));
+      upgrade.focus({ preventScroll: true });
+    });
+
+    const showError = (message) => {
+      if (!errorEl) return;
+      errorEl.textContent = message;
+      errorEl.hidden = false;
+    };
+
+    const clearError = () => {
+      if (!errorEl) return;
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+    };
+
+    cta?.addEventListener('click', async () => {
+      const offer = selectedOffer();
+      if (!offer || cta.getAttribute('aria-disabled') === 'true') return;
+
+      clearError();
+      cta.setAttribute('aria-disabled', 'true');
+      const restoreLabel = ctaLabel?.textContent;
+      if (ctaLabel && cta.dataset.labelBusy) ctaLabel.textContent = cta.dataset.labelBusy;
+
+      const express = isExpress();
+      const properties = {};
+      const mode = express ? root.dataset.propertyValueExpress : root.dataset.propertyValue;
+      if (root.dataset.propertyName && mode) {
+        properties[root.dataset.propertyName] = mode;
+      }
+      if (root.dataset.dispatchProperty && !express) {
+        properties[root.dataset.dispatchProperty] = windowText;
+      }
+
+      const items = [
+        {
+          id: Number(offer.dataset.variantId),
+          quantity: Number(offer.dataset.quantity) || 1,
+          properties,
+        },
+      ];
+
+      // Add-on line item: the free variant when the offer includes it, the paid
+      // one when the shopper ticked it themselves.
+      const freeAddon = offer.dataset.freeAddon === 'true';
+      const wantsAddon = !express && (freeAddon || addonOptIn);
+      const addonVariant = freeAddon ? root.dataset.addonFreeVariant : root.dataset.addonPaidVariant;
+      if (wantsAddon && addonVariant) {
+        items.push({
+          id: Number(addonVariant),
+          quantity: 1,
+          properties: {
+            ...properties,
+            [root.dataset.addonTitle || 'Add-on']: freeAddon
+              ? root.dataset.addonEyebrowFree || 'Included'
+              : 'Added',
+          },
+        });
+      }
+
+      const sections = [...document.querySelectorAll('cart-items-component[data-section-id]')]
+        .map((el) => el.dataset.sectionId)
+        .filter(Boolean);
+
+      try {
+        const response = await fetch(Theme.routes.cart_add_url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(sections.length ? { items, sections: sections.join(',') } : { items }),
+        });
+        const data = await response.json();
+
+        if (!response.ok || data.status) {
+          showError(data.description || data.message || GENERIC_ERROR);
+          if (ctaLabel && restoreLabel) ctaLabel.textContent = restoreLabel;
+          return;
+        }
+
+        if (ctaLabel && cta.dataset.labelDone) ctaLabel.textContent = cta.dataset.labelDone;
+
+        root.dispatchEvent(
+          new CartAddEvent({}, root.id, {
+            source: 'voltairs-preorder-offers',
+            productId: root.dataset.productId,
+            variantId: offer.dataset.variantId,
+            itemCount: items.reduce((total, item) => total + item.quantity, 0),
+            sections: data.sections,
+          })
+        );
+
+        setTimeout(syncSelection, 2200);
+      } catch (error) {
+        console.error(error);
+        showError(GENERIC_ERROR);
+        if (ctaLabel && restoreLabel) ctaLabel.textContent = restoreLabel;
+      } finally {
+        cta.removeAttribute('aria-disabled');
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Sync probe A",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Place inside a product section. Prices are read from the product's real variants, so what shows here is what checkout charges."
+    },
+    {
+      "type": "header",
+      "content": "Delivery mode"
+    },
+    {
+      "type": "text",
+      "id": "modes_legend",
+      "label": "Group label (screen readers)",
+      "default": "Choose a delivery option"
+    },
+    {
+      "type": "checkbox",
+      "id": "mode_now_enabled",
+      "label": "Enable the express option",
+      "info": "Leave off while every order ships on the pre-order timeline.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "mode_now_label",
+      "label": "Express label",
+      "default": "Order now"
+    },
+    {
+      "type": "text",
+      "id": "mode_now_sub",
+      "label": "Express note (when enabled)",
+      "default": "Ships within 2 business days"
+    },
+    {
+      "type": "text",
+      "id": "mode_now_locked_note",
+      "label": "Express note (when disabled)",
+      "default": "Sold out"
+    },
+    {
+      "type": "text",
+      "id": "mode_now_ship_text",
+      "label": "Express delivery line",
+      "info": "Edit this to match your real express timeline before enabling the express option.",
+      "default": "Estimated delivery in 2 to 4 business days."
+    },
+    {
+      "type": "paragraph",
+      "content": "The shipping lead-in below stays in place for both modes."
+    },
+    {
+      "type": "text",
+      "id": "mode_pre_label",
+      "label": "Pre-order label",
+      "default": "Pre-order the next batch"
+    },
+    {
+      "type": "text",
+      "id": "mode_pre_sub",
+      "label": "Pre-order note",
+      "info": "Use {ship_window} to insert the live date range.",
+      "default": "Arrives {ship_window}"
+    },
+    {
+      "type": "text",
+      "id": "mode_pre_badge",
+      "label": "Pre-order badge",
+      "info": "Leave blank while pre-order is the only option. A badge on the sole choice reads as filler."
+    },
+    {
+      "type": "text",
+      "id": "modes_note",
+      "label": "Reason line",
+      "info": "Explains why the first option is closed. Without it a disabled row reads as a broken page.",
+      "default": "This batch sold out. Reserve from the next one and it goes out the day it lands with us."
+    },
+    {
+      "type": "header",
+      "content": "Delivery window"
+    },
+    {
+      "type": "range",
+      "id": "ship_min_days",
+      "label": "Earliest delivery",
+      "min": 1,
+      "max": 40,
+      "step": 1,
+      "default": 7,
+      "unit": "d"
+    },
+    {
+      "type": "range",
+      "id": "ship_max_days",
+      "label": "Latest delivery",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "default": 14,
+      "unit": "d"
+    },
+    {
+      "type": "select",
+      "id": "delivery_icon",
+      "label": "Delivery icon",
+      "info": "Drawn from the theme icon set, so it inherits the site's single-colour style.",
+      "options": [
+        {
+          "value": "box",
+          "label": "Box"
+        },
+        {
+          "value": "check_box",
+          "label": "Check box"
+        },
+        {
+          "value": "clipboard",
+          "label": "Clipboard"
+        },
+        {
+          "value": "eye",
+          "label": "Eye"
+        },
+        {
+          "value": "fire",
+          "label": "Fire"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "leaf",
+          "label": "Leaf"
+        },
+        {
+          "value": "lightning_bolt",
+          "label": "Lightning bolt"
+        },
+        {
+          "value": "lock",
+          "label": "Lock"
+        },
+        {
+          "value": "map_pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "perfume",
+          "label": "Perfume"
+        },
+        {
+          "value": "plane",
+          "label": "Plane"
+        },
+        {
+          "value": "price_tag",
+          "label": "Price tag"
+        },
+        {
+          "value": "recycle",
+          "label": "Recycle"
+        },
+        {
+          "value": "return",
+          "label": "Return"
+        },
+        {
+          "value": "ruler",
+          "label": "Ruler"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "star",
+          "label": "Star"
+        },
+        {
+          "value": "stopwatch",
+          "label": "Stopwatch"
+        },
+        {
+          "value": "truck",
+          "label": "Truck"
+        },
+        {
+          "value": "washing",
+          "label": "Washing"
+        }
+      ],
+      "default": "truck"
+    },
+    {
+      "type": "text",
+      "id": "shipping_highlight",
+      "label": "Shipping lead-in",
+      "info": "Rendered bold at the front of the delivery line.",
+      "default": "Free US shipping."
+    },
+    {
+      "type": "text",
+      "id": "shipping_was",
+      "label": "Shipping value",
+      "info": "Struck through next to the free claim so the saving is visible. Use what you would actually charge, since checkout can be compared against it.",
+      "default": "$14.90"
+    },
+    {
+      "type": "text",
+      "id": "ship_fallback_text",
+      "label": "Delivery line",
+      "info": "Use {ship_window} to insert the live date range. Business days only, weekends skipped.",
+      "default": "Estimated delivery {ship_window}. Tracking lands in your inbox the moment it ships."
+    },
+    {
+      "type": "header",
+      "content": "Offer 1"
+    },
+    {
+      "type": "text",
+      "id": "offer_1_variant",
+      "label": "Variant ID",
+      "info": "Leave blank to use the product's default variant."
+    },
+    {
+      "type": "number",
+      "id": "offer_1_qty",
+      "label": "Quantity added to cart",
+      "default": 1
+    },
+    {
+      "type": "number",
+      "id": "offer_1_units",
+      "label": "Kits this offer represents",
+      "info": "Used for the per-unit price and the savings math.",
+      "default": 1
+    },
+    {
+      "type": "text",
+      "id": "offer_1_title",
+      "label": "Title",
+      "default": "1 Kit"
+    },
+    {
+      "type": "text",
+      "id": "offer_1_contents",
+      "label": "What is in it",
+      "default": "2 bags + air pump"
+    },
+    {
+      "type": "text",
+      "id": "offer_1_sub",
+      "label": "Subtitle",
+      "default": "One traveler, one carry-on"
+    },
+    {
+      "type": "text",
+      "id": "offer_1_flag",
+      "label": "Badge"
+    },
+    {
+      "type": "image_picker",
+      "id": "offer_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Offer 2"
+    },
+    {
+      "type": "text",
+      "id": "offer_2_variant",
+      "label": "Variant ID",
+      "info": "Leave blank to use the product's default variant."
+    },
+    {
+      "type": "number",
+      "id": "offer_2_qty",
+      "label": "Quantity added to cart",
+      "default": 2
+    },
+    {
+      "type": "number",
+      "id": "offer_2_units",
+      "label": "Kits this offer represents",
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "offer_2_title",
+      "label": "Title",
+      "default": "2 Kits"
+    },
+    {
+      "type": "text",
+      "id": "offer_2_contents",
+      "label": "What is in it",
+      "default": "4 bags + 2 air pumps"
+    },
+    {
+      "type": "text",
+      "id": "offer_2_sub",
+      "label": "Subtitle",
+      "default": "Best for families"
+    },
+    {
+      "type": "header",
+      "content": "Add-on"
+    },
+    {
+      "type": "paragraph",
+      "content": "A separate product sold alongside the kit. Free with the offer you pick below, a paid opt-in with the other. Both paths add a real line item, so the cart matches the card."
+    },
+    {
+      "type": "paragraph",
+      "content": "Upload each provider's official mark, ideally an SVG or a transparent PNG. A logo replaces the name entirely; without one the name shows as a wordmark. Clear a name to drop it from the row."
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "header",
+      "content": "Stock line"
+    },
+    {
+      "type": "paragraph",
+      "content": "Reads live inventory. It stays hidden while stock is above the threshold, so the number always means something."
+    },
+    {
+      "type": "header",
+      "content": "Upsell nudge"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shown only while offer 1 is selected. Tapping it switches to offer 2."
+    },
+    {
+      "type": "header",
+      "content": "Order tagging"
+    },
+    {
+      "type": "paragraph",
+      "content": "Added to the cart line so pre-orders are obvious on the order screen."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Voltairs pre-order offers",
+      "category": "t:categories.custom"
+    }
+  ]
+}
+{% endschema %}
