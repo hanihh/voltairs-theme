@@ -1,7 +1,7 @@
 
 
 <cart-items-component
-  class="cart-items-component"
+  class="cart-items-component voltairs-cart"
   data-section-id="{{ section.id }}"
 >
   <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -12,9 +12,37 @@
       class="cart-page spacing-style{% if cart.empty? %} cart-page--empty{% endif %}"
       style="{% render 'spacing-style', settings: section.settings %}"
     >
-      <div class="cart-page__title">
-        {%- content_for 'block', id: 'cart-page-title', type: '_cart-title' %}
-      </div>
+      <header class="cart-page__masthead">
+        <p class="voltairs-cart__eyebrow">
+          {%- if cart.empty? -%}
+            Carry-on mode
+          {%- else -%}
+            Almost packed
+          {%- endif -%}
+        </p>
+
+        <div class="cart-page__title">
+          {%- content_for 'block', id: 'cart-page-title', type: '_cart-title' %}
+        </div>
+
+        <p class="voltairs-cart__intro">
+          {%- if cart.empty? -%}
+            Your carry-on has room. Fill it with more trip and less baggage claim.
+          {%- else -%}
+            One checkout away from walking straight past the baggage carousel.
+          {%- endif -%}
+        </p>
+
+        {%- unless cart.empty? -%}
+          <div class="voltairs-cart__compression" aria-label="Compresses to 40% of the original size">
+            <span class="voltairs-cart__compression-label">Packed size</span>
+            <span class="voltairs-cart__compression-track" aria-hidden="true">
+              <span></span>
+            </span>
+            <strong>40% of the space</strong>
+          </div>
+        {%- endunless -%}
+      </header>
 
       <div class="cart-page__items">
         {%- content_for 'block', id: 'cart-page-items', type: '_cart-products' %}
@@ -34,6 +62,26 @@
 </cart-items-component>
 
 {% stylesheet %}
+  .voltairs-cart {
+    --voltairs-navy: #03275b;
+    --voltairs-cream: #efeeeb;
+    --voltairs-amber: #fdc656;
+    --voltairs-ink-soft: #687c9f;
+    --color-background: var(--voltairs-cream);
+    --color-foreground: var(--voltairs-navy);
+    --color-foreground-heading: var(--voltairs-navy);
+    --color-border: rgb(3 39 91 / 14%);
+
+    display: block;
+    background: var(--voltairs-cream);
+    color: var(--voltairs-navy);
+  }
+
+  .voltairs-cart > .section-background,
+  .voltairs-cart > .section {
+    background: var(--voltairs-cream);
+  }
+
   .cart-page {
     --cart-font-size--2xs: var(--font-size--2xs);
     --cart-font-size--xs: var(--font-size--xs);
@@ -43,7 +91,161 @@
 
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0 var(--padding-5xl);
+    gap: 0 clamp(2rem, 6vw, 5rem);
+    padding-block-start: clamp(2rem, 5vw, 4.5rem) !important;
+    padding-block-end: clamp(3.5rem, 7vw, 6rem) !important;
+  }
+
+  .cart-page__masthead {
+    grid-column: 1;
+    max-width: 44rem;
+    padding-block-end: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .voltairs-cart__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0 0 1rem;
+    color: var(--voltairs-navy);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .voltairs-cart__eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 0.2rem;
+    border-radius: 999px;
+    background: var(--voltairs-amber);
+  }
+
+  .voltairs-cart .cart-title h1 {
+    color: var(--voltairs-navy);
+    font-family: var(--font-body--family);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+  }
+
+  .voltairs-cart .cart-title .cart-bubble {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0.45rem;
+    border-radius: 999px;
+  }
+
+  .voltairs-cart .cart-title .cart-bubble__background {
+    background: var(--voltairs-amber);
+  }
+
+  .voltairs-cart .cart-title .cart-bubble__text {
+    color: var(--voltairs-navy);
+    font-weight: 700;
+  }
+
+  .voltairs-cart__intro {
+    max-width: 35rem;
+    margin: 1.25rem 0 0;
+    color: rgb(3 39 91 / 72%);
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.55;
+  }
+
+  .voltairs-cart__compression {
+    display: grid;
+    grid-template-columns: max-content minmax(5rem, 1fr) max-content;
+    gap: 0.75rem;
+    align-items: center;
+    max-width: 35rem;
+    margin-block-start: 1.75rem;
+    color: var(--voltairs-navy);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .voltairs-cart__compression-track {
+    display: flex;
+    height: 0.35rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(3 39 91 / 12%);
+  }
+
+  .voltairs-cart__compression-track span {
+    width: 40%;
+    border-radius: inherit;
+    background: var(--voltairs-amber);
+  }
+
+  .voltairs-cart .cart-items__table-row {
+    padding: clamp(0.9rem, 2vw, 1.25rem);
+    border: 1px solid rgb(3 39 91 / 12%);
+    border-radius: 1.1rem;
+    background: rgb(255 255 255 / 50%);
+  }
+
+  .voltairs-cart .cart-items--dividers .cart-items__table-row {
+    margin-block-end: 0.9rem;
+  }
+
+  .voltairs-cart .cart-items--dividers .cart-items__table-row:last-child {
+    border: 1px solid rgb(3 39 91 / 12%);
+  }
+
+  .voltairs-cart .cart-items__media-container {
+    border-radius: 0.8rem;
+    background: rgb(3 39 91 / 6%);
+  }
+
+  .voltairs-cart .cart-items__title {
+    color: var(--voltairs-navy);
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .voltairs-cart .cart-items__details {
+    color: rgb(3 39 91 / 65%);
+  }
+
+  .voltairs-cart .cart-items__price {
+    color: var(--voltairs-navy);
+    font-weight: 700;
+  }
+
+  .voltairs-cart .quantity-selector {
+    border: 1px solid rgb(3 39 91 / 18%);
+    border-radius: 999px;
+    background: var(--voltairs-cream);
+  }
+
+  .voltairs-cart .cart-items__remove {
+    color: var(--voltairs-navy);
+    border-radius: 999px;
+  }
+
+  .voltairs-cart .cart-items__remove:hover {
+    color: var(--voltairs-navy);
+    background: var(--voltairs-amber);
+  }
+
+  .voltairs-cart .cart-items__empty-button {
+    min-height: 3.25rem;
+    border-radius: 999px;
+    background: var(--voltairs-navy);
+    color: var(--voltairs-cream);
+    font-weight: 700;
+  }
+
+  .voltairs-cart :focus-visible {
+    outline: 3px solid var(--voltairs-amber);
+    outline-offset: 3px;
   }
 
   .cart-page--empty {
@@ -51,6 +253,23 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+
+  .cart-page--empty .cart-page__masthead {
+    padding-block-end: 0.75rem;
+    text-align: center;
+  }
+
+  .voltairs-cart .cart-page--empty .cart-page__title {
+    margin-block-start: 0;
+  }
+
+  .cart-page--empty .voltairs-cart__eyebrow {
+    justify-content: center;
+  }
+
+  .cart-page--empty .voltairs-cart__intro {
+    margin-inline: auto;
   }
 
   .cart-page--empty .cart-page__title,
@@ -64,10 +283,6 @@
 
   .cart-page--empty .cart-title {
     text-align: center;
-  }
-
-  .cart-page__main {
-    grid-column: 1;
   }
 
   .cart-page__summary {
@@ -92,6 +307,16 @@
       position: relative;
     }
 
+    .cart-page__items {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .cart-page__more-blocks {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
     .section--page-width .cart-page:has(.cart__container--extend) {
       grid-column: 2 / 4;
       grid-template-columns: 1fr minmax(
@@ -108,6 +333,62 @@
   @media screen and (min-width: 1400px) {
     .cart-page {
       grid-template-columns: 1fr var(--sidebar-width);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .cart-page {
+      padding-block-start: 2.25rem !important;
+    }
+
+    .cart-page__masthead {
+      padding-block-end: 1.75rem;
+    }
+
+    .voltairs-cart .cart-title h1 {
+      font-size: clamp(2.75rem, 16vw, 4.25rem);
+    }
+
+    .voltairs-cart__compression {
+      grid-template-columns: 1fr max-content;
+      row-gap: 0.55rem;
+    }
+
+    .voltairs-cart__compression-label {
+      grid-column: 1;
+    }
+
+    .voltairs-cart__compression strong {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .voltairs-cart__compression-track {
+      grid-column: 1 / -1;
+    }
+
+    .voltairs-cart .cart-items__table-row {
+      grid-template-columns: clamp(5rem, 25vw, 7rem) minmax(0, 1fr);
+      grid-template-areas:
+        'media details'
+        'media quantity'
+        'media price'
+        'error error';
+      column-gap: 0.85rem;
+      row-gap: 0.6rem;
+    }
+
+    .voltairs-cart .cart-items__quantity {
+      margin-block-start: 0;
+    }
+
+    .voltairs-cart .cart-items__price {
+      align-self: center;
+      text-align: start;
+    }
+
+    .cart-page__summary {
+      padding-block-start: 2rem;
     }
   }
 {% endstylesheet %}

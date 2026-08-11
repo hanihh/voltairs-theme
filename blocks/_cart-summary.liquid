@@ -21,11 +21,128 @@
   {{ block.shopify_attributes }}
 >
   <div class="{{ cart_summary_inner_class }}">
+    <div class="cart__summary-brand">
+      <p>Carry-on checkout</p>
+      <h2>Ready for takeoff.</h2>
+    </div>
     {% render 'cart-summary' %}
+    <ul class="cart__assurances" role="list">
+      <li><span aria-hidden="true">✓</span> Free US shipping</li>
+      <li><span aria-hidden="true">✓</span> 100-day money-back guarantee</li>
+      <li><span aria-hidden="true">✓</span> 2 business days processing, then 6 to 10 in transit</li>
+    </ul>
   </div>
 </div>
 
 {% stylesheet %}
+  .voltairs-cart .cart__summary-container {
+    --color-foreground: var(--voltairs-cream);
+    --color-foreground-heading: var(--voltairs-cream);
+    --color-border: rgb(239 238 235 / 20%);
+    --color-input-background: rgb(239 238 235 / 10%);
+    --color-input-text: var(--voltairs-cream);
+    --color-input-border: rgb(239 238 235 / 28%);
+
+    border: 0;
+    background: transparent;
+    color: var(--voltairs-cream);
+  }
+
+  .voltairs-cart .cart__summary-inner {
+    border-block-start: 0.4rem solid var(--voltairs-amber);
+    border-radius: 1.5rem;
+    background: var(--voltairs-navy);
+    box-shadow: 0 1.5rem 3.5rem rgb(3 39 91 / 16%);
+  }
+
+  .voltairs-cart .cart__summary-brand {
+    width: 100%;
+    padding-block-end: 1.1rem;
+    border-block-end: 1px solid rgb(239 238 235 / 20%);
+  }
+
+  .voltairs-cart .cart__summary-brand p {
+    margin: 0 0 0.55rem;
+    color: var(--voltairs-amber);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .voltairs-cart .cart__summary-brand h2 {
+    margin: 0;
+    color: var(--voltairs-cream);
+    font-family: var(--font-body--family);
+    font-size: clamp(1.65rem, 2.5vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .voltairs-cart .cart__assurances {
+    display: grid;
+    gap: 0.65rem;
+    width: 100%;
+    margin: 0;
+    padding: 1.1rem 0 0;
+    border-block-start: 1px solid rgb(239 238 235 / 20%);
+    color: rgb(239 238 235 / 78%);
+    font-size: 0.78rem;
+    line-height: 1.35;
+    list-style: none;
+  }
+
+  .voltairs-cart .cart__assurances li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  .voltairs-cart .cart__assurances span {
+    display: inline-grid;
+    flex: 0 0 1.15rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--voltairs-amber);
+    color: var(--voltairs-navy);
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+
+  .voltairs-cart .cart__checkout-button {
+    min-height: 3.5rem;
+    border: 1px solid var(--voltairs-amber);
+    border-radius: 999px;
+    background: var(--voltairs-amber);
+    color: var(--voltairs-navy);
+    font-weight: 700;
+  }
+
+  .voltairs-cart .cart__checkout-button:hover {
+    border-color: #ffdb86;
+    background: #ffdb86;
+    color: var(--voltairs-navy);
+  }
+
+  .voltairs-cart .cart__tax-note,
+  .voltairs-cart .cart__installments {
+    color: rgb(239 238 235 / 68%);
+  }
+
+  .voltairs-cart .cart-actions,
+  .voltairs-cart .cart__summary-totals:not(:has(.cart-actions)) {
+    border-color: rgb(239 238 235 / 20%);
+  }
+
+  .voltairs-cart .cart-discount__summary:hover,
+  .voltairs-cart .cart-note__summary:hover {
+    color: var(--voltairs-amber);
+  }
+
   .cart__summary-item {
     display: flex;
     align-items: center;
@@ -61,7 +178,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--gap-2xl);
+    gap: 1.5rem;
     container-type: inline-size;
     padding: 0;
     position: sticky;
@@ -69,7 +186,7 @@
     align-self: start;
 
     @media screen and (min-width: 750px) {
-      padding: var(--padding-5xl);
+      padding: clamp(1.5rem, 3vw, 2.5rem);
       grid-row: 1 / -1;
     }
   }
@@ -130,6 +247,10 @@
   }
 
   @media screen and (max-width: 749px) {
+    .voltairs-cart .cart__summary-inner {
+      padding: 1.5rem;
+    }
+
     .inherit-parent-scheme--mobile {
       --color-background: inherit;
       --color-foreground: inherit;
