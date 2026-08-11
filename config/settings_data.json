@@ -32,7 +32,9 @@
     "cart_type": "drawer",
     "product_title_case": "default",
     "auto_open_cart_drawer": true,
-    "show_cart_note": true,
+    "show_cart_note": false,
+    "show_add_discount_code": false,
+    "show_installments": false,
     "icon_stroke": "heavy",
     "popover_border": "none",
     "currency_code_enabled_product_pages": false,
@@ -43,22 +45,6 @@
     "variant_button_radius": 100,
     "variant_button_width": "default-width-buttons",
     "content_for_index": [],
-    "blocks": {
-      "12075128526103414267": {
-        "type": "shopify://apps/bundlex/blocks/volume-discount-embed/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
-        "disabled": false,
-        "settings": {
-          "hide_quantity": true,
-          "custom_placement_selector": "",
-          "add_to_cart_button_selector": "",
-          "quantity_container_selector": "",
-          "quantity_input_selector": "",
-          "variants_container_selector": "",
-          "product_form_selector": "",
-          "custom_css": ""
-        }
-      }
-    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
