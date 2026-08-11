@@ -1487,6 +1487,11 @@
             [root.dataset.addonTitle || 'Add-on']: freeAddon
               ? root.dataset.addonEyebrowFree || 'Included'
               : 'Added',
+            // Marks the line as ours to manage so the cart reconciler can take it
+            // back out if the kit quantity later drops below the bundle. A copy the
+            // shopper paid for is left alone. Underscore keys stay out of the cart
+            // display but survive in cart.js.
+            ...(freeAddon ? { _voltairs_gift: 'true' } : {}),
           },
         });
       }
@@ -1783,7 +1788,7 @@
       "type": "product",
       "id": "addon_free_product",
       "label": "Free add-on product",
-      "info": "A separate $0.00 product added when the add-on is included, so nothing has to discount it. Leave blank to fall back to the paid product."
+      "info": "Optional separate $0.00 product for the included copy. Normally leave this blank: the paid product is added and a Shopify automatic discount zeroes it, so the qualifying quantity is enforced at checkout and there is no free product anyone can order on its own."
     },
     {
       "type": "text",

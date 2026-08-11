@@ -4,20 +4,31 @@ import { CartUpdateEvent, ThemeEvents } from '@theme/events';
  * Keeps the free Smart Travel Planner in step with how many kits are in the cart.
  *
  * The product page's offer block can only act when its own button is pressed, so a
- * customer who reaches two kits by bumping the quantity in the cart drawer would never
- * get the gift. This watches the cart itself instead, so any route to two kits works.
+ * shopper who reaches two kits by bumping the quantity in the cart drawer would never
+ * get the gift. This watches the cart itself, so any route to two kits works.
  *
- * The gift is a separate $0.00 product rather than a Shopify Buy X Get Y discount.
- * A BXGY discount will not stack against a product discount that targets its own
- * customer-buys product, and the store's percentage-off discount does exactly that, so
- * Shopify keeps the larger of the two and the planner never comes out free.
+ * The gift is the ordinary paid planner, zeroed by the store's "Free Planner" Buy X Get
+ * Y discount, rather than a separate $0.00 product. A $0.00 product would be orderable
+ * on its own by anyone who read the page source, and would need its own copy of the
+ * digital file. Letting the discount do it means Shopify enforces the two kit condition
+ * server side: below two kits the planner is simply charged at full price.
+ *
+ * That leans on the BXGY discount combining with the store's percentage-off discount,
+ * which is not a given. BXGY will not stack against a product discount that targets its
+ * own customer-buys product, and Shopify silently keeps whichever is worth more. So
+ * after adding the gift this checks that the line really came out free, and pulls it
+ * back out if it did not. Failing to a missing gift is recoverable; quietly charging for
+ * one is not.
  *
  * Config arrives from snippets/voltairs-gift-reconciler.liquid.
  */
 
 const SOURCE_ID = 'voltairs-gift-reconciler';
 
-/** @typedef {{kitProductId: number, freeVariantId: number, paidVariantId: number, minKitQty: number}} GiftConfig */
+/** Hidden line item property marking a line this script or the offer block added. */
+const GIFT_MARK = '_voltairs_gift';
+
+/** @typedef {{kitProductId: number, plannerProductId: number, plannerVariantId: number, minKitQty: number, giftNoteLabel: string, giftNoteValue: string}} GiftConfig */
 
 /**
  * Reads the config the snippet embedded in the page.
@@ -32,14 +43,17 @@ function readConfig() {
     const parsed = JSON.parse(el.textContent);
     const config = {
       kitProductId: Number(parsed.kitProductId),
-      freeVariantId: Number(parsed.freeVariantId),
-      paidVariantId: Number(parsed.paidVariantId),
+      plannerProductId: Number(parsed.plannerProductId),
+      plannerVariantId: Number(parsed.plannerVariantId),
       minKitQty: Number(parsed.minKitQty),
+      giftNoteLabel: String(parsed.giftNoteLabel || 'Smart Travel Planner'),
+      giftNoteValue: String(parsed.giftNoteValue || 'Free with 2 kits'),
     };
 
-    // A missing product resolves to 0, which would match nothing and quietly
-    // reconcile against the wrong line. Better to stay switched off.
-    if (!config.kitProductId || !config.freeVariantId || config.minKitQty < 1) return null;
+    // A missing product resolves to 0, which would match nothing and reconcile
+    // against the wrong line. Better to stay switched off.
+    if (!config.kitProductId || !config.plannerProductId || !config.plannerVariantId) return null;
+    if (config.minKitQty < 1) return null;
 
     return config;
   } catch (_) {
@@ -48,34 +62,28 @@ function readConfig() {
 }
 
 /**
- * Works out which line quantities need changing, if any.
- * @param {GiftConfig} config
- * @param {{items: Array<{product_id: number, variant_id: number, quantity: number}>}} cart
- * @returns {Record<number, number>} Absolute quantities keyed by variant id.
+ * @typedef {{key: string, product_id: number, variant_id: number, quantity: number, final_line_price: number, properties: Record<string, string> | null}} CartLine
  */
-function planUpdates(config, cart) {
+
+/**
+ * Splits the cart into the numbers this script reasons about.
+ * @param {GiftConfig} config
+ * @param {{items?: CartLine[]}} cart
+ */
+function survey(config, cart) {
   const items = cart.items ?? [];
   const kitCount = items
     .filter((item) => item.product_id === config.kitProductId)
     .reduce((total, item) => total + item.quantity, 0);
 
-  const free = items.find((item) => item.variant_id === config.freeVariantId);
-  const paid = items.find((item) => item.variant_id === config.paidVariantId);
+  const planners = items.filter((item) => item.product_id === config.plannerProductId);
 
-  /** @type {Record<number, number>} */
-  const updates = {};
-
-  if (kitCount >= config.minKitQty) {
-    if (free?.quantity !== 1) updates[config.freeVariantId] = 1;
-
-    // The planner is free at this quantity, so leaving a paid copy in the cart
-    // would charge for the gift.
-    if (config.paidVariantId && paid) updates[config.paidVariantId] = 0;
-  } else if (free) {
-    updates[config.freeVariantId] = 0;
-  }
-
-  return updates;
+  return {
+    kitCount,
+    qualifies: kitCount >= config.minKitQty,
+    planners,
+    ours: planners.filter((item) => item.properties?.[GIFT_MARK] === 'true'),
+  };
 }
 
 /**
@@ -91,32 +99,57 @@ function cartSectionIds() {
 /**
  * Tells the theme the cart changed, without tripping the drawer's auto-open.
  *
- * The drawer opens on any cart:update when it carries auto-open, which would pop it
- * open on page load or while the customer is reading the cart page.
- * @param {object} cart
- * @param {Record<string, string> | undefined} sections
+ * The drawer opens on any cart:update while it carries auto-open, which would pop it
+ * open on page load or while the shopper is reading the cart page. cart-icon defaults a
+ * missing itemCount to 0, so the real count has to travel with the event.
+ * @param {{item_count: number}} cart
+ * @param {Record<string, string>} [sections]
  */
 function announce(cart, sections) {
   const drawers = [...document.querySelectorAll('cart-drawer-component[auto-open]')];
-  const restore = drawers.map((el) => /** @type {const} */ ([el, el.getAttribute('auto-open')]));
+  const restore = drawers.map((el) => /** @type {[Element, string | null]} */ ([el, el.getAttribute('auto-open')]));
 
   for (const [el] of restore) el.removeAttribute('auto-open');
 
   try {
-    document.dispatchEvent(
-      new CartUpdateEvent(cart, SOURCE_ID, {
-        itemCount: cart.item_count,
-        sections,
-      })
-    );
+    document.dispatchEvent(new CartUpdateEvent(cart, SOURCE_ID, { itemCount: cart.item_count, sections }));
   } finally {
-    // Listeners run synchronously during dispatch, so the attribute is safe to put
-    // back straight away.
+    // Listeners run synchronously during dispatch, so this is safe to put back now.
     for (const [el, value] of restore) el.setAttribute('auto-open', value ?? '');
   }
 }
 
+/**
+ * @param {string} route
+ * @param {object} body
+ */
+async function post(route, body) {
+  const response = await fetch(route, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) throw new Error(`${route} responded ${response.status}`);
+
+  return response.json();
+}
+
+/**
+ * Theme.routes ships cart_add_url with the .js suffix already on it, but not the others.
+ * @param {string} route
+ */
+function js(route) {
+  return route.endsWith('.js') ? route : `${route}.js`;
+}
+
 let running = false;
+
+/**
+ * Set once the discount has been seen not to zero the planner. Stops this from adding
+ * and removing the same line on every cart change for the rest of the page's life.
+ */
+let giftUnavailable = false;
 
 /**
  * Brings the cart in line with the gift rule. Silent when nothing needs changing.
@@ -127,25 +160,62 @@ async function reconcile(config) {
   running = true;
 
   try {
-    const cart = await (await fetch(`${Theme.routes.cart_url}.js`)).json();
-    const updates = planUpdates(config, cart);
+    let cart = await (await fetch(js(Theme.routes.cart_url))).json();
+    let state = survey(config, cart);
+    let changed = false;
 
-    if (Object.keys(updates).length === 0) return;
+    if (state.qualifies) {
+      // Any planner already in the cart is the one the discount will zero, whether the
+      // shopper chose it or the offer block added it. Only step in when there is none.
+      if (state.planners.length === 0 && !giftUnavailable) {
+        await post(js(Theme.routes.cart_add_url), {
+          items: [
+            {
+              id: config.plannerVariantId,
+              quantity: 1,
+              properties: { [config.giftNoteLabel]: config.giftNoteValue, [GIFT_MARK]: 'true' },
+            },
+          ],
+        });
 
+        cart = await (await fetch(js(Theme.routes.cart_url))).json();
+        state = survey(config, cart);
+        changed = true;
+
+        // The discount has to actually land, or the shopper pays for the gift.
+        const unpaidFor = state.ours.every((line) => line.final_line_price === 0);
+
+        if (!unpaidFor) {
+          giftUnavailable = true;
+
+          for (const line of state.ours) {
+            cart = await post(js(Theme.routes.cart_change_url), { id: line.key, quantity: 0 });
+          }
+        }
+      }
+    } else if (state.ours.length > 0) {
+      // Below the bundle the gift goes back out, but a copy the shopper paid for stays.
+      for (const line of state.ours) {
+        cart = await post(js(Theme.routes.cart_change_url), { id: line.key, quantity: 0 });
+      }
+
+      changed = true;
+    }
+
+    if (!changed) return;
+
+    // Re-render from the server so line prices and discount rows are the real ones.
     const sectionIds = cartSectionIds();
-    const response = await fetch(`${Theme.routes.cart_update_url}.js`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        updates,
-        ...(sectionIds.length ? { sections: sectionIds.join(','), sections_url: window.location.pathname } : {}),
-      }),
-    });
 
-    if (!response.ok) return;
+    if (sectionIds.length) {
+      cart = await post(js(Theme.routes.cart_update_url), {
+        updates: {},
+        sections: sectionIds.join(','),
+        sections_url: window.location.pathname,
+      });
+    }
 
-    const updated = await response.json();
-    announce(updated, updated.sections);
+    announce(cart, cart.sections);
   } catch (_) {
     // The cart still works without the gift. Never block checkout over it.
   } finally {

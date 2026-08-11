@@ -2,36 +2,45 @@
   Config for assets/voltairs-gift-reconciler.js, which adds and removes the free
   Smart Travel Planner as the kit quantity in the cart crosses the bundle threshold.
 
-  Edit the three handles below if a product is ever recreated. Looking them up by
-  handle keeps this readable and fails safe: a handle that no longer resolves leaves
-  the ids blank and the script stays switched off rather than reconciling against the
-  wrong line.
+  The planner here is the ordinary paid product. Shopify's "Free Planner" Buy X Get Y
+  discount is what zeroes it, so the two kit condition is enforced server side and there
+  is no $0.00 product for anyone to order on its own. That discount has to stay active,
+  and it has to combine with whatever percentage-off discount is running, or the planner
+  gets charged. The script checks the line really came out free and pulls it back out if
+  it did not, so a broken discount loses the gift rather than billing for it.
+
+  Edit the handles below if a product is ever recreated. Looking them up by handle keeps
+  this readable and fails safe: a handle that no longer resolves leaves the ids blank and
+  the script stays switched off rather than reconciling against the wrong line.
 
   min_kit_qty has to match the second offer's quantity in the voltairs-preorder-offers
-  block, otherwise the card promises the gift at a quantity the cart will not honour.
+  block, and the Buy X Get Y discount's "buys" quantity, or the card promises the gift at
+  a quantity the cart will not honour.
 {%- endcomment -%}
 
 {%- liquid
   assign kit_handle = 'voltairs-travel-vacuum-bag-kit-2-compression-bags-free-multi-function-air-pump'
-  assign free_handle = 'voltairs-ai-travel-planner-free-with-2-kits'
-  assign paid_handle = 'voltairs-ai-travel-planner-digital-bonus'
+  assign planner_handle = 'voltairs-ai-travel-planner-digital-bonus'
   assign min_kit_qty = 2
+  assign gift_note_label = 'Smart Travel Planner'
+  assign gift_note_value = 'Free with 2 kits'
 
   assign kit_product = all_products[kit_handle]
-  assign free_product = all_products[free_handle]
-  assign paid_product = all_products[paid_handle]
+  assign planner_product = all_products[planner_handle]
 -%}
 
-{%- if kit_product != blank and free_product != blank -%}
+{%- if kit_product != blank and planner_product != blank -%}
   <script
     type="application/json"
     id="voltairs-gift-config"
   >
     {
       "kitProductId": {{ kit_product.id | json }},
-      "freeVariantId": {{ free_product.variants.first.id | json }},
-      "paidVariantId": {{ paid_product.variants.first.id | default: 0 | json }},
-      "minKitQty": {{ min_kit_qty | json }}
+      "plannerProductId": {{ planner_product.id | json }},
+      "plannerVariantId": {{ planner_product.variants.first.id | json }},
+      "minKitQty": {{ min_kit_qty | json }},
+      "giftNoteLabel": {{ gift_note_label | json }},
+      "giftNoteValue": {{ gift_note_value | json }}
     }
   </script>
   <script
