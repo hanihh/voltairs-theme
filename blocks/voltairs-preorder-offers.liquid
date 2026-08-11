@@ -88,18 +88,6 @@
     assign o2_baseline = o2_unit_baseline | times: o2_units
   endif
 
-  assign o1_savings = o1_baseline | minus: o1_total
-  assign o2_savings = o2_baseline | minus: o2_total
-
-  assign o1_savings_pct = 0
-  if o1_savings > 0 and o1_baseline > 0
-    assign o1_savings_pct = o1_savings | times: 100 | divided_by: o1_baseline
-  endif
-  assign o2_savings_pct = 0
-  if o2_savings > 0 and o2_baseline > 0
-    assign o2_savings_pct = o2_savings | times: 100 | divided_by: o2_baseline
-  endif
-
   comment
     Only offer 2 wears a savings chip, and it names the incremental win over
     offer 1 rather than the shared compare-at discount, which both offers get.
@@ -118,9 +106,7 @@
     assign default_title = block.settings.offer_2_title
   endif
 
-  assign nudge_text = block.settings.nudge_text
-  | replace: '{pct}', bundle_pct
-  | replace: '{bonus}', block.settings.addon_title
+  assign nudge_text = block.settings.nudge_text | replace: '{pct}', bundle_pct | replace: '{bonus}', block.settings.addon_title
 
   comment
     Stock line reads live inventory rather than a typed-in number, and stays
@@ -1838,5 +1824,3 @@
   ]
 }
 {% endschema %}
-</content>
-</invoke>
