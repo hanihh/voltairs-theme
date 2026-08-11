@@ -17,16 +17,23 @@
   assign vpo_id = block.id | replace: '_', '' | downcase
 
   comment
-    Read the template's product first. This block declares a product setting for
-    the add-on, and a block that does so rebinds closest.product to it, so
-    reading closest.product here returns the add-on rather than the kit.
-    closest.product is only consulted off a product template, and only when it
-    is not the add-on.
+    Read the template's product first. This block declares product settings for the
+    add-on, and a block that does so rebinds closest.product to one of them, so
+    reading closest.product here can return an add-on rather than the kit.
+    closest.product is only consulted off a product template, and only when it is
+    neither add-on product.
   endcomment
   assign vpo_product = product
   if vpo_product == blank
     assign vpo_candidate = closest.product
-    if vpo_candidate != blank and vpo_candidate.id != block.settings.addon_product.id
+    assign vpo_is_addon = false
+    if vpo_candidate.id == block.settings.addon_product.id
+      assign vpo_is_addon = true
+    endif
+    if vpo_candidate.id == block.settings.addon_free_product.id
+      assign vpo_is_addon = true
+    endif
+    if vpo_candidate != blank and vpo_is_addon == false
       assign vpo_product = vpo_candidate
     endif
   endif
@@ -70,6 +77,7 @@
   assign o2_units = block.settings.offer_2_units | at_least: 1
 
   assign o1_list = o1_variant.price | times: o1_qty
+  assign o2_list = o2_variant.price | times: o2_qty
 
   comment
     Bundle discount is display only. It has to be backed by a real automatic
@@ -78,13 +86,13 @@
   assign bundle_pct = block.settings.offer_2_discount_percent | default: 0 | at_least: 0
   assign o1_total = o1_list
   comment
-    Shopify floors the cut on each unit, not on the line total, so take the cut
-    per unit and then multiply. Discounting the line total instead lands two
-    cents under what checkout actually charges on a 2 x 89.99 bundle.
+    Floor the cut on the line total, then subtract it. Verified against a live
+    cart: 2 x 89.99 at 10% off is charged as 179.98 minus 17.99, so 161.99.
+    Taking the cut per unit gives 162.00 and scaling the total by the kept
+    share gives 161.98, both a cent off what checkout collects.
   endcomment
-  assign o2_unit_cut = o2_variant.price | times: bundle_pct | divided_by: 100
-  assign o2_unit_net = o2_variant.price | minus: o2_unit_cut
-  assign o2_total = o2_unit_net | times: o2_qty
+  assign o2_cut = o2_list | times: bundle_pct | divided_by: 100
+  assign o2_total = o2_list | minus: o2_cut
 
   assign o1_per_unit = o1_total | divided_by: o1_units
   assign o2_per_unit = o2_total | divided_by: o2_units
@@ -161,14 +169,22 @@
     endfor
   endif
 
+  comment
+    The free copy can live on its own product rather than as a second variant of the
+    paid one. A second variant would put a "free" option in the variant picker on the
+    add-on's own product page, which advertises the way around paying for it.
+  endcomment
+  assign addon_free_source = block.settings.addon_free_product | default: addon_product
   assign free_target = block.settings.addon_free_variant | plus: 0
   if free_target > 0
-    for v in addon_product.variants
+    for v in addon_free_source.variants
       if v.id == free_target
         assign addon_free = v
         break
       endif
     endfor
+  elsif block.settings.addon_free_product != blank
+    assign addon_free = block.settings.addon_free_product.variants.first
   endif
 
   assign addon_price = addon_paid.price | default: 0
@@ -1764,10 +1780,16 @@
       "info": "Leave blank to use the product's first variant."
     },
     {
+      "type": "product",
+      "id": "addon_free_product",
+      "label": "Free add-on product",
+      "info": "A separate $0.00 product added when the add-on is included, so nothing has to discount it. Leave blank to fall back to the paid product."
+    },
+    {
       "type": "text",
       "id": "addon_free_variant",
       "label": "Free variant ID",
-      "info": "A $0 variant of the same product, used when the add-on is included. Leave blank to add the paid variant instead and let a Shopify automatic discount zero it out."
+      "info": "Only needed if the free product has more than one variant. Otherwise its first variant is used."
     },
     {
       "type": "select",

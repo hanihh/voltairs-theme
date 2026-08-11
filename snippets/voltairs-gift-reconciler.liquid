@@ -1,0 +1,41 @@
+{%- comment -%}
+  Config for assets/voltairs-gift-reconciler.js, which adds and removes the free
+  Smart Travel Planner as the kit quantity in the cart crosses the bundle threshold.
+
+  Edit the three handles below if a product is ever recreated. Looking them up by
+  handle keeps this readable and fails safe: a handle that no longer resolves leaves
+  the ids blank and the script stays switched off rather than reconciling against the
+  wrong line.
+
+  min_kit_qty has to match the second offer's quantity in the voltairs-preorder-offers
+  block, otherwise the card promises the gift at a quantity the cart will not honour.
+{%- endcomment -%}
+
+{%- liquid
+  assign kit_handle = 'voltairs-travel-vacuum-bag-kit-2-compression-bags-free-multi-function-air-pump'
+  assign free_handle = 'voltairs-ai-travel-planner-free-with-2-kits'
+  assign paid_handle = 'voltairs-ai-travel-planner-digital-bonus'
+  assign min_kit_qty = 2
+
+  assign kit_product = all_products[kit_handle]
+  assign free_product = all_products[free_handle]
+  assign paid_product = all_products[paid_handle]
+-%}
+
+{%- if kit_product != blank and free_product != blank -%}
+  <script
+    type="application/json"
+    id="voltairs-gift-config"
+  >
+    {
+      "kitProductId": {{ kit_product.id | json }},
+      "freeVariantId": {{ free_product.variants.first.id | json }},
+      "paidVariantId": {{ paid_product.variants.first.id | default: 0 | json }},
+      "minKitQty": {{ min_kit_qty | json }}
+    }
+  </script>
+  <script
+    src="{{ 'voltairs-gift-reconciler.js' | asset_url }}"
+    type="module"
+  ></script>
+{%- endif -%}

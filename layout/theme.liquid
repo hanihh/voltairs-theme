@@ -63,5 +63,11 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    {%- comment -%}
+      Site wide on purpose. Kit quantity can change in the cart drawer from any page,
+      not just the product page where the offer block lives.
+    {%- endcomment -%}
+    {% render 'voltairs-gift-reconciler' %}
   </body>
 </html>
