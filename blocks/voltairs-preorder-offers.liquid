@@ -17,13 +17,18 @@
   assign vpo_id = block.id | replace: '_', '' | downcase
 
   comment
-    closest.product only resolves when the block sits inside a product section's
-    own scope. Fall back to the template's product so the block still works when
-    it is nested a level deeper, or dropped into a custom section on a PDP.
+    Read the template's product first. This block declares a product setting for
+    the add-on, and a block that does so rebinds closest.product to it, so
+    reading closest.product here returns the add-on rather than the kit.
+    closest.product is only consulted off a product template, and only when it
+    is not the add-on.
   endcomment
-  assign vpo_product = closest.product
+  assign vpo_product = product
   if vpo_product == blank
-    assign vpo_product = product
+    assign vpo_candidate = closest.product
+    if vpo_candidate != blank and vpo_candidate.id != block.settings.addon_product.id
+      assign vpo_product = vpo_candidate
+    endif
   endif
   if vpo_product == blank and request.visual_preview_mode
     assign vpo_product = collections.all.products.first
