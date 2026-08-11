@@ -1,0 +1,11 @@
+<div {{ block.shopify_attributes }}>
+<button class="vpo-nudge" type="button" data-vpo-nudge hidden>
+        <span class="vpo-nudge-mark" aria-hidden="true">+</span>
+        <span class="vpo-nudge-text">{{ nudge_text }}</span>
+        <span class="vpo-nudge-go">{{ block.settings.nudge_action }}</span>
+      </button>
+</div>
+
+{% schema %}
+{"name": "Probe G2", "tag": null, "settings": []}
+{% endschema %}

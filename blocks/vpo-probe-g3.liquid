@@ -1,0 +1,38 @@
+<div {{ block.shopify_attributes }}>
+{%- if block.settings.addon_enabled -%}
+      <div class="vpo-addon {{ addon_state_class }}" data-vpo-addon>
+        <label class="vpo-addon-row">
+          <input
+            class="vpo-sr"
+            type="checkbox"
+            data-vpo-addon-toggle
+            {% if default_free_addon or block.settings.addon_default_checked %}
+              checked
+            {% endif %}
+            {% if default_free_addon %}
+              disabled
+            {% endif %}
+          >
+          <span class="vpo-addon-check" aria-hidden="true" data-vpo-addon-check></span>
+          <span
+            class="vpo-addon-media vpo-addon-media--{% if block.settings.addon_image != blank %}image{% else %}icon{% endif %}"
+          >
+            {%- render 'icon-or-image',
+              icon: block.settings.addon_icon,
+              image_upload: block.settings.addon_image,
+              width: 18
+            -%}
+          </span>
+          <span class="vpo-addon-body">
+            <span class="vpo-addon-eyebrow" data-vpo-addon-eyebrow>
+              {{- addon_state_eyebrow -}}
+            </span>
+            <p class="vpo-addon-title">{{ block.settings.addon_title }}</p>
+            {%- if block.settings.addon_sub != blank -%}
+              <p class="vpo-addon-sub">{{ block.settings.addon_sub }}</p>
+            {%- endif -%}
+</div>
+
+{% schema %}
+{"name": "Probe G3", "tag": null, "settings": []}
+{% endschema %}
