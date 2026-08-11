@@ -80,22 +80,32 @@
   assign o2_list = o2_variant.price | times: o2_qty
 
   comment
-    Bundle discount is display only. It has to be backed by a real automatic
+    Bundle pricing is display only. It has to be backed by a real automatic
     discount in Shopify, otherwise checkout charges more than the card shows.
+    A fixed total takes precedence so the card can match a deliberate .99 price.
   endcomment
   assign bundle_pct = block.settings.offer_2_discount_percent | default: 0 | at_least: 0
   assign o1_total = o1_list
-  comment
-    Floor the cut on the line total, then subtract it. Verified against a live
-    cart: 2 x 89.99 at 10% off is charged as 179.98 minus 17.99, so 161.99.
-    Taking the cut per unit gives 162.00 and scaling the total by the kept
-    share gives 161.98, both a cent off what checkout collects.
-  endcomment
-  assign o2_cut = o2_list | times: bundle_pct | divided_by: 100
-  assign o2_total = o2_list | minus: o2_cut
+  assign o2_fixed_total = block.settings.offer_2_fixed_total | strip
+  if o2_fixed_total != blank
+    assign o2_total = o2_fixed_total | times: 100 | round
+  else
+    comment
+      Floor the cut on the line total, then subtract it to mirror Shopify's
+      percentage allocation when no fixed bundle total has been configured.
+    endcomment
+    assign o2_cut = o2_list | times: bundle_pct | divided_by: 100
+    assign o2_total = o2_list | minus: o2_cut
+  endif
 
-  assign o1_per_unit = o1_total | divided_by: o1_units
-  assign o2_per_unit = o2_total | divided_by: o2_units
+  comment
+    Round per-kit prices to the nearest payable cent. Integer division floors,
+    which made 161.99 / 2 display as 80.99 even though the rounded average is 81.00.
+  endcomment
+  assign o1_per_unit_half = o1_units | divided_by: 2
+  assign o2_per_unit_half = o2_units | divided_by: 2
+  assign o1_per_unit = o1_total | plus: o1_per_unit_half | divided_by: o1_units
+  assign o2_per_unit = o2_total | plus: o2_per_unit_half | divided_by: o2_units
 
   comment
     The anchor is the variant's own compare-at price when it carries one.
@@ -115,12 +125,25 @@
   endif
 
   comment
-    Only offer 2 wears a savings chip, and it names the incremental win over
-    offer 1 rather than the shared compare-at discount, which both offers get.
+    Each card tells one complete discount story against its own baseline. Round
+    to the nearest whole percent so 89.99 against 99.99 reads as 10%, while two
+    kits at 159.99 against 199.98 read as 20%.
   endcomment
+  assign o1_chip = ''
   assign o2_chip = ''
-  if bundle_pct > 0
-    assign o2_chip = block.settings.offer_2_save_label | replace: '{pct}', bundle_pct
+  if o1_baseline > o1_total
+    assign o1_saving = o1_baseline | minus: o1_total
+    assign o1_pct_numerator = o1_saving | times: 100
+    assign o1_pct_half = o1_baseline | divided_by: 2
+    assign o1_save_pct = o1_pct_numerator | plus: o1_pct_half | divided_by: o1_baseline
+    assign o1_chip = block.settings.offer_2_save_label | replace: '{pct}', o1_save_pct
+  endif
+  if o2_baseline > o2_total
+    assign o2_saving = o2_baseline | minus: o2_total
+    assign o2_pct_numerator = o2_saving | times: 100
+    assign o2_pct_half = o2_baseline | divided_by: 2
+    assign o2_save_pct = o2_pct_numerator | plus: o2_pct_half | divided_by: o2_baseline
+    assign o2_chip = block.settings.offer_2_save_label | replace: '{pct}', o2_save_pct
   endif
 
   assign default_offer = block.settings.default_offer | default: '2'
@@ -232,6 +255,9 @@
   else
     assign addon_state_class = 'vpo-addon--paid'
     assign addon_state_price = addon_price | money | prepend: '+ '
+    if block.settings.addon_paid_price_suffix != blank
+      assign addon_state_price = addon_state_price | append: ' ' | append: block.settings.addon_paid_price_suffix
+    endif
     assign addon_state_eyebrow = block.settings.addon_eyebrow_paid
   endif
 
@@ -268,6 +294,13 @@
   assign mode_pre_sub_text = block.settings.mode_pre_sub | replace: '{ship_window}', ship_window_text
   assign ship_line_text = block.settings.ship_fallback_text | replace: '{ship_window}', ship_window_text
   assign cta_label_text = block.settings.cta_label | replace: '{offer}', default_title
+  if addon_live
+    if default_free_addon
+      assign cta_label_text = cta_label_text | append: ' ' | append: block.settings.cta_addon_free_suffix
+    elsif block.settings.addon_default_checked
+      assign cta_label_text = cta_label_text | append: ' ' | append: block.settings.cta_addon_paid_suffix
+    endif
+  endif
 %}
 
 {% style %}
@@ -380,13 +413,34 @@
     right: 12px;
     padding: 2px 8px;
     border-radius: 999px;
-    background: var(--vpo-accent);
-    color: var(--vpo-accent-ink);
+    background: color-mix(in srgb, var(--vpo-ink) 8%, var(--vpo-surface));
+    color: var(--vpo-ink);
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.09em;
     text-transform: uppercase;
     white-space: nowrap;
+  }
+
+  /* Keep the upgrade proof inside the V2 choice, not as another section. */
+  .vpo-{{ vpo_id }} .vpo-mode-upgrades {
+    grid-column: 2 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: -2px;
+    color: var(--vpo-muted);
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .vpo-{{ vpo_id }} .vpo-mode-upgrade::before {
+    content: '·';
+    margin: 0 4px 0 6px;
+    color: color-mix(in srgb, var(--vpo-ink) 38%, transparent);
+  }
+  .vpo-{{ vpo_id }} .vpo-mode-upgrade:first-child::before {
+    margin-left: 0;
   }
 
   /* Offer cards */
@@ -450,8 +504,8 @@
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--vpo-accent-ink);
-    background: var(--vpo-accent);
+    color: var(--vpo-ink);
+    background: color-mix(in srgb, var(--vpo-ink) 8%, var(--vpo-surface));
     border-radius: 999px;
     padding: 2px 7px;
     white-space: nowrap;
@@ -509,9 +563,9 @@
     width: 100%;
     margin-top: 12px;
     padding: 11px 12px;
-    border: 1.5px dashed var(--vpo-accent);
+    border: 1.5px dashed var(--vpo-line);
     border-radius: var(--vpo-radius);
-    background: color-mix(in srgb, var(--vpo-accent) 10%, var(--vpo-surface));
+    background: color-mix(in srgb, var(--vpo-ink) 5%, var(--vpo-surface));
     color: var(--vpo-ink);
     font-family: inherit;
     font-size: 0.78rem;
@@ -529,8 +583,8 @@
     display: grid;
     place-items: center;
     border-radius: 50%;
-    background: var(--vpo-accent);
-    color: var(--vpo-accent-ink);
+    background: var(--vpo-ink);
+    color: var(--vpo-surface);
     font-weight: 800;
     font-size: 0.9rem;
   }
@@ -547,9 +601,9 @@
   /* Add-on */
   .vpo-{{ vpo_id }} .vpo-addon {
     margin-top: 12px;
-    border: 1.5px solid var(--vpo-accent);
+    border: 1.5px solid var(--vpo-line);
     border-radius: var(--vpo-radius);
-    background: color-mix(in srgb, var(--vpo-accent) 12%, var(--vpo-surface));
+    background: var(--vpo-surface);
     overflow: hidden;
   }
   .vpo-{{ vpo_id }} .vpo-addon[hidden] {
@@ -557,7 +611,7 @@
   }
   .vpo-{{ vpo_id }} .vpo-addon-row {
     display: grid;
-    grid-template-columns: auto auto 1fr auto;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 10px;
     padding: 12px;
@@ -581,14 +635,14 @@
     content: '';
     width: 10px;
     height: 6px;
-    border-left: 2px solid var(--vpo-accent-ink);
-    border-bottom: 2px solid var(--vpo-accent-ink);
+    border-left: 2px solid var(--vpo-surface);
+    border-bottom: 2px solid var(--vpo-surface);
     transform: rotate(-45deg) translate(1px, -1px);
     opacity: 0;
   }
   .vpo-{{ vpo_id }} .vpo-addon-row:has(input:checked) .vpo-addon-check {
-    background: var(--vpo-accent);
-    border-color: var(--vpo-accent);
+    background: var(--vpo-ink);
+    border-color: var(--vpo-ink);
   }
   .vpo-{{ vpo_id }} .vpo-addon-row:has(input:checked) .vpo-addon-check::after {
     opacity: 1;
@@ -602,7 +656,7 @@
     display: none;
   }
   .vpo-{{ vpo_id }} .vpo-addon--free .vpo-addon-row {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto;
   }
   .vpo-{{ vpo_id }} .vpo-addon-media {
     display: grid;
@@ -641,51 +695,81 @@
     font-weight: 700;
     margin: 0;
   }
+  .vpo-{{ vpo_id }} .vpo-addon-preview {
+    padding: 0 12px 10px;
+  }
   .vpo-{{ vpo_id }} .vpo-addon-sub {
     font-size: 0.74rem;
     line-height: 1.35;
     color: var(--vpo-muted);
-    margin: 2px 0 0;
+    margin: 0;
   }
-  .vpo-{{ vpo_id }} .vpo-addon-compat {
-    display: block;
-    margin-top: 7px;
-    font-size: 0.68rem;
-    line-height: 1.3;
-    color: var(--vpo-muted);
-  }
-  .vpo-{{ vpo_id }} .vpo-addon-compat-label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 4px;
+  .vpo-{{ vpo_id }} .vpo-addon-compatibility {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 9px;
+    margin: 5px 0 0;
+    color: var(--vpo-ink);
+    font-size: 0.7rem;
+    font-weight: 650;
+    line-height: 1.35;
   }
   .vpo-{{ vpo_id }} .vpo-providers {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 6px 14px;
+    gap: 7px;
   }
   .vpo-{{ vpo_id }} .vpo-logo {
+    position: relative;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: {{ block.settings.provider_logo_height | plus: 4 }}px;
     height: {{ block.settings.provider_logo_height }}px;
   }
-  /* Height-driven so wordmarks and square icons sit on the same optical line. */
+  /* Providers render as marks only; their names live in hover/focus tooltips. */
   .vpo-{{ vpo_id }} .vpo-logo-img {
     height: {{ block.settings.provider_logo_height }}px;
-    width: auto;
-    max-width: 96px;
+    width: {{ block.settings.provider_logo_height }}px;
     object-fit: contain;
     display: block;
   }
-  .vpo-{{ vpo_id }} .vpo-logo--text {
-    color: var(--vpo-ink);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
+  .vpo-{{ vpo_id }} .vpo-provider-tooltip {
+    border-radius: 4px;
+    cursor: help;
+  }
+  .vpo-{{ vpo_id }} .vpo-provider-tooltip::after {
+    content: attr(data-provider-name);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 7px);
+    z-index: 10;
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: var(--vpo-ink);
+    color: var(--vpo-surface);
+    font-size: 0.64rem;
+    font-weight: 650;
+    line-height: 1;
     white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 3px);
+    transition: opacity 140ms ease, transform 140ms ease;
+  }
+  .vpo-{{ vpo_id }} .vpo-provider-tooltip:hover::after,
+  .vpo-{{ vpo_id }} .vpo-provider-tooltip:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  .vpo-{{ vpo_id }} .vpo-provider-tooltip:focus-visible {
+    outline: 2px solid var(--vpo-ink);
+    outline-offset: 3px;
   }
   .vpo-{{ vpo_id }} .vpo-logo--more {
+    width: auto;
     color: var(--vpo-muted);
     font-size: 0.7rem;
     font-weight: 500;
@@ -703,29 +787,54 @@
     font-weight: 800;
     white-space: nowrap;
   }
-  .vpo-{{ vpo_id }} .vpo-addon-was {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: var(--vpo-muted);
-    text-decoration: line-through;
-  }
-  .vpo-{{ vpo_id }} .vpo-addon--paid .vpo-addon-was {
-    display: none;
-  }
   .vpo-{{ vpo_id }} .vpo-addon-badge {
     display: inline-block;
     margin-left: 6px;
     padding: 1px 7px;
     border-radius: 999px;
-    background: var(--vpo-ink);
-    color: var(--vpo-surface);
+    background: color-mix(in srgb, var(--vpo-ink) 8%, var(--vpo-surface));
+    color: var(--vpo-ink);
     font-size: 0.58rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     vertical-align: 2px;
     white-space: nowrap;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-free-promo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: calc(100% - 24px);
+    margin: 0 12px 10px;
+    padding: 8px 10px;
+    border: 1px solid color-mix(in srgb, var(--vpo-ink) 16%, transparent);
+    border-radius: calc(var(--vpo-radius) - 5px);
+    background: color-mix(in srgb, var(--vpo-ink) 5%, var(--vpo-surface));
+    color: var(--vpo-ink);
+    font-family: inherit;
+    font-size: 0.72rem;
+    line-height: 1.3;
+    text-align: left;
+    cursor: pointer;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon--free .vpo-addon-free-promo {
+    display: none;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-free-promo-text {
+    font-weight: 650;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-free-promo-action {
+    flex: 0 0 auto;
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+  }
+  .vpo-{{ vpo_id }} .vpo-addon-free-promo:focus-visible {
+    outline: 2px solid var(--vpo-ink);
+    outline-offset: 2px;
   }
 
   /* Comparison disclosure */
@@ -966,6 +1075,8 @@
   data-ship-text="{{ block.settings.ship_fallback_text | escape }}"
   data-ship-text-express="{{ block.settings.mode_now_ship_text | escape }}"
   data-cta-label-express="{{ block.settings.cta_label_express | escape }}"
+  data-cta-addon-paid-suffix="{{ block.settings.cta_addon_paid_suffix | escape }}"
+  data-cta-addon-free-suffix="{{ block.settings.cta_addon_free_suffix | escape }}"
   {% if addon_live %}
     data-addon-paid-variant="{{ addon_paid.id }}"
     data-addon-free-variant="{{ addon_free.id | default: addon_paid.id }}"
@@ -974,13 +1085,14 @@
     data-addon-free-word="{{ block.settings.addon_free_word | escape }}"
     data-addon-eyebrow-free="{{ block.settings.addon_eyebrow_free | escape }}"
     data-addon-eyebrow-paid="{{ block.settings.addon_eyebrow_paid | escape }}"
+    data-addon-paid-price-suffix="{{ block.settings.addon_paid_price_suffix | escape }}"
   {% endif %}
   {{ block.shopify_attributes }}
 >
   {%- if vpo_product == blank -%}
     <p class="vpo-trust">No product in scope. Place this block on a product page.</p>
   {%- else -%}
-    {%- comment -%} Delivery mode {%- endcomment -%}
+    {%- comment -%} Delivery mode. Keep the sold-out option visible as disabled context. {%- endcomment -%}
     <fieldset class="vpo-modes" data-vpo-modes>
       <legend class="vpo-sr">{{ block.settings.modes_legend }}</legend>
 
@@ -1005,22 +1117,25 @@
         </span>
       </label>
 
-      <label class="vpo-mode">
+      <label class="vpo-mode vpo-mode--preorder">
         {%- if block.settings.mode_pre_badge != blank -%}
           <span class="vpo-mode-flag">{{ block.settings.mode_pre_badge }}</span>
         {%- endif -%}
-        <input
-          class="vpo-sr"
-          type="radio"
-          name="vpo-mode-{{ vpo_id }}"
-          value="preorder"
-          checked
-        >
+        <input class="vpo-sr" type="radio" name="vpo-mode-{{ vpo_id }}" value="preorder" checked>
         <span class="vpo-mode-dot" aria-hidden="true"></span>
         <span class="vpo-mode-name">{{ block.settings.mode_pre_label }}</span>
-        <span class="vpo-mode-sub" data-vpo-mode-sub>
-          {{- mode_pre_sub_text -}}
-        </span>
+        <span class="vpo-mode-sub" data-vpo-mode-sub>{{- mode_pre_sub_text -}}</span>
+        {%- if block.settings.upgrades_enabled -%}
+          <span class="vpo-mode-upgrades" aria-label="V2 upgrades">
+            {%- for n in (1..4) -%}
+              {%- assign upgrade_name_key = 'upgrade_' | append: n | append: '_name' -%}
+              {%- assign upgrade_name = block.settings[upgrade_name_key] -%}
+              {%- if upgrade_name != blank -%}
+                <span class="vpo-mode-upgrade">{{ upgrade_name }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
       </label>
     </fieldset>
 
@@ -1040,7 +1155,7 @@
             assign o_total = o1_total
             assign o_per_unit = o1_per_unit
             assign o_baseline = o1_baseline
-            assign o_chip = ''
+            assign o_chip = o1_chip
             assign o_units = o1_units
             assign o_title = block.settings.offer_1_title
             assign o_sub = block.settings.offer_1_sub
@@ -1134,11 +1249,55 @@
       </button>
     {%- endif -%}
 
+    {%- comment -%} Shipping promise, with the arrival window kept in the status above. {%- endcomment -%}
+    <p class="vpo-shipline">
+      {%- render 'icon-or-image', icon: block.settings.delivery_icon, width: 18 -%}
+      <span>
+        {%- if block.settings.shipping_highlight != blank -%}
+          <strong class="vpo-shipline-lead">{{ block.settings.shipping_highlight }}</strong>
+        {%- endif -%}
+        {%- if block.settings.shipping_was != blank -%}
+          <span class="vpo-shipline-was">{{ block.settings.shipping_was }}</span>
+        {%- endif -%}
+        <span data-vpo-shipline>{{- ship_line_text -}}</span>
+      </span>
+    </p>
+
+    {%- if stock_text != blank -%}
+      <p class="vpo-stock">
+        <span class="vpo-stock-dot" aria-hidden="true"></span>
+        {{ stock_text }}
+      </p>
+    {%- endif -%}
+
     {%- comment -%}
-      Add-on. Free with the qualifying offer, a paid opt-in with the other.
-      The checkbox only appears when it costs something.
+      Add-on. The decision stays compact, while the value and compatibility are
+      visible before the disclosure. A free inclusion renders as static text.
     {%- endcomment -%}
     {%- if block.settings.addon_enabled -%}
+      {%- capture provider_chips -%}
+        {%- for i in (1..4) -%}
+          {%- assign name_key = 'provider_' | append: i | append: '_name' -%}
+          {%- assign logo_key = 'provider_' | append: i | append: '_logo' -%}
+          {%- assign p_name = block.settings[name_key] -%}
+          {%- assign p_logo = block.settings[logo_key] -%}
+          {%- if p_name != blank and p_logo != blank -%}
+            <span
+              class="vpo-logo vpo-provider-tooltip"
+              role="img"
+              tabindex="0"
+              aria-label="{{ p_name | escape }}"
+              data-provider-name="{{ p_name | escape }}"
+            >
+              {{
+                p_logo
+                | image_url: width: 80
+                | image_tag: loading: 'lazy', alt: '', class: 'vpo-logo-img'
+              }}
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
       <div class="vpo-addon {{ addon_state_class }}" data-vpo-addon>
         <label class="vpo-addon-row">
           <input
@@ -1150,60 +1309,32 @@
             {% endif %}
             {% if default_free_addon %}
               disabled
+              hidden
             {% endif %}
           >
           <span class="vpo-addon-check" aria-hidden="true" data-vpo-addon-check></span>
-          <span
-            class="vpo-addon-media vpo-addon-media--{% if block.settings.addon_image != blank %}image{% else %}icon{% endif %}"
-          >
-            {%- render 'icon-or-image',
-              icon: block.settings.addon_icon,
-              image_upload: block.settings.addon_image,
-              width: 18
-            -%}
-          </span>
           <span class="vpo-addon-body">
-            <span class="vpo-addon-eyebrow" data-vpo-addon-eyebrow>
-              {{- addon_state_eyebrow -}}
-            </span>
+            <span class="vpo-addon-eyebrow" data-vpo-addon-eyebrow>{{ addon_state_eyebrow }}</span>
             <p class="vpo-addon-title">
               {{ block.settings.addon_title }}
               {%- if block.settings.addon_badge != blank -%}
                 <span class="vpo-addon-badge">{{ block.settings.addon_badge }}</span>
               {%- endif -%}
             </p>
+          </span>
+          <span class="vpo-addon-price" data-vpo-addon-price>
+            {%- if addon_live -%}<span data-vpo-addon-now>{{ addon_state_price }}</span>{%- endif -%}
+          </span>
+        </label>
+        {%- if block.settings.addon_sub != blank or provider_chips != blank -%}
+          <div class="vpo-addon-preview">
             {%- if block.settings.addon_sub != blank -%}
               <p class="vpo-addon-sub">{{ block.settings.addon_sub }}</p>
             {%- endif -%}
-            {%- capture provider_chips -%}
-              {%- for i in (1..4) -%}
-                {%- assign name_key = 'provider_' | append: i | append: '_name' -%}
-                {%- assign logo_key = 'provider_' | append: i | append: '_logo' -%}
-                {%- assign p_name = block.settings[name_key] -%}
-                {%- assign p_logo = block.settings[logo_key] -%}
-                {%- if p_name != blank -%}
-                  {%- comment -%}
-                    A logo replaces the wordmark outright. Showing both crowds the
-                    row and reads as a badge rather than a compatibility mark.
-                  {%- endcomment -%}
-                  {%- if p_logo != blank -%}
-                    <span class="vpo-logo">
-                      {{
-                        p_logo
-                        | image_url: width: 120
-                        | image_tag: loading: 'lazy', alt: p_name, class: 'vpo-logo-img'
-                      }}
-                    </span>
-                  {%- else -%}
-                    <span class="vpo-logo vpo-logo--text">{{ p_name }}</span>
-                  {%- endif -%}
-                {%- endif -%}
-              {%- endfor -%}
-            {%- endcapture -%}
             {%- if provider_chips != blank -%}
-              <span class="vpo-addon-compat">
+              <div class="vpo-addon-compatibility">
                 {%- if block.settings.providers_label != blank -%}
-                  <span class="vpo-addon-compat-label">{{ block.settings.providers_label }}</span>
+                  <span>{{ block.settings.providers_label }}</span>
                 {%- endif -%}
                 <span class="vpo-providers">
                   {{- provider_chips -}}
@@ -1211,16 +1342,20 @@
                     <span class="vpo-logo vpo-logo--more">{{ block.settings.providers_suffix }}</span>
                   {%- endif -%}
                 </span>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- if block.settings.addon_promo_text != blank -%}
+          <button class="vpo-addon-free-promo" type="button" data-vpo-addon-upgrade>
+            <span class="vpo-addon-free-promo-text">{{ block.settings.addon_promo_text }}</span>
+            {%- if block.settings.addon_promo_action != blank -%}
+              <span class="vpo-addon-free-promo-action">
+                {{- block.settings.addon_promo_action }} <span aria-hidden="true">→</span>
               </span>
             {%- endif -%}
-          </span>
-          <span class="vpo-addon-price" data-vpo-addon-price>
-            {%- if addon_live -%}
-              <span class="vpo-addon-was" data-vpo-addon-was>{{ addon_price | money }}</span>
-              <span data-vpo-addon-now>{{ addon_state_price }}</span>
-            {%- endif -%}
-          </span>
-        </label>
+          </button>
+        {%- endif -%}
         {%- if details_rows.size > 0 and block.settings.details_label != blank -%}
           <details class="vpo-details">
             <summary class="vpo-details-toggle">
@@ -1255,29 +1390,6 @@
           </a>
         {%- endif -%}
       </div>
-    {%- endif -%}
-
-    {%- comment -%} Ship window {%- endcomment -%}
-    <p class="vpo-shipline">
-      {%- render 'icon-or-image', icon: block.settings.delivery_icon, width: 18 -%}
-      <span>
-        {%- if block.settings.shipping_highlight != blank -%}
-          <strong class="vpo-shipline-lead">{{ block.settings.shipping_highlight }}</strong>
-        {%- endif -%}
-        {%- if block.settings.shipping_was != blank -%}
-          <span class="vpo-shipline-was">{{ block.settings.shipping_was }}</span>
-        {%- endif -%}
-        <span data-vpo-shipline>
-          {{- ship_line_text -}}
-        </span>
-      </span>
-    </p>
-
-    {%- if stock_text != blank -%}
-      <p class="vpo-stock">
-        <span class="vpo-stock-dot" aria-hidden="true"></span>
-        {{ stock_text }}
-      </p>
     {%- endif -%}
 
     {%- comment -%} CTA {%- endcomment -%}
@@ -1315,6 +1427,7 @@
     const addonToggle = root.querySelector('[data-vpo-addon-toggle]');
     const addonNow = root.querySelector('[data-vpo-addon-now]');
     const addonEyebrow = root.querySelector('[data-vpo-addon-eyebrow]');
+    const addonUpgrade = root.querySelector('[data-vpo-addon-upgrade]');
     const nudge = root.querySelector('[data-vpo-nudge]');
     const shipline = root.querySelector('[data-vpo-shipline]');
     const modeSub = root.querySelector('[data-vpo-mode-sub]');
@@ -1368,10 +1481,18 @@
       const offer = selectedOffer();
       if (!offer) return;
       const express = isExpress();
+      const freeAddon = offer.dataset.freeAddon === 'true';
+      const billed = !express && !freeAddon && addonOptIn;
 
       if (ctaLabel && cta) {
         const template = (express && root.dataset.ctaLabelExpress) || cta.dataset.label || '';
-        ctaLabel.textContent = template.replace('{offer}', offer.dataset.title || '');
+        let label = template.replace('{offer}', offer.dataset.title || '');
+        if (!express && freeAddon && root.dataset.ctaAddonFreeSuffix) {
+          label += ` ${root.dataset.ctaAddonFreeSuffix}`;
+        } else if (billed && root.dataset.ctaAddonPaidSuffix) {
+          label += ` ${root.dataset.ctaAddonPaidSuffix}`;
+        }
+        ctaLabel.textContent = label;
       }
 
       if (shipline) {
@@ -1380,7 +1501,6 @@
       }
 
       // The add-on is what buys goodwill for the longer wait, so express drops it.
-      const freeAddon = offer.dataset.freeAddon === 'true';
       if (addon) {
         addon.hidden = express;
         addon.classList.toggle('vpo-addon--free', freeAddon);
@@ -1390,13 +1510,15 @@
           // Otherwise fall back to the shopper's own last decision.
           addonToggle.checked = freeAddon ? true : addonOptIn;
           addonToggle.disabled = freeAddon;
+          addonToggle.hidden = freeAddon;
         }
         if (addonNow) {
           // Prefixed when paid, so it reads as an amount added to the kit
           // rather than the planner's standalone price.
+          const paidSuffix = root.dataset.addonPaidPriceSuffix || '';
           addonNow.textContent = freeAddon
             ? root.dataset.addonFreeWord || 'Free'
-            : `+ ${root.dataset.addonPrice || ''}`;
+            : `+ ${root.dataset.addonPrice || ''}${paidSuffix ? ` ${paidSuffix}` : ''}`;
         }
         if (addonEyebrow) {
           addonEyebrow.textContent = freeAddon
@@ -1406,7 +1528,6 @@
       }
 
       // Only a paid, ticked add-on moves the button price.
-      const billed = !express && !freeAddon && addonOptIn;
       if (ctaPrice) {
         ctaPrice.textContent = billed
           ? offer.dataset.priceWithAddon || offer.dataset.price || ''
@@ -1426,13 +1547,16 @@
     [...offerInputs, ...modeInputs].forEach((input) => input.addEventListener('change', syncSelection));
     syncSelection();
 
-    nudge?.addEventListener('click', () => {
+    const selectTwoKits = () => {
       const upgrade = offerInputs.find((input) => input.value === '2');
       if (!upgrade) return;
       upgrade.checked = true;
       upgrade.dispatchEvent(new Event('change', { bubbles: true }));
       upgrade.focus({ preventScroll: true });
-    });
+    };
+
+    nudge?.addEventListener('click', selectTwoKits);
+    addonUpgrade?.addEventListener('click', selectTwoKits);
 
     const showError = (message) => {
       if (!errorEl) return;
@@ -1613,6 +1737,33 @@
       "default": "This batch sold out. Reserve from the next one and it goes out the day it lands with us."
     },
 
+    { "type": "header", "content": "V2 upgrade line" },
+    {
+      "type": "checkbox",
+      "id": "upgrades_enabled",
+      "label": "Show upgrades inside the V2 option",
+      "default": true
+    },
+    { "type": "text", "id": "upgrade_1_name", "label": "Upgrade 1 title", "default": "Easier to zip and seal" },
+    {
+      "type": "text",
+      "id": "upgrade_2_name",
+      "label": "Upgrade 2 title",
+      "default": "More room while still fitting carry-ons and backpacks"
+    },
+    {
+      "type": "text",
+      "id": "upgrade_3_name",
+      "label": "Upgrade 3 title",
+      "default": "Holds compression longer"
+    },
+    {
+      "type": "text",
+      "id": "upgrade_4_name",
+      "label": "Upgrade 4 title",
+      "default": "Better water resistance"
+    },
+
     { "type": "header", "content": "Delivery window" },
     {
       "type": "range",
@@ -1754,10 +1905,16 @@
     },
     {
       "type": "text",
+      "id": "offer_2_fixed_total",
+      "label": "Fixed bundle total",
+      "info": "Enter a total such as 159.99. When set, this overrides the display-only percentage calculation and must match the Shopify automatic discount."
+    },
+    {
+      "type": "text",
       "id": "offer_2_save_label",
-      "label": "Bundle discount chip",
+      "label": "Savings chip",
       "info": "Use {pct} for the percentage.",
-      "default": "Extra {pct}% off"
+      "default": "Save {pct}%"
     },
     {
       "type": "select",
@@ -1815,9 +1972,27 @@
       "info": "Off is the safer default. A pre-ticked paid extra surprises people at checkout.",
       "default": false
     },
-    { "type": "text", "id": "addon_eyebrow_free", "label": "Eyebrow when free", "default": "Free with 2 kits" },
-    { "type": "text", "id": "addon_eyebrow_paid", "label": "Eyebrow when paid", "default": "Add to your order" },
+    { "type": "text", "id": "addon_eyebrow_free", "label": "Eyebrow when free", "default": "Free bonus with 2 Kits" },
+    { "type": "text", "id": "addon_eyebrow_paid", "label": "Eyebrow when paid", "default": "Optional digital add-on" },
     { "type": "text", "id": "addon_free_word", "label": "Word for free", "default": "Free" },
+    {
+      "type": "text",
+      "id": "addon_paid_price_suffix",
+      "label": "Paid price context",
+      "default": "with 1 Kit"
+    },
+    {
+      "type": "text",
+      "id": "addon_promo_text",
+      "label": "Free-with-bundle message",
+      "default": "Included free when you choose 2 Kits"
+    },
+    {
+      "type": "text",
+      "id": "addon_promo_action",
+      "label": "Free-with-bundle action",
+      "default": "Choose 2 Kits"
+    },
     {
       "type": "text",
       "id": "addon_title",
@@ -1834,11 +2009,11 @@
       "type": "text",
       "id": "providers_label",
       "label": "Compatibility label",
-      "default": "Works with the AI you already use"
+      "default": "Works with"
     },
     {
       "type": "paragraph",
-      "content": "Upload each provider's official mark, ideally an SVG or a transparent PNG. A logo replaces the name entirely; without one the name shows as a wordmark. Clear a name to drop it from the row."
+      "content": "Upload each provider's official icon, ideally an SVG or transparent PNG. The icon appears in the collapsed card and the provider name appears on hover or keyboard focus. A provider is hidden until both its name and icon are set."
     },
     {
       "type": "range",
@@ -1858,7 +2033,7 @@
     { "type": "image_picker", "id": "provider_3_logo", "label": "Provider 3 logo" },
     { "type": "text", "id": "provider_4_name", "label": "Provider 4", "default": "Grok" },
     { "type": "image_picker", "id": "provider_4_logo", "label": "Provider 4 logo" },
-    { "type": "text", "id": "providers_suffix", "label": "Trailing text", "default": "and more" },
+    { "type": "text", "id": "providers_suffix", "label": "Trailing text", "default": "+ more" },
     {
       "type": "select",
       "id": "addon_icon",
@@ -1934,6 +2109,18 @@
       "id": "cta_label_express",
       "label": "Button label in express mode",
       "default": "Order {offer} now"
+    },
+    {
+      "type": "text",
+      "id": "cta_addon_paid_suffix",
+      "label": "Button suffix when add-on is paid",
+      "default": "+ Planner"
+    },
+    {
+      "type": "text",
+      "id": "cta_addon_free_suffix",
+      "label": "Button suffix when add-on is included",
+      "default": "+ Free Planner"
     },
     { "type": "text", "id": "cta_label_busy", "label": "Label while adding", "default": "Adding" },
     { "type": "text", "id": "cta_label_done", "label": "Label after adding", "default": "Added to cart" },
