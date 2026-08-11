@@ -227,6 +227,9 @@
   assign ship_from = ship_min_ts | date: '%b %-d'
   assign ship_to = ship_max_ts | date: '%b %-d'
   assign ship_window_text = ship_from | append: ' to ' | append: ship_to
+  assign mode_pre_sub_text = block.settings.mode_pre_sub | replace: '{ship_window}', ship_window_text
+  assign ship_line_text = block.settings.ship_fallback_text | replace: '{ship_window}', ship_window_text
+  assign cta_label_text = block.settings.cta_label | replace: '{offer}', default_title
 %}
 
 {% style %}
@@ -892,7 +895,7 @@
         <span class="vpo-mode-dot" aria-hidden="true"></span>
         <span class="vpo-mode-name">{{ block.settings.mode_pre_label }}</span>
         <span class="vpo-mode-sub" data-vpo-mode-sub>
-          {{- block.settings.mode_pre_sub | replace: '{ship_window}', ship_window_text -}}
+          {{- mode_pre_sub_text -}}
         </span>
       </label>
     </fieldset>
@@ -1108,7 +1111,7 @@
           <span class="vpo-shipline-was">{{ block.settings.shipping_was }}</span>
         {%- endif -%}
         <span data-vpo-shipline>
-          {{- block.settings.ship_fallback_text | replace: '{ship_window}', ship_window_text -}}
+          {{- ship_line_text -}}
         </span>
       </span>
     </p>
@@ -1129,7 +1132,7 @@
       data-label-busy="{{ block.settings.cta_label_busy | escape }}"
       data-label-done="{{ block.settings.cta_label_done | escape }}"
     >
-      <span data-vpo-cta-label>{{ block.settings.cta_label | replace: '{offer}', default_title }}</span>
+      <span data-vpo-cta-label>{{ cta_label_text }}</span>
       <span class="vpo-cta-price" data-vpo-cta-price>{{ default_total | money }}</span>
     </button>
 
