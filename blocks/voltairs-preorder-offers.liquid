@@ -70,7 +70,6 @@
   assign o2_units = block.settings.offer_2_units | at_least: 1
 
   assign o1_list = o1_variant.price | times: o1_qty
-  assign o2_list = o2_variant.price | times: o2_qty
 
   comment
     Bundle discount is display only. It has to be backed by a real automatic
@@ -79,11 +78,13 @@
   assign bundle_pct = block.settings.offer_2_discount_percent | default: 0 | at_least: 0
   assign o1_total = o1_list
   comment
-    Multiply by the kept share rather than subtracting the cut. Flooring the
-    cut instead lands a cent above what Shopify's discount actually charges.
+    Shopify floors the cut on each unit, not on the line total, so take the cut
+    per unit and then multiply. Discounting the line total instead lands two
+    cents under what checkout actually charges on a 2 x 89.99 bundle.
   endcomment
-  assign keep_pct = 100 | minus: bundle_pct
-  assign o2_total = o2_list | times: keep_pct | divided_by: 100
+  assign o2_unit_cut = o2_variant.price | times: bundle_pct | divided_by: 100
+  assign o2_unit_net = o2_variant.price | minus: o2_unit_cut
+  assign o2_total = o2_unit_net | times: o2_qty
 
   assign o1_per_unit = o1_total | divided_by: o1_units
   assign o2_per_unit = o2_total | divided_by: o2_units
