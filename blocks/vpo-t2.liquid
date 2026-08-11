@@ -1,0 +1,7 @@
+<div {{ block.shopify_attributes }}>
+  <span>{{- block.settings.foo | replace: '{ship_window}', 'x' -}}</span>
+</div>
+
+{% schema %}
+{"name": "Test T2", "tag": null, "settings": []}
+{% endschema %}

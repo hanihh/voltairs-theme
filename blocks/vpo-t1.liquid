@@ -1,0 +1,11 @@
+<div {{ block.shopify_attributes }}>
+  <input type="radio" name="x" value="now"
+    {% unless block.settings.foo %}
+      disabled
+    {% endunless %}
+  >
+</div>
+
+{% schema %}
+{"name": "Test T1", "tag": null, "settings": []}
+{% endschema %}
