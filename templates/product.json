@@ -233,6 +233,7 @@
                 "per_unit_word": "per kit",
                 "addon_enabled": true,
                 "addon_product": "voltairs-ai-travel-planner-digital-bonus",
+                "addon_free_product": "voltairs-ai-travel-planner-free-with-2-kits",
                 "addon_paid_variant": "",
                 "addon_free_variant": "",
                 "addon_free_with": "2",
