@@ -1,0 +1,105 @@
+<div>{%- if block.settings.modes_note != blank -%}
+      <p class="vpo-modes-note">{{ block.settings.modes_note }}</p>
+    {%- endif -%}
+
+    {%- comment -%} Offers {%- endcomment -%}
+    <fieldset class="vpo-offers">
+      <legend class="vpo-sr">{{ block.settings.offers_legend }}</legend>
+
+      {%- for n in (1..2) -%}
+        {% liquid
+          if n == 1
+            assign o_variant = o1_variant
+            assign o_qty = o1_qty
+            assign o_total = o1_total
+            assign o_per_unit = o1_per_unit
+            assign o_baseline = o1_baseline
+            assign o_chip = ''
+            assign o_units = o1_units
+            assign o_title = block.settings.offer_1_title
+            assign o_sub = block.settings.offer_1_sub
+            assign o_contents = block.settings.offer_1_contents
+            assign o_flag = block.settings.offer_1_flag
+            assign o_image = block.settings.offer_1_image
+            assign o_free_addon = free_on_1
+            assign o_with_addon = o1_with_addon
+          else
+            assign o_variant = o2_variant
+            assign o_qty = o2_qty
+            assign o_total = o2_total
+            assign o_per_unit = o2_per_unit
+            assign o_baseline = o2_baseline
+            assign o_chip = o2_chip
+            assign o_units = o2_units
+            assign o_title = block.settings.offer_2_title
+            assign o_sub = block.settings.offer_2_sub
+            assign o_contents = block.settings.offer_2_contents
+            assign o_flag = block.settings.offer_2_flag
+            assign o_image = block.settings.offer_2_image
+            assign o_free_addon = free_on_2
+            assign o_with_addon = o2_with_addon
+          endif
+        %}
+        <label class="vpo-offer">
+          {%- if o_flag != blank -%}
+            <span class="vpo-offer-flag">{{ o_flag }}</span>
+          {%- endif -%}
+          <input
+            class="vpo-sr"
+            type="radio"
+            name="vpo-offer-{{ vpo_id }}"
+            value="{{ n }}"
+            data-variant-id="{{ o_variant.id }}"
+            data-quantity="{{ o_qty }}"
+            data-units="{{ o_units }}"
+            data-price="{{ o_total | money | strip_html | escape }}"
+            data-price-with-addon="{{ o_with_addon | money | strip_html | escape }}"
+            data-title="{{ o_title | escape }}"
+            data-free-addon="{% if o_free_addon %}true{% else %}false{% endif %}"
+            {% assign n_key = n | append: '' %}
+            {% if default_offer == n_key %}
+              checked
+            {% endif %}
+          >
+
+          <span class="vpo-offer-head">
+            <span class="vpo-offer-name">{{ o_title }}</span>
+            {%- if o_chip != blank -%}
+              <span class="vpo-offer-save">{{ o_chip }}</span>
+            {%- endif -%}
+          </span>
+
+          {%- if o_image != blank -%}
+            <span class="vpo-offer-media">
+              {{ o_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: o_title }}
+            </span>
+          {%- endif -%}
+
+          {%- if o_contents != blank -%}
+            <span class="vpo-offer-contents">{{ o_contents }}</span>
+          {%- endif -%}
+          {%- if o_sub != blank -%}
+            <span class="vpo-offer-sub">{{ o_sub }}</span>
+          {%- endif -%}
+
+          <span class="vpo-price-row">
+            <span class="vpo-price">{{ o_total | money }}</span>
+            {%- if o_baseline > o_total -%}
+              <span class="vpo-price-was">{{ o_baseline | money }}</span>
+            {%- endif -%}
+          </span>
+          {%- if o_units > 1 -%}
+            <span class="vpo-price-unit">
+              {{- o_per_unit | money }} {{ block.settings.per_unit_word -}}
+            </span>
+          {%- endif -%}
+        </label>
+      {%- endfor -%}
+    </fieldset>
+
+    
+</div>
+
+{% schema %}
+{"name": "Probe F2", "tag": null, "settings": []}
+{% endschema %}
