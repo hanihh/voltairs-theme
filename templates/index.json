@@ -24,14 +24,14 @@
             "ticks": "up to 60% smaller · airtight & waterproof · skip the checked bag",
             "cta_label": "Get the Voltairs Kit",
             "cta_link": "#offer",
+            "cta2_label": "See it in action",
+            "cta2_link": "#compare-demo",
             "background_color": "#03275b",
             "text_color": "#efeeeb",
             "accent_color": "#fdc656",
             "pattern_style": "dots",
             "pattern_opacity": 10,
-            "min_height": 70,
-            "cta2_label": "See it in action",
-            "cta2_link": "#compare-demo"
+            "min_height": 70
           },
           "blocks": {}
         }
@@ -1898,7 +1898,7 @@
           "type": "button",
           "settings": {
             "label": "Upgrade Your Carry-On",
-            "link": "shopify://products/voltairs-travel-vacuum-bag-kit-2-compression-bags-free-multi-function-air-pump",
+            "link": "shopify://products/voltairs-travel-vacuum-bag-kit-compression-bag-free-multi-function-air-pump",
             "open_in_new_tab": false,
             "style_class": "button",
             "width": "custom",
@@ -2400,7 +2400,7 @@
                   "type": "button",
                   "settings": {
                     "label": "Get the Voltairs Kit",
-                    "link": "shopify://products/voltairs-travel-vacuum-bag-kit-2-compression-bags-free-multi-function-air-pump",
+                    "link": "shopify://products/voltairs-travel-vacuum-bag-kit-compression-bag-free-multi-function-air-pump",
                     "open_in_new_tab": false,
                     "style_class": "button",
                     "width": "custom",
@@ -3227,6 +3227,7 @@
       "blocks": {
         "trust_heading": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Buy With Confidence</strong></h2>",
             "width": "100%",
@@ -3248,8 +3249,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "trust_row": {
           "type": "group",
@@ -3474,6 +3474,7 @@
       "blocks": {
         "fcta_heading": {
           "type": "text",
+          "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Travel With More. Check Less.</strong></h2>",
             "width": "100%",
@@ -3495,8 +3496,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.heading"
+          "blocks": {}
         },
         "fcta_summary": {
           "type": "text",
@@ -3527,7 +3527,7 @@
           "type": "button",
           "settings": {
             "label": "Get Voltairs for $89.99",
-            "link": "shopify://products/voltairs-travel-vacuum-bag-kit-2-compression-bags-free-multi-function-air-pump",
+            "link": "shopify://products/voltairs-travel-vacuum-bag-kit-compression-bag-free-multi-function-air-pump",
             "open_in_new_tab": false,
             "style_class": "button",
             "width": "custom",
