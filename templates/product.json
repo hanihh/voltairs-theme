@@ -167,6 +167,32 @@
               },
               "blocks": {}
             },
+            "text_iRH8Ax": {
+              "type": "text",
+              "name": "Short Description",
+              "settings": {
+                "text": "<p>Pack up to <strong>10 days of clothes in one carry-on</strong> and skip the checked bag.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "bundlex_volume_discount_block_qm4UpU": {
               "type": "shopify://apps/bundlex/blocks/volume-discount-block/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
               "settings": {
@@ -362,32 +388,6 @@
               },
               "blocks": {}
             },
-            "text_iRH8Ax": {
-              "type": "text",
-              "name": "Short Description",
-              "settings": {
-                "text": "<p>Pack up to <strong>10 days of clothes in one carry-on</strong> and skip the checked bag. Each kit includes <strong>2 compression bags and a free 30W air pump</strong>, with free US shipping and a 100-day money-back guarantee.</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "disabled": true,
@@ -522,12 +522,12 @@
             "heading_m7KmQQ",
             "custom_liquid_RFAUMb",
             "divider_HztaAa",
+            "text_iRH8Ax",
             "bundlex_volume_discount_block_qm4UpU",
             "price_a7krng",
             "buy_buttons_eYQEYi",
             "bundlex_volume_discount_featured_eYeLtw",
             "voltairs_preorder_offers_WVpQXg",
-            "text_iRH8Ax",
             "variant_picker_R3rGDr",
             "accordion_bQn6Wi",
             "divider_WddgyR"
