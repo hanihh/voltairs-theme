@@ -121,6 +121,14 @@
             "padding-inline-end": 5
           },
           "blocks": {
+            "custom_liquid_pmdLbe": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<div data-bundlex-widget></div>"
+              },
+              "blocks": {}
+            },
             "bundlex_volume_discount_block_qm4UpU": {
               "type": "shopify://apps/bundlex/blocks/volume-discount-block/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
               "settings": {
@@ -519,6 +527,7 @@
             }
           },
           "block_order": [
+            "custom_liquid_pmdLbe",
             "bundlex_volume_discount_block_qm4UpU",
             "custom_liquid_RFAUMb",
             "heading_m7KmQQ",
