@@ -167,35 +167,39 @@
               },
               "blocks": {}
             },
-            "text_iRH8Ax": {
-              "type": "text",
-              "name": "Short Description",
+            "bundlex_volume_discount_block_8DPrxj": {
+              "type": "shopify://apps/bundlex/blocks/volume-discount-block/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
               "settings": {
-                "text": "<p>Pack up to <strong>10 days of clothes in one carry-on</strong> and skip the checked bag. Each kit includes <strong>2 compression bags and a free 30W air pump</strong>, with free US shipping and a 100-day money-back guarantee.</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
+                "show_advanced": false,
+                "hide_quantity": false,
+                "custom_placement_selector": "",
+                "add_to_cart_button_selector": "",
+                "quantity_container_selector": "",
+                "quantity_input_selector": "",
+                "variants_container_selector": "",
+                "product_form_selector": "",
+                "custom_css": ""
+              }
+            },
+            "bundlex_volume_discount_featured_eYeLtw": {
+              "type": "shopify://apps/bundlex/blocks/volume-discount-featured/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
+              "settings": {
+                "product": "{{closest.product}}",
+                "show_advanced": false,
+                "hide_quantity": false,
+                "custom_placement_selector": "",
+                "add_to_cart_button_selector": "",
+                "quantity_container_selector": "",
+                "quantity_input_selector": "",
+                "variants_container_selector": "",
+                "product_form_selector": "",
+                "custom_css": ""
+              }
             },
             "voltairs_preorder_offers_WVpQXg": {
               "type": "voltairs-preorder-offers",
               "name": "Voltairs pre-order offers",
+              "disabled": true,
               "settings": {
                 "modes_legend": "Choose a product version",
                 "mode_now_enabled": false,
@@ -239,8 +243,8 @@
                 "per_unit_word": "per kit",
                 "addon_enabled": true,
                 "addon_product": "voltairs-ai-travel-planner-digital-bonus",
-                "addon_free_product": "",
                 "addon_paid_variant": "",
+                "addon_free_product": "",
                 "addon_free_variant": "",
                 "addon_free_with": "2",
                 "addon_default_checked": false,
@@ -297,6 +301,32 @@
                 "accent_text_color": "#03275b",
                 "error_color": "#b3261e",
                 "corner_radius": 14
+              },
+              "blocks": {}
+            },
+            "text_iRH8Ax": {
+              "type": "text",
+              "name": "Short Description",
+              "settings": {
+                "text": "<p>Pack up to <strong>10 days of clothes in one carry-on</strong> and skip the checked bag. Each kit includes <strong>2 compression bags and a free 30W air pump</strong>, with free US shipping and a 100-day money-back guarantee.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -491,6 +521,8 @@
             "custom_liquid_RFAUMb",
             "heading_m7KmQQ",
             "divider_HztaAa",
+            "bundlex_volume_discount_block_8DPrxj",
+            "bundlex_volume_discount_featured_eYeLtw",
             "voltairs_preorder_offers_WVpQXg",
             "text_iRH8Ax",
             "variant_picker_R3rGDr",
@@ -640,6 +672,16 @@
         "padding-block-start": 24,
         "padding-block-end": 24,
         "gap_between_elements": 24
+      }
+    },
+    "voltairs_social_proof": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% if product.handle == 'voltairs-travel-vacuum-bag-kit-2-compression-bags-free-multi-function-air-pump' %}\n  <section id=\"VoltairsLiveSocialProof\" class=\"voltairs-live-proof\">\n    <div class=\"voltairs-live-proof__inner\">\n      <header class=\"voltairs-live-proof__header\">\n        <p class=\"voltairs-live-proof__eyebrow\">Real traveler results</p>\n        <h2>See what actually fits</h2>\n        <p>Real feedback from travelers who tested the Voltairs V2 Compression Kit.</p>\n      </header>\n\n      <div class=\"voltairs-live-proof__grid\">\n        <article class=\"voltairs-live-proof__card voltairs-live-proof__card--mira\">\n          <div class=\"voltairs-live-proof__comparison\" aria-label=\"Before and after compression\">\n            <figure>\n              <div class=\"voltairs-live-proof__media\">\n                <span class=\"voltairs-live-proof__label\">Before compression</span>\n                <img\n                  src=\"https://cdn.shopify.com/s/files/1/1037/8107/3236/files/mira-16-items-before-compression.png?v=1786468528\"\n                  alt=\"Sixteen clothing items and socks beside an open Voltairs compression bag\"\n                  width=\"1400\"\n                  height=\"788\"\n                  loading=\"lazy\"\n                >\n              </div>\n            </figure>\n            <figure>\n              <div class=\"voltairs-live-proof__media\">\n                <span class=\"voltairs-live-proof__label\">After compression</span>\n                <img\n                  src=\"https://cdn.shopify.com/s/files/1/1037/8107/3236/files/mira-16-items-after-compression.png?v=1786468539\"\n                  alt=\"Voltairs bag after compressing sixteen clothing items and socks\"\n                  width=\"1400\"\n                  height=\"788\"\n                  loading=\"lazy\"\n                >\n              </div>\n            </figure>\n          </div>\n          <div class=\"voltairs-live-proof__content\">\n            <p class=\"voltairs-live-proof__result\">16 clothing items + socks</p>\n            <blockquote>“I packed 16 clothing items plus socks into one Voltairs bag. After compressing it, everything fit on one side of my carry-on, leaving the other side free.”</blockquote>\n            <p class=\"voltairs-live-proof__name\">— Mira</p>\n          </div>\n        </article>\n\n        <article class=\"voltairs-live-proof__card\">\n          <div class=\"voltairs-live-proof__media voltairs-live-proof__media--unboxing\">\n            <img\n              src=\"https://cdn.shopify.com/s/files/1/1037/8107/3236/files/voltairs-v2-review-unboxing.jpg?v=1786468512\"\n              alt=\"Unboxed Voltairs V2 kit with two compression bags and 30W air pump\"\n              width=\"1200\"\n              height=\"900\"\n              loading=\"lazy\"\n            >\n          </div>\n          <div class=\"voltairs-live-proof__content\">\n            <p class=\"voltairs-live-proof__result\">Easier closing with support D-rings</p>\n            <blockquote>“The quality feels excellent, and the material is very well made. My favorite feature is the support D-rings—they give me something secure to hold while opening and closing the zipper, so I don't need to use nearly as much force.”</blockquote>\n            <p class=\"voltairs-live-proof__name\">— Early V2 tester</p>\n          </div>\n        </article>\n      </div>\n    </div>\n  </section>\n\n  <style>\n    #VoltairsLiveSocialProof {\n      background: #f5f6fa;\n      color: #14213d;\n      padding-block: 68px;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__inner {\n      width: min(1180px, calc(100% - 40px));\n      margin-inline: auto;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__header {\n      max-width: 720px;\n      margin: 0 auto 34px;\n      text-align: center;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__eyebrow,\n    #VoltairsLiveSocialProof .voltairs-live-proof__result {\n      margin: 0;\n      color: #0d2d62;\n      font-size: 0.78rem;\n      font-weight: 800;\n      letter-spacing: 0.12em;\n      line-height: 1.35;\n      text-transform: uppercase;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__header h2 {\n      margin: 8px 0 10px;\n      color: #0d2d62;\n      font-size: clamp(2rem, 4vw, 3.35rem);\n      line-height: 1.04;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__header > p:last-child {\n      margin: 0;\n      font-size: 1.05rem;\n      line-height: 1.6;\n      opacity: 0.78;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__grid {\n      display: grid;\n      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);\n      gap: 22px;\n      align-items: stretch;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__card {\n      overflow: hidden;\n      border: 1px solid rgba(13, 45, 98, 0.13);\n      border-radius: 22px;\n      background: #fff;\n      box-shadow: 0 18px 50px rgba(15, 35, 70, 0.08);\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__comparison {\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 5px;\n      background: #0d2d62;\n    }\n    #VoltairsLiveSocialProof figure { margin: 0; }\n    #VoltairsLiveSocialProof .voltairs-live-proof__media {\n      position: relative;\n      overflow: hidden;\n      aspect-ratio: 16 / 10;\n      background: #e9ebf0;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__media img {\n      display: block;\n      width: 100%;\n      height: 100%;\n      object-fit: cover;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__media--unboxing { aspect-ratio: 4 / 3; }\n    #VoltairsLiveSocialProof .voltairs-live-proof__media--unboxing img { transform: rotate(180deg) scale(1.02); }\n    #VoltairsLiveSocialProof .voltairs-live-proof__label {\n      position: absolute;\n      z-index: 1;\n      top: 14px;\n      left: 14px;\n      padding: 7px 11px;\n      border-radius: 999px;\n      background: rgba(13, 45, 98, 0.9);\n      color: #fff;\n      font-size: 0.74rem;\n      font-weight: 800;\n      letter-spacing: 0.04em;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__content { padding: 26px 28px 30px; }\n    #VoltairsLiveSocialProof blockquote {\n      margin: 12px 0 18px;\n      color: #17233c;\n      font-size: clamp(1.05rem, 1.6vw, 1.28rem);\n      font-weight: 550;\n      letter-spacing: -0.012em;\n      line-height: 1.55;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__name {\n      margin: 0;\n      color: #0d2d62;\n      font-size: 0.95rem;\n      font-weight: 750;\n    }\n    @media screen and (max-width: 749px) {\n      #VoltairsLiveSocialProof { padding-block: 48px; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__inner { width: min(100% - 28px, 620px); }\n      #VoltairsLiveSocialProof .voltairs-live-proof__header {\n        margin-bottom: 24px;\n        text-align: left;\n      }\n      #VoltairsLiveSocialProof .voltairs-live-proof__header h2 { font-size: clamp(1.8rem, 9vw, 2.6rem); }\n      #VoltairsLiveSocialProof .voltairs-live-proof__grid,\n      #VoltairsLiveSocialProof .voltairs-live-proof__comparison { grid-template-columns: 1fr; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__grid { gap: 16px; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__comparison { gap: 4px; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__media { aspect-ratio: 16 / 9; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__media--unboxing { aspect-ratio: 4 / 3; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__content { padding: 22px 20px 24px; }\n      #VoltairsLiveSocialProof blockquote { font-size: 1rem; }\n    }\n  </style>\n{% endif %}",
+        "color_scheme": "scheme-1",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "section_pdp_kit": {
@@ -1679,7 +1721,6 @@
     },
     "section_Rv2Chg1": {
       "type": "section",
-      "disabled": true,
       "blocks": {
         "pdp_img": {
           "type": "image",
@@ -1817,6 +1858,7 @@
         "pdp_img",
         "pdp_txt"
       ],
+      "disabled": true,
       "name": "What we changed",
       "settings": {
         "content_direction": "row",
@@ -2946,16 +2988,6 @@
         "gradient_direction": "to top",
         "padding-block-start": 64,
         "padding-block-end": 72
-      }
-    },
-    "voltairs_social_proof": {
-      "type": "custom-liquid",
-      "settings": {
-        "custom_liquid": "{% if product.handle == 'voltairs-travel-vacuum-bag-kit-2-compression-bags-free-multi-function-air-pump' %}\n  <section id=\"VoltairsLiveSocialProof\" class=\"voltairs-live-proof\">\n    <div class=\"voltairs-live-proof__inner\">\n      <header class=\"voltairs-live-proof__header\">\n        <p class=\"voltairs-live-proof__eyebrow\">Real traveler results</p>\n        <h2>See what actually fits</h2>\n        <p>Real feedback from travelers who tested the Voltairs V2 Compression Kit.</p>\n      </header>\n\n      <div class=\"voltairs-live-proof__grid\">\n        <article class=\"voltairs-live-proof__card voltairs-live-proof__card--mira\">\n          <div class=\"voltairs-live-proof__comparison\" aria-label=\"Before and after compression\">\n            <figure>\n              <div class=\"voltairs-live-proof__media\">\n                <span class=\"voltairs-live-proof__label\">Before compression</span>\n                <img\n                  src=\"https://cdn.shopify.com/s/files/1/1037/8107/3236/files/mira-16-items-before-compression.png?v=1786468528\"\n                  alt=\"Sixteen clothing items and socks beside an open Voltairs compression bag\"\n                  width=\"1400\"\n                  height=\"788\"\n                  loading=\"lazy\"\n                >\n              </div>\n            </figure>\n            <figure>\n              <div class=\"voltairs-live-proof__media\">\n                <span class=\"voltairs-live-proof__label\">After compression</span>\n                <img\n                  src=\"https://cdn.shopify.com/s/files/1/1037/8107/3236/files/mira-16-items-after-compression.png?v=1786468539\"\n                  alt=\"Voltairs bag after compressing sixteen clothing items and socks\"\n                  width=\"1400\"\n                  height=\"788\"\n                  loading=\"lazy\"\n                >\n              </div>\n            </figure>\n          </div>\n          <div class=\"voltairs-live-proof__content\">\n            <p class=\"voltairs-live-proof__result\">16 clothing items + socks</p>\n            <blockquote>“I packed 16 clothing items plus socks into one Voltairs bag. After compressing it, everything fit on one side of my carry-on, leaving the other side free.”</blockquote>\n            <p class=\"voltairs-live-proof__name\">— Mira</p>\n          </div>\n        </article>\n\n        <article class=\"voltairs-live-proof__card\">\n          <div class=\"voltairs-live-proof__media voltairs-live-proof__media--unboxing\">\n            <img\n              src=\"https://cdn.shopify.com/s/files/1/1037/8107/3236/files/voltairs-v2-review-unboxing.jpg?v=1786468512\"\n              alt=\"Unboxed Voltairs V2 kit with two compression bags and 30W air pump\"\n              width=\"1200\"\n              height=\"900\"\n              loading=\"lazy\"\n            >\n          </div>\n          <div class=\"voltairs-live-proof__content\">\n            <p class=\"voltairs-live-proof__result\">Easier closing with support D-rings</p>\n            <blockquote>“The quality feels excellent, and the material is very well made. My favorite feature is the support D-rings—they give me something secure to hold while opening and closing the zipper, so I don't need to use nearly as much force.”</blockquote>\n            <p class=\"voltairs-live-proof__name\">— Early V2 tester</p>\n          </div>\n        </article>\n      </div>\n    </div>\n  </section>\n\n  <style>\n    #VoltairsLiveSocialProof {\n      background: #f5f6fa;\n      color: #14213d;\n      padding-block: 68px;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__inner {\n      width: min(1180px, calc(100% - 40px));\n      margin-inline: auto;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__header {\n      max-width: 720px;\n      margin: 0 auto 34px;\n      text-align: center;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__eyebrow,\n    #VoltairsLiveSocialProof .voltairs-live-proof__result {\n      margin: 0;\n      color: #0d2d62;\n      font-size: 0.78rem;\n      font-weight: 800;\n      letter-spacing: 0.12em;\n      line-height: 1.35;\n      text-transform: uppercase;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__header h2 {\n      margin: 8px 0 10px;\n      color: #0d2d62;\n      font-size: clamp(2rem, 4vw, 3.35rem);\n      line-height: 1.04;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__header > p:last-child {\n      margin: 0;\n      font-size: 1.05rem;\n      line-height: 1.6;\n      opacity: 0.78;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__grid {\n      display: grid;\n      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);\n      gap: 22px;\n      align-items: stretch;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__card {\n      overflow: hidden;\n      border: 1px solid rgba(13, 45, 98, 0.13);\n      border-radius: 22px;\n      background: #fff;\n      box-shadow: 0 18px 50px rgba(15, 35, 70, 0.08);\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__comparison {\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 5px;\n      background: #0d2d62;\n    }\n    #VoltairsLiveSocialProof figure { margin: 0; }\n    #VoltairsLiveSocialProof .voltairs-live-proof__media {\n      position: relative;\n      overflow: hidden;\n      aspect-ratio: 16 / 10;\n      background: #e9ebf0;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__media img {\n      display: block;\n      width: 100%;\n      height: 100%;\n      object-fit: cover;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__media--unboxing { aspect-ratio: 4 / 3; }\n    #VoltairsLiveSocialProof .voltairs-live-proof__media--unboxing img { transform: rotate(180deg) scale(1.02); }\n    #VoltairsLiveSocialProof .voltairs-live-proof__label {\n      position: absolute;\n      z-index: 1;\n      top: 14px;\n      left: 14px;\n      padding: 7px 11px;\n      border-radius: 999px;\n      background: rgba(13, 45, 98, 0.9);\n      color: #fff;\n      font-size: 0.74rem;\n      font-weight: 800;\n      letter-spacing: 0.04em;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__content { padding: 26px 28px 30px; }\n    #VoltairsLiveSocialProof blockquote {\n      margin: 12px 0 18px;\n      color: #17233c;\n      font-size: clamp(1.05rem, 1.6vw, 1.28rem);\n      font-weight: 550;\n      letter-spacing: -0.012em;\n      line-height: 1.55;\n    }\n    #VoltairsLiveSocialProof .voltairs-live-proof__name {\n      margin: 0;\n      color: #0d2d62;\n      font-size: 0.95rem;\n      font-weight: 750;\n    }\n    @media screen and (max-width: 749px) {\n      #VoltairsLiveSocialProof { padding-block: 48px; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__inner { width: min(100% - 28px, 620px); }\n      #VoltairsLiveSocialProof .voltairs-live-proof__header {\n        margin-bottom: 24px;\n        text-align: left;\n      }\n      #VoltairsLiveSocialProof .voltairs-live-proof__header h2 { font-size: clamp(1.8rem, 9vw, 2.6rem); }\n      #VoltairsLiveSocialProof .voltairs-live-proof__grid,\n      #VoltairsLiveSocialProof .voltairs-live-proof__comparison { grid-template-columns: 1fr; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__grid { gap: 16px; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__comparison { gap: 4px; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__media { aspect-ratio: 16 / 9; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__media--unboxing { aspect-ratio: 4 / 3; }\n      #VoltairsLiveSocialProof .voltairs-live-proof__content { padding: 22px 20px 24px; }\n      #VoltairsLiveSocialProof blockquote { font-size: 1rem; }\n    }\n  </style>\n{% endif %}\n",
-        "color_scheme": "scheme-1",
-        "section_width": "full-width",
-        "padding-block-start": 0,
-        "padding-block-end": 0
       }
     }
   },
