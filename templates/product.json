@@ -121,6 +121,20 @@
             "padding-inline-end": 5
           },
           "blocks": {
+            "bundlex_volume_discount_block_qm4UpU": {
+              "type": "shopify://apps/bundlex/blocks/volume-discount-block/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
+              "settings": {
+                "show_advanced": false,
+                "hide_quantity": false,
+                "custom_placement_selector": "",
+                "add_to_cart_button_selector": "",
+                "quantity_container_selector": "",
+                "quantity_input_selector": "",
+                "variants_container_selector": "",
+                "product_form_selector": "",
+                "custom_css": ""
+              }
+            },
             "custom_liquid_RFAUMb": {
               "type": "custom-liquid",
               "name": "Code - Back to Top",
@@ -167,22 +181,9 @@
               },
               "blocks": {}
             },
-            "bundlex_volume_discount_block_8DPrxj": {
-              "type": "shopify://apps/bundlex/blocks/volume-discount-block/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
-              "settings": {
-                "show_advanced": false,
-                "hide_quantity": false,
-                "custom_placement_selector": "",
-                "add_to_cart_button_selector": "",
-                "quantity_container_selector": "",
-                "quantity_input_selector": "",
-                "variants_container_selector": "",
-                "product_form_selector": "",
-                "custom_css": ""
-              }
-            },
             "bundlex_volume_discount_featured_eYeLtw": {
               "type": "shopify://apps/bundlex/blocks/volume-discount-featured/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
+              "disabled": true,
               "settings": {
                 "product": "{{closest.product}}",
                 "show_advanced": false,
@@ -518,10 +519,10 @@
             }
           },
           "block_order": [
+            "bundlex_volume_discount_block_qm4UpU",
             "custom_liquid_RFAUMb",
             "heading_m7KmQQ",
             "divider_HztaAa",
-            "bundlex_volume_discount_block_8DPrxj",
             "bundlex_volume_discount_featured_eYeLtw",
             "voltairs_preorder_offers_WVpQXg",
             "text_iRH8Ax",
