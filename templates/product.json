@@ -143,6 +143,62 @@
                 "custom_css": ""
               }
             },
+            "buy_buttons_eYQEYi": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": false,
+                "show_pickup_availability": false,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "price_a7krng": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": true,
+                "show_tax_info": false,
+                "type_preset": "custom",
+                "width": "fit-content",
+                "alignment": "left",
+                "font": "var(--font-heading--family)",
+                "font_size": "1.25rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "uppercase",
+                "color": "var(--color-foreground-heading)",
+                "padding-block-start": 5,
+                "padding-block-end": 1,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "custom_liquid_RFAUMb": {
               "type": "custom-liquid",
               "name": "Code - Back to Top",
@@ -352,64 +408,6 @@
               },
               "blocks": {}
             },
-            "price_a7krng": {
-              "type": "price",
-              "disabled": true,
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": true,
-                "show_tax_info": false,
-                "type_preset": "custom",
-                "width": "fit-content",
-                "alignment": "left",
-                "font": "var(--font-heading--family)",
-                "font_size": "1.25rem",
-                "line_height": "tight",
-                "letter_spacing": "tight",
-                "case": "uppercase",
-                "color": "var(--color-foreground-heading)",
-                "padding-block-start": 5,
-                "padding-block-end": 1,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "buy_buttons_eYQEYi": {
-              "type": "buy-buttons",
-              "disabled": true,
-              "settings": {
-                "stacking": false,
-                "show_pickup_availability": false,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "quantity": {
-                  "type": "quantity",
-                  "static": true,
-                  "settings": {},
-                  "blocks": {}
-                },
-                "add-to-cart": {
-                  "type": "add-to-cart",
-                  "static": true,
-                  "settings": {
-                    "style_class": "button"
-                  },
-                  "blocks": {}
-                },
-                "accelerated-checkout": {
-                  "type": "accelerated-checkout",
-                  "static": true,
-                  "settings": {},
-                  "blocks": {}
-                }
-              },
-              "block_order": []
-            },
             "accordion_bQn6Wi": {
               "type": "accordion",
               "name": "t:names.accordion",
@@ -529,6 +527,8 @@
           "block_order": [
             "custom_liquid_pmdLbe",
             "bundlex_volume_discount_block_qm4UpU",
+            "buy_buttons_eYQEYi",
+            "price_a7krng",
             "custom_liquid_RFAUMb",
             "heading_m7KmQQ",
             "divider_HztaAa",
@@ -536,8 +536,6 @@
             "voltairs_preorder_offers_WVpQXg",
             "text_iRH8Ax",
             "variant_picker_R3rGDr",
-            "price_a7krng",
-            "buy_buttons_eYQEYi",
             "accordion_bQn6Wi",
             "divider_WddgyR"
           ]
