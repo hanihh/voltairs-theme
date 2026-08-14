@@ -50,7 +50,7 @@
         "type": "shopify://apps/bundlex/blocks/volume-discount-embed/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
         "disabled": false,
         "settings": {
-          "show_advanced": true,
+          "show_advanced": false,
           "hide_quantity": false,
           "custom_placement_selector": "",
           "add_to_cart_button_selector": "",
