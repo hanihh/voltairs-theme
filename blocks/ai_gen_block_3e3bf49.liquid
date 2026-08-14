@@ -28,7 +28,10 @@
     
     and add abilibty to add check mark or X mark on the coulm 1 , 2 , 3 values if i want
 {% enddoc %}
-{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% liquid
+  assign ai_gen_id = block.id | replace: '_', '' | downcase
+  assign comp_width = 100 | minus: block.settings.desktop_label_width | minus: block.settings.desktop_hero_width | divided_by: 2
+%}
 
 {% style %}
   .ai-comparison-table-{{ ai_gen_id }} {
@@ -77,6 +80,7 @@
     border-radius: {{ block.settings.hero_border_radius }}px {{ block.settings.hero_border_radius }}px 0 0;
     box-shadow: {{ block.settings.hero_shadow_x }}px {{ block.settings.hero_shadow_y }}px {{ block.settings.hero_shadow_blur }}px {{ block.settings.hero_shadow_color }};
     color: {{ block.settings.hero_text_color }};
+    border-bottom-color: transparent;
   }
 
   .ai-comparison-table__header-{{ ai_gen_id }} .ai-comparison-table__competitor-header-{{ ai_gen_id }} {
@@ -97,6 +101,9 @@
     font-size: {{ block.settings.label_font_size }}px;
     color: {{ block.settings.label_text_color }};
     line-height: 1.3;
+  }
+
+  .ai-comparison-table__label-inner-{{ ai_gen_id }} {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -117,10 +124,16 @@
     color: {{ block.settings.hero_text_color }};
     box-shadow: {{ block.settings.hero_shadow_x }}px {{ block.settings.hero_shadow_y }}px {{ block.settings.hero_shadow_blur }}px {{ block.settings.hero_shadow_color }};
     line-height: 1.4;
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+    font-variant-numeric: tabular-nums;
   }
 
   .ai-comparison-table__body-{{ ai_gen_id }} tr:last-child .ai-comparison-table__hero-cell-{{ ai_gen_id }} {
     border-radius: 0 0 {{ block.settings.hero_border_radius }}px {{ block.settings.hero_border_radius }}px;
+  }
+
+  .ai-comparison-table__body-{{ ai_gen_id }} tr:last-child td {
+    border-bottom-color: transparent;
   }
 
   .ai-comparison-table__competitor-cell-{{ ai_gen_id }} {
@@ -129,6 +142,7 @@
     font-size: {{ block.settings.competitor_value_font_size }}px;
     color: {{ block.settings.competitor_text_color }};
     line-height: 1.4;
+    font-variant-numeric: tabular-nums;
   }
 
   .ai-comparison-table__value-context-{{ ai_gen_id }} {
@@ -172,16 +186,16 @@
     }
 
     .ai-comparison-table__header-{{ ai_gen_id }} th:first-child {
-      width: 38%;
+      width: 33%;
     }
 
     .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(2) {
-      width: 24%;
+      width: 25%;
     }
 
     .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(3),
     .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(4) {
-      width: 19%;
+      width: 21%;
     }
 
     .ai-comparison-table__body-{{ ai_gen_id }} td {
@@ -230,6 +244,11 @@
     .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(2) {
       width: {{ block.settings.desktop_hero_width }}%;
     }
+
+    .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(3),
+    .ai-comparison-table__header-{{ ai_gen_id }} th:nth-child(4) {
+      width: {{ comp_width }}%;
+    }
   }
 {% endstyle %}
 
@@ -273,17 +292,19 @@
           {% if enabled %}
             <tr>
               <td class="ai-comparison-table__label-{{ ai_gen_id }}">
-                {% if icon != blank %}
-                  <img 
-                    src="{{ icon | image_url: width: 100 }}" 
-                    alt="{{ label }}"
-                    class="ai-comparison-table__icon-{{ ai_gen_id }}"
-                    width="100"
-                    height="100"
-                    loading="lazy"
-                  >
-                {% endif %}
-                <span>{{ label }}</span>
+                <div class="ai-comparison-table__label-inner-{{ ai_gen_id }}">
+                  {% if icon != blank %}
+                    <img
+                      src="{{ icon | image_url: width: 100 }}"
+                      alt="{{ label }}"
+                      class="ai-comparison-table__icon-{{ ai_gen_id }}"
+                      width="100"
+                      height="100"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                  <span>{{ label }}</span>
+                </div>
               </td>
               <td class="ai-comparison-table__hero-cell-{{ ai_gen_id }}">
                 {% if brand_type == 'check' %}
