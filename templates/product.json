@@ -704,7 +704,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<p>Same Clothes. Up to 60% Less Space.</p>",
+            "text": "<h2><strong>Same Clothes. Up to 60% Less Space.</strong></h2>",
             "width": "100%",
             "max_width": "none",
             "alignment": "center",
@@ -1818,7 +1818,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "color": "#ffffff",
+            "color": "var(--color-foreground-heading)",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,

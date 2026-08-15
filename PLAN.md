@@ -48,7 +48,13 @@ need a manual paste in Settings, Policies.
 
 ## Canonical claims
 
-Every one of these appears in multiple places. Changing one means changing all of
+**The product page is the source of truth.** `templates/product.json` and the
+live Shopify `descriptionHtml` are where Hani sets the offer, the savings maths,
+and the kit contents. When the homepage and the product page disagree, the
+homepage is the stale one: fix the homepage, do not "correct" the product page
+back. Confirmed by Hani 2026-08-15 after a pass that had it backwards.
+
+Every claim below appears in multiple places. Changing one means changing all of
 them. Verify with the sweep commands at the bottom of this file.
 
 | Claim | Canonical value |
@@ -56,17 +62,29 @@ them. Verify with the sweep commands at the bottom of this file.
 | Guarantee | 100-day money-back, from delivery date, discounted orders included |
 | Shipping | Free US shipping. Never "worldwide" |
 | Delivery | 2 business days processing, then 6 to 10 business days transit |
-| Baggage fee | $45 to $50 each way, $90 to $100 per round trip |
+| Baggage fee | $56 each way, $112 per round trip |
 | Contact | info@voltairs.com. Never the voltairstravel@gmail.com account address |
-| Kit contents | 2 vacuum bags (18.5" x 11.8" x 5.9") plus one 30W multi-function pump |
+| Kit contents | Per kit: 1 vacuum bag (18.5" x 11.8" x 5.9") plus one 30W multi-function pump |
+| Offer tiers | Solo: 1 kit + 1 bonus travel bag. Family: 2 kits + 2 bonus bags + AI Travel Upgrade |
 | Compression | Compresses to 40% of original size, up to 60% space saved |
-| Price | $89.99, no compare-at anchor |
+| Price | $89.99 solo, no compare-at anchor. Bundle pricing lives in the bundlex app |
 
-The baggage figure is the one most likely to drift back. It was previously
-"$56+ each way / $112 per flight", which overstated the real 2026 first-bag fee
-on American, Delta, and United ($45 prepaid, $50 at the airport). The entire
-savings pitch and the calculator default rest on it, and a buyer can check it in
-seconds, so it must stay defensible.
+Two of these moved on 2026-08-15 and the older values are still worth knowing.
+
+**Baggage fee.** August 2026 had this at "$45 to $50 each way, $90 to $100 per
+round trip", on the reasoning that $56 overstated the real first-bag fee on
+American, Delta, and United ($45 prepaid, $50 at the airport) and that a buyer
+can check it in seconds. Hani's product-page rebuild put $56 and $112 back, and
+the live product description, the savings calculator, and the "What You Save in
+One Trip" cards now all agree on them. That is the current claim. The earlier
+objection was never answered, only overridden, so if the number is ever
+challenged the fix is one value in `voltairs-savings-calc`, one string in
+`section_pdp_problem`, and the Shopify description, on both templates at once.
+
+**Kit contents.** Was "2 vacuum bags plus one pump". A kit is now one bag and one
+pump, with a second bag arriving as the solo tier's bonus travel bag. The
+per-kit figure and the per-order figure are easy to conflate; the FAQ's capacity
+answers are written per bag.
 
 ---
 
@@ -89,11 +107,30 @@ Shipped 2026-08-09 in commits `34757d7`, `f8008fe`, `42ba362`:
 - Live Shopify product: removed three fabricated testimonials and cleared the
   $179.99 compare-at anchor on an $89.99 product.
 
+Restructured 2026-08-15: the homepage now mirrors the product page. Everything
+between the hero and the offer is the product page's content in the product
+page's order, so the two templates share section keys and block IDs and can be
+diffed against each other directly. The homepage-only middle (how it works,
+quotes, the four benefit sections, trust cards, email signup) and the
+baggage-fee stats marquee were removed with it.
+
 Homepage section order in `templates/index.json`:
 
-1. hero, 2. stats marquee, 3. compare demo, 4. how it works, 5. quotes,
-6. offer, 7. benefit space, 8. benefit money, 9. savings, 10. benefit pump,
-11. benefit seal, 12. compare, 13. trust, 14. faq, 15. final cta, 16. email
+1. hero, 2. marquee, 3. before & after, 4. the real cost, 5. savings,
+6. comparison table, 7. product details, 8. faq, 9. final cta, 10. offer
+
+The hero's two CTAs carry the page: "Get the Voltairs Kit" jumps to `#offer` at
+the very bottom, "See how it works" jumps to `#compare-demo`, the next section
+down. The comparison table and final CTA buttons also point at `#offer`, since
+the homepage has no buy box to anchor to. `#offer` sits on the first block
+inside the offer card, so a jump lands on the top of the card.
+
+The eight mirrored sections are byte-identical to `templates/product.json` apart
+from those two link values, so `diff` between the templates is meaningful and
+should stay that way. The offer card is the one homepage-only selling surface: it
+was still telling a "Version 2, rebuilt on what the first kit taught us" story
+that the product page had dropped, and still listed a single kit, so it now
+carries the solo and family tiers in the product page's own words.
 
 ---
 
@@ -131,33 +168,38 @@ image-search win.
 
 ### 3. Real reviews (blocked on Hani)
 
-`section_quotes` holds eight quotes with no attribution, which is the weakest
-usable form of proof. If these came from real V1 buyers, attaching a first name
-and a trip to even four of them makes the section worth more than the entire
-benefits middle.
+The site has no social proof at all now that `section_quotes` is gone with the
+old homepage middle. Its eight unattributed quotes were the weakest usable form
+of proof anyway; if any came from real V1 buyers, a first name and a trip against
+even four of them is worth more than the section ever was.
 
 Blocked deliberately: inventing names is the fake social proof the brand rules
 ban. Needs Hani to confirm which quotes are real and who said them. The V1
 product exists as a draft (`voltairs-travel-vacuum-bag-kit-v1`) if buyer records
-are reachable from there.
+are reachable from there. The old quotes are recoverable from git history at
+`bdcb4d8:templates/index.json`.
 
-### 4. Collapse the benefit middle
+### 4. Decide what the mirrored homepage still owes
 
-Takes the homepage from 16 sections to 13 and the run between offer and trust
-from six sections to three. Merge on subject, not by trimming words:
+Superseded, in part: "collapse the benefit middle" is moot because the middle is
+gone. What replaced it is a question rather than an answer. The homepage and the
+product page now say the same things in the same order, which is coherent but
+means a visitor who lands on the homepage and clicks through reads the whole
+argument twice. Three things the old homepage carried and the mirror does not:
 
-- `section_benefit_space` + `section_benefit_seal` become one section about the
-  bag itself: 22 lb of clothes, three inches thick, and it stays that way because
-  of the D-ring zipper and IPX8 shell.
-- `section_benefit_money` folds into `section_savings`. They make the same
-  argument twice, once in prose and once interactively; let the calculator carry
-  it.
-- `section_benefit_pump` stays standalone. The free 30W pump is the actual
-  differentiator against every competitor in the comparison table.
+- **Trust cards.** Four cards on guarantee, shipping, returns, and contact.
+  Reassurance right before the offer, and the mirrored page ends without any.
+  Recoverable as `section_trust` from `bdcb4d8:templates/index.json`, and the
+  product page has its own copy as `section_pdp_trust` in
+  `templates/product.upselling-products.json`.
+- **Email capture.** `section_email` was the only list-building surface on the
+  site. Nothing replaced it.
+- **How it works.** Three steps, pack, zip, pump. The hero's "See how it works"
+  CTA now lands on the before/after slider instead, which shows the result rather
+  than the method.
 
-The goal is that each remaining section answers a different question (what is it,
-why is it effortless, what does it save you) instead of three variations of "you
-can pack more".
+Each is a judgment call about whether the homepage should mirror the product page
+exactly or lead into it. Ask before restoring any of them.
 
 ---
 

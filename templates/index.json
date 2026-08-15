@@ -24,7 +24,7 @@
             "ticks": "up to 60% smaller · airtight & waterproof · skip the checked bag",
             "cta_label": "Get the Voltairs Kit",
             "cta_link": "#offer",
-            "cta2_label": "See it in action",
+            "cta2_label": "See how it works",
             "cta2_link": "#compare-demo",
             "background_color": "#03275b",
             "text_color": "#efeeeb",
@@ -68,21 +68,21 @@
         "padding-block-end": 0
       }
     },
-    "section_stats_marquee": {
+    "marquee_z9PeaH": {
       "type": "marquee",
       "blocks": {
-        "text_002": {
+        "text_7Efz7p": {
           "type": "text",
           "settings": {
-            "text": "<p>Checked bags cost $45 to $50 each way</p>",
+            "text": "<p>Free US Shipping</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
-            "font_size": "1.5rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
             "case": "none",
             "wrap": "nowrap",
             "color": "var(--color-foreground)",
@@ -96,100 +96,65 @@
           },
           "blocks": {}
         },
-        "icon_003": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "plane",
-            "width": 28,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_004": {
-          "type": "text",
-          "settings": {
-            "text": "<p>$90 back in your pocket every round trip</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "1.5rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "nowrap",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_005": {
-          "type": "icon",
-          "name": "t:names.icon",
-          "settings": {
-            "icon": "price_tag",
-            "width": 28,
-            "link": "",
-            "open_in_new_tab": false
-          },
-          "blocks": {}
-        },
-        "text_006": {
-          "type": "text",
-          "settings": {
-            "text": "<p>26M bags mishandled every year</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "1.5rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "nowrap",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "icon_007": {
+        "icon_R478xH": {
           "type": "icon",
           "name": "t:names.icon",
           "settings": {
             "icon": "box",
-            "width": 28,
+            "width": 24,
             "link": "",
             "open_in_new_tab": false
           },
           "blocks": {}
         },
-        "text_008": {
+        "text_JmdT7y": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>100-Day Money-Back Guarantee</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "icon_EQr69T": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "check_box",
+            "width": 24,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_kit_mq": {
           "type": "text",
           "settings": {
-            "text": "<p>Up to 60% space saved</p>",
+            "text": "<p>1 Bag + 30W Pump</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
-            "font_size": "1.5rem",
-            "line_height": "normal",
+            "font_size": "1rem",
+            "line_height": "tight",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "nowrap",
@@ -204,12 +169,12 @@
           },
           "blocks": {}
         },
-        "icon_009": {
+        "icon_kit_mq": {
           "type": "icon",
           "name": "t:names.icon",
           "settings": {
-            "icon": "lightning_bolt",
-            "width": 28,
+            "icon": "plane",
+            "width": 24,
             "link": "",
             "open_in_new_tab": false
           },
@@ -217,25 +182,23 @@
         }
       },
       "block_order": [
-        "text_002",
-        "icon_003",
-        "text_004",
-        "icon_005",
-        "text_006",
-        "icon_007",
-        "text_008",
-        "icon_009"
+        "text_7Efz7p",
+        "icon_R478xH",
+        "text_JmdT7y",
+        "icon_EQr69T",
+        "text_kit_mq",
+        "icon_kit_mq"
       ],
-      "name": "Baggage-fee stats",
+      "name": "t:names.marquee_section",
       "settings": {
         "movement_direction": "normal",
         "color_scheme": "scheme-3",
-        "padding-block-start": 20,
-        "padding-block-end": 20,
-        "gap_between_elements": 48
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "gap_between_elements": 24
       }
     },
-    "section_compare_demo": {
+    "voltairs_social_proof": {
       "type": "section",
       "blocks": {
         "custom_liquid_010": {
@@ -263,7 +226,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h2><strong>Same Clothes. Half the Space.</strong></h2>",
+            "text": "<h2><strong>Same Clothes. Up to 60% Less Space.</strong></h2>",
             "width": "100%",
             "max_width": "none",
             "alignment": "center",
@@ -363,496 +326,52 @@
         "padding-block-end": 48
       }
     },
-    "section_how_it_works": {
-      "type": "section",
-      "blocks": {
-        "group_029": {
-          "type": "group",
-          "settings": {
-            "link": "",
-            "open_in_new_tab": false,
-            "content_direction": "column",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 16,
-            "width": "custom",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "ai_gen_block_17c9414_024": {
-              "type": "ai_gen_block_17c9414",
-              "name": "Custom Text",
-              "settings": {
-                "text": "<p><strong>HOW IT WORKS</strong></p>",
-                "text_color": "#03275b",
-                "background_color": "#e8edf5",
-                "text_alignment": "center",
-                "padding": 10,
-                "border_radius": 10
-              },
-              "blocks": {}
-            },
-            "text_025": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2><strong>Three Steps. Sixty Percent Smaller.</strong></h2>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground-heading)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "group_026": {
-              "type": "group",
-              "settings": {
-                "link": "",
-                "open_in_new_tab": false,
-                "content_direction": "column",
-                "vertical_on_mobile": false,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 10,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "ai_gen_block_17c9414_015": {
-                  "type": "ai_gen_block_17c9414",
-                  "name": "Custom Text",
-                  "settings": {
-                    "text": "<p><strong>1</strong></p>",
-                    "text_color": "#03275b",
-                    "background_color": "#e8edf5",
-                    "text_alignment": "center",
-                    "padding": 10,
-                    "border_radius": 10
-                  },
-                  "blocks": {}
-                },
-                "text_016": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h3><strong>Pack it</strong></h3>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "h6",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground-heading)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_017": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Fold up to 22 lb of clothes into the bag, about 10 days of outfits.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "ai_gen_block_17c9414_015",
-                "text_016",
-                "text_017"
-              ]
-            },
-            "group_027": {
-              "type": "group",
-              "settings": {
-                "link": "",
-                "open_in_new_tab": false,
-                "content_direction": "column",
-                "vertical_on_mobile": false,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 10,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "ai_gen_block_17c9414_018": {
-                  "type": "ai_gen_block_17c9414",
-                  "name": "Custom Text",
-                  "settings": {
-                    "text": "<p><strong>2</strong></p>",
-                    "text_color": "#03275b",
-                    "background_color": "#e8edf5",
-                    "text_alignment": "center",
-                    "padding": 10,
-                    "border_radius": 10
-                  },
-                  "blocks": {}
-                },
-                "text_019": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h3><strong>Pump it</strong></h3>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "h6",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground-heading)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_020": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Connect the 30W pump and watch everything shrink in seconds. No rolling, no kneeling, no sitting on your suitcase.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "ai_gen_block_17c9414_018",
-                "text_019",
-                "text_020"
-              ]
-            },
-            "group_028": {
-              "type": "group",
-              "settings": {
-                "link": "",
-                "open_in_new_tab": false,
-                "content_direction": "column",
-                "vertical_on_mobile": false,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 10,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "ai_gen_block_17c9414_021": {
-                  "type": "ai_gen_block_17c9414",
-                  "name": "Custom Text",
-                  "settings": {
-                    "text": "<p><strong>3</strong></p>",
-                    "text_color": "#03275b",
-                    "background_color": "#e8edf5",
-                    "text_alignment": "center",
-                    "padding": 10,
-                    "border_radius": 10
-                  },
-                  "blocks": {}
-                },
-                "text_022": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h3><strong>Go</strong></h3>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "h6",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground-heading)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_023": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Drop it in your carry-on and walk straight past the baggage counter.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "ai_gen_block_17c9414_021",
-                "text_022",
-                "text_023"
-              ]
-            }
-          },
-          "block_order": [
-            "ai_gen_block_17c9414_024",
-            "text_025",
-            "group_026",
-            "group_027",
-            "group_028"
-          ]
-        },
-        "image_030": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/10_1.png",
-            "link": "",
-            "image_ratio": "square",
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 25,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "group_029",
-        "image_030"
-      ],
-      "name": "How it works",
+    "section_pdp_problem": {
+      "type": "custom-liquid",
+      "name": "The real cost",
       "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 40,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
+        "custom_liquid": "<section id=\"VoltairsTripSavings\" class=\"voltairs-trip-savings\" aria-labelledby=\"VoltairsTripSavingsTitle\">\n  <div class=\"voltairs-trip-savings__inner\">\n    <header class=\"voltairs-trip-savings__header\">\n      <p class=\"voltairs-trip-savings__eyebrow\">THE REAL COST</p>\n      <h2 id=\"VoltairsTripSavingsTitle\">What You Save in One Trip</h2>\n      <p>Skip the checked bag. Keep the space, money, time, and peace of mind.</p>\n    </header>\n    <div class=\"voltairs-trip-savings__grid\" role=\"list\">\n      <article class=\"voltairs-trip-savings__card\" role=\"listitem\">\n        <div class=\"voltairs-trip-savings__icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M4 7.5h16v11H4zM9 7.5V5h6v2.5M8 11h8M12 7.5v11\"/></svg></div>\n        <p class=\"voltairs-trip-savings__label\">Space saved</p>\n        <p class=\"voltairs-trip-savings__value\">60%</p>\n        <p class=\"voltairs-trip-savings__note\">More room in the same carry-on.</p>\n      </article>\n      <article class=\"voltairs-trip-savings__card\" role=\"listitem\">\n        <div class=\"voltairs-trip-savings__icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M14.5 8.5h-3.2a2 2 0 0 0 0 4h1.4a2 2 0 0 1 0 4H9.5M12 6.5v2M12 16.5v2\"/></svg></div>\n        <p class=\"voltairs-trip-savings__label\">Money saved</p>\n        <p class=\"voltairs-trip-savings__value\">$112</p>\n        <p class=\"voltairs-trip-savings__note\">One round-trip checked bag.</p>\n      </article>\n      <article class=\"voltairs-trip-savings__card\" role=\"listitem\">\n        <div class=\"voltairs-trip-savings__icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M12 7.5V12l3 2\"/></svg></div>\n        <p class=\"voltairs-trip-savings__label\">Time saved</p>\n        <p class=\"voltairs-trip-savings__value\">1h 45m+</p>\n        <p class=\"voltairs-trip-savings__note\">45m check-in + 1h carousel. A missing-bag claim can add ~4h.</p>\n      </article>\n      <article class=\"voltairs-trip-savings__card\" role=\"listitem\">\n        <div class=\"voltairs-trip-savings__icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 3.5 19 6v5.2c0 4.3-2.9 7.7-7 9.3-4.1-1.6-7-5-7-9.3V6z\"/><path d=\"m8.5 12 2.2 2.2 4.8-5\"/></svg></div>\n        <p class=\"voltairs-trip-savings__label\">Less stress</p>\n        <p class=\"voltairs-trip-savings__value voltairs-trip-savings__value--words\">Bag stays with you</p>\n        <p class=\"voltairs-trip-savings__note\">No check-in line. No missing luggage.</p>\n      </article>\n    </div>\n  </div>\n</section>\n<style>\n  #VoltairsTripSavings{--navy:#03275b;--ink:#14213d;--mist:#f3f5f8;--white:#fff;--gold:#fdc656;background:var(--mist);color:var(--ink);padding:58px 0 64px}\n  #VoltairsTripSavings .voltairs-trip-savings__inner{width:min(1160px,calc(100% - 40px));margin:0 auto}\n  #VoltairsTripSavings .voltairs-trip-savings__header{max-width:720px;margin:0 auto 28px;text-align:center}\n  #VoltairsTripSavings .voltairs-trip-savings__eyebrow{display:inline-block;margin:0 0 10px;padding:8px 11px;border-radius:10px;background:#e8edf5;color:var(--navy);font-size:.75rem;font-weight:800;letter-spacing:.08em;line-height:1}\n  #VoltairsTripSavings h2{margin:0;color:var(--navy);font-size:clamp(2rem,4vw,3.2rem);line-height:1.05}\n  #VoltairsTripSavings .voltairs-trip-savings__header>p:last-child{margin:10px 0 0;color:#4a556d;font-size:1rem;line-height:1.45}\n  #VoltairsTripSavings .voltairs-trip-savings__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}\n  #VoltairsTripSavings .voltairs-trip-savings__card{min-height:230px;padding:24px 22px;border:1px solid rgba(3,39,91,.12);border-top:4px solid var(--navy);border-radius:18px;background:var(--white);box-shadow:0 12px 28px rgba(3,39,91,.06)}\n  #VoltairsTripSavings .voltairs-trip-savings__icon{display:grid;width:42px;height:42px;margin-bottom:20px;place-items:center;border-radius:12px;background:var(--navy);color:var(--gold)}\n  #VoltairsTripSavings .voltairs-trip-savings__icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8}\n  #VoltairsTripSavings .voltairs-trip-savings__label{margin:0 0 6px;color:#697389;font-size:.78rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}\n  #VoltairsTripSavings .voltairs-trip-savings__value{margin:0;color:var(--navy);font-size:clamp(2rem,3.1vw,2.75rem);font-weight:800;letter-spacing:-.04em;line-height:1}\n  #VoltairsTripSavings .voltairs-trip-savings__value--words{max-width:12ch;font-size:clamp(1.45rem,2vw,1.9rem);line-height:1.05}\n  #VoltairsTripSavings .voltairs-trip-savings__note{margin:13px 0 0;color:#4e596e;font-size:.92rem;line-height:1.45}\n  @media screen and (max-width:989px){#VoltairsTripSavings .voltairs-trip-savings__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}\n  @media screen and (max-width:549px){\n    #VoltairsTripSavings{padding:44px 0 48px}\n    #VoltairsTripSavings .voltairs-trip-savings__inner{width:min(100% - 28px,520px)}\n    #VoltairsTripSavings .voltairs-trip-savings__header{margin-bottom:22px;text-align:left}\n    #VoltairsTripSavings .voltairs-trip-savings__grid{grid-template-columns:1fr;gap:10px}\n    #VoltairsTripSavings .voltairs-trip-savings__card{display:grid;min-height:0;padding:18px;grid-template-columns:42px 1fr;column-gap:14px}\n    #VoltairsTripSavings .voltairs-trip-savings__icon{grid-row:1/4;margin:0}\n    #VoltairsTripSavings .voltairs-trip-savings__label,#VoltairsTripSavings .voltairs-trip-savings__value,#VoltairsTripSavings .voltairs-trip-savings__note{grid-column:2}\n    #VoltairsTripSavings .voltairs-trip-savings__value{font-size:1.8rem}\n    #VoltairsTripSavings .voltairs-trip-savings__value--words{font-size:1.35rem}\n    #VoltairsTripSavings .voltairs-trip-savings__note{margin-top:8px}\n  }\n</style>",
         "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 36,
-        "padding-block-end": 36
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
-    "section_benefit_space": {
+    "section_pdp_savings": {
       "type": "section",
       "blocks": {
-        "image_036": {
-          "type": "image",
+        "ai_gen_block_17c9414_065": {
+          "type": "ai_gen_block_17c9414",
+          "name": "Custom Text",
           "settings": {
-            "image": "shopify://shop_images/3.png",
-            "link": "",
-            "image_ratio": "square",
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 25,
+            "text": "<p><strong>DO THE MATH</strong></p>",
+            "text_color": "#03275b",
+            "background_color": "#e8edf5",
+            "text_alignment": "center",
+            "padding": 10,
+            "border_radius": 10
+          },
+          "blocks": {}
+        },
+        "text_066": {
+          "type": "text",
+          "name": "t:names.heading",
+          "settings": {
+            "text": "<h2><strong>See What You Save</strong></h2>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "h4",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground-heading)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -860,175 +379,37 @@
           },
           "blocks": {}
         },
-        "group_037": {
-          "type": "group",
+        "voltairs_savings_calc_067": {
+          "type": "voltairs-savings-calc",
           "settings": {
-            "link": "",
-            "open_in_new_tab": false,
-            "content_direction": "column",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "custom",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "fee_per_trip": 112,
+            "default_trips": 4,
+            "who_label": "Who's traveling?",
+            "trips_label": "Round trips per year",
+            "caption": "in checked-bag fees avoided per year",
+            "footnote": "Based on $56 checked-bag fees each way ($112 per round trip). The kit is $89.99, once.",
+            "background_color": "#03275b",
+            "text_color": "#efeeeb",
+            "accent_color": "#fdc656"
           },
-          "blocks": {
-            "ai_gen_block_17c9414_031": {
-              "type": "ai_gen_block_17c9414",
-              "name": "Custom Text",
-              "settings": {
-                "text": "<p><strong>PACK MORE</strong></p>",
-                "text_color": "#03275b",
-                "background_color": "#e8edf5",
-                "text_alignment": "center",
-                "padding": 10,
-                "border_radius": 10
-              },
-              "blocks": {}
-            },
-            "text_032": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2><strong>22 lb of Clothes. 3 Inches Thick.</strong></h2>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "left",
-                "type_preset": "h5",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground-heading)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_033": {
-              "type": "text",
-              "settings": {
-                "text": "<p><em>One Voltairs bag holds 18 to 22 lb of clothes. Compressed to 40% of their original size, that is about 10 days of outfits in a standard carry-on.</em></p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "voltairs_chips_034": {
-              "type": "voltairs-chips",
-              "settings": {
-                "icon_1": "shirt",
-                "label_1": "22 lb per bag",
-                "icon_2": "box",
-                "label_2": "Up to 60% smaller",
-                "icon_3": "plane",
-                "label_3": "Fits any carry-on",
-                "icon_4": "check_box",
-                "label_4": "No checked bag",
-                "cell_background": "#f4f4f4",
-                "corner_radius": 13,
-                "cell_min_height": 95
-              },
-              "blocks": {}
-            },
-            "text_035": {
-              "type": "text",
-              "name": "Detail",
-              "settings": {
-                "text": "<p>One Voltairs bag holds jeans, tees, a sweater, underwear, and socks. Every kit pairs that carry-on-sized bag with the included 30W pump, leaving room in your case for shoes and a jacket.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-body--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "ai_gen_block_17c9414_031",
-            "text_032",
-            "text_033",
-            "voltairs_chips_034",
-            "text_035"
-          ]
+          "blocks": {}
         }
       },
       "block_order": [
-        "image_036",
-        "group_037"
+        "ai_gen_block_17c9414_065",
+        "text_066",
+        "voltairs_savings_calc_067"
       ],
-      "name": "Benefit - Pack more",
+      "name": "Savings calculator",
       "settings": {
-        "content_direction": "row",
+        "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
+        "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 20,
+        "gap": 24,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
@@ -1044,665 +425,11 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 20,
-        "padding-block-end": 20
+        "padding-block-start": 48,
+        "padding-block-end": 48
       }
     },
-    "section_benefit_money": {
-      "type": "section",
-      "blocks": {
-        "group_044": {
-          "type": "group",
-          "settings": {
-            "link": "",
-            "open_in_new_tab": false,
-            "content_direction": "column",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "custom",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "ai_gen_block_17c9414_038": {
-              "type": "ai_gen_block_17c9414",
-              "name": "Custom Text",
-              "settings": {
-                "text": "<p><strong>SAVE MONEY & TIME</strong></p>",
-                "text_color": "#03275b",
-                "background_color": "#e8edf5",
-                "text_alignment": "center",
-                "padding": 10,
-                "border_radius": 10
-              },
-              "blocks": {}
-            },
-            "text_039": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2><strong>Skip the Fees. Skip the Lines.</strong></h2>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "left",
-                "type_preset": "h5",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground-heading)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_040": {
-              "type": "text",
-              "settings": {
-                "text": "<p><em>No bag-drop queue, no carousel wait, no $45 fee each way. Walk on, walk off, and keep that money every round trip.</em></p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "voltairs_chips_041": {
-              "type": "voltairs-chips",
-              "settings": {
-                "icon_1": "price_tag",
-                "label_1": "$90 back per trip",
-                "icon_2": "stopwatch",
-                "label_2": "No bag-drop line",
-                "icon_3": "check_box",
-                "label_3": "No carousel wait",
-                "icon_4": "return",
-                "label_4": "100-day guarantee",
-                "cell_background": "#f4f4f4",
-                "corner_radius": 13,
-                "cell_min_height": 95
-              },
-              "blocks": {}
-            },
-            "text_042": {
-              "type": "text",
-              "name": "Detail",
-              "settings": {
-                "text": "<p>The kit costs $89.99 once and pays for itself on your first round trip. After that, checked-bag fees are simply money you do not spend anymore.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-body--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_043": {
-              "type": "button",
-              "settings": {
-                "label": "Try It Risk-Free",
-                "link": "#offer",
-                "open_in_new_tab": false,
-                "style_class": "button",
-                "width": "custom",
-                "custom_width": 60,
-                "width_mobile": "custom",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "ai_gen_block_17c9414_038",
-            "text_039",
-            "text_040",
-            "voltairs_chips_041",
-            "text_042",
-            "button_043"
-          ]
-        },
-        "image_045": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/4.png",
-            "link": "",
-            "image_ratio": "square",
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 25,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "group_044",
-        "image_045"
-      ],
-      "name": "Benefit - Save money & time",
-      "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 20,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 20,
-        "padding-block-end": 20
-      }
-    },
-    "section_benefit_pump": {
-      "type": "section",
-      "blocks": {
-        "image_051": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/6.png",
-            "link": "",
-            "image_ratio": "square",
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 25,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "group_052": {
-          "type": "group",
-          "settings": {
-            "link": "",
-            "open_in_new_tab": false,
-            "content_direction": "column",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "custom",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "ai_gen_block_17c9414_046": {
-              "type": "ai_gen_block_17c9414",
-              "name": "Custom Text",
-              "settings": {
-                "text": "<p><strong>ZERO EFFORT</strong></p>",
-                "text_color": "#03275b",
-                "background_color": "#e8edf5",
-                "text_alignment": "center",
-                "padding": 10,
-                "border_radius": 10
-              },
-              "blocks": {}
-            },
-            "text_047": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2><strong>Compress in Seconds. No Rolling, No Kneeling.</strong></h2>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "left",
-                "type_preset": "h5",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground-heading)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_048": {
-              "type": "text",
-              "settings": {
-                "text": "<p><em>The included 30W multi-function pump pulls the air out in seconds. It recharges over USB-C, doubles as an LED light, and inflates things too.</em></p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "voltairs_chips_049": {
-              "type": "voltairs-chips",
-              "settings": {
-                "icon_1": "lightning_bolt",
-                "label_1": "30W motor",
-                "icon_2": "stopwatch",
-                "label_2": "Seconds per bag",
-                "icon_3": "recycle",
-                "label_3": "USB-C rechargeable",
-                "icon_4": "eye",
-                "label_4": "Built-in LED light",
-                "cell_background": "#f4f4f4",
-                "corner_radius": 13,
-                "cell_min_height": 95
-              },
-              "blocks": {}
-            },
-            "text_050": {
-              "type": "text",
-              "name": "Detail",
-              "settings": {
-                "text": "<p>The pump ships with multiple nozzles, so it inflates air mattresses, pool floats, and camping gear as easily as it deflates your Voltairs bags. The built-in LED works as a reading light or emergency torch.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-body--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "ai_gen_block_17c9414_046",
-            "text_047",
-            "text_048",
-            "voltairs_chips_049",
-            "text_050"
-          ]
-        }
-      },
-      "block_order": [
-        "image_051",
-        "group_052"
-      ],
-      "name": "Benefit - Pump",
-      "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 20,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 20,
-        "padding-block-end": 20
-      }
-    },
-    "section_benefit_seal": {
-      "type": "section",
-      "blocks": {
-        "group_058": {
-          "type": "group",
-          "settings": {
-            "link": "",
-            "open_in_new_tab": false,
-            "content_direction": "column",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "custom",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "ai_gen_block_17c9414_053": {
-              "type": "ai_gen_block_17c9414",
-              "name": "Custom Text",
-              "settings": {
-                "text": "<p><strong>BUILT TO LAST</strong></p>",
-                "text_color": "#03275b",
-                "background_color": "#e8edf5",
-                "text_alignment": "center",
-                "padding": 10,
-                "border_radius": 10
-              },
-              "blocks": {}
-            },
-            "text_054": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2><strong>Airtight Means Airtight</strong></h2>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "left",
-                "type_preset": "h5",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground-heading)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_055": {
-              "type": "text",
-              "settings": {
-                "text": "<p><em>Anti-rip nylon, an IPX8 water-proof shell, and an airtight D-ring zipper keep your clothes compressed, dry, and odor-free from door to door.</em></p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "voltairs_chips_056": {
-              "type": "voltairs-chips",
-              "settings": {
-                "icon_1": "lock",
-                "label_1": "Airtight zipper",
-                "icon_2": "washing",
-                "label_2": "IPX8 water-proof",
-                "icon_3": "perfume",
-                "label_3": "Odor-proof",
-                "icon_4": "shirt",
-                "label_4": "Anti-rip nylon",
-                "cell_background": "#f4f4f4",
-                "corner_radius": 13,
-                "cell_min_height": 95
-              },
-              "blocks": {}
-            },
-            "text_057": {
-              "type": "text",
-              "name": "Detail",
-              "settings": {
-                "text": "<p>Most compression bags fail at the seal. They slowly leak and your clothes expand mid-trip. The Voltairs D-ring zipper glides shut and stays airtight, so what you compress at home is exactly what you unpack at the hotel.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-body--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "ai_gen_block_17c9414_053",
-            "text_054",
-            "text_055",
-            "voltairs_chips_056",
-            "text_057"
-          ]
-        },
-        "image_059": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/5.png",
-            "link": "",
-            "image_ratio": "square",
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 25,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "group_058",
-        "image_059"
-      ],
-      "name": "Benefit - Built to last",
-      "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 20,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 20,
-        "padding-block-end": 20
-      }
-    },
-    "section_compare": {
+    "section_pdp_compare": {
       "type": "section",
       "blocks": {
         "ai_gen_block_17c9414_060": {
@@ -1898,7 +625,7 @@
           "type": "button",
           "settings": {
             "label": "Upgrade Your Carry-On",
-            "link": "shopify://products/voltairs-travel-vacuum-bag-kit-compression-bag-free-multi-function-air-pump",
+            "link": "#offer",
             "open_in_new_tab": false,
             "style_class": "button",
             "width": "custom",
@@ -1945,29 +672,181 @@
         "padding-block-end": 36
       }
     },
-    "section_savings": {
+    "section_7YAPWW": {
       "type": "section",
       "blocks": {
-        "ai_gen_block_17c9414_065": {
-          "type": "ai_gen_block_17c9414",
-          "name": "Custom Text",
-          "settings": {
-            "text": "<p><strong>DO THE MATH</strong></p>",
-            "text_color": "#03275b",
-            "background_color": "#e8edf5",
-            "text_alignment": "center",
-            "padding": 10,
-            "border_radius": 10
-          },
-          "blocks": {}
-        },
-        "text_066": {
+        "det_heading": {
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h2><strong>See What You Save</strong></h2>",
+            "text": "<h2><strong>Product details</strong></h2>",
             "width": "100%",
-            "max_width": "none",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h4",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground-heading)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "det_accordion": {
+          "type": "accordion",
+          "settings": {
+            "icon": "plus",
+            "dividers": true,
+            "type_preset": "h6",
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "row_kit": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "What's in the kit",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "row_kit_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Solo order: 1 compression kit + 1 bonus travel bag.<br/><br/>Family order: 2 compression kits + 2 bonus travel bags + AI Travel Upgrade.<br/><br/>Each compression kit includes one 18.5″ × 11.8″ × 5.9″ vacuum travel bag and one multi-function air pump. The bag fits any carry-on and holds 8 to 10 days of clothes. The pump also inflates air mattresses and pool floats and works as a reading light or emergency torch.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "row_kit_t"
+              ]
+            },
+            "row_specs": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "Specifications",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "row_specs_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<ul><li>Bag size: 18.5\" &times; 11.8\" &times; 5.9\"</li><li>Capacity: 18 to 22 lb of clothing per bag</li><li>Compression: down to about 40% of original size, up to 60% space saved</li><li>Shell: anti-rip nylon with an IPX8 water-resistant coating</li><li>Closure: airtight zipper with a D-ring on both sides</li><li>Pump: 30W, USB-C rechargeable, built-in LED light, multiple nozzles</li></ul>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "row_specs_t"
+              ]
+            }
+          },
+          "block_order": [
+            "row_kit",
+            "row_specs"
+          ]
+        }
+      },
+      "block_order": [
+        "det_heading",
+        "det_accordion"
+      ],
+      "name": "Product details",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "section_pdp_faq": {
+      "type": "section",
+      "blocks": {
+        "faq_heading": {
+          "type": "text",
+          "name": "t:names.heading",
+          "settings": {
+            "text": "<h2><strong>Frequently asked questions</strong></h2>",
+            "width": "100%",
+            "max_width": "normal",
             "alignment": "center",
             "type_preset": "h4",
             "font": "var(--font-body--family)",
@@ -1987,28 +866,434 @@
           },
           "blocks": {}
         },
-        "voltairs_savings_calc_067": {
-          "type": "voltairs-savings-calc",
+        "faq_accordion": {
+          "type": "accordion",
           "settings": {
-            "fee_per_trip": 90,
-            "default_trips": 4,
-            "who_label": "Who's traveling?",
-            "trips_label": "Round trips per year",
-            "caption": "kept per year by skipping checked bags",
-            "footnote": "Based on $45 checked-bag fees each way, the standard prepaid rate on major US airlines. The kit is $89.99, once.",
-            "background_color": "#03275b",
-            "text_color": "#efeeeb",
-            "accent_color": "#fdc656"
+            "icon": "plus",
+            "dividers": true,
+            "type_preset": "h6",
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
-          "blocks": {}
+          "blocks": {
+            "faq_wrinkle": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "Will my clothes come out wrinkled?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_wrinkle_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Compression presses clothes flat rather than crumpling them, so jeans, knits, and casual wear come out fine. Fold delicate shirts on top of the stack and give them a quick shake-out when you arrive.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_wrinkle_t"
+              ]
+            },
+            "faq_weight": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "Does this help with airline weight limits?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_weight_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Honestly, no. Compression saves space, not weight: a compressed bag weighs exactly what its contents weigh. What it changes is whether everything fits in a carry-on at all, and that is what removes the checked-bag fee. If you are fighting a weight limit rather than a size limit, the answer is to pack less.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_weight_t"
+              ]
+            },
+            "faq_security": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "Will airport security have a problem with a sealed bag?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_security_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Compression bags are allowed in both carry-on and checked luggage. A screener may still open your case and unzip a bag for a closer look, which happens with any densely packed item. If they do, the pump is right there with you, so re-compressing takes seconds.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_security_t"
+              ]
+            },
+            "faq_fit": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "Will the compressed bag fit in my carry-on?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_fit_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Yes. Each bag measures 18.5\" &times; 11.8\" &times; 5.9\" and compresses down to roughly 3\" thick, sized for standard carry-ons and backpacks. Your suitcase still needs to meet your airline's size rules; Voltairs just makes sure everything fits inside it.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_fit_t"
+              ]
+            },
+            "faq_sixty": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "Is it guaranteed to shrink my clothes by 60%?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_sixty_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Honestly, no. Up to 60% is the maximum we measured, and the result depends on the fabric. Fluffy items that trap air, like sweaters, hoodies, and jackets, compress the most. Dense fabrics like denim compress less. Most mixed loads still shrink far beyond what rolling or packing cubes can do.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_sixty_t"
+              ]
+            },
+            "faq_pump": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "Does the pump need batteries?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_pump_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>No. The 30W pump is USB-C rechargeable and doubles as an LED light. It deflates a full bag in seconds, and with the included nozzles it inflates air mattresses and pool floats too.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_pump_t"
+              ]
+            },
+            "faq_howto": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "How do I use it?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_howto_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Pack the bag, zip it shut, hold the pump against the valve, and wait a few seconds. That is the whole process, and the three steps above cover it. If anything is unclear once your kit arrives, email info@voltairs.com and a human will walk you through it.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_howto_t"
+              ]
+            },
+            "faq_capacity": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "How much actually fits in one bag?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_capacity_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Up to 22 lb of clothing, roughly 8 to 10 days of outfits once compressed to about 40% of their original size. Each kit includes one bag and one 30W pump.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_capacity_t"
+              ]
+            },
+            "faq_guarantee": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "What if it doesn't work for me?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_guarantee_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Every kit comes with a 100-day money-back guarantee, counted from the day it is delivered. Take it on a real trip. If it does not save you the space and the fees, email info@voltairs.com and return it for a full refund. Kits bought with a discount are covered too.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_guarantee_t"
+              ]
+            },
+            "faq_delivery": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "When will I get my order?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "faq_delivery_t": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Orders ship within 2 business days. Delivery typically takes 6 to 10 business days in the US, and you will receive a tracking email as soon as it is on the way. Shipping is free within the United States.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "faq_delivery_t"
+              ]
+            }
+          },
+          "block_order": [
+            "faq_wrinkle",
+            "faq_weight",
+            "faq_security",
+            "faq_fit",
+            "faq_sixty",
+            "faq_pump",
+            "faq_howto",
+            "faq_capacity",
+            "faq_guarantee",
+            "faq_delivery"
+          ]
         }
       },
       "block_order": [
-        "ai_gen_block_17c9414_065",
-        "text_066",
-        "voltairs_savings_calc_067"
+        "faq_heading",
+        "faq_accordion"
       ],
-      "name": "Savings calculator",
+      "name": "FAQ",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -2017,7 +1302,7 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 24,
+        "gap": 32,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
@@ -2037,18 +1322,18 @@
         "padding-block-end": 48
       }
     },
-    "section_quotes": {
+    "section_pdp_cta": {
       "type": "section",
       "blocks": {
-        "text_068": {
+        "pcta_heading": {
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h3><strong>What early users tell us</strong></h3>",
+            "text": "<h2><strong>Travel With More. Check Less.</strong></h2>",
             "width": "100%",
-            "max_width": "none",
+            "max_width": "normal",
             "alignment": "center",
-            "type_preset": "h5",
+            "type_preset": "h3",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "line_height": "normal",
@@ -2066,38 +1351,52 @@
           },
           "blocks": {}
         },
-        "voltairs_quote_marquee_069": {
-          "type": "voltairs-quote-marquee",
+        "pcta_summary": {
+          "type": "text",
           "settings": {
-            "quote_1": "I got 12 days of clothes into a backpack. My friends thought I checked a bag.",
-            "attr_1": "",
-            "quote_2": "The pump is weirdly satisfying. The bag just flattens in front of you.",
-            "attr_2": "",
-            "quote_3": "First trip in years with zero baggage fees.",
-            "attr_3": "",
-            "quote_4": "It stayed compressed the whole trip, even after security opened my bag.",
-            "attr_4": "",
-            "quote_5": "Two weeks of kids' clothes in one carry-on. I did not think that was possible.",
-            "attr_5": "",
-            "quote_6": "The zipper actually glides. No fighting, no re-sealing.",
-            "attr_6": "",
-            "quote_7": "I use the pump light more than my phone torch when camping.",
-            "attr_7": "",
-            "quote_8": "Straight past bag drop, straight past the carousel. That is the whole point.",
-            "attr_8": "",
-            "two_rows": true,
-            "speed": 45,
-            "bubble_background": "#ffffff",
-            "quote_color": "#03275b"
+            "text": "<p>Solo: 1 kit + 1 bonus bag · Family: 2 kits + 2 bonus bags · free US shipping · 100-day money-back guarantee</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground-heading)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "pcta_button": {
+          "type": "button",
+          "settings": {
+            "label": "Get the Voltairs Kit",
+            "link": "#offer",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "custom",
+            "custom_width": 30,
+            "width_mobile": "custom",
+            "custom_width_mobile": 90
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "text_068",
-        "voltairs_quote_marquee_069"
+        "pcta_heading",
+        "pcta_summary",
+        "pcta_button"
       ],
-      "name": "Floating quotes",
+      "name": "Final CTA",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -2106,11 +1405,11 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 24,
-        "section_width": "full-width",
+        "gap": 32,
+        "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "scheme-cae25dfa-a3e1-4115-b96a-f752034e569c",
+        "color_scheme": "scheme-3",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -2122,8 +1421,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 56
+        "padding-block-start": 64,
+        "padding-block-end": 72
       }
     },
     "section_offer": {
@@ -2238,8 +1537,8 @@
                 }
               },
               "block_order": [
-                "image_070",
-                "custom_liquid_071"
+                "custom_liquid_071",
+                "image_070"
               ]
             },
             "group_086": {
@@ -2284,7 +1583,7 @@
                   "type": "ai_gen_block_17c9414",
                   "name": "Custom Text",
                   "settings": {
-                    "text": "<p><strong>THE COMPLETE KIT · V2</strong></p>",
+                    "text": "<p><strong>THE COMPLETE KIT</strong></p>",
                     "text_color": "#03275b",
                     "background_color": "#e8edf5",
                     "text_alignment": "center",
@@ -2323,7 +1622,7 @@
                   "type": "text",
                   "name": "Detail",
                   "settings": {
-                    "text": "<p>Version 2: rebuilt around everything the first kit taught us.</p>",
+                    "text": "<p>Choose solo or family. Every compression kit is one vacuum travel bag and one multi-function pump.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -2348,7 +1647,7 @@
                 "text_081": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>1× vacuum travel bag</strong> (18.5″ × 11.8″ × 5.9″)</p><p><strong>1× 30W multi-function pump</strong> (USB-C + LED light)</p><p><strong>Free US shipping</strong>, tracked to your door</p>",
+                    "text": "<p><strong>Solo:</strong> 1 compression kit + 1 bonus travel bag</p><p><strong>Family:</strong> 2 compression kits + 2 bonus travel bags + AI Travel Upgrade</p><p><strong>Every kit:</strong> 1× vacuum travel bag (18.5″ × 11.8″ × 5.9″) and 1× 30W multi-function pump (USB-C + LED light)</p><p><strong>Free US shipping</strong>, tracked to your door</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -2663,932 +1962,18 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
-    },
-    "section_faq": {
-      "type": "section",
-      "blocks": {
-        "text_106": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<h3>Frequently asked questions</h3>",
-            "width": "fit-content",
-            "max_width": "narrow",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "accordion_107": {
-          "type": "accordion",
-          "name": "t:names.accordion",
-          "settings": {
-            "icon": "caret",
-            "dividers": true,
-            "type_preset": "h5",
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "accordion_row_088": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "Will the compressed bag fit in my carry-on?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_089": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Yes. Each bag measures 18.5″ × 11.8″ × 5.9″ and compresses down to roughly 3″ thick, sized for standard carry-ons and backpacks. Your suitcase still needs to meet your airline's size rules; Voltairs just makes sure everything fits inside it.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_089"
-              ]
-            },
-            "accordion_row_090": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "Is it guaranteed to shrink my clothes by 60%?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_091": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Honestly, no. Up to 60% is the maximum we measured, and the result depends on the fabric. Fluffy items that trap air, like sweaters, hoodies, and jackets, compress the most. Dense fabrics like denim compress less. Most mixed loads still shrink far beyond what rolling or packing cubes can do.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_091"
-              ]
-            },
-            "accordion_row_092": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "Does the pump need batteries?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_093": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>No. The 30W pump is USB-C rechargeable, has a long-lasting battery, and doubles as an LED light. It deflates a full bag in seconds, and with the included nozzles it inflates air mattresses and pool floats too.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_093"
-              ]
-            },
-            "accordion_row_094": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "Will my clothes come out wrinkled?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_095": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Compression presses clothes flat rather than crumpling them, so jeans, knits, and casual wear come out fine. Fold delicate shirts on top of the stack and give them a quick shake-out when you arrive.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_095"
-              ]
-            },
-            "accordion_row_096": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "How much actually fits in one bag?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_097": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Up to 22 lb of clothing, roughly 8 to 10 days of outfits once compressed to about 40% of their original size. Each kit includes one bag and one 30W pump.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_097"
-              ]
-            },
-            "accordion_row_098": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "What's new in this updated kit?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_099": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>This is version 2 of the Voltairs kit, rebuilt around feedback from our first version, with a focus on the seal, the zipper, and the pump. If you own V1 and wonder whether to upgrade, email us at info@voltairs.com and we will give you an honest answer.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_099"
-              ]
-            },
-            "accordion_row_100": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "What if it doesn't work for me?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_101": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Every kit comes with a 100-day money-back guarantee. If it does not save you space and money, return it for a full refund. No questions asked.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_101"
-              ]
-            },
-            "accordion_row_102": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "How much does shipping cost?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_103": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Nothing. Every Voltairs kit ships free within the United States.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_103"
-              ]
-            },
-            "accordion_row_104": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "When will I get my order?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_105": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Orders ship within 2 business days. Delivery typically takes 6 to 10 business days in the US, and you will receive a tracking email as soon as it is on the way.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_105"
-              ]
-            }
-          },
-          "block_order": [
-            "accordion_row_088",
-            "accordion_row_090",
-            "accordion_row_092",
-            "accordion_row_094",
-            "accordion_row_096",
-            "accordion_row_098",
-            "accordion_row_100",
-            "accordion_row_102",
-            "accordion_row_104"
-          ]
-        }
-      },
-      "block_order": [
-        "text_106",
-        "accordion_107"
-      ],
-      "name": "FAQ",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
-      }
-    },
-    "section_email": {
-      "type": "section",
-      "blocks": {
-        "text_108": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<h3><strong>Travel Lighter for Less</strong></h3>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center",
-            "type_preset": "h5",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "text_109": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Launch offers and smart packing tips. No spam, just the good stuff.</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "email_signup_110": {
-          "type": "email-signup",
-          "settings": {
-            "width": "fill",
-            "custom_width": 100,
-            "inherit_color_scheme": false,
-            "color_scheme": "scheme-fd09e12e-5c3d-405a-bf80-96e8eeed9c9c",
-            "border_style": "all",
-            "border_width": 1,
-            "border_radius": 100,
-            "input_type_preset": "paragraph",
-            "style_class": "button",
-            "display_type": "text",
-            "label": "Sign up",
-            "integrated_button": false,
-            "button_type_preset": "paragraph",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_108",
-        "text_109",
-        "email_signup_110"
-      ],
-      "name": "Email signup",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-cae25dfa-a3e1-4115-b96a-f752034e569c",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 56
-      }
-    },
-    "section_trust": {
-      "type": "section",
-      "blocks": {
-        "trust_heading": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<h2><strong>Buy With Confidence</strong></h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "trust_row": {
-          "type": "group",
-          "settings": {
-            "link": "",
-            "open_in_new_tab": false,
-            "content_direction": "row",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-start",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
-            "gap": 16,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "trust_col_1": {
-              "type": "group",
-              "settings": {
-                "link": "",
-                "open_in_new_tab": false,
-                "content_direction": "column",
-                "vertical_on_mobile": false,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "flex-start",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "flex-start",
-                "gap": 16,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "trust_card_1": {
-                  "type": "ai_gen_block_17c9414",
-                  "name": "Custom Text",
-                  "settings": {
-                    "text": "<p><strong>100-Day Money-Back Guarantee</strong><br/>Try Voltairs on your next trips. If it is not right for you, return it within 100 days of delivery for a full refund. Discounted orders are covered too.</p>",
-                    "text_color": "#03275b",
-                    "background_color": "#f4f4f4",
-                    "text_alignment": "left",
-                    "padding": 20,
-                    "border_radius": 12
-                  },
-                  "blocks": {}
-                },
-                "trust_card_2": {
-                  "type": "ai_gen_block_17c9414",
-                  "name": "Custom Text",
-                  "settings": {
-                    "text": "<p><strong>Free US Shipping, Tracked</strong><br/>Every order ships free within the United States. Allow 2 business days for processing; delivery typically takes 6 to 10 business days, with tracking sent by email.</p>",
-                    "text_color": "#03275b",
-                    "background_color": "#f4f4f4",
-                    "text_alignment": "left",
-                    "padding": 20,
-                    "border_radius": 12
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "trust_card_1",
-                "trust_card_2"
-              ]
-            },
-            "trust_col_2": {
-              "type": "group",
-              "settings": {
-                "link": "",
-                "open_in_new_tab": false,
-                "content_direction": "column",
-                "vertical_on_mobile": false,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "flex-start",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "flex-start",
-                "gap": 16,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "trust_card_3": {
-                  "type": "ai_gen_block_17c9414",
-                  "name": "Custom Text",
-                  "settings": {
-                    "text": "<p><strong>Secure Checkout</strong><br/>Payments run through Shopify's encrypted checkout. All major cards and express payment options are accepted.</p>",
-                    "text_color": "#03275b",
-                    "background_color": "#f4f4f4",
-                    "text_alignment": "left",
-                    "padding": 20,
-                    "border_radius": 12
-                  },
-                  "blocks": {}
-                },
-                "trust_card_4": {
-                  "type": "ai_gen_block_17c9414",
-                  "name": "Custom Text",
-                  "settings": {
-                    "text": "<p><strong>Real Human Support</strong><br/>Questions before or after your trip? Write to info@voltairs.com and you will get an honest answer, not a bot.</p>",
-                    "text_color": "#03275b",
-                    "background_color": "#f4f4f4",
-                    "text_alignment": "left",
-                    "padding": 20,
-                    "border_radius": 12
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "trust_card_3",
-                "trust_card_4"
-              ]
-            }
-          },
-          "block_order": [
-            "trust_col_1",
-            "trust_col_2"
-          ]
-        }
-      },
-      "block_order": [
-        "trust_heading",
-        "trust_row"
-      ],
-      "name": "Trust",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
-      }
-    },
-    "section_final_cta": {
-      "type": "section",
-      "blocks": {
-        "fcta_heading": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<h2><strong>Travel With More. Check Less.</strong></h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h3",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "fcta_summary": {
-          "type": "text",
-          "settings": {
-            "text": "<p>1 compression bag and a 30W pump &middot; up to 60% less space &middot; free US shipping &middot; 100-day money-back guarantee</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "fcta_button": {
-          "type": "button",
-          "settings": {
-            "label": "Get Voltairs for $89.99",
-            "link": "shopify://products/voltairs-travel-vacuum-bag-kit-compression-bag-free-multi-function-air-pump",
-            "open_in_new_tab": false,
-            "style_class": "button",
-            "width": "custom",
-            "custom_width": 30,
-            "width_mobile": "custom",
-            "custom_width_mobile": 90
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "fcta_heading",
-        "fcta_summary",
-        "fcta_button"
-      ],
-      "name": "Final CTA",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-3",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 64,
-        "padding-block-end": 72
-      }
     }
   },
   "order": [
     "section_hero",
-    "section_stats_marquee",
-    "section_compare_demo",
-    "section_how_it_works",
-    "section_quotes",
-    "section_offer",
-    "section_benefit_space",
-    "section_benefit_money",
-    "section_savings",
-    "section_benefit_pump",
-    "section_benefit_seal",
-    "section_compare",
-    "section_trust",
-    "section_faq",
-    "section_final_cta",
-    "section_email"
+    "marquee_z9PeaH",
+    "voltairs_social_proof",
+    "section_pdp_problem",
+    "section_pdp_savings",
+    "section_pdp_compare",
+    "section_7YAPWW",
+    "section_pdp_faq",
+    "section_pdp_cta",
+    "section_offer"
   ]
 }
