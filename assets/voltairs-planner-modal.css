@@ -120,12 +120,75 @@
 
 /* ----------------------------------------------------------------- header */
 
+/* One segment per slide, read the way a phone status is: filled behind you, filling
+   in front of you, empty ahead. The script sets --vpm-run to however long the slide
+   it is starting will take, so the fill and the slide finish together. */
+.vpm-bars {
+  display: flex;
+  gap: 4px;
+  padding: 10px 12px 0;
+}
+
+.vpm-bar {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(3 39 91 / 14%);
+  cursor: pointer;
+}
+
+/* A 3px bar is not a target. This gives it a finger's worth of height to be hit
+   with, without making the bar itself any thicker. */
+.vpm-bar::before {
+  content: '';
+  position: absolute;
+  inset: -9px 0;
+}
+
+.vpm-bar:focus-visible {
+  outline: 2px solid var(--vpm-ink);
+  outline-offset: 4px;
+}
+
+.vpm-bar-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--vpm-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.vpm-bar.is-playing .vpm-bar-fill {
+  animation: vpm-run var(--vpm-run, 0ms) linear both;
+}
+
+/* Held while the slide waits to be scrolled into view, so the bar never promises
+   time that the slide is not actually spending. */
+.vpm-bar.is-waiting .vpm-bar-fill {
+  animation-play-state: paused;
+}
+
+.vpm-bar.is-done .vpm-bar-fill {
+  transform: scaleX(1);
+}
+
+@keyframes vpm-run {
+  to {
+    transform: scaleX(1);
+  }
+}
+
 /* Nothing but the close button lives up here, so the bar stays slim and unruled;
    each slide carries its own title. */
 .vpm-head {
   display: flex;
   justify-content: flex-end;
-  padding: 12px 12px 0;
+  padding: 8px 12px 0;
 }
 
 .vpm-close {
@@ -153,11 +216,19 @@
 
 /* ----------------------------------------------------------------- slides */
 
-.vpm-track {
-  /* min-height:0 is what lets the track shrink inside the sheet's max-height, so
-     tall slides scroll internally instead of pushing the nav off screen. */
+/* The chevrons are laid over the slide rather than sat under it, so the slide keeps
+   the full height of the sheet. min-height:0 is what lets this shrink inside the
+   sheet's max-height, so tall slides scroll internally instead of overflowing it. */
+.vpm-stage {
+  position: relative;
   flex: 1 1 auto;
   min-height: 0;
+  display: flex;
+}
+
+.vpm-track {
+  flex: 1 1 auto;
+  min-width: 0;
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 100%;
@@ -177,7 +248,7 @@
   flex-direction: column;
   gap: 12px;
   min-width: 0;
-  padding: 16px;
+  padding: 16px 16px 20px;
   overflow-y: auto;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -901,18 +972,14 @@
   pointer-events: auto;
 }
 
-/* ----------------------------------------------------------------- footer */
+/* ------------------------------------------------------------- navigation */
 
-.vpm-nav {
-  display: grid;
-  grid-template-columns: 32px 1fr 32px;
-  gap: 10px;
-  align-items: center;
-  padding: 10px 16px 14px;
-  border-top: 1px solid var(--vpm-line);
-}
-
+/* The two moves a tap already makes, spelled out for a mouse. They sit over the
+   edges of the slide and stay out of the way until the pointer is in the modal. */
 .vpm-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
   display: grid;
   place-items: center;
   width: 32px;
@@ -922,7 +989,24 @@
   border-radius: 50%;
   background: var(--vpm-surface);
   color: var(--vpm-ink);
+  box-shadow: 0 6px 16px -10px rgb(3 39 91 / 80%);
+  opacity: 0;
+  transform: translateY(-50%);
   cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.vpm-arrow--prev {
+  left: 6px;
+}
+
+.vpm-arrow--next {
+  right: 6px;
+}
+
+.vpm-stage:hover .vpm-arrow,
+.vpm-arrow:focus-visible {
+  opacity: 1;
 }
 
 .vpm-arrow svg {
@@ -930,32 +1014,17 @@
   height: 13px;
 }
 
+/* There is nowhere to go, so there is nothing to show: an arrow greyed out over the
+   slide would only be something else to read. */
 .vpm-arrow[disabled] {
-  opacity: 0.3;
-  cursor: default;
+  display: none;
 }
 
-.vpm-dots {
-  display: flex;
-  gap: 7px;
-  justify-content: center;
-}
-
-.vpm-dot {
-  width: 7px;
-  height: 7px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--vpm-line);
-  cursor: pointer;
-  transition: width 0.2s ease, background-color 0.2s ease;
-}
-
-.vpm-dot[aria-current='true'] {
-  width: 18px;
-  border-radius: 999px;
-  background: var(--vpm-ink);
+/* Touch has the tap zones and no pointer to reveal these with. */
+@media (hover: none) {
+  .vpm-arrow {
+    display: none;
+  }
 }
 
 .vpm-sr {
@@ -1054,6 +1123,11 @@
   .vpm-slide.is-active .vpm-win,
   .vpm-slide.is-active .vpm-wins ~ .vpm-foot {
     opacity: 1;
+    animation: none;
+  }
+
+  /* Nothing is being timed, so a bar only says where the shopper is. */
+  .vpm-bar-fill {
     animation: none;
   }
 

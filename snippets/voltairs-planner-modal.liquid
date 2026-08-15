@@ -25,9 +25,10 @@
 
   comment
     Shown under the file on the first slide. It has to match the name of the PDF the
-    shopper actually downloads, or the modal is describing a different file.
+    shopper actually downloads, or the modal is describing a different file. Named
+    for the store, so the chip says whose planner this is at a glance.
   endcomment
-  assign planner_file_name = 'AI-Travel-Planner.pdf'
+  assign planner_file_name = 'Voltairs-AI-Travel-Planner.pdf'
 -%}
 
 {%- if request.page_type == 'product' -%}
@@ -43,6 +44,24 @@
 
   <dialog class="vpm" id="vpm-dialog" aria-label="How the AI travel planner works">
     <div class="vpm-sheet">
+      {%- comment -%}
+        The bars read the way a phone status does: one segment per slide, the current
+        one filling as it plays, so the shopper can see both how many there are and
+        how long the one in front of them has left. They are buttons as well as an
+        indicator, which is what makes the whole thing reachable from a keyboard.
+      {%- endcomment -%}
+      <nav class="vpm-bars" aria-label="Slides">
+        <button class="vpm-bar" type="button" data-vpm-bar aria-current="true" aria-label="What is this">
+          <span class="vpm-bar-fill"></span>
+        </button>
+        <button class="vpm-bar" type="button" data-vpm-bar aria-current="false" aria-label="What you get">
+          <span class="vpm-bar-fill"></span>
+        </button>
+        <button class="vpm-bar" type="button" data-vpm-bar aria-current="false" aria-label="See the difference">
+          <span class="vpm-bar-fill"></span>
+        </button>
+      </nav>
+
       <header class="vpm-head">
         <button class="vpm-close" type="button" data-vpm-close aria-label="Close">
           <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -51,7 +70,14 @@
         </button>
       </header>
 
-      <div class="vpm-track" data-vpm-track>
+      {%- comment -%}
+        A tap on the left of the slide goes back and a tap anywhere else goes on, as
+        it does on a status. The chevrons are the same two moves for a mouse, which
+        has no such convention to draw on: they sit over the edges of the slide and
+        surface on hover.
+      {%- endcomment -%}
+      <div class="vpm-stage">
+        <div class="vpm-track" data-vpm-track>
         {%- comment -%} 1. What is this {%- endcomment -%}
         <section class="vpm-slide" data-vpm-slide aria-label="What is this">
           <h3 class="vpm-slide-title">What is this?</h3>
@@ -68,11 +94,10 @@
             so it is hidden from assistive tech and the paragraph under it says the
             same thing in words.
 
-            data-vpm-loop is the fallback, not the usual ending: on a playthrough the
-            modal is driving it moves on to slide two instead of repeating itself, and
-            only replays here for a shopper who has swiped back to this slide.
+            The scene plays once. It used to loop, which is what left a shopper on a
+            finished animation with nothing to do; it now gives way to slide two.
           {%- endcomment -%}
-          <figure class="vpm-scene" aria-hidden="true" data-vpm-seq data-vpm-speed="18" data-vpm-loop="2600" data-phase="idle">
+          <figure class="vpm-scene" aria-hidden="true" data-vpm-seq data-vpm-speed="18" data-phase="idle">
             <div class="vpm-chat">
               <div class="vpm-chat-row">
                 <span class="vpm-chat-btn" data-vpm-target="attach">
@@ -245,12 +270,13 @@
           2. What it gets you. Cards deal in one at a time, driven by --i and the
           is-active class, so nothing moves until the slide is actually on screen.
 
-          There is no sequence for the script to follow here, so data-vpm-hold tells
-          it how long the deal takes before it moves on to slide three: the last
-          card is the closing line at --i 6, which starts at 6 x 0.16s and runs for
-          0.42s. See vpm-deal in the stylesheet.
+          There is no sequence for the script to follow here, so data-vpm-hold is how
+          long the slide is given before it moves on to slide three. The deal itself
+          is over in 1.4s — the closing line is at --i 6, so 6 x 0.16s and then 0.42s
+          of its own; see vpm-deal in the stylesheet. The rest is reading time, which
+          is the thing that actually decides how long six cards need to be up.
         {%- endcomment -%}
-        <section class="vpm-slide" data-vpm-slide data-vpm-hold="1400" aria-label="What you get">
+        <section class="vpm-slide" data-vpm-slide data-vpm-hold="6000" aria-label="What you get">
           <h3 class="vpm-slide-title">What you get</h3>
 
           <ul class="vpm-wins">
@@ -399,25 +425,19 @@
             </div>
           </div>
         </section>
-      </div>
+        </div>
 
-      <nav class="vpm-nav" aria-label="Slides">
-        <button class="vpm-arrow" type="button" data-vpm-prev aria-label="Previous">
+        <button class="vpm-arrow vpm-arrow--prev" type="button" data-vpm-prev aria-label="Previous">
           <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M8.5 1.5L3 6.5l5.5 5" />
           </svg>
         </button>
-        <div class="vpm-dots">
-          <button class="vpm-dot" type="button" data-vpm-dot aria-current="true" aria-label="What is this"></button>
-          <button class="vpm-dot" type="button" data-vpm-dot aria-current="false" aria-label="What you get"></button>
-          <button class="vpm-dot" type="button" data-vpm-dot aria-current="false" aria-label="See the difference"></button>
-        </div>
-        <button class="vpm-arrow" type="button" data-vpm-next aria-label="Next">
+        <button class="vpm-arrow vpm-arrow--next" type="button" data-vpm-next aria-label="Next">
           <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M4.5 1.5L10 6.5l-5.5 5" />
           </svg>
         </button>
-      </nav>
+      </div>
     </div>
   </dialog>
 
