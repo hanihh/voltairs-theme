@@ -71,9 +71,10 @@
     {% render 'voltairs-gift-reconciler' %}
 
     {%- comment -%}
-      Product pages only. The snippet gates on that itself, since it hangs off the
-      Bundlex offer widget, which only renders there.
+      Product pages only. Both snippets gate on that themselves, since both hang off
+      the Bundlex offer widget, which only renders there.
     {%- endcomment -%}
     {% render 'voltairs-planner-modal' %}
+    {% render 'voltairs-offer-price' %}
   </body>
 </html>

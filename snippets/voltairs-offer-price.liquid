@@ -1,0 +1,37 @@
+{%- comment -%}
+  Takes the theme's own price off the product page once the Bundlex offer widget has
+  drawn itself.
+
+  The widget prices every offer it shows, and the price block above it prices the bare
+  variant, so the page carries two different numbers for the same purchase and only
+  one of them is what the shopper will actually pay. The theme's is the one to go.
+
+  It goes on sight of the widget rather than on page load, because the widget belongs
+  to the app and does not always arrive: the app can be down, blocked by a shopper's
+  extension, or simply switched off for a product. Nothing here happens until the
+  widget is really on screen, so the worst case is the page the shopper used to get
+  rather than one with no price on it at all.
+
+  The widget is the app block Shopify renders inside the product information section,
+  and this template has exactly one. If a second app block is ever added in there,
+  narrow widget_selector to the widget's own wrapper or the price will disappear
+  behind whatever else lands first.
+{%- endcomment -%}
+
+{%- liquid
+  assign price_selector = '.product-information product-price'
+  assign widget_selector = '.product-information .shopify-app-block, .product-information [id^="shopify-block-"]'
+-%}
+
+{%- if request.page_type == 'product' -%}
+  <script
+    type="application/json"
+    id="voltairs-offer-price-config"
+  >
+    {
+      "priceSelector": {{ price_selector | json }},
+      "widgetSelector": {{ widget_selector | json }}
+    }
+  </script>
+  <script src="{{ 'voltairs-offer-price.js' | asset_url }}" defer></script>
+{%- endif -%}
