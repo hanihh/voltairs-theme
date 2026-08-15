@@ -371,7 +371,10 @@
   position: absolute;
   top: 0;
   left: var(--x);
-  padding: 3px 8px;
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  padding: 3px 9px 3px 7px;
   border: 1.5px solid var(--vpm-line);
   border-radius: 999px;
   background: var(--vpm-surface);
@@ -379,6 +382,13 @@
   font-weight: 700;
   white-space: nowrap;
   opacity: 0;
+}
+
+/* The icon is what makes a badge readable in the second it is on screen. */
+.vpm-lane b svg {
+  flex: none;
+  width: 12px;
+  height: 12px;
 }
 
 /* Stagger is wider than it looks: it has to stay well above a third of the duration,
