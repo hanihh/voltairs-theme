@@ -61,7 +61,7 @@
             so it is hidden from assistive tech and the paragraph under it says the
             same thing in words.
           {%- endcomment -%}
-          <figure class="vpm-scene" aria-hidden="true" data-vpm-seq data-vpm-speed="34" data-vpm-loop="2000" data-phase="idle">
+          <figure class="vpm-scene" aria-hidden="true" data-vpm-seq data-vpm-speed="18" data-vpm-loop="2600" data-phase="idle">
             <div class="vpm-chat">
               <div class="vpm-chat-row">
                 <span class="vpm-chat-btn" data-vpm-target="attach">
@@ -97,7 +97,11 @@
                 Two phases: everything the file carries pours in, and only once it
                 has all landed does the mark turn into the travel one.
               {%- endcomment -%}
-              <i data-vpm-step="state" data-vpm-state="sent" data-vpm-hold="5600"></i>
+              {%- comment -%}
+                The hold has to outlast the pour or the logo turns while badges are
+                still in the air. 25 badges, 0.42s apart, 1.5s each: see vpm-fall.
+              {%- endcomment -%}
+              <i data-vpm-step="state" data-vpm-state="sent" data-vpm-hold="12400"></i>
               <i data-vpm-step="state" data-vpm-state="ready" data-vpm-hold="2600"></i>
 
               <span class="vpm-cursor" data-vpm-cursor>
@@ -189,60 +193,83 @@
           <p class="vpm-foot">You do not read it. Your AI does.</p>
         </section>
 
-        {%- comment -%} 2. How it works {%- endcomment -%}
-        <section class="vpm-slide" data-vpm-slide aria-label="How it works">
-          <h3 class="vpm-slide-title">How it works</h3>
+        {%- comment -%}
+          2. What it gets you. Cards deal in one at a time, driven by --i and the
+          is-active class, so nothing moves until the slide is actually on screen.
+        {%- endcomment -%}
+        <section class="vpm-slide" data-vpm-slide aria-label="What you get">
+          <h3 class="vpm-slide-title">What you get</h3>
 
-          <ol class="vpm-steps">
-            <li class="vpm-step" style="--i: 0">
-              <span class="vpm-step-n">1</span>
-              <span class="vpm-step-text">Download the file</span>
-              <span class="vpm-step-ic" aria-hidden="true">
+          <ul class="vpm-wins">
+            <li class="vpm-win" style="--i: 0">
+              <span class="vpm-win-ic" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 3v11" />
-                  <path d="M7 10l5 5 5-5" />
-                  <path d="M4 20h16" />
+                  <path d="M12 4v16" />
+                  <path d="M15.5 8.2A3 3 0 0 0 12.8 6.5h-1.4a2.6 2.6 0 0 0-.6 5.1l2.6.7a2.6 2.6 0 0 1-.6 5.2h-1.4a3 3 0 0 1-2.7-1.7" />
                 </svg>
               </span>
+              <b class="vpm-win-h">Save $100+ a trip</b>
+              <span class="vpm-win-p">The date, airport and fee checks that move the number.</span>
             </li>
-            <li class="vpm-step" style="--i: 1">
-              <span class="vpm-step-n">2</span>
-              <span class="vpm-step-text">Open ChatGPT</span>
-              <span class="vpm-step-ic" aria-hidden="true">
-                {%- if gpt_logo != blank -%}
-                  <img src="{{ gpt_logo }}" alt="" width="19" height="19" loading="lazy">
-                {%- else -%}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
-                    <path d="M20 15a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z" />
-                  </svg>
-                {%- endif -%}
-              </span>
-            </li>
-            <li class="vpm-step" style="--i: 2">
-              <span class="vpm-step-n">3</span>
-              <span class="vpm-step-text">Attach it to a new chat</span>
-              <span class="vpm-step-ic" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 11.5l-8.4 8.4a4.6 4.6 0 0 1-6.5-6.5l8.4-8.4a3 3 0 0 1 4.3 4.3l-8.4 8.4a1.5 1.5 0 0 1-2.2-2.2l7.8-7.8" />
-                </svg>
-              </span>
-            </li>
-            <li class="vpm-step" style="--i: 3">
-              <span class="vpm-step-n">4</span>
-              <span class="vpm-step-text">
-                Ask it to plan your trip
-                <span class="vpm-step-note">"Plan my trip to Lisbon in May"</span>
-              </span>
-              <span class="vpm-step-ic" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
-                  <path d="M21 3L2 11l7 3 3 7z" />
-                  <path d="M21 3L9 14" />
-                </svg>
-              </span>
-            </li>
-          </ol>
 
-          <p class="vpm-foot" style="--i: 4">About 60 seconds, once. Then reuse it on every trip.</p>
+            <li class="vpm-win" style="--i: 1">
+              <span class="vpm-win-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z" />
+                  <circle cx="12" cy="12" r="2.6" />
+                </svg>
+              </span>
+              <b class="vpm-win-h">Hidden costs, surfaced</b>
+              <span class="vpm-win-p">Baggage, resort fees, tolls, card charges. Before you book.</span>
+            </li>
+
+            <li class="vpm-win" style="--i: 2">
+              <span class="vpm-win-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H9l-4.5 3.5V6.5A2.5 2.5 0 0 1 7 4h10.5A2.5 2.5 0 0 1 20 6.5z" />
+                  <path d="M10.2 9a2 2 0 0 1 3.7 1c0 1.3-2 1.6-2 2.7" />
+                  <path d="M11.9 15.2h.01" />
+                </svg>
+              </span>
+              <b class="vpm-win-h">A planner that asks first</b>
+              <span class="vpm-win-p">Budget, dates, who is coming. Then it plans around you.</span>
+            </li>
+
+            <li class="vpm-win" style="--i: 3">
+              <span class="vpm-win-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 3v7a2 2 0 0 0 4 0V3" />
+                  <path d="M8 10v11" />
+                  <path d="M17 3c-1.7 1.4-2.5 3.4-2.5 5.6 0 1.6.8 2.6 2.5 2.9V21" />
+                </svg>
+              </span>
+              <b class="vpm-win-h">Food that fits you</b>
+              <span class="vpm-win-p">Allergies, halal and diets checked on every recommendation.</span>
+            </li>
+
+            <li class="vpm-win" style="--i: 4">
+              <span class="vpm-win-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3.6l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.7-5 2.7.9-5.6-4-4 5.6-.8z" />
+                </svg>
+              </span>
+              <b class="vpm-win-h">Real reviews, not ads</b>
+              <span class="vpm-win-p">Tripadvisor, Reddit and Google cross-checked before it picks.</span>
+            </li>
+
+            <li class="vpm-win" style="--i: 5">
+              <span class="vpm-win-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3l7.5 3v6c0 4.4-3.1 7.7-7.5 9-4.4-1.3-7.5-4.6-7.5-9V6z" />
+                  <path d="M9 12.2l2 2 4-4.2" />
+                </svg>
+              </span>
+              <b class="vpm-win-h">Nothing derails it</b>
+              <span class="vpm-win-p">Weather, strikes, closures and entry rules checked ahead.</span>
+            </li>
+          </ul>
+
+          <p class="vpm-foot" style="--i: 6">One file. Every trip you take from here.</p>
         </section>
 
         {%- comment -%} 3. The difference {%- endcomment -%}
@@ -264,7 +291,12 @@
           <div class="vpm-demo" data-vpm-demo data-stage="idle" aria-hidden="true">
             <div class="vpm-cols">
               <article class="vpm-col vpm-col--plain" data-vpm-seq data-vpm-speed="60">
-                <p class="vpm-col-head">Plain ChatGPT</p>
+                <p class="vpm-col-head">
+                  {%- if gpt_logo != blank -%}
+                    <img src="{{ gpt_logo }}" alt="" width="16" height="16" loading="lazy">
+                  {%- endif -%}
+                  <span>ChatGPT</span>
+                </p>
                 <div class="vpm-thread">
                   <p class="vpm-said">Plan a trip to London in October</p>
                   <p class="vpm-bubble" data-vpm-step="type">Sure! Here's a 5-day London itinerary:
@@ -277,7 +309,12 @@
               </article>
 
               <article class="vpm-col vpm-col--planner" data-vpm-seq data-vpm-speed="95">
-                <p class="vpm-col-head">With the planner</p>
+                <p class="vpm-col-head">
+                  {%- if gpt_logo != blank -%}
+                    <img src="{{ gpt_logo }}" alt="" width="16" height="16" loading="lazy">
+                  {%- endif -%}
+                  <span>ChatGPT travel agent</span>
+                </p>
                 <div class="vpm-thread">
                   <p class="vpm-said">Plan a trip to London in October</p>
 
@@ -319,7 +356,7 @@
         </button>
         <div class="vpm-dots">
           <button class="vpm-dot" type="button" data-vpm-dot aria-current="true" aria-label="What is this"></button>
-          <button class="vpm-dot" type="button" data-vpm-dot aria-current="false" aria-label="How it works"></button>
+          <button class="vpm-dot" type="button" data-vpm-dot aria-current="false" aria-label="What you get"></button>
           <button class="vpm-dot" type="button" data-vpm-dot aria-current="false" aria-label="See the difference"></button>
         </div>
         <button class="vpm-arrow" type="button" data-vpm-next aria-label="Next">

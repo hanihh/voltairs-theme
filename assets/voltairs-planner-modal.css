@@ -2,8 +2,9 @@
   Styles for snippets/voltairs-planner-modal.liquid.
 
   Two things live here: the small trigger link that gets injected into the Bundlex
-  gift row, and the modal itself. The trigger inherits colour from whatever the app
-  renders around it, so it reads correctly on both the navy gift row and a light one.
+  gift row, and the modal itself. The trigger takes its colour from the gift row's
+  own title, so it reads correctly on both the navy gift row and a light one. The
+  script sets --vpm-open-color; hardcode it below if you ever want to override it.
 */
 
 /* ---------------------------------------------------------------- trigger */
@@ -15,7 +16,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: inherit;
+  color: var(--vpm-open-color, inherit);
   font: inherit;
   font-size: 0.78em;
   font-weight: 600;
@@ -313,7 +314,9 @@
   margin: -1px 0 0 -1px;
   color: var(--vpm-ink);
   pointer-events: none;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Kept in step with BEAT.move in the script, which waits out this transition. */
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .vpm-cursor svg {
@@ -350,7 +353,7 @@
 /* The lane: everything the file carries, pouring into the AI once send is hit.
    Travel distance is the lane's own height, so the two stay in step at any size. */
 .vpm-lane {
-  --lane: 118px;
+  --lane: 134px;
 
   position: relative;
   width: 100%;
@@ -366,28 +369,42 @@
   border: 1.5px solid var(--vpm-line);
   border-radius: 999px;
   background: var(--vpm-surface);
-  font-size: 0.6rem;
+  font-size: 0.64rem;
   font-weight: 700;
   white-space: nowrap;
   opacity: 0;
 }
 
+/* Stagger is wider than it looks: it has to stay well above a third of the duration,
+   or too many badges share the lane at once and the whole thing reads as clutter
+   rather than as a list you can actually follow. */
 .vpm-scene[data-phase='sent'] .vpm-lane b {
-  animation: vpm-fall 1s linear calc(var(--i) * 0.18s) both;
+  animation: vpm-fall 1.5s linear calc(var(--i) * 0.42s) both;
 }
 
+/* Fast in, a slow crawl through the middle where the badge is meant to be read,
+   then away. The pacing lives in the keyframes, which is why the timing is linear. */
 @keyframes vpm-fall {
   0% {
     opacity: 0;
     transform: translateY(0) scale(0.9);
   }
 
-  16% {
+  12% {
     opacity: 1;
-    transform: translateY(calc(var(--lane) * 0.16)) scale(1);
+    transform: translateY(calc(var(--lane) * 0.18)) scale(1);
   }
 
-  78% {
+  30% {
+    transform: translateY(calc(var(--lane) * 0.38)) scale(1);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(calc(var(--lane) * 0.58)) scale(1);
+  }
+
+  88% {
     opacity: 1;
   }
 
@@ -417,11 +434,15 @@
    orbit: the long arc draws itself, the dashes fill in behind it, and the plane
    swoops in and keeps circling. */
 .vpm-ai-mark {
+  /* The plane's orbit is derived from this, so resize here and it follows. */
+  --mark: 58px;
+  --plane: 17px;
+
   position: relative;
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
+  width: var(--mark);
+  height: var(--mark);
 }
 
 .vpm-ai-mark img,
@@ -486,13 +507,17 @@
     vpm-circle 9s linear 1.25s infinite;
 }
 
+/* The plane has to sit ON the ring, not near it. The arcs are drawn r=26 about the
+   centre of a 60-unit viewBox, so the ring's top is (30 - 26) / 60 of the way down
+   the mark. Centre the plane there and its rotation radius matches the ring exactly;
+   hardcoding a top offset is what left it floating outside the line. */
 .vpm-plane {
   position: absolute;
-  top: -8px;
+  top: calc(var(--mark) * 4 / 60 - var(--plane) / 2);
   left: 50%;
-  width: 17px;
-  height: 17px;
-  margin-left: -8.5px;
+  width: var(--plane);
+  height: var(--plane);
+  margin-left: calc(var(--plane) / -2);
   transform: rotate(90deg);
 }
 
@@ -567,34 +592,66 @@
 
 /* The track is as tall as its tallest slide, so this one has room to spare. The auto
    block margins hand that room back evenly instead of leaving it all underneath. */
-.vpm-steps {
+.vpm-wins {
   display: grid;
-  gap: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
   margin: auto 0;
   padding: 0;
   list-style: none;
 }
 
-.vpm-step {
+.vpm-win {
   display: grid;
-  grid-template-columns: 30px 1fr auto;
-  gap: 12px;
-  align-items: center;
-  padding: 10px 0;
+  gap: 4px;
+  align-content: start;
+  padding: 12px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 12px;
+  background: var(--vpm-surface);
 }
 
-/* The list deals itself out when the slide opens, one step at a time, and again on
+.vpm-win-ic {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 2px;
+  border-radius: 8px;
+  background: var(--vpm-tint);
+  color: var(--vpm-ink);
+}
+
+.vpm-win-ic svg {
+  width: 17px;
+  height: 17px;
+}
+
+.vpm-win-h {
+  font-size: 0.84rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.vpm-win-p {
+  color: var(--vpm-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* The cards deal themselves out when the slide opens, one at a time, and again on
    every return to it. Only the closing line is a sibling of the list, so slide one's
    own footer is not caught by this. */
-.vpm-step,
-.vpm-steps ~ .vpm-foot {
+.vpm-win,
+.vpm-wins ~ .vpm-foot {
   opacity: 0;
 }
 
-.vpm-slide.is-active .vpm-step,
-.vpm-slide.is-active .vpm-steps ~ .vpm-foot {
-  animation: vpm-deal 0.3s ease both;
-  animation-delay: calc(var(--i, 0) * 0.09s);
+.vpm-slide.is-active .vpm-win,
+.vpm-slide.is-active .vpm-wins ~ .vpm-foot {
+  animation: vpm-deal 0.42s ease both;
+  animation-delay: calc(var(--i, 0) * 0.16s);
 }
 
 /* The `to` half has to be spelled out. These elements declare `opacity: 0` so they
@@ -610,62 +667,6 @@
     opacity: 1;
     transform: none;
   }
-}
-
-.vpm-step-n {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--vpm-ink);
-  color: var(--vpm-surface);
-  font-size: 0.8rem;
-  font-weight: 800;
-}
-
-/* Connector between the numbers, drawn downward from all but the last. */
-.vpm-step:not(:last-child) .vpm-step-n::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  width: 1.5px;
-  height: 21px;
-  background: var(--vpm-line);
-}
-
-.vpm-step-text {
-  font-size: 0.92rem;
-  font-weight: 700;
-}
-
-.vpm-step-note {
-  display: block;
-  color: var(--vpm-muted);
-  font-size: 0.76rem;
-  font-weight: 600;
-}
-
-.vpm-step-ic {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border: 1.5px solid var(--vpm-line);
-  border-radius: 10px;
-  color: var(--vpm-ink);
-}
-
-.vpm-step-ic svg {
-  width: 19px;
-  height: 19px;
-}
-
-.vpm-step-ic img {
-  width: 19px;
-  height: 19px;
-  object-fit: contain;
 }
 
 /* ------------------------------------------------------ slide 3: compare */
@@ -698,6 +699,18 @@
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+}
+
+.vpm-col-head img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* The plain column's mark is muted on purpose: it is the "before" half. */
+.vpm-col--plain .vpm-col-head img {
+  filter: grayscale(1);
+  opacity: 0.55;
 }
 
 .vpm-col--planner .vpm-col-head {
@@ -1017,11 +1030,11 @@
     transform: none;
   }
 
-  /* The steps are simply there, rather than being dealt out. */
-  .vpm-step,
-  .vpm-steps ~ .vpm-foot,
-  .vpm-slide.is-active .vpm-step,
-  .vpm-slide.is-active .vpm-steps ~ .vpm-foot {
+  /* The cards are simply there, rather than being dealt out. */
+  .vpm-win,
+  .vpm-wins ~ .vpm-foot,
+  .vpm-slide.is-active .vpm-win,
+  .vpm-slide.is-active .vpm-wins ~ .vpm-foot {
     opacity: 1;
     animation: none;
   }

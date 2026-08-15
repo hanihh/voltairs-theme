@@ -18,15 +18,15 @@ const SPEED_FALLBACK = 80;
 
 /** Pauses between the moves of a sequence, in milliseconds. */
 const BEAT = {
-  betweenGroups: 500,
+  betweenGroups: 620,
   beforeReply: 380,
   afterReply: 260,
   optionStagger: 130,
   beforePick: 620,
   afterPick: 420,
   /** Matches the pointer's transition in the stylesheet. */
-  move: 520,
-  click: 320,
+  move: 820,
+  click: 460,
 };
 
 const dialog = /** @type {HTMLDialogElement | null} */ (document.getElementById('vpm-dialog'));
@@ -86,6 +86,9 @@ function init(root, config) {
   let index = 0;
   let generation = 0;
   let scrollFrame = 0;
+
+  /** Pending visibility waits, each a function that disconnects and gives up. */
+  const watchers = new Set();
   let injectFrame = 0;
   let restoreFocusTo = /** @type {HTMLElement | null} */ (null);
 
@@ -156,8 +159,27 @@ function init(root, config) {
 
     const parent = title.parentElement;
     const host = parent && (parent.textContent?.trim().length ?? 0) <= 200 ? parent : title;
+    const trigger = makeTrigger();
 
-    host.appendChild(makeTrigger());
+    tint(trigger, title);
+    host.appendChild(trigger);
+  }
+
+  /**
+   * The block we land in is not always the one the app colours: on the navy gift row
+   * it keeps the card's dark default and only the title and subtitle are turned
+   * white, so plain inheritance leaves the link almost invisible. Borrowing the
+   * title's own colour keeps it legible on whatever the app happens to render.
+   * @param {HTMLElement} trigger
+   * @param {HTMLElement} title
+   */
+  function tint(trigger, title) {
+    const colour = window.getComputedStyle?.(title).color;
+
+    // Ignore anything the browser could not resolve, or that would render invisible.
+    if (!colour || colour === 'transparent' || /,\s*0\s*\)$/.test(colour)) return;
+
+    trigger.style.setProperty('--vpm-open-color', colour);
   }
 
   function scheduleInject() {
@@ -244,11 +266,60 @@ function init(root, config) {
   }
 
   /**
+   * Waits until an element is actually on screen. A slide can be the current one and
+   * still have most of itself below the fold: on a phone the two demo columns stack,
+   * so the planner conversation sits well under the first one. Without this it types
+   * itself out, and finishes, long before anyone has scrolled down to watch it.
+   *
+   * Resolves false when the run has been superseded, so callers bail the same way
+   * they do for a cancelled wait. Browsers without the observer just carry on.
+   * @param {HTMLElement} el
+   * @param {number} token
+   * @returns {Promise<boolean>}
+   */
+  function onScreen(el, token) {
+    if (typeof IntersectionObserver !== 'function') return Promise.resolve(generation === token);
+
+    return new Promise((resolve) => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+
+          release();
+          resolve(generation === token);
+        },
+        { threshold: 0.2 }
+      );
+
+      const release = () => {
+        observer.disconnect();
+        watchers.delete(release);
+      };
+
+      // A swipe away has to let go of this, or the run behind it never unwinds.
+      watchers.add(() => {
+        release();
+        resolve(false);
+      });
+
+      observer.observe(el);
+    });
+  }
+
+  /** Releases every pending visibility wait. */
+  function releaseWatchers() {
+    for (const release of [...watchers]) release();
+
+    watchers.clear();
+  }
+
+  /**
    * Cancels whatever was running and starts a scene, if the slide has one.
    * @param {Scene} [scene]
    */
   function play(scene) {
     generation += 1;
+    releaseWatchers();
 
     if (!scene) return;
 
@@ -298,6 +369,8 @@ function init(root, config) {
       if (demo && scene.slide.contains(demo)) demo.dataset.stage = 'running';
 
       for (const [i, group] of scene.groups.entries()) {
+        if (!(await onScreen(group.el, token))) return;
+
         for (const step of group.steps) {
           if (!(await playStep(step, group, token))) return;
         }
