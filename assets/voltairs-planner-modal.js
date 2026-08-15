@@ -297,6 +297,8 @@ function init(root, config) {
   function resetScene(scene) {
     if (demo && scene.slide.contains(demo)) demo.dataset.stage = 'idle';
 
+    scene.slide.classList.remove('is-ended');
+
     for (const group of scene.groups) {
       group.el.classList.remove('is-done');
 
@@ -482,6 +484,8 @@ function init(root, config) {
     }
 
     if (demo && scene.slide.contains(demo)) demo.dataset.stage = 'done';
+
+    scene.slide.classList.add('is-ended');
   }
 
   /**
@@ -517,6 +521,9 @@ function init(root, config) {
     }
 
     if (demo && scene.slide.contains(demo)) demo.dataset.stage = 'done';
+
+    // What the slide offers to do next, if it offers anything; see .vpm-end.
+    scene.slide.classList.add('is-ended');
 
     return true;
   }
@@ -698,6 +705,12 @@ function init(root, config) {
       root.classList.add('vpm--fallback');
     }
 
+    // Nothing carries over from the last time it was open, the ending left showing
+    // on the last slide included. Reaching that slide would clear it anyway, but only
+    // on the way past, and a modal that opens holding the end of itself is a modal
+    // waiting for a way to show it.
+    for (const slide of slides) slide.classList.remove('is-ended');
+
     // Start on slide one every time, without animating the jump back.
     index = -1;
     goTo(0, false);
@@ -758,6 +771,13 @@ function init(root, config) {
   next.addEventListener('click', () => goTo(index + 1));
   bars.forEach((bar, i) => bar.addEventListener('click', () => goTo(i)));
   replay?.addEventListener('click', () => play(slides.findIndex((slide) => slide.contains(demo))));
+
+  // Closes, and puts the offer back in front of the shopper if the page has moved on
+  // from it. `nearest` so a row that is already on screen is left where it is.
+  root.querySelector('[data-vpm-done]')?.addEventListener('click', () => {
+    close();
+    document.querySelector('[data-vpm-open]')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  });
 
   // Sizes change with the viewport, so the scroll offset has to be recomputed or
   // the track lands between two slides.

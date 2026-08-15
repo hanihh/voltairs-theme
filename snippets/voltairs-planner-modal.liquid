@@ -421,10 +421,27 @@
               </article>
             </div>
 
-            <div class="vpm-demo-foot">
-              <p class="vpm-note">Illustrative example.</p>
-              <button class="vpm-replay" type="button" data-vpm-replay>Replay</button>
-            </div>
+            <p class="vpm-note">Illustrative example.</p>
+          </div>
+
+          {%- comment -%}
+            The last slide is where the modal runs out, and a close button in the
+            corner is not an answer to "what now" after half a minute of watching.
+            This names the next move instead, at the one moment the shopper has
+            everything they need to make it.
+
+            It sits outside the demo rather than in its footer, where the replay
+            link used to be. The demo is aria-hidden, being an illustration, and a
+            button inside that is a button a keyboard can reach and a screen reader
+            cannot account for.
+
+            No claim about the offer is made here on purpose. What the planner comes
+            with, and how many kits that takes, is the widget's to state and it
+            states it; repeating the terms here is how the two end up disagreeing.
+          {%- endcomment -%}
+          <div class="vpm-end">
+            <button class="vpm-cta" type="button" data-vpm-done>Choose your kit</button>
+            <button class="vpm-replay" type="button" data-vpm-replay>Watch again</button>
           </div>
         </section>
         </div>

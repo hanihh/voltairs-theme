@@ -937,39 +937,61 @@
   transform: none;
 }
 
-.vpm-demo-foot {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
 .vpm-note {
-  margin: 0;
+  margin: 10px 0 0;
   color: var(--vpm-muted);
   font-size: 0.68rem;
 }
 
+/* What to do next, once there is nothing left to watch. Kept out of the flow until
+   then: it arrives at a moment when nothing else is moving, so the slide growing by
+   a row reads as the ending landing rather than as a jump. */
+.vpm-end {
+  display: none;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.vpm-slide.is-ended .vpm-end {
+  display: flex;
+  animation: vpm-deal 0.42s ease both;
+}
+
+.vpm-cta {
+  padding: 11px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--vpm-ink);
+  color: var(--vpm-surface);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.vpm-cta:hover {
+  opacity: 0.88;
+}
+
+/* Quiet beside the call to action: watching it again is not the point of the slide. */
 .vpm-replay {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--vpm-ink);
+  color: var(--vpm-muted);
   font: inherit;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
-  opacity: 0;
-  pointer-events: none;
   cursor: pointer;
-  transition: opacity 0.3s ease;
 }
 
-.vpm-demo[data-stage='done'] .vpm-replay {
-  opacity: 1;
-  pointer-events: auto;
+.vpm-replay:hover {
+  color: var(--vpm-ink);
 }
 
 /* ------------------------------------------------------------- navigation */
