@@ -89,11 +89,27 @@ Shipped 2026-08-09 in commits `34757d7`, `f8008fe`, `42ba362`:
 - Live Shopify product: removed three fabricated testimonials and cleared the
   $179.99 compare-at anchor on an $89.99 product.
 
+Restructured 2026-08-15: the homepage now mirrors the product page. Everything
+between the hero and the offer is the product page's content in the product
+page's order, so the two templates share section keys and block IDs and can be
+diffed against each other directly. The homepage-only middle (how it works,
+quotes, the four benefit sections, trust cards, email signup) and the
+baggage-fee stats marquee were removed with it.
+
 Homepage section order in `templates/index.json`:
 
-1. hero, 2. stats marquee, 3. compare demo, 4. how it works, 5. quotes,
-6. offer, 7. benefit space, 8. benefit money, 9. savings, 10. benefit pump,
-11. benefit seal, 12. compare, 13. trust, 14. faq, 15. final cta, 16. email
+1. hero, 2. marquee, 3. before & after, 4. the real cost, 5. savings,
+6. comparison table, 7. product details, 8. faq, 9. final cta, 10. offer
+
+The hero's two CTAs carry the page: "Get the Voltairs Kit" jumps to `#offer` at
+the very bottom, "See how it works" jumps to `#compare-demo`, the next section
+down. The comparison table and final CTA buttons also point at `#offer`, since
+the homepage has no buy box to anchor to. `#offer` sits on the first block
+inside the offer card, so a jump lands on the top of the card.
+
+Same pass corrected the product page, which still carried the retired
+`$56 each way / $112 per round trip` figures in the savings calculator and in
+the "What You Save in One Trip" cards, against the canonical claim above.
 
 ---
 
@@ -131,33 +147,38 @@ image-search win.
 
 ### 3. Real reviews (blocked on Hani)
 
-`section_quotes` holds eight quotes with no attribution, which is the weakest
-usable form of proof. If these came from real V1 buyers, attaching a first name
-and a trip to even four of them makes the section worth more than the entire
-benefits middle.
+The site has no social proof at all now that `section_quotes` is gone with the
+old homepage middle. Its eight unattributed quotes were the weakest usable form
+of proof anyway; if any came from real V1 buyers, a first name and a trip against
+even four of them is worth more than the section ever was.
 
 Blocked deliberately: inventing names is the fake social proof the brand rules
 ban. Needs Hani to confirm which quotes are real and who said them. The V1
 product exists as a draft (`voltairs-travel-vacuum-bag-kit-v1`) if buyer records
-are reachable from there.
+are reachable from there. The old quotes are recoverable from git history at
+`bdcb4d8:templates/index.json`.
 
-### 4. Collapse the benefit middle
+### 4. Decide what the mirrored homepage still owes
 
-Takes the homepage from 16 sections to 13 and the run between offer and trust
-from six sections to three. Merge on subject, not by trimming words:
+Superseded, in part: "collapse the benefit middle" is moot because the middle is
+gone. What replaced it is a question rather than an answer. The homepage and the
+product page now say the same things in the same order, which is coherent but
+means a visitor who lands on the homepage and clicks through reads the whole
+argument twice. Three things the old homepage carried and the mirror does not:
 
-- `section_benefit_space` + `section_benefit_seal` become one section about the
-  bag itself: 22 lb of clothes, three inches thick, and it stays that way because
-  of the D-ring zipper and IPX8 shell.
-- `section_benefit_money` folds into `section_savings`. They make the same
-  argument twice, once in prose and once interactively; let the calculator carry
-  it.
-- `section_benefit_pump` stays standalone. The free 30W pump is the actual
-  differentiator against every competitor in the comparison table.
+- **Trust cards.** Four cards on guarantee, shipping, returns, and contact.
+  Reassurance right before the offer, and the mirrored page ends without any.
+  Recoverable as `section_trust` from `bdcb4d8:templates/index.json`, and the
+  product page has its own copy as `section_pdp_trust` in
+  `templates/product.upselling-products.json`.
+- **Email capture.** `section_email` was the only list-building surface on the
+  site. Nothing replaced it.
+- **How it works.** Three steps, pack, zip, pump. The hero's "See how it works"
+  CTA now lands on the before/after slider instead, which shows the result rather
+  than the method.
 
-The goal is that each remaining section answers a different question (what is it,
-why is it effortless, what does it save you) instead of three variations of "you
-can pack more".
+Each is a judgment call about whether the homepage should mirror the product page
+exactly or lead into it. Ask before restoring any of them.
 
 ---
 
