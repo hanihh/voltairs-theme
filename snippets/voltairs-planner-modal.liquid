@@ -14,8 +14,20 @@
 
 {%- liquid
   assign gift_labels = 'Secret AI Travel Upgrade, AI Travel Upgrade, Smart Travel Planner, AI Travel Planner' | split: ','
-  assign link_label = 'See how it works'
   assign gpt_logo = 'ChatGPT-Logo.png' | file_url
+
+  comment
+    The trigger's wording. It names the price of looking, because that is the thing
+    a shopper is deciding and the old label kept it to itself: what is behind this
+    is three slides that play themselves, and asking someone to find that out by
+    opening it is how you get it closed again.
+
+    The number is a promise, so it has to stay true. All three slides run 30.5s end
+    to end, measured, and the beats they are made of are the data-vpm-hold and
+    data-vpm-speed values below plus the pauses in BEAT in the script. Retime any of
+    those upward and this line is the other half of the change.
+  endcomment
+  assign link_label = 'See how this works in 30 seconds'
 
   comment
     The colour of the trigger link. The gift row it sits on is Bundlex's dark card,
