@@ -67,6 +67,10 @@
             [data-vpm-step] starts out display:none. The whole figure is decorative,
             so it is hidden from assistive tech and the paragraph under it says the
             same thing in words.
+
+            data-vpm-loop is the fallback, not the usual ending: on a playthrough the
+            modal is driving it moves on to slide two instead of repeating itself, and
+            only replays here for a shopper who has swiped back to this slide.
           {%- endcomment -%}
           <figure class="vpm-scene" aria-hidden="true" data-vpm-seq data-vpm-speed="18" data-vpm-loop="2600" data-phase="idle">
             <div class="vpm-chat">
@@ -240,8 +244,13 @@
         {%- comment -%}
           2. What it gets you. Cards deal in one at a time, driven by --i and the
           is-active class, so nothing moves until the slide is actually on screen.
+
+          There is no sequence for the script to follow here, so data-vpm-hold tells
+          it how long the deal takes before it moves on to slide three: the last
+          card is the closing line at --i 6, which starts at 6 x 0.16s and runs for
+          0.42s. See vpm-deal in the stylesheet.
         {%- endcomment -%}
-        <section class="vpm-slide" data-vpm-slide aria-label="What you get">
+        <section class="vpm-slide" data-vpm-slide data-vpm-hold="1400" aria-label="What you get">
           <h3 class="vpm-slide-title">What you get</h3>
 
           <ul class="vpm-wins">

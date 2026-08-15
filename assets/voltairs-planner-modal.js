@@ -9,6 +9,11 @@
  * Markup and copy come from snippets/voltairs-planner-modal.liquid. The demo answers
  * live in the HTML rather than in here so they stay editable next to the rest of the
  * copy, and so they are still readable if this script never runs.
+ *
+ * Opened, the modal plays itself: each slide runs, holds a beat, and hands over to
+ * the next, so nobody is left on a finished animation wondering what to do. The
+ * first thing the shopper does — an arrow, a dot, a swipe, replay — hands them the
+ * wheel, and it stops moving on its own until the modal is opened again.
  */
 
 const CONFIG_ID = 'voltairs-planner-modal-config';
@@ -27,6 +32,10 @@ const BEAT = {
   /** Matches the pointer's transition in the stylesheet. */
   move: 820,
   click: 460,
+  /** The beat a finished slide holds for before the modal moves itself on. */
+  handOff: 1000,
+  /** How long a slide-to-slide scroll is given to arrive. */
+  settle: 600,
 };
 
 const dialog = /** @type {HTMLDialogElement | null} */ (document.getElementById('vpm-dialog'));
@@ -86,6 +95,15 @@ function init(root, config) {
   let index = 0;
   let generation = 0;
   let scrollFrame = 0;
+
+  /** Set while a scroll of ours is still travelling; see goTo. */
+  let seeking = 0;
+
+  /**
+   * The modal walks itself from slide to slide until the shopper takes the wheel,
+   * after which it stays wherever it is put. Reset on every open.
+   */
+  let auto = true;
 
   /** Pending visibility waits, each a function that disconnects and gives up. */
   const watchers = new Set();
@@ -204,6 +222,12 @@ function init(root, config) {
   function goTo(to, smooth = true) {
     const clamped = Math.max(0, Math.min(slides.length - 1, to));
 
+    // A smooth scroll fires scroll events the whole way there, and rounding those
+    // mid-flight lands back on the slide being left, which restarts it. The index is
+    // set here anyway, so nothing is read off the track until it has arrived.
+    clearTimeout(seeking);
+    seeking = smooth ? setTimeout(() => (seeking = 0), BEAT.settle) : 0;
+
     track.scrollTo({ left: track.clientWidth * clamped, behavior: smooth ? 'smooth' : 'auto' });
     setIndex(clamped);
   }
@@ -223,13 +247,22 @@ function init(root, config) {
       slide.classList.toggle('is-active', i === index);
     });
 
-    play(scenes.find((scene) => scene.slide === slides[index]));
+    play(index);
+  }
+
+  /** Stops the modal driving itself, the moment the shopper does anything at all. */
+  function takeOver() {
+    auto = false;
+
+    // A hand on the track outranks whatever scroll the modal still had in flight.
+    clearTimeout(seeking);
+    seeking = 0;
   }
 
   track.addEventListener(
     'scroll',
     () => {
-      if (scrollFrame) return;
+      if (scrollFrame || seeking) return;
 
       scrollFrame = requestAnimationFrame(() => {
         scrollFrame = 0;
@@ -318,23 +351,66 @@ function init(root, config) {
   }
 
   /**
-   * Cancels whatever was running and starts a scene, if the slide has one.
-   * @param {Scene} [scene]
+   * Cancels whatever was running, plays whatever slide `i` has to play, and then,
+   * unless the shopper has taken the wheel, hands over to the next slide.
+   * @param {number} i
    */
-  function play(scene) {
+  function play(i) {
     generation += 1;
     releaseWatchers();
 
-    if (!scene) return;
+    const slide = slides[i];
 
-    resetScene(scene);
+    if (!slide) return;
 
+    const token = generation;
+    const scene = scenes.find((entry) => entry.slide === slide);
+
+    if (scene) resetScene(scene);
+
+    // Everything is already in its finished state for anyone who does not want the
+    // motion, and moving them on unasked would be motion of exactly that kind.
     if (reducedMotion.matches) {
-      settle(scene);
+      if (scene) settle(scene);
+
       return;
     }
 
-    run(scene, generation);
+    // A slide with no sequence of its own still deals itself out in CSS and says how
+    // long that takes, so there is something to wait for either way.
+    const hold = Number(slide.dataset.vpmHold) || 0;
+
+    if (!scene && !hold) return;
+
+    const played = scene ? run(scene, token) : wait(hold, token);
+
+    played.then((finished) => {
+      if (finished) handOff(i, token);
+    });
+  }
+
+  /**
+   * Whether a finished slide is going to give way to the next one. A slide that is
+   * handing over does not also loop, and the last one has nowhere to hand over to.
+   * @param {number} i
+   */
+  function willHandOff(i) {
+    return auto && i > -1 && i < slides.length - 1;
+  }
+
+  /**
+   * Moves on to the next slide a beat after this one has played out. This is the
+   * whole point of the modal running itself: someone who has just watched slide one
+   * finish should not have to work out that there are two more behind it.
+   * @param {number} from
+   * @param {number} token
+   */
+  function handOff(from, token) {
+    if (!willHandOff(from)) return;
+
+    wait(BEAT.handOff, token).then((alive) => {
+      if (alive && auto) goTo(from + 1);
+    });
   }
 
   /**
@@ -361,10 +437,13 @@ function init(root, config) {
 
   /**
    * Plays a scene's groups in turn, marking each done as it lands. A group carrying
-   * `data-vpm-loop` restarts the whole scene after that many milliseconds. `token`
-   * guards against a run left over from a swipe away, or from the replay button.
+   * `data-vpm-loop` restarts the whole scene after that many milliseconds, which is
+   * what a slide does when there is nowhere to hand over to: on a playthrough the
+   * modal is driving, it gives way to the next slide instead of repeating itself.
+   * `token` guards against a run left over from a swipe away, or from replay.
    * @param {Scene} scene
    * @param {number} token
+   * @returns {Promise<boolean>} false if the run was superseded
    */
   async function run(scene, token) {
     const loop = scene.groups.find((group) => group.loop)?.loop ?? 0;
@@ -373,20 +452,22 @@ function init(root, config) {
       if (demo && scene.slide.contains(demo)) demo.dataset.stage = 'running';
 
       for (const [i, group] of scene.groups.entries()) {
-        if (!(await onScreen(group.el, token))) return;
+        if (!(await onScreen(group.el, token))) return false;
 
         for (const step of group.steps) {
-          if (!(await playStep(step, group, token))) return;
+          if (!(await playStep(step, group, token))) return false;
         }
 
         group.el.classList.add('is-done');
 
-        if (i < scene.groups.length - 1 && !(await wait(BEAT.betweenGroups, token))) return;
+        if (i < scene.groups.length - 1 && !(await wait(BEAT.betweenGroups, token))) return false;
       }
 
       if (demo && scene.slide.contains(demo)) demo.dataset.stage = 'done';
 
-      if (!loop || !(await wait(loop, token))) return;
+      if (!loop || willHandOff(slides.indexOf(scene.slide))) return true;
+
+      if (!(await wait(loop, token))) return false;
 
       resetScene(scene);
     }
@@ -569,7 +650,9 @@ function init(root, config) {
       root.classList.add('vpm--fallback');
     }
 
-    // Start on slide one every time, without animating the jump back.
+    // Start on slide one every time, without animating the jump back, and let the
+    // modal drive again however the last opening ended.
+    auto = true;
     index = -1;
     goTo(0, false);
     root.querySelector('[data-vpm-close]')?.focus({ preventScroll: true });
@@ -603,18 +686,44 @@ function init(root, config) {
   });
 
   root.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowRight') goTo(index + 1);
-    if (event.key === 'ArrowLeft') goTo(index - 1);
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+
+    takeOver();
+    goTo(event.key === 'ArrowRight' ? index + 1 : index - 1);
   });
 
   for (const button of root.querySelectorAll('[data-vpm-close]')) {
     button.addEventListener('click', close);
   }
 
-  prev.addEventListener('click', () => goTo(index - 1));
-  next.addEventListener('click', () => goTo(index + 1));
-  dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
-  replay?.addEventListener('click', () => play(scenes.find((scene) => scene.slide.contains(demo))));
+  // A hand on the track is the shopper steering, whether it turns into a swipe or
+  // not. The scroll event itself cannot say that, since the modal's own hand-off
+  // scrolls the track too.
+  for (const type of ['pointerdown', 'wheel']) {
+    track.addEventListener(type, takeOver, { passive: true });
+  }
+
+  prev.addEventListener('click', () => {
+    takeOver();
+    goTo(index - 1);
+  });
+
+  next.addEventListener('click', () => {
+    takeOver();
+    goTo(index + 1);
+  });
+
+  dots.forEach((dot, i) =>
+    dot.addEventListener('click', () => {
+      takeOver();
+      goTo(i);
+    })
+  );
+
+  replay?.addEventListener('click', () => {
+    takeOver();
+    play(slides.findIndex((slide) => slide.contains(demo)));
+  });
 
   // Sizes change with the viewport, so the scroll offset has to be recomputed or
   // the track lands between two slides.
