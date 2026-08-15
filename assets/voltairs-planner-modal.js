@@ -166,20 +166,64 @@ function init(root, config) {
   }
 
   /**
-   * The block we land in is not always the one the app colours: on the navy gift row
-   * it keeps the card's dark default and only the title and subtitle are turned
-   * white, so plain inheritance leaves the link almost invisible. Borrowing the
-   * title's own colour keeps it legible on whatever the app happens to render.
+   * Picks the trigger's colour from what is actually behind it.
+   *
+   * Inheriting the block's colour left the link near-black on the navy row, because
+   * that block keeps the card's dark default and only the title and subtitle are
+   * repainted. Copying the title's colour was no better: whatever the app resolves
+   * there, it is not the white it appears to be. So rather than trust any inherited
+   * value, find the first real background behind the row and pick for contrast.
    * @param {HTMLElement} trigger
    * @param {HTMLElement} title
    */
   function tint(trigger, title) {
-    const colour = window.getComputedStyle?.(title).color;
+    const ground = backdrop(title);
 
-    // Ignore anything the browser could not resolve, or that would render invisible.
-    if (!colour || colour === 'transparent' || /,\s*0\s*\)$/.test(colour)) return;
+    if (!ground) return;
 
-    trigger.style.setProperty('--vpm-open-color', colour);
+    const picked = luminance(ground) > 0.45 ? '#03275b' : '#ffffff';
+
+    trigger.style.setProperty('--vpm-open-color', picked);
+
+    // Also set inline and forced. This link lives inside markup the app owns, and a
+    // single class of ours loses to anything it scopes by id or by a longer chain.
+    trigger.style.setProperty('color', picked, 'important');
+  }
+
+  /**
+   * Walks up for the first ancestor painting something solid enough to sit on. Most
+   * of the row is transparent, so the colour that matters is usually the card's.
+   * @param {HTMLElement} el
+   * @returns {[number, number, number] | null}
+   */
+  function backdrop(el) {
+    for (let node = el; node && node !== document.documentElement; node = node.parentElement) {
+      const parts = window.getComputedStyle?.(node).backgroundColor?.match(/[\d.]+/g);
+
+      if (!parts || parts.length < 3) continue;
+
+      // A fourth part is the alpha; anything near-transparent is not the backdrop.
+      if (parts.length > 3 && Number(parts[3]) < 0.4) continue;
+
+      return [Number(parts[0]), Number(parts[1]), Number(parts[2])];
+    }
+
+    return null;
+  }
+
+  /**
+   * Relative luminance, sRGB. Above the midpoint the backdrop is light.
+   * @param {[number, number, number]} rgb
+   * @returns {number}
+   */
+  function luminance([r, g, b]) {
+    const channel = (value) => {
+      const v = value / 255;
+
+      return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+    };
+
+    return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
   }
 
   function scheduleInject() {

@@ -25,12 +25,15 @@
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  opacity: 0.85;
+
+  /* Full strength: the script has already picked a colour that carries on this
+     background, and dimming it on top of that is what made it hard to see. */
+  opacity: 1;
   cursor: pointer;
 }
 
 .vpm-open:hover {
-  opacity: 1;
+  opacity: 0.78;
 }
 
 .vpm-open:focus-visible {
