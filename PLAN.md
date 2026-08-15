@@ -48,7 +48,13 @@ need a manual paste in Settings, Policies.
 
 ## Canonical claims
 
-Every one of these appears in multiple places. Changing one means changing all of
+**The product page is the source of truth.** `templates/product.json` and the
+live Shopify `descriptionHtml` are where Hani sets the offer, the savings maths,
+and the kit contents. When the homepage and the product page disagree, the
+homepage is the stale one: fix the homepage, do not "correct" the product page
+back. Confirmed by Hani 2026-08-15 after a pass that had it backwards.
+
+Every claim below appears in multiple places. Changing one means changing all of
 them. Verify with the sweep commands at the bottom of this file.
 
 | Claim | Canonical value |
@@ -56,17 +62,29 @@ them. Verify with the sweep commands at the bottom of this file.
 | Guarantee | 100-day money-back, from delivery date, discounted orders included |
 | Shipping | Free US shipping. Never "worldwide" |
 | Delivery | 2 business days processing, then 6 to 10 business days transit |
-| Baggage fee | $45 to $50 each way, $90 to $100 per round trip |
+| Baggage fee | $56 each way, $112 per round trip |
 | Contact | info@voltairs.com. Never the voltairstravel@gmail.com account address |
-| Kit contents | 2 vacuum bags (18.5" x 11.8" x 5.9") plus one 30W multi-function pump |
+| Kit contents | Per kit: 1 vacuum bag (18.5" x 11.8" x 5.9") plus one 30W multi-function pump |
+| Offer tiers | Solo: 1 kit + 1 bonus travel bag. Family: 2 kits + 2 bonus bags + AI Travel Upgrade |
 | Compression | Compresses to 40% of original size, up to 60% space saved |
-| Price | $89.99, no compare-at anchor |
+| Price | $89.99 solo, no compare-at anchor. Bundle pricing lives in the bundlex app |
 
-The baggage figure is the one most likely to drift back. It was previously
-"$56+ each way / $112 per flight", which overstated the real 2026 first-bag fee
-on American, Delta, and United ($45 prepaid, $50 at the airport). The entire
-savings pitch and the calculator default rest on it, and a buyer can check it in
-seconds, so it must stay defensible.
+Two of these moved on 2026-08-15 and the older values are still worth knowing.
+
+**Baggage fee.** August 2026 had this at "$45 to $50 each way, $90 to $100 per
+round trip", on the reasoning that $56 overstated the real first-bag fee on
+American, Delta, and United ($45 prepaid, $50 at the airport) and that a buyer
+can check it in seconds. Hani's product-page rebuild put $56 and $112 back, and
+the live product description, the savings calculator, and the "What You Save in
+One Trip" cards now all agree on them. That is the current claim. The earlier
+objection was never answered, only overridden, so if the number is ever
+challenged the fix is one value in `voltairs-savings-calc`, one string in
+`section_pdp_problem`, and the Shopify description, on both templates at once.
+
+**Kit contents.** Was "2 vacuum bags plus one pump". A kit is now one bag and one
+pump, with a second bag arriving as the solo tier's bonus travel bag. The
+per-kit figure and the per-order figure are easy to conflate; the FAQ's capacity
+answers are written per bag.
 
 ---
 
@@ -107,9 +125,12 @@ down. The comparison table and final CTA buttons also point at `#offer`, since
 the homepage has no buy box to anchor to. `#offer` sits on the first block
 inside the offer card, so a jump lands on the top of the card.
 
-Same pass corrected the product page, which still carried the retired
-`$56 each way / $112 per round trip` figures in the savings calculator and in
-the "What You Save in One Trip" cards, against the canonical claim above.
+The eight mirrored sections are byte-identical to `templates/product.json` apart
+from those two link values, so `diff` between the templates is meaningful and
+should stay that way. The offer card is the one homepage-only selling surface: it
+was still telling a "Version 2, rebuilt on what the first kit taught us" story
+that the product page had dropped, and still listed a single kit, so it now
+carries the solo and family tiers in the product page's own words.
 
 ---
 
