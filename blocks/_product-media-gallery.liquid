@@ -136,8 +136,14 @@
 >
   {% capture slides %}
     {% for media in sorted_media %}
+      {% liquid
+        assign media_loading = 'lazy'
+        if forloop.first
+          assign media_loading = 'eager'
+        endif
+      %}
       {% capture children %}
-        {%- render 'product-media', media: media -%}
+        {%- render 'product-media', media: media, loading: media_loading -%}
       {% endcapture %}
       {% capture class %}
         product-media-container product-media-container--{{ media.media_type }}{% if block.settings.constrain_to_viewport %} constrain-height{% endif %}{% if block.settings.aspect_ratio != 'adapt' %} media-fit{% endif %}{% if block.settings.zoom %} product-media-container--zoomable{% endif %}
@@ -234,7 +240,13 @@
               <span class="visually-hidden">{{ 'actions.open_image_in_full_screen' | t }}</span>
             </button>
           {%- endif -%}
-          {%- render 'product-media', media: media -%}
+          {% liquid
+            assign media_loading = 'lazy'
+            if forloop.first
+              assign media_loading = 'eager'
+            endif
+          %}
+          {%- render 'product-media', media: media, loading: media_loading -%}
         </li>
       {% endfor %}
     </ul>
@@ -319,10 +331,10 @@
             >
               {% if media.media_type == 'image' %}
                 <drag-zoom-wrapper class="product-media__drag-zoom-wrapper">
-                  {%- render 'product-media', media: media -%}
+                  {%- render 'product-media', media: media, loading: 'lazy' -%}
                 </drag-zoom-wrapper>
               {% else %}
-                {%- render 'product-media', media: media -%}
+                {%- render 'product-media', media: media, loading: 'lazy' -%}
               {% endif %}
             </li>
           {%- endfor -%}

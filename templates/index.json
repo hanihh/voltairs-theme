@@ -983,7 +983,7 @@
               "type": "text",
               "name": "Detail",
               "settings": {
-                "text": "<p>Each bag swallows jeans, tees, a sweater, underwear, and socks. Two bags come in every kit, with room left in your carry-on for shoes and a jacket.</p>",
+                "text": "<p>One Voltairs bag holds jeans, tees, a sweater, underwear, and socks. Every kit pairs that carry-on-sized bag with the included 30W pump, leaving room in your case for shoes and a jacket.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -2348,7 +2348,7 @@
                 "text_081": {
                   "type": "text",
                   "settings": {
-                    "text": "<ul><li>2× vacuum travel bags (18.5″ × 11.8″ × 5.9″)</li><li>30W multi-function pump (USB-C + LED light)</li><li>Free US shipping, tracked to your door</li></ul>",
+                    "text": "<p><strong>1× vacuum travel bag</strong> (18.5″ × 11.8″ × 5.9″)</p><p><strong>1× 30W multi-function pump</strong> (USB-C + LED light)</p><p><strong>Free US shipping</strong>, tracked to your door</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -2880,7 +2880,7 @@
                 "text_097": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Up to 22 lb of clothing per bag, roughly 8 to 10 days of outfits once compressed to about 40% of their original size. The kit includes two bags.</p>",
+                    "text": "<p>Up to 22 lb of clothing, roughly 8 to 10 days of outfits once compressed to about 40% of their original size. Each kit includes one bag and one 30W pump.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -3501,7 +3501,7 @@
         "fcta_summary": {
           "type": "text",
           "settings": {
-            "text": "<p>2 compression bags and a 30W pump · up to 60% less space · free US shipping · 100-day money-back guarantee</p>",
+            "text": "<p>1 compression bag and a 30W pump &middot; up to 60% less space &middot; free US shipping &middot; 100-day money-back guarantee</p>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",

@@ -17,7 +17,7 @@
         "announcement_mxxhta": {
           "type": "_announcement",
           "settings": {
-            "text": "Free US Shipping · 100-Day Money-Back Guarantee · 2 Bags + Multi-Function Pump Included",
+            "text": "Free US Shipping · 100-Day Money-Back Guarantee",
             "link": "",
             "font": "var(--font-primary--family)",
             "font_size": "var(--font-size--md)",
