@@ -87,7 +87,10 @@
 
   display: flex;
   flex-direction: column;
-  width: min(600px, 100%);
+
+  /* Never edge to edge: the backdrop has to stay visible down both sides so the
+     modal reads as sitting above the page rather than replacing it. */
+  width: min(600px, 90%);
   max-height: 92vh;
   max-height: 92dvh;
   overflow: hidden;
@@ -968,14 +971,16 @@
   }
 }
 
+/* On a phone it rises from the bottom, but it still keeps its side margins, so it
+   stays a card with every corner rounded rather than a sheet welded to the edge. */
 @media (width < 600px) {
   .vpm[open] {
     align-items: flex-end;
+    padding-bottom: 10px;
   }
 
   .vpm-sheet {
-    max-height: 94dvh;
-    border-radius: 18px 18px 0 0;
+    max-height: 92dvh;
     animation-name: vpm-up;
   }
 }
