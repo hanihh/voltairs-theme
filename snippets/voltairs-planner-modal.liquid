@@ -1,0 +1,335 @@
+{%- comment -%}
+  The "See how it works" modal for the free AI travel planner.
+
+  The gift row it explains is drawn by the Bundlex app, so there is no block to add
+  this to and no markup we can edit. assets/voltairs-planner-modal.js finds that row
+  by its title text and appends the trigger, then re-appends it whenever the app
+  re-renders. gift_labels below is what it matches on, so if the offer's wording ever
+  changes in Bundlex, change it here too or the link quietly stops appearing.
+
+  All the copy lives in this file. The two demo answers on the third slide are typed
+  out by the script, which reads them straight from the markup, so they stay readable
+  if the script never runs.
+{%- endcomment -%}
+
+{%- liquid
+  assign gift_labels = 'Secret AI Travel Upgrade, AI Travel Upgrade, Smart Travel Planner, AI Travel Planner' | split: ','
+  assign link_label = 'See how it works'
+  assign gpt_logo = 'ChatGPT-Logo.png' | file_url
+
+  comment
+    Shown under the file on the first slide. It has to match the name of the PDF the
+    shopper actually downloads, or the modal is describing a different file.
+  endcomment
+  assign planner_file_name = 'AI-Travel-Planner.pdf'
+-%}
+
+{%- if request.page_type == 'product' -%}
+  {{ 'voltairs-planner-modal.css' | asset_url | stylesheet_tag }}
+
+  <script type="application/json" id="voltairs-planner-modal-config">
+    {
+      "labels": {{ gift_labels | json }},
+      "linkLabel": {{ link_label | json }}
+    }
+  </script>
+
+  <dialog class="vpm" id="vpm-dialog" aria-label="How the AI travel planner works">
+    <div class="vpm-sheet">
+      <header class="vpm-head">
+        <button class="vpm-close" type="button" data-vpm-close aria-label="Close">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M1 1l12 12M13 1L1 13" />
+          </svg>
+        </button>
+      </header>
+
+      <div class="vpm-track" data-vpm-track>
+        {%- comment -%} 1. What is this {%- endcomment -%}
+        <section class="vpm-slide" data-vpm-slide aria-label="What is this">
+          <h3 class="vpm-slide-title">What is this?</h3>
+
+          {%- comment -%}
+            One scene, played out: the prompt is typed, the cursor attaches the
+            planner, hits send, and everything the file carries pours into ChatGPT,
+            whose mark then picks up an orbit and a plane.
+
+            Steps run in document order, which is why the <i> cues sit between the
+            things they act on, and why the attachment chip is written after the input
+            row and lifted above it with `order`. The cues are invisible: every
+            [data-vpm-step] starts out display:none. The whole figure is decorative,
+            so it is hidden from assistive tech and the paragraph under it says the
+            same thing in words.
+          {%- endcomment -%}
+          <figure class="vpm-scene" aria-hidden="true" data-vpm-seq data-vpm-speed="34" data-vpm-loop="2000" data-phase="idle">
+            <div class="vpm-chat">
+              <div class="vpm-chat-row">
+                <span class="vpm-chat-btn" data-vpm-target="attach">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 11.5l-8.4 8.4a4.6 4.6 0 0 1-6.5-6.5l8.4-8.4a3 3 0 0 1 4.3 4.3l-8.4 8.4a1.5 1.5 0 0 1-2.2-2.2l7.8-7.8" />
+                  </svg>
+                </span>
+                <p class="vpm-chat-text"><span class="vpm-chat-say" data-vpm-step="type">Plan my trip from NY to Paris</span></p>
+                <span class="vpm-chat-btn vpm-chat-send" data-vpm-target="send">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 19V5" />
+                    <path d="M6 11l6-6 6 6" />
+                  </svg>
+                </span>
+              </div>
+
+              <i data-vpm-step="move" data-vpm-to="attach"></i>
+              <i data-vpm-step="click" data-vpm-to="attach"></i>
+
+              <span class="vpm-chat-file" data-vpm-step="show">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                  <path d="M14 3v5h5" />
+                </svg>
+                {{ planner_file_name }}
+                <em>80+ pages</em>
+              </span>
+
+              <i data-vpm-step="move" data-vpm-to="send"></i>
+              <i data-vpm-step="click" data-vpm-to="send"></i>
+
+              {%- comment -%}
+                Two phases: everything the file carries pours in, and only once it
+                has all landed does the mark turn into the travel one.
+              {%- endcomment -%}
+              <i data-vpm-step="state" data-vpm-state="sent" data-vpm-hold="5600"></i>
+              <i data-vpm-step="state" data-vpm-state="ready" data-vpm-hold="2600"></i>
+
+              <span class="vpm-cursor" data-vpm-cursor>
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M1 1l5.2 13 2.1-5.3L13.6 6.6z" />
+                </svg>
+              </span>
+            </div>
+
+            <div class="vpm-lane">
+              <b style="--i: 0; --x: 4%">Flight search</b>
+              <b style="--i: 1; --x: 46%">Cheaper dates</b>
+              <b style="--i: 2; --x: 24%">Airport swaps</b>
+              <b style="--i: 3; --x: 58%">Child fares</b>
+              <b style="--i: 4; --x: 12%">Baggage costs</b>
+              <b style="--i: 5; --x: 38%">Layover safety</b>
+              <b style="--i: 6; --x: 2%">Self-transfer risk</b>
+              <b style="--i: 7; --x: 50%">Hotel zones</b>
+              <b style="--i: 8; --x: 28%">Hidden hotel fees</b>
+              <b style="--i: 9; --x: 16%">Free cancellation</b>
+              <b style="--i: 10; --x: 20%">Airport transfer</b>
+              <b style="--i: 11; --x: 8%">Car rental traps</b>
+              <b style="--i: 12; --x: 34%">Parking + tolls</b>
+              <b style="--i: 13; --x: 54%">City passes</b>
+              <b style="--i: 14; --x: 20%">Ticket discounts</b>
+              <b style="--i: 15; --x: 40%">Restaurant picks</b>
+              <b style="--i: 16; --x: 6%">Allergy + halal</b>
+              <b style="--i: 17; --x: 30%">Tripadvisor scan</b>
+              <b style="--i: 18; --x: 52%">Reddit scan</b>
+              <b style="--i: 19; --x: 14%">Weather windows</b>
+              <b style="--i: 20; --x: 36%">Strikes + closures</b>
+              <b style="--i: 21; --x: 60%">Visa + entry</b>
+              <b style="--i: 22; --x: 10%">eSIM + card fees</b>
+              <b style="--i: 23; --x: 26%">Packing plan</b>
+              <b style="--i: 24; --x: 42%">True trip cost</b>
+            </div>
+
+            {%- comment -%}
+              The mark starts as the plain ChatGPT logo the store already has in
+              Files. The orbit and the plane are drawn here rather than loaded as a
+              second logo, so the plain mark turns into the travel one on screen
+              instead of swapping between two static images.
+
+              The ring is two arcs: the long one draws itself, the short one dashes
+              in behind the plane. pathLength normalises both to 100 units so the
+              dash maths does not depend on the radius.
+            {%- endcomment -%}
+            <div class="vpm-ai">
+              <span class="vpm-ai-mark">
+                {%- if gpt_logo != blank -%}
+                  <img src="{{ gpt_logo }}" alt="" width="34" height="34" loading="lazy">
+                {%- else -%}
+                  <svg class="vpm-ai-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+                    <path d="M20 15a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z" />
+                  </svg>
+                {%- endif -%}
+
+                <svg class="vpm-orbit" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                  <path class="vpm-orbit-solid" pathLength="100" d="M13.3 10.1A26 26 0 1 0 52.5 43" />
+                  <path class="vpm-orbit-dashes" pathLength="100" stroke-dasharray="4 6" d="M52.5 43A26 26 0 0 0 13.3 10.1" />
+                </svg>
+
+                <span class="vpm-orbiter">
+                  <svg class="vpm-plane" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2c-1 0-1.6 1-1.6 2.4v4.2L3 13.2v2.3l7.4-2.2v4.3l-2.2 1.6v1.8L12 20l3.8 1v-1.8l-2.2-1.6v-4.3l7.4 2.2v-2.3l-7.4-4.6V4.4C13.6 3 13 2 12 2z" />
+                  </svg>
+                </span>
+              </span>
+
+              <span class="vpm-ai-label">
+                <b class="vpm-ai-was">ChatGPT</b>
+                <b class="vpm-ai-now">Your travel agent</b>
+              </span>
+            </div>
+          </figure>
+
+          <p class="vpm-sr">
+            Type a trip into ChatGPT, attach {{ planner_file_name }}, and 80 or more
+            pages of method go in with it: flight and date search, airport swaps,
+            child fares, baggage and layover checks, hotel zones and hidden fees,
+            transfers, car rental traps, city passes and ticket discounts, restaurant
+            picks with allergy and halal checks, Tripadvisor and Reddit scans, weather
+            windows, strikes and closures, visa and entry rules, card fees, packing,
+            and the true cost of the whole trip.
+          </p>
+
+          <p class="vpm-scene-copy">Your AI reads all 80+ pages in seconds, then plans with the hacks, best practices and hidden gems inside.</p>
+
+          <p class="vpm-foot">You do not read it. Your AI does.</p>
+        </section>
+
+        {%- comment -%} 2. How it works {%- endcomment -%}
+        <section class="vpm-slide" data-vpm-slide aria-label="How it works">
+          <h3 class="vpm-slide-title">How it works</h3>
+
+          <ol class="vpm-steps">
+            <li class="vpm-step" style="--i: 0">
+              <span class="vpm-step-n">1</span>
+              <span class="vpm-step-text">Download the file</span>
+              <span class="vpm-step-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3v11" />
+                  <path d="M7 10l5 5 5-5" />
+                  <path d="M4 20h16" />
+                </svg>
+              </span>
+            </li>
+            <li class="vpm-step" style="--i: 1">
+              <span class="vpm-step-n">2</span>
+              <span class="vpm-step-text">Open ChatGPT</span>
+              <span class="vpm-step-ic" aria-hidden="true">
+                {%- if gpt_logo != blank -%}
+                  <img src="{{ gpt_logo }}" alt="" width="19" height="19" loading="lazy">
+                {%- else -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+                    <path d="M20 15a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z" />
+                  </svg>
+                {%- endif -%}
+              </span>
+            </li>
+            <li class="vpm-step" style="--i: 2">
+              <span class="vpm-step-n">3</span>
+              <span class="vpm-step-text">Attach it to a new chat</span>
+              <span class="vpm-step-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 11.5l-8.4 8.4a4.6 4.6 0 0 1-6.5-6.5l8.4-8.4a3 3 0 0 1 4.3 4.3l-8.4 8.4a1.5 1.5 0 0 1-2.2-2.2l7.8-7.8" />
+                </svg>
+              </span>
+            </li>
+            <li class="vpm-step" style="--i: 3">
+              <span class="vpm-step-n">4</span>
+              <span class="vpm-step-text">
+                Ask it to plan your trip
+                <span class="vpm-step-note">"Plan my trip to Lisbon in May"</span>
+              </span>
+              <span class="vpm-step-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+                  <path d="M21 3L2 11l7 3 3 7z" />
+                  <path d="M21 3L9 14" />
+                </svg>
+              </span>
+            </li>
+          </ol>
+
+          <p class="vpm-foot" style="--i: 4">About 60 seconds, once. Then reuse it on every trip.</p>
+        </section>
+
+        {%- comment -%} 3. The difference {%- endcomment -%}
+        <section class="vpm-slide" data-vpm-slide aria-label="See the difference">
+          <h3 class="vpm-slide-title">See the difference</h3>
+
+          {%- comment -%}
+            The demo is an illustration, so it is hidden from assistive tech and this
+            line stands in for it. Streaming half-typed fragments to a screen reader
+            would be worse than describing what the illustration shows.
+          {%- endcomment -%}
+          <p class="vpm-sr">
+            Asked to plan a trip to London in October, plain ChatGPT returns a generic
+            day-by-day list. With the planner, it flags the October weather, asks what
+            budget to target, offers travel weeks with a recommendation, and starts the
+            plan with flights.
+          </p>
+
+          <div class="vpm-demo" data-vpm-demo data-stage="idle" aria-hidden="true">
+            <div class="vpm-cols">
+              <article class="vpm-col vpm-col--plain" data-vpm-seq data-vpm-speed="60">
+                <p class="vpm-col-head">Plain ChatGPT</p>
+                <div class="vpm-thread">
+                  <p class="vpm-said">Plan a trip to London in October</p>
+                  <p class="vpm-bubble" data-vpm-step="type">Sure! Here's a 5-day London itinerary:
+                    Day 1: Tower of London
+                    Day 2: British Museum
+                    Day 3: Camden Market
+                    Let me know if you want more detail.</p>
+                </div>
+                <p class="vpm-cap">Generic. You still do all the work.</p>
+              </article>
+
+              <article class="vpm-col vpm-col--planner" data-vpm-seq data-vpm-speed="95">
+                <p class="vpm-col-head">With the planner</p>
+                <div class="vpm-thread">
+                  <p class="vpm-said">Plan a trip to London in October</p>
+
+                  <p class="vpm-bubble" data-vpm-step="type">Nice choice. October in London is rainy but manageable, so layers matter more than an extra outfit.
+
+                    Trip reports put a couple's October week at roughly $2,000 to $4,000 all in. What budget should I target?</p>
+
+                  <p class="vpm-said" data-vpm-step="show">$2,000</p>
+
+                  <p class="vpm-bubble" data-vpm-step="type">Good, that works. When are you traveling, and for how long?</p>
+
+                  <ul class="vpm-opts" data-vpm-step="reveal">
+                    <li data-vpm-pick>First week <em>Recommended: cheaper flights, better weather</em></li>
+                    <li>Second week</li>
+                    <li>Third week</li>
+                  </ul>
+
+                  <p class="vpm-said" data-vpm-step="show">First week, 7 days</p>
+
+                  <p class="vpm-bubble" data-vpm-step="type">Then let's start with flights. One week is short, so it makes no sense to spend it in airports. I will also look for tickets available for resale.</p>
+                </div>
+                <p class="vpm-cap">Asks the right questions, then plans around your answers.</p>
+              </article>
+            </div>
+
+            <div class="vpm-demo-foot">
+              <p class="vpm-note">Illustrative example.</p>
+              <button class="vpm-replay" type="button" data-vpm-replay>Replay</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <nav class="vpm-nav" aria-label="Slides">
+        <button class="vpm-arrow" type="button" data-vpm-prev aria-label="Previous">
+          <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8.5 1.5L3 6.5l5.5 5" />
+          </svg>
+        </button>
+        <div class="vpm-dots">
+          <button class="vpm-dot" type="button" data-vpm-dot aria-current="true" aria-label="What is this"></button>
+          <button class="vpm-dot" type="button" data-vpm-dot aria-current="false" aria-label="How it works"></button>
+          <button class="vpm-dot" type="button" data-vpm-dot aria-current="false" aria-label="See the difference"></button>
+        </div>
+        <button class="vpm-arrow" type="button" data-vpm-next aria-label="Next">
+          <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4.5 1.5L10 6.5l-5.5 5" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </dialog>
+
+  <script src="{{ 'voltairs-planner-modal.js' | asset_url }}" defer></script>
+{%- endif -%}

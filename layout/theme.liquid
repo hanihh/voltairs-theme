@@ -69,5 +69,11 @@
       not just the product page where the offer block lives.
     {%- endcomment -%}
     {% render 'voltairs-gift-reconciler' %}
+
+    {%- comment -%}
+      Product pages only. The snippet gates on that itself, since it hangs off the
+      Bundlex offer widget, which only renders there.
+    {%- endcomment -%}
+    {% render 'voltairs-planner-modal' %}
   </body>
 </html>

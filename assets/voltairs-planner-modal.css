@@ -1,0 +1,1042 @@
+/*
+  Styles for snippets/voltairs-planner-modal.liquid.
+
+  Two things live here: the small trigger link that gets injected into the Bundlex
+  gift row, and the modal itself. The trigger inherits colour from whatever the app
+  renders around it, so it reads correctly on both the navy gift row and a light one.
+*/
+
+/* ---------------------------------------------------------------- trigger */
+
+.vpm-open {
+  display: block;
+  width: fit-content;
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.78em;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.vpm-open:hover {
+  opacity: 1;
+}
+
+.vpm-open:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid currentcolor;
+  outline-offset: 3px;
+}
+
+.vpm-open-arrow {
+  margin-left: 3px;
+}
+
+/* ------------------------------------------------------------------ shell */
+
+.vpm {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.vpm[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vpm::backdrop {
+  background: rgb(3 39 91 / 55%);
+}
+
+/* Only used where dialog.showModal is missing, so the overlay is drawn by hand. */
+.vpm--fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  background: rgb(3 39 91 / 55%);
+}
+
+.vpm-sheet {
+  --vpm-surface: #ffffff;
+  --vpm-ink: #03275b;
+  --vpm-muted: #5a6c85;
+  --vpm-line: #d6dbe3;
+  --vpm-accent: #fdc656;
+  --vpm-tint: #f4f6fa;
+
+  display: flex;
+  flex-direction: column;
+  width: min(600px, 100%);
+  max-height: 92vh;
+  max-height: 92dvh;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--vpm-surface);
+  box-shadow: 0 24px 60px -20px rgb(3 39 91 / 50%);
+  color: var(--vpm-ink);
+  font-family: var(--font-body--family, inherit);
+  animation: vpm-in 0.28s ease both;
+}
+
+@keyframes vpm-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+@keyframes vpm-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* ----------------------------------------------------------------- header */
+
+/* Nothing but the close button lives up here, so the bar stays slim and unruled;
+   each slide carries its own title. */
+.vpm-head {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 12px 0;
+}
+
+.vpm-close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--vpm-line);
+  border-radius: 50%;
+  background: var(--vpm-surface);
+  color: var(--vpm-ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.vpm-close:hover {
+  background: var(--vpm-tint);
+}
+
+.vpm-close svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ----------------------------------------------------------------- slides */
+
+.vpm-track {
+  /* min-height:0 is what lets the track shrink inside the sheet's max-height, so
+     tall slides scroll internally instead of pushing the nav off screen. */
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.vpm-track::-webkit-scrollbar {
+  display: none;
+}
+
+.vpm-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  overflow-y: auto;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.vpm-slide-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.vpm-foot {
+  margin: 0;
+  color: var(--vpm-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* --------------------------------------------------------- slide 1: scene */
+
+.vpm-scene {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 14px 12px 12px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--vpm-surface), var(--vpm-tint));
+}
+
+/* The composer. Its own children are laid out with `order` so the attachment sits
+   above the input the way it does in a real chat, while staying after it in the
+   markup, where the running order is read from. */
+.vpm-chat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 20px;
+  background: var(--vpm-surface);
+  box-shadow: 0 8px 20px -14px rgb(3 39 91 / 70%);
+  transition: opacity 0.4s ease;
+}
+
+.vpm-scene[data-phase='sent'] .vpm-chat,
+.vpm-scene[data-phase='ready'] .vpm-chat {
+  opacity: 0.55;
+}
+
+.vpm-chat-row {
+  order: 2;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.vpm-chat-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--vpm-tint);
+  color: var(--vpm-ink);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.vpm-chat-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.vpm-chat-send {
+  background: var(--vpm-ink);
+  color: var(--vpm-surface);
+}
+
+.vpm-chat-btn.is-pressed {
+  transform: scale(0.88);
+}
+
+.vpm-chat-text {
+  min-height: 1.2em;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.vpm-chat-say.is-in {
+  display: inline;
+}
+
+.vpm-chat-file {
+  order: 1;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 9px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 10px;
+  background: var(--vpm-surface);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.vpm-chat-file.is-in {
+  display: flex;
+  animation: vpm-pop 0.26s ease both;
+}
+
+.vpm-chat-file svg {
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.vpm-chat-file em {
+  color: var(--vpm-muted);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* The pointer. Movement is a transition on transform, so the step only has to set
+   where it is going; MOVE_MS in the script matches this duration. */
+.vpm-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 15px;
+  height: 15px;
+  margin: -1px 0 0 -1px;
+  color: var(--vpm-ink);
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vpm-cursor svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1px 2px rgb(3 39 91 / 40%));
+}
+
+.vpm-cursor::after {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  border: 2px solid var(--vpm-ink);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.vpm-cursor.is-clicking::after {
+  animation: vpm-ripple 0.4s ease-out;
+}
+
+@keyframes vpm-ripple {
+  from {
+    opacity: 0.5;
+    transform: scale(0.4);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+
+/* The lane: everything the file carries, pouring into the AI once send is hit.
+   Travel distance is the lane's own height, so the two stay in step at any size. */
+.vpm-lane {
+  --lane: 118px;
+
+  position: relative;
+  width: 100%;
+  height: var(--lane);
+  overflow: hidden;
+}
+
+.vpm-lane b {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  padding: 3px 8px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 999px;
+  background: var(--vpm-surface);
+  font-size: 0.6rem;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.vpm-scene[data-phase='sent'] .vpm-lane b {
+  animation: vpm-fall 1s linear calc(var(--i) * 0.18s) both;
+}
+
+@keyframes vpm-fall {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.9);
+  }
+
+  16% {
+    opacity: 1;
+    transform: translateY(calc(var(--lane) * 0.16)) scale(1);
+  }
+
+  78% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(var(--lane)) scale(0.9);
+  }
+}
+
+.vpm-ai {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 16px 6px 8px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 14px;
+  background: var(--vpm-surface);
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.vpm-scene[data-phase='ready'] .vpm-ai {
+  border-color: var(--vpm-ink);
+  box-shadow: 0 10px 26px -16px rgb(3 39 91 / 90%);
+}
+
+/* The mark starts as the plain logo. What the file feeds it is what puts it in
+   orbit: the long arc draws itself, the dashes fill in behind it, and the plane
+   swoops in and keeps circling. */
+.vpm-ai-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+}
+
+.vpm-ai-mark img,
+.vpm-ai-fallback {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  transition: transform 0.5s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+
+.vpm-scene[data-phase='ready'] .vpm-ai-mark img,
+.vpm-scene[data-phase='ready'] .vpm-ai-fallback {
+  transform: scale(0.86);
+}
+
+.vpm-orbit,
+.vpm-orbiter {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--vpm-ink);
+}
+
+.vpm-orbit-solid {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.vpm-orbit-dashes {
+  opacity: 0;
+}
+
+.vpm-scene[data-phase='ready'] .vpm-orbit-solid {
+  animation: vpm-draw 0.85s ease-out both;
+}
+
+.vpm-scene[data-phase='ready'] .vpm-orbit-dashes {
+  animation: vpm-fade-in 0.45s ease-out 0.6s both;
+}
+
+@keyframes vpm-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes vpm-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* The plane rides a wrapper that spins, so it always faces along the ring. */
+.vpm-orbiter {
+  opacity: 0;
+  transform: rotate(-30deg);
+}
+
+.vpm-scene[data-phase='ready'] .vpm-orbiter {
+  animation: vpm-swoop 0.75s cubic-bezier(0.2, 0.7, 0.3, 1) 0.5s both,
+    vpm-circle 9s linear 1.25s infinite;
+}
+
+.vpm-plane {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 17px;
+  height: 17px;
+  margin-left: -8.5px;
+  transform: rotate(90deg);
+}
+
+@keyframes vpm-swoop {
+  from {
+    opacity: 0;
+    transform: rotate(-30deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(40deg);
+  }
+}
+
+@keyframes vpm-circle {
+  from {
+    transform: rotate(40deg);
+  }
+
+  to {
+    transform: rotate(400deg);
+  }
+}
+
+/* The label says what the mark just became. */
+.vpm-ai-label {
+  position: relative;
+  display: grid;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.vpm-ai-label b {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.vpm-ai-now {
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+.vpm-scene[data-phase='ready'] .vpm-ai-was {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.vpm-scene[data-phase='ready'] .vpm-ai-now {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.55s;
+}
+
+/* Animation is only worth running on the slide the shopper is looking at. */
+.vpm-slide:not(.is-active) .vpm-lane b,
+.vpm-slide:not(.is-active) .vpm-orbiter {
+  animation-play-state: paused;
+}
+
+.vpm-scene-copy {
+  margin: 0;
+  color: var(--vpm-ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* -------------------------------------------------------- slide 2: steps */
+
+/* The track is as tall as its tallest slide, so this one has room to spare. The auto
+   block margins hand that room back evenly instead of leaving it all underneath. */
+.vpm-steps {
+  display: grid;
+  gap: 0;
+  margin: auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vpm-step {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+}
+
+/* The list deals itself out when the slide opens, one step at a time, and again on
+   every return to it. Only the closing line is a sibling of the list, so slide one's
+   own footer is not caught by this. */
+.vpm-step,
+.vpm-steps ~ .vpm-foot {
+  opacity: 0;
+}
+
+.vpm-slide.is-active .vpm-step,
+.vpm-slide.is-active .vpm-steps ~ .vpm-foot {
+  animation: vpm-deal 0.3s ease both;
+  animation-delay: calc(var(--i, 0) * 0.09s);
+}
+
+/* The `to` half has to be spelled out. These elements declare `opacity: 0` so they
+   are absent before their turn, and an implicit final keyframe would inherit that
+   very value, animating them from invisible to invisible. */
+@keyframes vpm-deal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.vpm-step-n {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--vpm-ink);
+  color: var(--vpm-surface);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+/* Connector between the numbers, drawn downward from all but the last. */
+.vpm-step:not(:last-child) .vpm-step-n::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  width: 1.5px;
+  height: 21px;
+  background: var(--vpm-line);
+}
+
+.vpm-step-text {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.vpm-step-note {
+  display: block;
+  color: var(--vpm-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.vpm-step-ic {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 10px;
+  color: var(--vpm-ink);
+}
+
+.vpm-step-ic svg {
+  width: 19px;
+  height: 19px;
+}
+
+.vpm-step-ic img {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+}
+
+/* ------------------------------------------------------ slide 3: compare */
+
+.vpm-cols {
+  display: grid;
+  gap: 10px;
+}
+
+.vpm-col {
+  padding: 12px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 14px;
+  background: var(--vpm-tint);
+}
+
+.vpm-col--planner {
+  border-color: var(--vpm-ink);
+  background: var(--vpm-surface);
+  box-shadow: 0 8px 24px -16px rgb(3 39 91 / 70%);
+}
+
+.vpm-col-head {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin: 0 0 8px;
+  color: var(--vpm-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.vpm-col--planner .vpm-col-head {
+  color: var(--vpm-ink);
+}
+
+.vpm-thread {
+  display: grid;
+  gap: 7px;
+  justify-items: start;
+}
+
+/* What the shopper says, on the right; what the assistant says, on the left. */
+.vpm-said {
+  justify-self: end;
+  max-width: 85%;
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: 12px 12px 3px 12px;
+  background: rgb(3 39 91 / 9%);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.vpm-bubble {
+  max-width: 96%;
+  margin: 0;
+  padding: 9px 11px;
+  border: 1px solid var(--vpm-line);
+  border-radius: 3px 12px 12px 12px;
+  background: var(--vpm-surface);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+/* Every step of the conversation starts out absent and is dropped in on its turn,
+   so the thread grows the way a real one does. */
+[data-vpm-step] {
+  display: none;
+}
+
+.vpm-said.is-in,
+.vpm-bubble.is-in {
+  display: block;
+  animation: vpm-pop 0.26s ease both;
+}
+
+.vpm-opts.is-in {
+  display: grid;
+}
+
+@keyframes vpm-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.vpm-bubble::after {
+  content: '';
+  display: none;
+  width: 2px;
+  height: 0.95em;
+  background: currentcolor;
+  vertical-align: -2px;
+  animation: vpm-blink 1s steps(2, jump-none) infinite;
+}
+
+.vpm-bubble.is-typing::after {
+  display: inline-block;
+}
+
+@keyframes vpm-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.vpm-opts {
+  gap: 5px;
+  width: 100%;
+  margin: 1px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vpm-opts li {
+  display: none;
+  padding: 7px 10px;
+  border: 1.5px solid var(--vpm-line);
+  border-radius: 10px;
+  background: var(--vpm-surface);
+  font-size: 0.74rem;
+  font-weight: 700;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.vpm-opts li.is-in {
+  display: block;
+  animation: vpm-pop 0.26s ease both;
+}
+
+.vpm-opts em {
+  display: block;
+  color: var(--vpm-muted);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.vpm-opts li.is-picked {
+  border-color: var(--vpm-ink);
+  background: var(--vpm-ink);
+  color: var(--vpm-surface);
+}
+
+.vpm-opts li.is-picked em {
+  color: rgb(255 255 255 / 75%);
+}
+
+.vpm-cap {
+  margin: 10px 0 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.vpm-col--plain .vpm-cap {
+  color: var(--vpm-muted);
+}
+
+.vpm-col.is-done .vpm-cap {
+  opacity: 1;
+  transform: none;
+}
+
+.vpm-demo-foot {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.vpm-note {
+  margin: 0;
+  color: var(--vpm-muted);
+  font-size: 0.68rem;
+}
+
+.vpm-replay {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--vpm-ink);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.vpm-demo[data-stage='done'] .vpm-replay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ----------------------------------------------------------------- footer */
+
+.vpm-nav {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 16px 14px;
+  border-top: 1px solid var(--vpm-line);
+}
+
+.vpm-arrow {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--vpm-line);
+  border-radius: 50%;
+  background: var(--vpm-surface);
+  color: var(--vpm-ink);
+  cursor: pointer;
+}
+
+.vpm-arrow svg {
+  width: 13px;
+  height: 13px;
+}
+
+.vpm-arrow[disabled] {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.vpm-dots {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+}
+
+.vpm-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--vpm-line);
+  cursor: pointer;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.vpm-dot[aria-current='true'] {
+  width: 18px;
+  border-radius: 999px;
+  background: var(--vpm-ink);
+}
+
+.vpm-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (width >= 600px) {
+  .vpm-cols {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .vpm-slide {
+    padding: 18px;
+  }
+
+  .vpm-lane {
+    --lane: 140px;
+  }
+}
+
+@media (width < 600px) {
+  .vpm[open] {
+    align-items: flex-end;
+  }
+
+  .vpm-sheet {
+    max-height: 94dvh;
+    border-radius: 18px 18px 0 0;
+    animation-name: vpm-up;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vpm-sheet {
+    animation: none;
+  }
+
+  /* Nothing falls: the lane becomes a plain list of what the file carries. */
+  .vpm-lane {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    height: auto;
+    padding: 4px 0;
+  }
+
+  .vpm-lane b {
+    position: static;
+    opacity: 1;
+    animation: none;
+  }
+
+  /* The mark arrives already transformed, with nothing drawing or circling. */
+  .vpm-orbit-solid {
+    stroke-dashoffset: 0;
+  }
+
+  .vpm-orbit-dashes,
+  .vpm-orbiter {
+    opacity: 1;
+  }
+
+  .vpm-orbiter {
+    transform: rotate(40deg);
+  }
+
+  .vpm-scene .vpm-orbit-solid,
+  .vpm-scene .vpm-orbit-dashes,
+  .vpm-scene .vpm-orbiter {
+    animation: none;
+  }
+
+  .vpm-ai-was {
+    opacity: 0;
+  }
+
+  .vpm-ai-now {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* The steps are simply there, rather than being dealt out. */
+  .vpm-step,
+  .vpm-steps ~ .vpm-foot,
+  .vpm-slide.is-active .vpm-step,
+  .vpm-slide.is-active .vpm-steps ~ .vpm-foot {
+    opacity: 1;
+    animation: none;
+  }
+
+  .vpm-bubble::after {
+    display: none !important;
+  }
+
+  .vpm-said.is-in,
+  .vpm-bubble.is-in,
+  .vpm-opts li.is-in {
+    animation: none;
+  }
+
+  .vpm-cap {
+    transition: none;
+  }
+}
