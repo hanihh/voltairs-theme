@@ -18,6 +18,12 @@
   assign gpt_logo = 'ChatGPT-Logo.png' | file_url
 
   comment
+    The colour of the trigger link. The gift row it sits on is Bundlex's dark card,
+    hence white. If that card is ever restyled light, this is the line to change.
+  endcomment
+  assign link_color = '#ffffff'
+
+  comment
     Shown under the file on the first slide. It has to match the name of the PDF the
     shopper actually downloads, or the modal is describing a different file.
   endcomment
@@ -30,7 +36,8 @@
   <script type="application/json" id="voltairs-planner-modal-config">
     {
       "labels": {{ gift_labels | json }},
-      "linkLabel": {{ link_label | json }}
+      "linkLabel": {{ link_label | json }},
+      "linkColor": {{ link_color | json }}
     }
   </script>
 

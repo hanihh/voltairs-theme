@@ -38,7 +38,7 @@ if (dialog && configEl?.textContent && !dialog.dataset.vpmReady) {
 }
 
 /**
- * @typedef {{labels: string[], linkLabel: string}} PlannerModalConfig
+ * @typedef {{labels: string[], linkLabel: string, linkColor: string}} PlannerModalConfig
  */
 
 /**
@@ -161,69 +161,29 @@ function init(root, config) {
     const host = parent && (parent.textContent?.trim().length ?? 0) <= 200 ? parent : title;
     const trigger = makeTrigger();
 
-    tint(trigger, title);
+    tint(trigger);
     host.appendChild(trigger);
   }
 
   /**
-   * Picks the trigger's colour from what is actually behind it.
+   * Paints the trigger the colour the snippet asks for.
    *
-   * Inheriting the block's colour left the link near-black on the navy row, because
-   * that block keeps the card's dark default and only the title and subtitle are
-   * repainted. Copying the title's colour was no better: whatever the app resolves
-   * there, it is not the white it appears to be. So rather than trust any inherited
-   * value, find the first real background behind the row and pick for contrast.
+   * Two cleverer versions of this failed on the real row. Inheriting the block's
+   * colour gave near-black, because that block keeps the card's dark default and
+   * only the title and subtitle are repainted. Reading the background and picking
+   * for contrast then gave navy on navy, so whatever paints that card is not a
+   * background-color on an ancestor we can walk to. The row is navy and stays navy,
+   * so the colour is simply stated in the snippet now.
+   *
+   * It is set inline and forced because this link lives inside markup the app owns,
+   * and a single class of ours loses to anything it scopes by id or a longer chain.
    * @param {HTMLElement} trigger
-   * @param {HTMLElement} title
    */
-  function tint(trigger, title) {
-    const ground = backdrop(title);
+  function tint(trigger) {
+    if (!config.linkColor) return;
 
-    if (!ground) return;
-
-    const picked = luminance(ground) > 0.45 ? '#03275b' : '#ffffff';
-
-    trigger.style.setProperty('--vpm-open-color', picked);
-
-    // Also set inline and forced. This link lives inside markup the app owns, and a
-    // single class of ours loses to anything it scopes by id or by a longer chain.
-    trigger.style.setProperty('color', picked, 'important');
-  }
-
-  /**
-   * Walks up for the first ancestor painting something solid enough to sit on. Most
-   * of the row is transparent, so the colour that matters is usually the card's.
-   * @param {HTMLElement} el
-   * @returns {[number, number, number] | null}
-   */
-  function backdrop(el) {
-    for (let node = el; node && node !== document.documentElement; node = node.parentElement) {
-      const parts = window.getComputedStyle?.(node).backgroundColor?.match(/[\d.]+/g);
-
-      if (!parts || parts.length < 3) continue;
-
-      // A fourth part is the alpha; anything near-transparent is not the backdrop.
-      if (parts.length > 3 && Number(parts[3]) < 0.4) continue;
-
-      return [Number(parts[0]), Number(parts[1]), Number(parts[2])];
-    }
-
-    return null;
-  }
-
-  /**
-   * Relative luminance, sRGB. Above the midpoint the backdrop is light.
-   * @param {[number, number, number]} rgb
-   * @returns {number}
-   */
-  function luminance([r, g, b]) {
-    const channel = (value) => {
-      const v = value / 255;
-
-      return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-    };
-
-    return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+    trigger.style.setProperty('--vpm-open-color', config.linkColor);
+    trigger.style.setProperty('color', config.linkColor, 'important');
   }
 
   function scheduleInject() {
