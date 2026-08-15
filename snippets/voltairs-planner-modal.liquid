@@ -135,10 +135,16 @@
               {%- endcomment -%}
               {%- comment -%}
                 The hold has to outlast the pour or the logo turns while badges are
-                still in the air. 14 badges, 0.42s apart, 1.5s each: see vpm-fall.
+                still in the air. 9 badges, 0.42s apart, 1.5s each: see vpm-fall. The
+                last one starts at 8 x 0.42s and falls for 1.5s, so 4.86s, and the
+                rest is the beat before the mark turns.
+
+                The second hold is dwell on the finished mark. Everything it animates
+                has landed by 1.25s — the plane's swoop is the last of it — so the
+                rest is time to read "Your travel agent" before the slide moves on.
               {%- endcomment -%}
-              <i data-vpm-step="state" data-vpm-state="sent" data-vpm-hold="7800"></i>
-              <i data-vpm-step="state" data-vpm-state="ready" data-vpm-hold="2600"></i>
+              <i data-vpm-step="state" data-vpm-state="sent" data-vpm-hold="5300"></i>
+              <i data-vpm-step="state" data-vpm-state="ready" data-vpm-hold="2000"></i>
 
               <span class="vpm-cursor" data-vpm-cursor>
                 <svg viewBox="0 0 16 16" fill="currentColor">
@@ -148,10 +154,14 @@
             </div>
 
             {%- comment -%}
-              Fourteen, merged down from the twenty-five the file actually covers:
-              the point is that it carries a lot, and past a dozen or so nobody is
-              reading them anyway. Each one still maps to real sections of the PDF.
-              The icon is what makes a badge legible in the second it is on screen.
+              Nine, merged down from the twenty-five the file actually covers, one per
+              part of a trip: booking, money, stay, getting around, food, trust,
+              admin, and the total at the end. Fourteen took seven seconds to pour and
+              nobody was reading the tail of it — the lane is there to say the file
+              carries a lot, and nine says that as well as fourteen in half the time.
+              Everything dropped is still in the paragraph below, which is what a
+              screen reader is read. Each one maps to a real section of the PDF, and
+              the icon is what makes a badge legible in the second it is on screen.
             {%- endcomment -%}
             <div class="vpm-lane">
               <b style="--i: 0; --x: 4%">
@@ -163,50 +173,30 @@
                 Safe layovers
               </b>
               <b style="--i: 2; --x: 20%">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3" /></svg>
-                Bags + child fares
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v18l2-1.4 2 1.4 2-1.4 2 1.4 2-1.4 2 1.4V3z" /><path d="M10 8h5" /><path d="M10 12h5" /></svg>
+                Hidden fees
               </b>
               <b style="--i: 3; --x: 56%">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 14h18" /><path d="M7 10V7h5v3" /></svg>
                 Hotel zones
               </b>
               <b style="--i: 4; --x: 10%">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v18l2-1.4 2 1.4 2-1.4 2 1.4 2-1.4 2 1.4V3z" /><path d="M10 8h5" /><path d="M10 12h5" /></svg>
-                Hidden fees
-              </b>
-              <b style="--i: 5; --x: 34%">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16V9l2-4h12l2 4v7" /><path d="M2 16h20" /><circle cx="7.5" cy="19" r="1.6" /><circle cx="16.5" cy="19" r="1.6" /></svg>
                 Ground transport
               </b>
-              <b style="--i: 6; --x: 2%">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8V6h18v2a2 2 0 0 0 0 4v6H3v-6a2 2 0 0 0 0-4z" /><path d="M14 6v12" /></svg>
-                Passes + discounts
-              </b>
-              <b style="--i: 7; --x: 48%">
+              <b style="--i: 5; --x: 34%">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7a2 2 0 0 0 4 0V3" /><path d="M8 10v11" /><path d="M17 3c-1.7 1.4-2.5 3.4-2.5 5.6 0 1.6.8 2.6 2.5 2.9V21" /></svg>
                 Restaurant picks
               </b>
-              <b style="--i: 8; --x: 24%">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5c0 8-4.6 12-9 12a5 5 0 0 1-5-5c0-4 4-7 14-7z" /><path d="M4 20c1.5-4 4-6.5 8-8.5" /></svg>
-                Allergies + halal
-              </b>
-              <b style="--i: 9; --x: 14%">
+              <b style="--i: 6; --x: 2%">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.7-5 2.7.9-5.6-4-4 5.6-.8z" /></svg>
                 Real reviews
               </b>
-              <b style="--i: 10; --x: 38%">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17a4 4 0 0 1 .6-8 5.5 5.5 0 0 1 10.5 1.6A3.5 3.5 0 0 1 17.5 17z" /><path d="M12 20l-1.5 2" /><path d="M8 20l-1.5 2" /><path d="M16 20l-1.5 2" /></svg>
-                Weather + strikes
-              </b>
-              <b style="--i: 11; --x: 58%">
+              <b style="--i: 7; --x: 48%">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2" /><circle cx="12" cy="10" r="2.6" /><path d="M9 16.5h6" /></svg>
                 Visa + entry
               </b>
-              <b style="--i: 12; --x: 8%">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2" /><path d="M2.5 10h19" /><path d="M6 15h4" /></svg>
-                eSIM + card fees
-              </b>
-              <b style="--i: 13; --x: 30%">
+              <b style="--i: 8; --x: 24%">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2" /><path d="M8 6.5h8" /><path d="M8 11h.01" /><path d="M12 11h.01" /><path d="M16 11h.01" /><path d="M8 15h.01" /><path d="M12 15h.01" /><path d="M16 15v3" /><path d="M8 18h4" /></svg>
                 True trip cost
               </b>
