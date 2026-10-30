@@ -1,6 +1,6 @@
 <div class="video-slider-section">
   {% for block in section.blocks %}
-    {% render block.type, block: block %}
+    {% render block, block: block %}
   {% endfor %}
 </div>
 
@@ -20,4 +20,13 @@
     }
   ]
 }
-{% endschema %}
+{% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render block.type, block: block %}"
+  to: "{% render block, block: block %}"
+  position: 75..107
+{%- endcomment -%}
