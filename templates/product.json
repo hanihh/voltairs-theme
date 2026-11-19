@@ -125,7 +125,7 @@
               "type": "custom-liquid",
               "name": "t:names.custom_liquid",
               "settings": {
-                "custom_liquid": "<script>\ndocument.addEventListener('DOMContentLoaded', function () {\n  var price = document.querySelector('PRICE_SELECTOR');\n  if (!price) return;\n  function painted() {\n    return document.querySelector('.bx-widget-container, .bx-offers');\n  }\n  if (painted()) { price.style.display = 'none'; return; }\n  var obs = new MutationObserver(function () {\n    if (painted()) { price.style.display = 'none'; obs.disconnect(); }\n  });\n  obs.observe(document.body, { childList: true, subtree: true });\n  setTimeout(function () { obs.disconnect(); }, 15000);\n});\n</script>"
+                "custom_liquid": "<script>\ndocument.addEventListener('DOMContentLoaded', function () {\n  var price = document.querySelector('PRICE_SELECTOR');\n  if (!price) return;\n  function painted() {\n    return document.querySelector('.bx-widget-container, .bx-offers');\n  }\n  if (painted()) { price.style.display = 'none'; return; }\n  var obs = new MutationObserver(function () {\n    if (painted()) { price.style.display = 'none'; obs.disconnect(); }\n  });\n  obs.observe(document.body, { childList: true, subtree: true });\n  setTimeout(function () { obs.disconnect(); }, 15000);\n});\n</script>\n<style>.product-information:has(.bx-widget .bx-offer) product-price { display: none !important; }</style>"
               },
               "blocks": {}
             },
@@ -222,20 +222,6 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "bundlex_volume_discount_block_qm4UpU": {
-              "type": "shopify://apps/bundlex/blocks/volume-discount-block/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
-              "settings": {
-                "show_advanced": false,
-                "hide_quantity": false,
-                "custom_placement_selector": "",
-                "add_to_cart_button_selector": "",
-                "quantity_container_selector": "",
-                "quantity_input_selector": "",
-                "variants_container_selector": "",
-                "product_form_selector": "",
-                "custom_css": ""
-              }
             },
             "buy_buttons_eYQEYi": {
               "type": "buy-buttons",
@@ -525,7 +511,6 @@
             "divider_HztaAa",
             "text_iRH8Ax",
             "price_a7krng",
-            "bundlex_volume_discount_block_qm4UpU",
             "buy_buttons_eYQEYi",
             "custom_liquid_9daxA8",
             "voltairs_preorder_offers_WVpQXg",
