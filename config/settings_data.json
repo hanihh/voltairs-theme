@@ -47,12 +47,13 @@
     "content_for_index": [],
     "blocks": {
       "12075128526103414267": {
-        "type": "shopify://apps/bundlex/blocks/volume-discount-embed/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
-        "disabled": true,
+        "type": "shopify://apps/bundlex-bundles/blocks/volume-discount-embed/c017a4b2-071a-4809-a2c2-1c5768f46bb9",
+        "disabled": false,
         "settings": {
           "show_advanced": false,
           "hide_quantity": false,
           "custom_placement_selector": "",
+          "custom_addons_placement_selector": "",
           "add_to_cart_button_selector": "",
           "quantity_container_selector": "",
           "quantity_input_selector": "",
