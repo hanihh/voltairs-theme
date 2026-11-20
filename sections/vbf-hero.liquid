@@ -1,6 +1,6 @@
 {%- comment -%}
   Voltairs Black Friday live hero. Mobile-first, transform-only scroll animation, respects prefers-reduced-motion.
-  Product image: uses the theme asset vbf-kit-cutout.webp unless an image is picked in "Product image".
+  Product image: Shopify Files via section setting product_image (no theme asset fallback).
   Header: when the theme header is transparent (overlays the hero), the hero pads itself by --header-height and paints the black -> navy fade behind the header.
 {%- endcomment -%}
 {%- liquid
@@ -14,9 +14,7 @@
     <div class="vbf__halo"></div>
     <div class="vbf__prod"><div class="vbf__enter">
       {%- if s.product_image != blank -%}
-        {{ s.product_image | image_url: width: 1400 | image_tag: widths: '500, 750, 1000, 1400', sizes: '(min-width: 900px) 640px, 120vw', loading: 'eager', fetchpriority: 'high', alt: '' }}
-      {%- else -%}
-        <img src="{{ 'vbf-kit-cutout.webp' | asset_url }}" width="1304" height="1316" alt="" loading="eager" fetchpriority="high" decoding="async">
+        {{ s.product_image | image_url: width: 1600 | image_tag: widths: '600, 900, 1300, 1600', sizes: '(min-width: 900px) 640px, 120vw', loading: 'eager', fetchpriority: 'high', alt: '', decoding: 'async' }}
       {%- endif -%}
     </div></div>
   </div>
@@ -166,7 +164,7 @@ document.addEventListener('shopify:section:load',function(e){vbfInit(e.target);}
     { "type": "text", "id": "heading_2", "label": "Heading line 2 (accent)", "default": "Up to 50% Off." },
     { "type": "inline_richtext", "id": "subheading", "label": "Subheading (bold = accent)", "default": "Voltairs Kit + <b>FREE</b> extra bag + <b>FREE</b> AI Travel Planner" },
     { "type": "header", "content": "Product" },
-    { "type": "image_picker", "id": "product_image", "label": "Product image (transparent PNG/WebP)" },
+    { "type": "image_picker", "id": "product_image", "label": "Product image (transparent)" },
     { "type": "range", "id": "product_size_mobile", "label": "Product size on mobile", "min": 60, "max": 180, "step": 2, "unit": "vw", "default": 120, "info": "120 (or 110 with position 56%) shows both bags at a -15° tilt" },
     { "type": "range", "id": "product_x_mobile", "label": "Product horizontal position on mobile", "min": 10, "max": 70, "step": 1, "unit": "%", "default": 60 },
     { "type": "range", "id": "product_y_mobile", "label": "Product vertical position on mobile", "min": 30, "max": 70, "step": 1, "unit": "%", "default": 50 },
