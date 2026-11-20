@@ -1,0 +1,207 @@
+{%- comment -%}
+  Voltairs Black Friday live hero. Mobile-first, transform-only scroll animation, respects prefers-reduced-motion.
+  Product image: uses the theme asset vbf-kit-cutout.webp unless an image is picked in "Product image".
+  Header: when the theme header is transparent (overlays the hero), the hero pads itself by --header-height and paints the black -> navy fade behind the header.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign end_iso = s.end_date | strip
+-%}
+<section class="vbf" id="vbf-{{ section.id }}" data-end="{{ end_iso }}"{% unless s.hide_after_end %} data-keep{% endunless %}{% unless s.enable_motion %} data-static{% endunless %}
+  aria-label="{{ s.eyebrow | escape }}"
+  style="--navy:{{ s.color_navy }};--yel:{{ s.color_accent }};--cream:{{ s.color_text }};--glow:{{ s.color_glow }};--glow2:{{ s.color_glow_mid }};--top:{{ s.color_top }};--rot:{{ s.product_rotation }}deg;--pw:{{ s.product_size_mobile }}vw;--px:{{ s.product_x_mobile }}%;--py:{{ s.product_y_mobile }}%;--pwd:{{ s.product_size_desktop }}px;">
+  <div class="vbf__stage" aria-hidden="true">
+    <div class="vbf__halo"></div>
+    <div class="vbf__prod"><div class="vbf__enter">
+      {%- if s.product_image != blank -%}
+        {{ s.product_image | image_url: width: 1400 | image_tag: widths: '500, 750, 1000, 1400', sizes: '(min-width: 900px) 640px, 120vw', loading: 'eager', fetchpriority: 'high', alt: '' }}
+      {%- else -%}
+        <img src="{{ 'vbf-kit-cutout.webp' | asset_url }}" width="1304" height="1316" alt="" loading="eager" fetchpriority="high" decoding="async">
+      {%- endif -%}
+    </div></div>
+  </div>
+  <div class="vbf__inner">
+    <div class="vbf__copy">
+      {%- if s.eyebrow != blank -%}<div class="vbf__eyebrow">{{ s.eyebrow }}</div>{%- endif -%}
+      <h2 class="vbf__h"><span>{{ s.heading_1 | replace: '|', '<br class="vbf__br">' }}</span><span class="y">{{ s.heading_2 }}</span></h2>
+      {%- if s.subheading != blank -%}<p class="vbf__sub">{{ s.subheading }}</p>{%- endif -%}
+    </div>
+    <div class="vbf__buy">
+      {%- if s.show_sticker -%}<div class="vbf__sticker" aria-hidden="true"><div class="vbf__stk"><svg class="vbf__burst" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><polygon points="50.0,0.0 58.0,9.8 69.1,3.8 72.8,15.9 85.4,14.6 84.1,27.2 96.2,30.9 90.2,42.0 100.0,50.0 90.2,58.0 96.2,69.1 84.1,72.8 85.4,85.4 72.8,84.1 69.1,96.2 58.0,90.2 50.0,100.0 42.0,90.2 30.9,96.2 27.2,84.1 14.6,85.4 15.9,72.8 3.8,69.1 9.8,58.0 0.0,50.0 9.8,42.0 3.8,30.9 15.9,27.2 14.6,14.6 27.2,15.9 30.9,3.8 42.0,9.8"/></svg><span>{{ s.sticker_line_1 }}<br>{{ s.sticker_line_2 }}</span></div></div>{%- endif -%}
+      {%- if s.show_prices -%}
+      <div class="vbf__prices">
+        <div class="vbf__card"><div class="vbf__lbl">{{ s.solo_label }}</div><div class="vbf__price">{{ s.solo_price }}</div><div class="vbf__note">{% if s.solo_compare != blank %}<s>{{ s.solo_compare }}</s>{% endif %}{{ s.solo_note }}</div></div>
+        <div class="vbf__card">{% if s.family_badge != blank %}<div class="vbf__badge">{{ s.family_badge }}</div>{% endif %}<div class="vbf__lbl">{{ s.family_label }}</div><div class="vbf__price">{{ s.family_price }}</div><div class="vbf__note">{% if s.family_compare != blank %}<s>{{ s.family_compare }}</s>{% endif %}{{ s.family_note }}</div></div>
+      </div>
+      {%- endif -%}
+      {%- assign vbf_label = s.cta_label | strip -%}<a class="vbf__cta" href="{{ s.cta_link | default: routes.all_products_collection_url }}">{%- if vbf_label contains '→' -%}{{ vbf_label | remove: '→' | strip }}<svg class="vbf__arr" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12h15M11.5 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="miter" stroke-linecap="butt"/></svg>{%- else -%}{{ vbf_label }}{%- endif -%}</a>
+      {%- if s.guarantee != blank -%}<p class="vbf__fine">{{ s.guarantee }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+<style>
+{%- liquid
+  assign vbf_f600 = settings.type_body_font | font_modify: 'weight', '600'
+  assign vbf_f800 = settings.type_body_font | font_modify: 'weight', '800'
+  assign vbf_f900 = settings.type_body_font | font_modify: 'weight', '900'
+-%}
+{%- if vbf_f600 -%}{{ vbf_f600 | font_face: font_display: 'swap' }}{%- endif -%}
+{%- if vbf_f800 -%}{{ vbf_f800 | font_face: font_display: 'swap' }}{%- endif -%}
+{%- if vbf_f900 -%}{{ vbf_f900 | font_face: font_display: 'swap' }}{%- endif -%}
+.vbf{--vbf-hdr:0px;--gx:50%;--gy:85%;--gr:900px;position:relative;overflow:hidden;color:var(--cream);
+  background-color:var(--navy);background-image:linear-gradient(180deg,var(--hdr-top,var(--top,#011B40)) 0,var(--top,#011B40) var(--vbf-hdr),rgba(3,39,91,0) calc(var(--vbf-hdr) + 170px)),radial-gradient(circle var(--gr) at var(--gx) var(--gy),var(--glow) 0%,var(--glow2) 18%,#0F3A78 45%,var(--navy) 100%);
+  font-family:var(--font-body--family),system-ui,sans-serif;-webkit-font-smoothing:antialiased;isolation:isolate}
+.vbf *{box-sizing:border-box;margin:0;padding:0}
+.vbf{line-height:normal;letter-spacing:normal;text-transform:none}
+.vbf__arr{display:inline-block;width:.86em;height:.86em;margin-left:.32em;vertical-align:-.1em}
+/* theme header overlays the first section (transparent header): pad by its height and paint the black -> navy fade behind it */
+body:has(.header[transparent]) .shopify-section.section-vbf:first-child .vbf{--vbf-hdr:var(--header-height,60px);--hdr-top:#000}
+.vbf__inner{position:relative;max-width:1240px;margin:0 auto;padding:calc(28px + var(--vbf-hdr)) 20px 30px;display:flex;flex-direction:column;text-align:center}
+/* product layer: behind the copy */
+.vbf__stage{position:absolute;left:0;right:0;top:var(--vbf-hdr);height:clamp(600px,160vw,800px);z-index:1;pointer-events:none}
+.vbf__stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--top,#011B40) 0%,rgba(3,39,91,.55) 9%,rgba(3,39,91,.25) 38%,rgba(3,39,91,0) 62%)}
+.vbf__halo{position:absolute;left:50%;top:52%;width:110%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(35,88,166,.55) 0%,rgba(3,39,91,0) 62%)}
+.vbf__prod{position:absolute;left:var(--px,60%);top:var(--py,50%);width:var(--pw,120vw);will-change:transform;transform:translate(-50%,-50%)}
+.vbf__enter{animation:vbfEnter 1.4s cubic-bezier(.16,1,.3,1) .1s both}
+.vbf__prod img,.vbf__prod svg{display:block;width:100%;height:auto;transform:rotate(var(--rot,-15deg));
+  filter:brightness(.8) drop-shadow(0 0 1px rgba(239,238,235,.35)) drop-shadow(0 0 24px rgba(120,170,255,.22)) drop-shadow(0 40px 36px rgba(0,0,0,.55))}
+/* copy on top */
+.vbf__copy{position:relative;z-index:3;min-height:clamp(520px,138vw,660px);will-change:transform;
+  text-shadow:0 2px 3px rgba(0,10,30,.55),0 4px 22px rgba(0,12,40,.85)}
+.vbf__eyebrow{display:inline-block;font-weight:800;font-size:12px;letter-spacing:.14em;color:var(--yel);border:1.5px solid var(--yel);border-radius:999px;padding:6px 14px;
+  background:rgba(3,39,91,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);text-shadow:none}
+.vbf__h{font-weight:900;font-size:clamp(38px,10.4vw,84px);line-height:1;letter-spacing:-.02em;margin-top:16px}
+.vbf__h span{display:block}
+.vbf__h .y{color:var(--yel)}
+.vbf__sub{font-weight:700;font-size:clamp(13.5px,3.55vw,22px);line-height:1.3;margin-top:14px;text-wrap:balance}
+.vbf__sub b{color:var(--yel);font-weight:900}
+/* buy block always on top */
+.vbf__buy{position:relative;z-index:5}
+.vbf__sticker{position:absolute;left:0;bottom:calc(100% + 18px);width:clamp(84px,24vw,128px);aspect-ratio:1;z-index:6;will-change:transform;pointer-events:none;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+.vbf__stk{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;animation:vbfPop .6s cubic-bezier(.34,1.56,.64,1) 1.1s both}
+.vbf__burst{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:var(--yel)}
+.vbf__sticker .vbf__stk > span{position:relative;display:block;transform:rotate(-12deg);color:var(--navy);font-weight:900;font-size:clamp(19px,5.4vw,30px);line-height:.92;text-align:center;letter-spacing:.01em}
+.vbf__prices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vbf__card{position:relative;border-radius:14px;padding:14px 8px 12px;background:rgba(3,39,91,.78);border:1.5px solid rgba(253,198,86,.6);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.vbf__badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--yel);color:var(--navy);font-weight:900;font-size:10.5px;letter-spacing:.1em;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.vbf__lbl{font-weight:800;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.vbf__price{font-weight:900;font-size:clamp(26px,7.4vw,44px);line-height:1.05;color:var(--yel);margin:3px 0}
+.vbf__note{font-size:11px;font-weight:700}
+.vbf__note s{opacity:.65;font-weight:600;margin-right:4px}
+.vbf__cta{display:block;margin-top:0;padding:15px 10px;border-radius:999px;background:var(--yel);color:var(--navy);font-weight:800;font-size:clamp(16px,4.4vw,22px);text-decoration:none;text-align:center;
+  box-shadow:0 10px 28px rgba(253,198,86,.28);transition:transform .2s}
+.vbf__cta:active{transform:scale(.98)}
+.vbf__fine{margin-top:12px;font-size:11.5px;font-weight:600;opacity:.88}
+.vbf__copy>*,.vbf__buy{animation:vbfUp .8s cubic-bezier(.16,1,.3,1) both}
+.vbf__eyebrow{animation-delay:.25s}.vbf__h{animation-delay:.35s}.vbf__sub{animation-delay:.45s}.vbf__buy{animation-delay:.6s}
+@keyframes vbfEnter{from{opacity:0;transform:translate(45%,40%) scale(.8)}to{opacity:1;transform:none}}
+@keyframes vbfUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes vbfPop{from{opacity:0;transform:scale(.4) rotate(-30deg)}to{opacity:1;transform:none}}
+@media (min-width:900px){
+  .vbf__inner{padding:calc(110px + var(--vbf-hdr)) 40px 110px;text-align:left;align-items:flex-start}
+  .vbf__stage{left:34%;right:-4%;top:var(--vbf-hdr);bottom:0;height:auto}
+  .vbf__stage{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 160px);mask-image:linear-gradient(180deg,transparent 0,#000 160px)}
+  .vbf__stage::after{background:linear-gradient(90deg,rgba(3,39,91,0) 0%,rgba(3,39,91,.5) 18%,rgba(3,39,91,.15) 45%,rgba(3,39,91,0) 72%)}
+  .vbf__prod{width:var(--pwd,640px);top:54%;left:46%}
+  .vbf__copy{min-height:0;max-width:720px}
+  .vbf__buy{margin-top:40px;width:auto}
+  .vbf__sticker{left:400px;bottom:auto;top:-24px;width:118px}
+  .vbf__eyebrow{font-size:14px}.vbf__lbl{font-size:13px}.vbf__note,.vbf__fine{font-size:14px}.vbf__badge{font-size:12px}
+  .vbf__cta{display:inline-block;padding:18px 44px}
+}
+@media (prefers-reduced-motion:reduce){
+  .vbf *{animation:none!important;transition:none!important}
+}
+
+.vbf__prices{margin-bottom:16px}
+.vbf__ph{width:100%;height:auto;fill:rgba(239,238,235,.4)}
+</style>
+<script>
+window.vbfInit=function(scope){
+  (scope||document).querySelectorAll('.vbf:not([data-vbf-ready])').forEach(function(root){
+    root.setAttribute('data-vbf-ready','');
+    var end=Date.parse(root.getAttribute('data-end')||'');
+    if(end && Date.now()>end && !root.hasAttribute('data-keep')){root.style.display='none';return;}
+    var cta=root.querySelector('.vbf__cta'),prod=root.querySelector('.vbf__prod'),copy=root.querySelector('.vbf__copy'),stk=root.querySelector('.vbf__sticker');
+    function glow(){ // circle centred on CTA
+      var r=root.getBoundingClientRect(),b=cta.getBoundingClientRect();
+      var x=b.left+b.width/2-r.left,y=b.top+b.height/2-r.top;
+      var far=Math.max(Math.hypot(x,y),Math.hypot(r.width-x,y),Math.hypot(x,r.height-y),Math.hypot(r.width-x,r.height-y));
+      root.style.setProperty('--gx',x+'px');root.style.setProperty('--gy',y+'px');root.style.setProperty('--gr',Math.round(far*.9)+'px');
+    }
+    glow(); addEventListener('resize',glow); if(document.fonts) document.fonts.ready.then(glow);
+    if(root.hasAttribute('data-static')||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var visible=true,ticking=false,cur=0,target=0;
+    new IntersectionObserver(function(e){visible=e[0].isIntersecting; if(visible) req();},{threshold:0}).observe(root);
+    function read(){var r=root.getBoundingClientRect();target=Math.min(1,Math.max(0,-r.top/Math.max(1,r.height*.9)));}
+    function frame(){
+      ticking=false; read();
+      cur+= (target-cur)*.18;               // smoothing
+      if(Math.abs(target-cur)<.0005) cur=target;
+      var p=cur,w=root.clientWidth,desk=w>=900;
+      var tx=-(desk?160:w*.38)*p, ty=-(desk?280:340)*p, rot=-8*p, sc=1+.18*p;
+      prod.style.transform='translate(-50%,-50%) translate3d('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px,0) rotate('+rot.toFixed(2)+'deg) scale('+sc.toFixed(3)+')';
+      copy.style.transform='translate3d(0,'+(150*p).toFixed(1)+'px,0)';copy.style.opacity=(1-.5*p).toFixed(3);       // text lags -> parallax
+      if(stk) stk.style.transform='translate3d(0,'+(-36*p).toFixed(1)+'px,0) rotate('+(10*p).toFixed(1)+'deg)';
+      if(cur!==target) req();
+    }
+    function req(){ if(!ticking && visible){ticking=true;requestAnimationFrame(frame);} }
+    addEventListener('scroll',req,{passive:true}); req();
+  });
+};
+vbfInit();
+document.addEventListener('shopify:section:load',function(e){vbfInit(e.target);});
+</script>
+{% schema %}
+{
+  "name": "BF live hero",
+  "tag": "div",
+  "class": "section-vbf",
+  "settings": [
+    { "type": "header", "content": "Copy" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "BLACK FRIDAY · ENDS DEC 1" },
+    { "type": "text", "id": "heading_1", "label": "Heading line 1 (white)", "default": "Our Biggest Sale |of the Year.", "info": "Use | to force a line break" },
+    { "type": "text", "id": "heading_2", "label": "Heading line 2 (accent)", "default": "Up to 50% Off." },
+    { "type": "inline_richtext", "id": "subheading", "label": "Subheading (bold = accent)", "default": "Voltairs Kit + <b>FREE</b> extra bag + <b>FREE</b> AI Travel Planner" },
+    { "type": "header", "content": "Product" },
+    { "type": "image_picker", "id": "product_image", "label": "Product image (transparent PNG/WebP)" },
+    { "type": "range", "id": "product_size_mobile", "label": "Product size on mobile", "min": 60, "max": 180, "step": 2, "unit": "vw", "default": 120, "info": "120 (or 110 with position 56%) shows both bags at a -15° tilt" },
+    { "type": "range", "id": "product_x_mobile", "label": "Product horizontal position on mobile", "min": 10, "max": 70, "step": 1, "unit": "%", "default": 60 },
+    { "type": "range", "id": "product_y_mobile", "label": "Product vertical position on mobile", "min": 30, "max": 70, "step": 1, "unit": "%", "default": 50 },
+    { "type": "range", "id": "product_rotation", "label": "Product tilt", "min": -45, "max": 45, "step": 1, "unit": "deg", "default": -15 },
+    { "type": "range", "id": "product_size_desktop", "label": "Product size on desktop", "min": 500, "max": 1000, "step": 20, "unit": "px", "default": 640 },
+    { "type": "checkbox", "id": "show_sticker", "label": "Show sticker", "default": true },
+    { "type": "text", "id": "sticker_line_1", "label": "Sticker line 1", "default": "FREE" },
+    { "type": "text", "id": "sticker_line_2", "label": "Sticker line 2", "default": "BAG" },
+    { "type": "header", "content": "Prices (optional, off by default)" },
+    { "type": "checkbox", "id": "show_prices", "label": "Show price cards", "default": false },
+    { "type": "text", "id": "solo_label", "label": "Card 1 label", "default": "Solo" },
+    { "type": "text", "id": "solo_price", "label": "Card 1 price", "default": "$69.99" },
+    { "type": "text", "id": "solo_compare", "label": "Card 1 compare-at", "default": "$99.99" },
+    { "type": "text", "id": "solo_note", "label": "Card 1 note", "default": "+ free bag" },
+    { "type": "text", "id": "family_label", "label": "Card 2 label", "default": "Family" },
+    { "type": "text", "id": "family_price", "label": "Card 2 price", "default": "$129.99" },
+    { "type": "text", "id": "family_compare", "label": "Card 2 compare-at", "default": "$199.98" },
+    { "type": "text", "id": "family_note", "label": "Card 2 note", "default": "+ 2 bags + Planner" },
+    { "type": "text", "id": "family_badge", "label": "Card 2 badge", "default": "BEST VALUE" },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Claim My Black Friday Kit →" },
+    { "type": "url", "id": "cta_link", "label": "Button link", "info": "Black Friday kit product page" },
+    { "type": "text", "id": "guarantee", "label": "Small print", "default": "Free US shipping · 100-day money-back guarantee" },
+    { "type": "header", "content": "Schedule & motion" },
+    { "type": "text", "id": "end_date", "label": "Sale end (ISO 8601, UTC)", "default": "2026-12-02T04:59:00Z", "info": "Mon Dec 1, 11:59 PM ET = 2026-12-02T04:59:00Z" },
+    { "type": "checkbox", "id": "hide_after_end", "label": "Hide section after end date", "default": true },
+    { "type": "checkbox", "id": "enable_motion", "label": "Enable scroll animation", "default": true },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_navy", "label": "Background navy", "default": "#03275B" },
+    { "type": "color", "id": "color_top", "label": "Top fade colour (blends with black bar/header)", "default": "#011B40" },
+    { "type": "color", "id": "color_glow", "label": "Glow center", "default": "#2358A6" },
+    { "type": "color", "id": "color_glow_mid", "label": "Glow mid", "default": "#1A4A8C" },
+    { "type": "color", "id": "color_accent", "label": "Accent (yellow)", "default": "#FDC656" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#EFEEEB" }
+  ],
+  "presets": [{ "name": "BF live hero" }]
+}
+{% endschema %}

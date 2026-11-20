@@ -9,8 +9,18 @@
  */
 {
   "sections": {
+    "vbf_hero_bf2026": {
+      "type": "vbf-hero",
+      "settings": {
+        "cta_link": "shopify://products/voltairs-travel-vacuum-bag-kit-compression-bag-free-multi-function-air-pump",
+        "end_date": "2026-12-02T04:59:00Z",
+        "hide_after_end": true,
+        "enable_motion": true
+      }
+    },
     "section_hero": {
       "type": "section",
+      "disabled": true,
       "blocks": {
         "voltairs_hero_001": {
           "type": "voltairs-hero",
@@ -1965,6 +1975,7 @@
     }
   },
   "order": [
+    "vbf_hero_bf2026",
     "section_hero",
     "marquee_z9PeaH",
     "voltairs_social_proof",
