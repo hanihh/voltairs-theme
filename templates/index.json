@@ -12,6 +12,7 @@
     "vbf_hero_bf2026": {
       "type": "vbf-hero",
       "settings": {
+        "product_image": "shopify://shop_images/vbf-bf2026-kit-cutout.webp",
         "cta_link": "shopify://products/voltairs-travel-vacuum-bag-kit-compression-bag-free-multi-function-air-pump",
         "end_date": "2026-12-02T04:59:00Z",
         "hide_after_end": true,
